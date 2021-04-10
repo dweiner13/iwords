@@ -9,6 +9,11 @@ import Cocoa
 
 class LookupWindowController: NSWindowController {
 
+    private var backList: [String] = []
+    private var forwardList: [String] = []
+    private var lastSearchTerm: String?
+
+    @IBOutlet weak var backForwardControl: NSSegmentedControl!
     @IBOutlet weak var popUpButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
 
@@ -21,9 +26,29 @@ class LookupWindowController: NSWindowController {
         contentViewController as? LookupViewController
     }
 
+    override func windowDidLoad() {
+        super.windowDidLoad()
+
+        searchField.becomeFirstResponder()
+
+        updateBackForwardButtons()
+    }
+
     @IBAction
     private func searchFieldAction(_ field: NSSearchField) {
-        search(field.stringValue)
+        let searchText = field.stringValue
+        guard !searchText.isEmpty, searchText != lastSearchTerm else {
+            return
+        }
+
+        if let lastSearchTerm = lastSearchTerm {
+            backList.append(lastSearchTerm)
+            forwardList = []
+        }
+        search(searchText)
+        lastSearchTerm = searchText
+
+        updateBackForwardButtons()
     }
 
     private func search(_ searchText: String) {
@@ -33,5 +58,81 @@ class LookupWindowController: NSWindowController {
         } catch {
             self.presentError(error)
         }
+    }
+
+    @IBAction func backForwardControlPressed(_ sender: NSSegmentedControl) {
+        switch sender.selectedSegment {
+        case 0:  goBack()
+        case 1:  goForward()
+        default: return
+        }
+    }
+
+    @objc
+    private func goBack() {
+        if let lastSearchTerm = lastSearchTerm {
+            forwardList.append(lastSearchTerm)
+        }
+        if let backSearchTerm = backList.popLast() {
+            search(backSearchTerm)
+            searchField.stringValue = backSearchTerm
+            lastSearchTerm = backSearchTerm
+        }
+
+        updateBackForwardButtons()
+    }
+
+    @objc
+    private func goForward() {
+        if let lastSearchTerm = lastSearchTerm {
+            backList.append(lastSearchTerm)
+        }
+        if let forwardSearchTerm = forwardList.popLast() {
+            search(forwardSearchTerm)
+            searchField.stringValue = forwardSearchTerm
+            lastSearchTerm = forwardSearchTerm
+        }
+
+        updateBackForwardButtons()
+    }
+
+    private func updateBackForwardButtons() {
+        print("backList: \(backList)")
+        print("lastSearchTerm: \(lastSearchTerm)")
+        print("forwardList: \(forwardList)")
+        backForwardControl.setEnabled(!backList.isEmpty, forSegment: 0)
+        backForwardControl.setEnabled(!forwardList.isEmpty, forSegment: 1)
+
+//        let backMenu = NSMenu(title: "Back")
+//        backMenu.items = backList
+//            .enumerated()
+//            .map { tuple -> NSMenuItem in
+//                let (i, searchText) = tuple
+//                let item = NSMenuItem(title: searchText, action: #selector(didPressBackMenuItem(_:)), keyEquivalent: "")
+//                item.tag = i
+//                return item
+//            }
+//        backForwardControl.setMenu(backMenu, forSegment: 0)
+//
+//        let forwardMenu = NSMenu(title: "Forward")
+//        forwardMenu.items = forwardList
+//            .enumerated()
+//            .map { tuple -> NSMenuItem in
+//                let (i, searchText) = tuple
+//                let item = NSMenuItem(title: searchText, action: #selector(didPressForwardMenuItem(_:)), keyEquivalent: "")
+//                item.tag = i
+//                return item
+//            }
+//        backForwardControl.setMenu(forwardMenu, forSegment: 1)
+    }
+
+    @objc
+    private func didPressBackMenuItem(_ sender: NSMenuItem) {
+        
+    }
+
+    @objc
+    private func didPressForwardMenuItem(_ sender: NSMenuItem) {
+
     }
 }

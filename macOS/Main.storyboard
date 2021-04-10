@@ -423,20 +423,20 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="LookupWindowController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="iWords" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="533" width="600" height="601"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="480" height="270"/>
-                        <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">
+                        <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">
                             <allowedToolbarItems>
                                 <searchToolbarItem implicitItemIdentifier="EF0806E5-27AE-4915-907E-2A592693BD2A" label="Search" paletteLabel="Search" visibilityPriority="1001" id="rsD-Xn-hWC">
                                     <nil key="toolTip"/>
                                     <searchField key="view" verticalHuggingPriority="750" textCompletion="NO" id="2zr-1E-WhB">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="22"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" recentsAutosaveName="iWordsRecentSearches" id="ynZ-SL-icV">
+                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" sendsWholeSearchString="YES" recentsAutosaveName="iWordsRecentSearches" id="ynZ-SL-icV">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -451,8 +451,8 @@
                                 <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin to English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
                                     <nil key="toolTip"/>
                                     <popUpButton key="view" verticalHuggingPriority="750" id="oa1-GU-gBJ">
-                                        <rect key="frame" x="0.0" y="14" width="107" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="132" height="25"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <popUpButtonCell key="cell" type="roundTextured" title="Latin to English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="menu"/>
@@ -469,9 +469,26 @@
                                         </connections>
                                     </popUpButton>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="6AC416F3-CFB1-43E6-AD16-62FD92158C30" label="Back/Forward" paletteLabel="Back/Forward" title="Back/Forward" sizingBehavior="auto" id="5fT-cZ-IJv" userLabel="Back/Forward">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="62q-qB-wIS">
+                                        <rect key="frame" x="1" y="14" width="77" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment image="chevron.left" catalog="system" width="32"/>
+                                                <segment image="chevron.right" catalog="system" width="32" tag="1"/>
+                                            </segments>
+                                        </segmentedCell>
+                                        <connections>
+                                            <action selector="backForwardControlPressed:" target="B8D-0N-5wS" id="56m-WB-ON9"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
-                                <toolbarItem reference="ocg-9b-k2f"/>
+                                <toolbarItem reference="5fT-cZ-IJv"/>
                                 <toolbarItem reference="Pk9-hB-iRd"/>
                                 <searchToolbarItem reference="rsD-Xn-hWC"/>
                             </defaultToolbarItems>
@@ -481,6 +498,7 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="backForwardControl" destination="62q-qB-wIS" id="Mbu-9S-2cF"/>
                         <outlet property="popUpButton" destination="oa1-GU-gBJ" id="LZ5-aN-Vvq"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -513,12 +531,7 @@
                                             <size key="minSize" width="432" height="270"/>
                                             <size key="maxSize" width="480" height="10000000"/>
                                             <attributedString key="textStorage">
-                                                <fragment>
-                                                    <string key="content">vir                  N      2 3 NOM S M                 
-vir                  N      2 3 VOC S M                 
-vir, viri  N (2nd) M   [XXXAX]  
-man; husband; hero; person of courage, honor, and nobility;
-</string>
+                                                <fragment content="Welcome to iWords.">
                                                     <attributes>
                                                         <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                         <font key="NSFont" textStyle="body" name=".SFNS-Regular"/>
@@ -556,4 +569,8 @@ man; husband; hero; person of courage, honor, and nobility;
             <point key="canvasLocation" x="66" y="694"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="chevron.left" catalog="system" width="10" height="14"/>
+        <image name="chevron.right" catalog="system" width="10" height="14"/>
+    </resources>
 </document>
