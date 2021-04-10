@@ -472,8 +472,8 @@
                                 <toolbarItem implicitItemIdentifier="6AC416F3-CFB1-43E6-AD16-62FD92158C30" label="Back/Forward" paletteLabel="Back/Forward" title="Back/Forward" sizingBehavior="auto" id="5fT-cZ-IJv" userLabel="Back/Forward">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="62q-qB-wIS">
-                                        <rect key="frame" x="1" y="14" width="77" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="4" y="14" width="71" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -499,6 +499,8 @@
                     </window>
                     <connections>
                         <outlet property="backForwardControl" destination="62q-qB-wIS" id="Mbu-9S-2cF"/>
+                        <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
+                        <outlet property="directionItem" destination="Pk9-hB-iRd" id="oe2-wh-6gk"/>
                         <outlet property="popUpButton" destination="oa1-GU-gBJ" id="LZ5-aN-Vvq"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>

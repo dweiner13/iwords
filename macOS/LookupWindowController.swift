@@ -13,7 +13,11 @@ class LookupWindowController: NSWindowController {
     private var forwardList: [String] = []
     private var lastSearchTerm: String?
 
+    private var directionMenu: NSMenu?
+
+    @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var backForwardControl: NSSegmentedControl!
+    @IBOutlet weak var directionItem: NSToolbarItem!
     @IBOutlet weak var popUpButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
 
@@ -32,6 +36,35 @@ class LookupWindowController: NSWindowController {
         searchField.becomeFirstResponder()
 
         updateBackForwardButtons()
+        var directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
+        let submenu = NSMenu()
+        let lToEItem = NSMenuItem(title: "Latin to English", action: #selector(setLatinToEnglish), keyEquivalent: "")
+        lToEItem.state = .on
+        submenu.addItem(lToEItem)
+        let eToLItem = NSMenuItem(title: "English to Latin", action: #selector(setEnglishToLatin), keyEquivalent: "")
+        eToLItem.state = .off
+        submenu.addItem(eToLItem)
+        directionMenu = submenu
+        directionMenuItem.submenu = submenu
+        directionItem.menuFormRepresentation = directionMenuItem
+
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.translationDirection", options: .new, context: nil)
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        let new = UserDefaults.standard.integer(forKey: "translationDirection")
+        directionMenu?.items[0].state = new == 0 ? .on : .off
+        directionMenu?.items[1].state = new == 1 ? .on : .off
+    }
+
+    @objc
+    private func setLatinToEnglish() {
+        UserDefaults.standard.setValue(Dictionary.Direction.latinToEnglish.rawValue, forKey: "translationDirection")
+    }
+
+    @objc
+    private func setEnglishToLatin() {
+        UserDefaults.standard.setValue(Dictionary.Direction.englishToLatin.rawValue, forKey: "translationDirection")
     }
 
     @IBAction
@@ -128,7 +161,7 @@ class LookupWindowController: NSWindowController {
 
     @objc
     private func didPressBackMenuItem(_ sender: NSMenuItem) {
-        
+
     }
 
     @objc
