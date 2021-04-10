@@ -15,6 +15,22 @@
 		37A4D1D2262227E400A9E9EC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1A7262227E300A9E9EC /* ContentView.swift */; };
 		37A4D1D3262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
+		37A4D1EC26222A0500A9E9EC /* UNIQUES.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E426222A0500A9E9EC /* UNIQUES.LAT */; };
+		37A4D1ED26222A0500A9E9EC /* UNIQUES.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E426222A0500A9E9EC /* UNIQUES.LAT */; };
+		37A4D1EE26222A0500A9E9EC /* DICTFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E526222A0500A9E9EC /* DICTFILE.GEN */; };
+		37A4D1EF26222A0500A9E9EC /* DICTFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E526222A0500A9E9EC /* DICTFILE.GEN */; };
+		37A4D1F026222A0500A9E9EC /* STEMFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E626222A0500A9E9EC /* STEMFILE.GEN */; };
+		37A4D1F126222A0500A9E9EC /* STEMFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E626222A0500A9E9EC /* STEMFILE.GEN */; };
+		37A4D1F226222A0500A9E9EC /* INFLECTS.SEC in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E726222A0500A9E9EC /* INFLECTS.SEC */; };
+		37A4D1F326222A0500A9E9EC /* INFLECTS.SEC in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E726222A0500A9E9EC /* INFLECTS.SEC */; };
+		37A4D1F426222A0500A9E9EC /* EWDSFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E826222A0500A9E9EC /* EWDSFILE.GEN */; };
+		37A4D1F526222A0500A9E9EC /* EWDSFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E826222A0500A9E9EC /* EWDSFILE.GEN */; };
+		37A4D1F626222A0500A9E9EC /* ADDONS.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E926222A0500A9E9EC /* ADDONS.LAT */; };
+		37A4D1F726222A0500A9E9EC /* ADDONS.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E926222A0500A9E9EC /* ADDONS.LAT */; };
+		37A4D1F826222A0500A9E9EC /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1EA26222A0500A9E9EC /* words */; };
+		37A4D1F926222A0500A9E9EC /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1EA26222A0500A9E9EC /* words */; };
+		37A4D1FA26222A0500A9E9EC /* INDXFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1EB26222A0500A9E9EC /* INDXFILE.GEN */; };
+		37A4D1FB26222A0500A9E9EC /* INDXFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1EB26222A0500A9E9EC /* INDXFILE.GEN */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +65,14 @@
 		37A4D1C8262227E400A9E9EC /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		37A4D1CE262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37A4D1E426222A0500A9E9EC /* UNIQUES.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UNIQUES.LAT; sourceTree = "<group>"; };
+		37A4D1E526222A0500A9E9EC /* DICTFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = DICTFILE.GEN; sourceTree = "<group>"; };
+		37A4D1E626222A0500A9E9EC /* STEMFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = STEMFILE.GEN; sourceTree = "<group>"; };
+		37A4D1E726222A0500A9E9EC /* INFLECTS.SEC */ = {isa = PBXFileReference; lastKnownFileType = file; path = INFLECTS.SEC; sourceTree = "<group>"; };
+		37A4D1E826222A0500A9E9EC /* EWDSFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = EWDSFILE.GEN; sourceTree = "<group>"; };
+		37A4D1E926222A0500A9E9EC /* ADDONS.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ADDONS.LAT; sourceTree = "<group>"; };
+		37A4D1EA26222A0500A9E9EC /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
+		37A4D1EB26222A0500A9E9EC /* INDXFILE.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INDXFILE.GEN; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +122,7 @@
 		37A4D1A5262227E300A9E9EC /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				37A4D1E32622284600A9E9EC /* words */,
 				37A4D1A6262227E300A9E9EC /* wordsApp.swift */,
 				37A4D1A7262227E300A9E9EC /* ContentView.swift */,
 				37A4D1A8262227E400A9E9EC /* Assets.xcassets */,
@@ -149,6 +174,21 @@
 				37A4D1CE262227E400A9E9EC /* Info.plist */,
 			);
 			path = "Tests macOS";
+			sourceTree = "<group>";
+		};
+		37A4D1E32622284600A9E9EC /* words */ = {
+			isa = PBXGroup;
+			children = (
+				37A4D1E926222A0500A9E9EC /* ADDONS.LAT */,
+				37A4D1E526222A0500A9E9EC /* DICTFILE.GEN */,
+				37A4D1E826222A0500A9E9EC /* EWDSFILE.GEN */,
+				37A4D1EB26222A0500A9E9EC /* INDXFILE.GEN */,
+				37A4D1E726222A0500A9E9EC /* INFLECTS.SEC */,
+				37A4D1E626222A0500A9E9EC /* STEMFILE.GEN */,
+				37A4D1E426222A0500A9E9EC /* UNIQUES.LAT */,
+				37A4D1EA26222A0500A9E9EC /* words */,
+			);
+			path = words;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,7 +315,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37A4D1EC26222A0500A9E9EC /* UNIQUES.LAT in Resources */,
+				37A4D1FA26222A0500A9E9EC /* INDXFILE.GEN in Resources */,
+				37A4D1F026222A0500A9E9EC /* STEMFILE.GEN in Resources */,
 				37A4D1D3262227E400A9E9EC /* Assets.xcassets in Resources */,
+				37A4D1F626222A0500A9E9EC /* ADDONS.LAT in Resources */,
+				37A4D1F826222A0500A9E9EC /* words in Resources */,
+				37A4D1F426222A0500A9E9EC /* EWDSFILE.GEN in Resources */,
+				37A4D1F226222A0500A9E9EC /* INFLECTS.SEC in Resources */,
+				37A4D1EE26222A0500A9E9EC /* DICTFILE.GEN in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +331,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37A4D1ED26222A0500A9E9EC /* UNIQUES.LAT in Resources */,
+				37A4D1FB26222A0500A9E9EC /* INDXFILE.GEN in Resources */,
+				37A4D1F126222A0500A9E9EC /* STEMFILE.GEN in Resources */,
 				37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */,
+				37A4D1F726222A0500A9E9EC /* ADDONS.LAT in Resources */,
+				37A4D1F926222A0500A9E9EC /* words in Resources */,
+				37A4D1F526222A0500A9E9EC /* EWDSFILE.GEN in Resources */,
+				37A4D1F326222A0500A9E9EC /* INFLECTS.SEC in Resources */,
+				37A4D1EF26222A0500A9E9EC /* DICTFILE.GEN in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
