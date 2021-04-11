@@ -37,7 +37,7 @@ struct ContentView: View {
 
     private func search() {
         do {
-            results = try Dictionary.shared.getDefinition(input, direction: .latinToEnglish) ?? "no results found"
+            results = try Dictionary.shared.getDefinition(input, direction: .latinToEnglish, options: []) ?? "no results found"
         } catch is DWError {
             self.error = error
         } catch {}

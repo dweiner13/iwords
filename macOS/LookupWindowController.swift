@@ -6,14 +6,39 @@
 //
 
 import Cocoa
+import Combine
 
-class LookupWindowController: NSWindowController {
+extension UserDefaults {
+    var dictionaryOptions: Dictionary.Options {
+        var options = Dictionary.Options()
+        if bool(forKey: "diagnosticMode") {
+            options.insert(.diagnosticMode)
+        }
+        return options
+    }
+}
 
+private extension NSUserInterfaceItemIdentifier {
+    static let backForwardMenuFormBackItem =
+        NSUserInterfaceItemIdentifier("backForwardMenuFormBackItem")
+    static let backForwardMenuFormForwardItem =
+        NSUserInterfaceItemIdentifier("backForwardMenuFormForwardItem")
+}
+
+/// This class is functionally the singleton controller for the whole application.
+class LookupWindowController: NSWindowController, NSMenuItemValidation {
+
+
+
+    static var shared: LookupWindowController!
+
+    var history: [String] = []
     private var backList: [String] = []
     private var forwardList: [String] = []
     private var lastSearchTerm: String?
 
-    private var directionMenu: NSMenu?
+    private var backForwaredMenu: NSMenu!
+    private var directionMenu: NSMenu!
 
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var backForwardControl: NSSegmentedControl!
@@ -33,9 +58,28 @@ class LookupWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
+        guard Self.shared == nil else {
+            fatalError()
+        }
+
+        Self.shared = self
+
         searchField.becomeFirstResponder()
 
         updateBackForwardButtons()
+        var backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
+        let backForwardSubmenu = NSMenu()
+        let backItem = NSMenuItem(title: "Back",    action: #selector(goBack(_:)),    keyEquivalent: "")
+        backItem.identifier = .backForwardMenuFormBackItem
+        backForwardSubmenu.addItem(backItem)
+        let forwardItem = NSMenuItem(title: "Forward", action: #selector(goForward(_:)), keyEquivalent: "")
+        forwardItem.identifier = .backForwardMenuFormForwardItem
+        backForwardSubmenu.addItem(forwardItem)
+        backForwaredMenu = backForwardSubmenu
+        backForwaredMenu.autoenablesItems = true
+        backForwardMenuItem.submenu = backForwardSubmenu
+        backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
+
         var directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
         let submenu = NSMenu()
         let lToEItem = NSMenuItem(title: "Latin to English", action: #selector(setLatinToEnglish), keyEquivalent: "")
@@ -49,6 +93,34 @@ class LookupWindowController: NSWindowController {
         directionItem.menuFormRepresentation = directionMenuItem
 
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.translationDirection", options: .new, context: nil)
+
+        NotificationCenter.default
+            .publisher(for: .goBack)
+            .sink(receiveValue: goBack(_:))
+            .store(in: &cancellables)
+        NotificationCenter.default
+            .publisher(for: .goForward)
+            .sink(receiveValue: goForward(_:))
+            .store(in: &cancellables)
+    }
+
+    var cancellables: [AnyCancellable] = []
+
+    public func setSearchText(_ searchText: String) {
+        guard !searchText.isEmpty, searchText != lastSearchTerm else {
+            return
+        }
+        searchField.stringValue = searchText
+
+        if let lastSearchTerm = lastSearchTerm {
+            backList.append(lastSearchTerm)
+            forwardList = []
+        }
+        search(searchText)
+        history.append(searchText)
+        lastSearchTerm = searchText
+
+        updateBackForwardButtons()
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -69,24 +141,16 @@ class LookupWindowController: NSWindowController {
 
     @IBAction
     private func searchFieldAction(_ field: NSSearchField) {
-        let searchText = field.stringValue
-        guard !searchText.isEmpty, searchText != lastSearchTerm else {
-            return
-        }
-
-        if let lastSearchTerm = lastSearchTerm {
-            backList.append(lastSearchTerm)
-            forwardList = []
-        }
-        search(searchText)
-        lastSearchTerm = searchText
-
-        updateBackForwardButtons()
+        setSearchText(field.stringValue)
     }
 
     private func search(_ searchText: String) {
         do {
-            let results = try Dictionary.shared.getDefinition(searchText, direction: direction)
+            let results = try Dictionary.shared.getDefinition(
+                searchText,
+                direction: direction,
+                options: UserDefaults.standard.dictionaryOptions
+            )
             lookupViewController.setResultText(results ?? "No results found")
         } catch {
             self.presentError(error)
@@ -102,7 +166,7 @@ class LookupWindowController: NSWindowController {
     }
 
     @objc
-    private func goBack() {
+    private func goBack(_ sender: Any? = nil) {
         if let lastSearchTerm = lastSearchTerm {
             forwardList.append(lastSearchTerm)
         }
@@ -116,7 +180,7 @@ class LookupWindowController: NSWindowController {
     }
 
     @objc
-    private func goForward() {
+    private func goForward(_ sender: Any? = nil) {
         if let lastSearchTerm = lastSearchTerm {
             backList.append(lastSearchTerm)
         }
@@ -129,43 +193,27 @@ class LookupWindowController: NSWindowController {
         updateBackForwardButtons()
     }
 
-    private func updateBackForwardButtons() {
-        print("backList: \(backList)")
-        print("lastSearchTerm: \(lastSearchTerm)")
-        print("forwardList: \(forwardList)")
-        backForwardControl.setEnabled(!backList.isEmpty, forSegment: 0)
-        backForwardControl.setEnabled(!forwardList.isEmpty, forSegment: 1)
-
-//        let backMenu = NSMenu(title: "Back")
-//        backMenu.items = backList
-//            .enumerated()
-//            .map { tuple -> NSMenuItem in
-//                let (i, searchText) = tuple
-//                let item = NSMenuItem(title: searchText, action: #selector(didPressBackMenuItem(_:)), keyEquivalent: "")
-//                item.tag = i
-//                return item
-//            }
-//        backForwardControl.setMenu(backMenu, forSegment: 0)
-//
-//        let forwardMenu = NSMenu(title: "Forward")
-//        forwardMenu.items = forwardList
-//            .enumerated()
-//            .map { tuple -> NSMenuItem in
-//                let (i, searchText) = tuple
-//                let item = NSMenuItem(title: searchText, action: #selector(didPressForwardMenuItem(_:)), keyEquivalent: "")
-//                item.tag = i
-//                return item
-//            }
-//        backForwardControl.setMenu(forwardMenu, forSegment: 1)
+    var canGoBack: Bool {
+        !backList.isEmpty
     }
 
-    @objc
-    private func didPressBackMenuItem(_ sender: NSMenuItem) {
-
+    var canGoForward: Bool {
+        !forwardList.isEmpty
     }
 
-    @objc
-    private func didPressForwardMenuItem(_ sender: NSMenuItem) {
+    public func updateBackForwardButtons() {
+        backForwardControl.setEnabled(canGoBack,    forSegment: 0)
+        backForwardControl.setEnabled(canGoForward, forSegment: 1)
+    }
 
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.identifier {
+        case NSUserInterfaceItemIdentifier.backForwardMenuFormBackItem:
+            return canGoBack
+        case NSUserInterfaceItemIdentifier.backForwardMenuFormForwardItem:
+            return canGoForward
+        default:
+            return true
+        }
     }
 }

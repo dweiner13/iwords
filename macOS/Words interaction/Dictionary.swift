@@ -25,6 +25,11 @@ class Dictionary {
         case englishToLatin = 1
     }
 
+    struct Options: OptionSet {
+        let rawValue: Int
+        static let diagnosticMode = Options(rawValue: 1 << 0)
+    }
+
     public static let shared = Dictionary()
 
     private lazy var executableURL: URL = {
@@ -38,30 +43,29 @@ class Dictionary {
 
     private init() {}
 
-    func getDefinition(_ search: String, direction: Direction) throws -> String? {
+    func getDefinition(_ search: String, direction: Direction, options: Options) throws -> String? {
         var input = direction == .englishToLatin ? "~E\n" : "~L\n"
         input += trim(input: search)
         input += "\n\n\n"
         let output = try runProcess(executablePath, stdin: input + "\n\n\n")
-        #if DEBUG
         var definitions = try parseDefinitions(from: output) ?? "No results found"
-        definitions += """
-        \n\n\n\n
-        ==========
-        DEBUG MODE
-        ==========
+        if .diagnosticMode ~= options {
+            definitions = try parseDefinitions(from: output) ?? "No results found"
+            definitions += """
+            \n\n\n\n
+            ===============
+            DIAGNOSTIC MODE
+            ===============
 
-        Program input:
-        --------------
-        \(input)
+            Program input:
+            --------------
+            \(input)
 
-        Program output:
-        ---------------
-        \(output)
-        """
-        #else
-        let definitions = try parseDefinitions(from: output)
-        #endif
+            Program output:
+            ---------------
+            \(output)
+            """
+        }
         return definitions
     }
 

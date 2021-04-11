@@ -16,7 +16,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="iWords" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About DummyMacApp" id="5kV-Vb-QxS">
+                                        <menuItem title="About iWords" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
@@ -25,12 +25,20 @@
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
+                                        <menuItem title="Diagnostic Mode" id="zjB-TO-LRE">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="isDebug" id="H9d-mp-ojy"/>
+                                                <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="XUb-bA-Hdu"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
-                                        <menuItem title="Hide DummyMacApp" keyEquivalent="h" id="Olw-nP-bQN">
+                                        <menuItem title="Hide iWords" keyEquivalent="h" id="Olw-nP-bQN">
                                             <connections>
                                                 <action selector="hide:" target="Ady-hI-5gd" id="PnN-Uc-m68"/>
                                             </connections>
@@ -48,7 +56,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                                        <menuItem title="Quit DummyMacApp" keyEquivalent="q" id="4sb-4s-VLi">
+                                        <menuItem title="Quit iWords" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
                                             </connections>
@@ -338,6 +346,26 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="History" identifier="history" id="baK-B4-7Qa">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="History" identifier="history" id="CtW-Qh-q5x">
+                                    <items>
+                                        <menuItem title="Back" keyEquivalent="[" identifier="back" id="pt3-cq-4zk" userLabel="Back">
+                                            <connections>
+                                                <action selector="goBack:" target="Voe-Tx-rLC" id="pgP-Ts-Hlp"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Forward" keyEquivalent="]" identifier="forward" id="wIv-El-3Oj" userLabel="Forward">
+                                            <connections>
+                                                <action selector="goForward:" target="Voe-Tx-rLC" id="ZSB-Rr-6zg"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="aBY-K1-p9e"/>
+                                    </connections>
+                                </menu>
+                            </menuItem>
                             <menuItem title="View" id="H8h-7b-M4v">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
@@ -399,7 +427,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="DummyMacApp Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="iWords Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
@@ -413,17 +441,23 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="iWords" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="backItem" destination="pt3-cq-4zk" id="R0z-3K-wc8"/>
+                        <outlet property="forwardItem" destination="wIv-El-3Oj" id="C34-yk-L3Y"/>
+                    </connections>
+                </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController id="AnR-hL-FcP"/>
             </objects>
             <point key="canvasLocation" x="60" y="-404"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" customClass="LookupWindowController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" customClass="LookupWindowController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="533" width="600" height="601"/>
@@ -450,10 +484,10 @@
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
                                 <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin to English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
                                     <nil key="toolTip"/>
-                                    <popUpButton key="view" verticalHuggingPriority="750" id="oa1-GU-gBJ">
+                                    <popUpButton key="view" verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="oa1-GU-gBJ">
                                         <rect key="frame" x="0.0" y="14" width="132" height="25"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <popUpButtonCell key="cell" type="roundTextured" title="Latin to English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
+                                        <popUpButtonCell key="cell" type="roundTextured" title="Latin to English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="menu"/>
                                             <menu key="menu" id="8nX-cQ-etp">
@@ -516,21 +550,21 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="LookupViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sxB-QS-o7t">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ARa-lu-Foy">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="yIA-ac-0d5">
-                                            <rect key="frame" x="0.0" y="0.0" width="432" height="270"/>
+                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="NO" smartInsertDelete="YES" id="yIA-ac-0d5">
+                                            <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="432" height="270"/>
+                                            <size key="minSize" width="453" height="270"/>
                                             <size key="maxSize" width="480" height="10000000"/>
                                             <attributedString key="textStorage">
                                                 <fragment content="Welcome to iWords.">
@@ -550,7 +584,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="mFH-2j-Mhi">
-                                    <rect key="frame" x="464" y="0.0" width="16" height="270"/>
+                                    <rect key="frame" x="419" y="0.0" width="16" height="270"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -568,7 +602,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="66" y="694"/>
+            <point key="canvasLocation" x="43.5" y="694"/>
         </scene>
     </scenes>
     <resources>
