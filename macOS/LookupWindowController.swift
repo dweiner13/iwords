@@ -25,20 +25,30 @@ private extension NSUserInterfaceItemIdentifier {
         NSUserInterfaceItemIdentifier("backForwardMenuFormForwardItem")
 }
 
+struct SearchQuery: Equatable {
+    let searchText: String
+    let direction: Dictionary.Direction
+
+    init(_ searchText: String, _ direction: Dictionary.Direction) {
+        self.searchText = searchText
+        self.direction = direction
+    }
+}
+
 /// This class is functionally the singleton controller for the whole application.
 class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
-
-
     static var shared: LookupWindowController!
 
-    var history: [String] = []
-    private var backList: [String] = []
-    private var forwardList: [String] = []
-    private var lastSearchTerm: String?
+    var history: [SearchQuery] = []
+    private var backList: [SearchQuery] = []
+    private var forwardList: [SearchQuery] = []
+    private var lastSearchQuery: SearchQuery?
 
     private var backForwaredMenu: NSMenu!
     private var directionMenu: NSMenu!
+    private var lToEItem: NSMenuItem!
+    private var eToLItem: NSMenuItem!
 
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var backForwardControl: NSSegmentedControl!
@@ -82,10 +92,10 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
         var directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
         let submenu = NSMenu()
-        let lToEItem = NSMenuItem(title: "Latin to English", action: #selector(setLatinToEnglish), keyEquivalent: "")
-        lToEItem.state = .on
+        lToEItem = NSMenuItem(title: "Latin to English", action: #selector(setLatinToEnglish), keyEquivalent: "")
+        lToEItem.state = .off
         submenu.addItem(lToEItem)
-        let eToLItem = NSMenuItem(title: "English to Latin", action: #selector(setEnglishToLatin), keyEquivalent: "")
+        eToLItem = NSMenuItem(title: "English to Latin", action: #selector(setEnglishToLatin), keyEquivalent: "")
         eToLItem.state = .off
         submenu.addItem(eToLItem)
         directionMenu = submenu
@@ -102,28 +112,41 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
             .publisher(for: .goForward)
             .sink(receiveValue: goForward(_:))
             .store(in: &cancellables)
+
+        updateDirectionMenuItems()
     }
 
     var cancellables: [AnyCancellable] = []
 
-    public func setSearchText(_ searchText: String) {
-        guard !searchText.isEmpty, searchText != lastSearchTerm else {
+    public func setSearchQuery(_ searchQuery: SearchQuery) {
+        guard !searchQuery.searchText.isEmpty, searchQuery != lastSearchQuery else {
             return
         }
-        searchField.stringValue = searchText
+        searchField.stringValue = searchQuery.searchText
 
-        if let lastSearchTerm = lastSearchTerm {
-            backList.append(lastSearchTerm)
+        if let lastSearchQuery = lastSearchQuery {
+            backList.append(lastSearchQuery)
             forwardList = []
         }
-        search(searchText)
-        history.append(searchText)
-        lastSearchTerm = searchText
+        UserDefaults.standard.setValue(searchQuery.direction.rawValue,
+                                       forKey: "translationDirection")
+        search(searchQuery)
+        history.append(searchQuery)
+        lastSearchQuery = searchQuery
 
         updateBackForwardButtons()
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        guard NSUserDefaultsController.shared.isEqual(to: object),
+              keyPath == "values.translationDirection" else { return }
+        updateDirectionMenuItems()
+    }
+
+    func updateDirectionMenuItems() {
         let new = UserDefaults.standard.integer(forKey: "translationDirection")
         directionMenu?.items[0].state = new == 0 ? .on : .off
         directionMenu?.items[1].state = new == 1 ? .on : .off
@@ -141,14 +164,14 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
     @IBAction
     private func searchFieldAction(_ field: NSSearchField) {
-        setSearchText(field.stringValue)
+        setSearchQuery(SearchQuery(field.stringValue, direction))
     }
 
-    private func search(_ searchText: String) {
+    private func search(_ query: SearchQuery) {
         do {
             let results = try Dictionary.shared.getDefinition(
-                searchText,
-                direction: direction,
+                query.searchText,
+                direction: query.direction,
                 options: UserDefaults.standard.dictionaryOptions
             )
             lookupViewController.setResultText(results ?? "No results found")
@@ -167,13 +190,13 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
     @objc
     private func goBack(_ sender: Any? = nil) {
-        if let lastSearchTerm = lastSearchTerm {
+        if let lastSearchTerm = lastSearchQuery {
             forwardList.append(lastSearchTerm)
         }
         if let backSearchTerm = backList.popLast() {
             search(backSearchTerm)
-            searchField.stringValue = backSearchTerm
-            lastSearchTerm = backSearchTerm
+            searchField.stringValue = backSearchTerm.searchText
+            lastSearchQuery = backSearchTerm
         }
 
         updateBackForwardButtons()
@@ -181,13 +204,13 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
     @objc
     private func goForward(_ sender: Any? = nil) {
-        if let lastSearchTerm = lastSearchTerm {
+        if let lastSearchTerm = lastSearchQuery {
             backList.append(lastSearchTerm)
         }
         if let forwardSearchTerm = forwardList.popLast() {
             search(forwardSearchTerm)
-            searchField.stringValue = forwardSearchTerm
-            lastSearchTerm = forwardSearchTerm
+            searchField.stringValue = forwardSearchTerm.searchText
+            lastSearchQuery = forwardSearchTerm
         }
 
         updateBackForwardButtons()
@@ -215,5 +238,11 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         default:
             return true
         }
+    }
+
+    override func close() {
+        super.close()
+
+        NSApp.terminate(self)
     }
 }

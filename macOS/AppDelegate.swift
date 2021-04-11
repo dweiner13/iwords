@@ -60,17 +60,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
             return
         }
 
-        let items = [.separator()] + LookupWindowController.shared.history.reversed().map {
-            NSMenuItem(title: $0,
-                       action: #selector(historyMenuItemSelected(_:)),
-                       keyEquivalent: "")
-        }
+        let items = [.separator()] + LookupWindowController.shared.history
+            .reversed()
+            .enumerated()
+            .map { tuple -> NSMenuItem in
+                let (i, query) = tuple
+                let item = NSMenuItem(title: query.searchText,
+                                      action: #selector(historyMenuItemSelected(_:)),
+                                      keyEquivalent: "")
+                item.tag = i
+                return item
+            }
 
         menu.items.replaceSubrange(2..., with: items)
     }
 
     @IBAction func historyMenuItemSelected(_ sender: NSMenuItem) {
-        let historyItem = sender.title
-        LookupWindowController.shared.setSearchText(historyItem)
+        let historyItemIndex = sender.tag
+        let history = LookupWindowController.shared.history.reversed()[historyItemIndex]
+        LookupWindowController.shared.setSearchQuery(history)
     }
 }
