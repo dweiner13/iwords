@@ -25,9 +25,17 @@ private extension NSUserInterfaceItemIdentifier {
         NSUserInterfaceItemIdentifier("backForwardMenuFormForwardItem")
 }
 
-struct SearchQuery: Equatable {
+struct SearchQuery: Equatable, CustomDebugStringConvertible {
     let searchText: String
     let direction: Dictionary.Direction
+
+    var debugDescription: String {
+        #"<"\#(searchText) (\#(direction))>"#
+    }
+
+    func withDirection(_ direction: Dictionary.Direction) -> SearchQuery {
+        SearchQuery(searchText, direction)
+    }
 
     init(_ searchText: String, _ direction: Dictionary.Direction) {
         self.searchText = searchText
@@ -40,9 +48,21 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
     static var shared: LookupWindowController!
 
-    var history: [SearchQuery] = []
-    private var backList: [SearchQuery] = []
-    private var forwardList: [SearchQuery] = []
+    var history: [SearchQuery] = [] {
+        didSet {
+            print("history: \(history)")
+        }
+    }
+    private var backList: [SearchQuery] = [] {
+        didSet {
+            print("backList: \(backList)")
+        }
+    }
+    private var forwardList: [SearchQuery] = [] {
+        didSet {
+            print("forwardList: \(forwardList)")
+        }
+    }
     private var lastSearchQuery: SearchQuery?
 
     private var backForwaredMenu: NSMenu!
@@ -119,21 +139,29 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
     var cancellables: [AnyCancellable] = []
 
     public func setSearchQuery(_ searchQuery: SearchQuery) {
-        guard !searchQuery.searchText.isEmpty, searchQuery != lastSearchQuery else {
+        self.setSearchQuery(searchQuery, updateHistoryLists: true)
+    }
+
+    private func setSearchQuery(_ searchQuery: SearchQuery,
+                                updateHistoryLists: Bool) {
+        guard !searchQuery.searchText.isEmpty,
+              searchQuery != lastSearchQuery else {
             return
         }
         searchField.stringValue = searchQuery.searchText
 
-        if let lastSearchQuery = lastSearchQuery {
-            backList.append(lastSearchQuery)
-            forwardList = []
-        }
         UserDefaults.standard.setValue(searchQuery.direction.rawValue,
                                        forKey: "translationDirection")
-        search(searchQuery)
-        history.append(searchQuery)
-        lastSearchQuery = searchQuery
-
+        if search(searchQuery) {
+            if updateHistoryLists {
+                if let lastSearchQuery = lastSearchQuery {
+                    backList.append(lastSearchQuery)
+                    forwardList = []
+                }
+                history.append(searchQuery)
+            }
+            lastSearchQuery = searchQuery
+        }
         updateBackForwardButtons()
     }
 
@@ -167,7 +195,9 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         setSearchQuery(SearchQuery(field.stringValue, direction))
     }
 
-    private func search(_ query: SearchQuery) {
+    /// - Returns: whether or not a result was found
+    @discardableResult
+    private func search(_ query: SearchQuery) -> Bool {
         do {
             let results = try Dictionary.shared.getDefinition(
                 query.searchText,
@@ -175,30 +205,30 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
                 options: UserDefaults.standard.dictionaryOptions
             )
             lookupViewController.setResultText(results ?? "No results found")
+            print("Query entered: \"\(query)\"")
+            return results != nil
         } catch {
             self.presentError(error)
+            return false
         }
     }
 
     @IBAction func backForwardControlPressed(_ sender: NSSegmentedControl) {
         switch sender.selectedSegment {
-        case 0:  goBack()
-        case 1:  goForward()
+        case 0: goBack()
+        case 1: goForward()
         default: return
         }
     }
 
     @objc
     private func goBack(_ sender: Any? = nil) {
-        if let lastSearchTerm = lastSearchQuery {
-            forwardList.append(lastSearchTerm)
+        if let lastSearchQuery = lastSearchQuery {
+            forwardList.append(lastSearchQuery)
         }
-        if let backSearchTerm = backList.popLast() {
-            search(backSearchTerm)
-            searchField.stringValue = backSearchTerm.searchText
-            lastSearchQuery = backSearchTerm
+        if let back = backList.popLast() {
+            setSearchQuery(back, updateHistoryLists: false)
         }
-
         updateBackForwardButtons()
     }
 
@@ -207,12 +237,9 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         if let lastSearchTerm = lastSearchQuery {
             backList.append(lastSearchTerm)
         }
-        if let forwardSearchTerm = forwardList.popLast() {
-            search(forwardSearchTerm)
-            searchField.stringValue = forwardSearchTerm.searchText
-            lastSearchQuery = forwardSearchTerm
+        if let forward = forwardList.popLast() {
+            setSearchQuery(forward, updateHistoryLists: false)
         }
-
         updateBackForwardButtons()
     }
 
@@ -238,11 +265,5 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         default:
             return true
         }
-    }
-
-    override func close() {
-        super.close()
-
-        NSApp.terminate(self)
     }
 }

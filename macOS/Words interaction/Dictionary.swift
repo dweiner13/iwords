@@ -20,9 +20,17 @@ struct DWError: LocalizedError, Identifiable {
 // Provides a Swift API around the `words` executable.
 class Dictionary {
 
-    enum Direction: Int { // Do not change. Reflected in tags in interface builder.
+    enum Direction: Int, CustomDebugStringConvertible {
+        // Do not change. Reflected in tags in interface builder.
         case latinToEnglish = 0
         case englishToLatin = 1
+
+        var debugDescription: String {
+            switch self {
+            case .englishToLatin: return "Eng->Ltn"
+            case .latinToEnglish: return "Ltn->Eng"
+            }
+        }
     }
 
     struct Options: OptionSet {
@@ -48,10 +56,9 @@ class Dictionary {
         input += trim(input: search)
         input += "\n\n\n"
         let output = try runProcess(executablePath, stdin: input + "\n\n\n")
-        var definitions = try parseDefinitions(from: output) ?? "No results found"
         if .diagnosticMode ~= options {
-            definitions = try parseDefinitions(from: output) ?? "No results found"
-            definitions += """
+            let definitions = try parseDefinitions(from: output) ?? "No results found"
+            return definitions + """
             \n\n\n\n
             ===============
             DIAGNOSTIC MODE
@@ -65,8 +72,9 @@ class Dictionary {
             ---------------
             \(output)
             """
+        } else {
+            return try parseDefinitions(from: output)
         }
-        return definitions
     }
 
     private func trim(input: String) -> String {
