@@ -13,20 +13,23 @@
 		37A4D1D3262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
 		37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1FD26222A8300A9E9EC /* Dictionary.swift */; };
-		37A4D20326222B3800A9E9EC /* INFLECTS.SEC in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E726222A0500A9E9EC /* INFLECTS.SEC */; };
-		37A4D20426222B3800A9E9EC /* DICTFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E526222A0500A9E9EC /* DICTFILE.GEN */; };
-		37A4D20526222B3800A9E9EC /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1EA26222A0500A9E9EC /* words */; };
-		37A4D20626222B3800A9E9EC /* EWDSFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E826222A0500A9E9EC /* EWDSFILE.GEN */; };
-		37A4D20726222B3800A9E9EC /* STEMFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E626222A0500A9E9EC /* STEMFILE.GEN */; };
-		37A4D20826222B3800A9E9EC /* INDXFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1EB26222A0500A9E9EC /* INDXFILE.GEN */; };
-		37A4D20926222B3800A9E9EC /* UNIQUES.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E426222A0500A9E9EC /* UNIQUES.LAT */; };
-		37A4D20A26222B3B00A9E9EC /* ADDONS.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1E926222A0500A9E9EC /* ADDONS.LAT */; };
 		37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D24626223BC100A9E9EC /* Main.storyboard */; };
 		37A4D24D26223D7A00A9E9EC /* LookupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */; };
 		37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D2512622401900A9E9EC /* AppDelegate.swift */; };
 		37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D256262240D000A9E9EC /* LookupWindowController.swift */; };
-		37A4D25C262246EA00A9E9EC /* WORD.MOD in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D25A262246EA00A9E9EC /* WORD.MOD */; };
-		37A4D25D262246EA00A9E9EC /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D25B262246EA00A9E9EC /* WORD.MDV */; };
+		37AB5A142626713500118674 /* ADDONS.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A062626713400118674 /* ADDONS.LAT */; };
+		37AB5A152626713500118674 /* STEMFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A072626713400118674 /* STEMFILE.GEN */; };
+		37AB5A172626713500118674 /* INFLECTS.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A092626713400118674 /* INFLECTS.LAT */; };
+		37AB5A182626713500118674 /* UNIQUES.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A0A2626713500118674 /* UNIQUES.LAT */; };
+		37AB5A192626713500118674 /* INDXFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A0B2626713500118674 /* INDXFILE.GEN */; };
+		37AB5A1A2626713500118674 /* EWDSLIST.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A0C2626713500118674 /* EWDSLIST.GEN */; };
+		37AB5A1B2626713500118674 /* DICTLINE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A0D2626713500118674 /* DICTLINE.GEN */; };
+		37AB5A1C2626713500118674 /* INFLECTS.SEC in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A0E2626713500118674 /* INFLECTS.SEC */; };
+		37AB5A1D2626713500118674 /* EWDSFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A0F2626713500118674 /* EWDSFILE.GEN */; };
+		37AB5A1E2626713500118674 /* CHECKEWD. in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A102626713500118674 /* CHECKEWD. */; };
+		37AB5A1F2626713500118674 /* DICTFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A112626713500118674 /* DICTFILE.GEN */; };
+		37AB5A202626713500118674 /* STEMLIST.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A122626713500118674 /* STEMLIST.GEN */; };
+		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,21 +63,24 @@
 		37A4D1C8262227E400A9E9EC /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		37A4D1CE262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		37A4D1E426222A0500A9E9EC /* UNIQUES.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UNIQUES.LAT; sourceTree = "<group>"; };
-		37A4D1E526222A0500A9E9EC /* DICTFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = DICTFILE.GEN; sourceTree = "<group>"; };
-		37A4D1E626222A0500A9E9EC /* STEMFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = STEMFILE.GEN; sourceTree = "<group>"; };
-		37A4D1E726222A0500A9E9EC /* INFLECTS.SEC */ = {isa = PBXFileReference; lastKnownFileType = file; path = INFLECTS.SEC; sourceTree = "<group>"; };
-		37A4D1E826222A0500A9E9EC /* EWDSFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = EWDSFILE.GEN; sourceTree = "<group>"; };
-		37A4D1E926222A0500A9E9EC /* ADDONS.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ADDONS.LAT; sourceTree = "<group>"; };
-		37A4D1EA26222A0500A9E9EC /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
-		37A4D1EB26222A0500A9E9EC /* INDXFILE.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INDXFILE.GEN; sourceTree = "<group>"; };
 		37A4D1FD26222A8300A9E9EC /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		37A4D24626223BC100A9E9EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupViewController.swift; sourceTree = "<group>"; };
 		37A4D2512622401900A9E9EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37A4D256262240D000A9E9EC /* LookupWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupWindowController.swift; sourceTree = "<group>"; };
-		37A4D25A262246EA00A9E9EC /* WORD.MOD */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = WORD.MOD; sourceTree = "<group>"; };
-		37A4D25B262246EA00A9E9EC /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
+		37AB5A062626713400118674 /* ADDONS.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ADDONS.LAT; sourceTree = "<group>"; };
+		37AB5A072626713400118674 /* STEMFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = STEMFILE.GEN; sourceTree = "<group>"; };
+		37AB5A092626713400118674 /* INFLECTS.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INFLECTS.LAT; sourceTree = "<group>"; };
+		37AB5A0A2626713500118674 /* UNIQUES.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UNIQUES.LAT; sourceTree = "<group>"; };
+		37AB5A0B2626713500118674 /* INDXFILE.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INDXFILE.GEN; sourceTree = "<group>"; };
+		37AB5A0C2626713500118674 /* EWDSLIST.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EWDSLIST.GEN; sourceTree = "<group>"; };
+		37AB5A0D2626713500118674 /* DICTLINE.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DICTLINE.GEN; sourceTree = "<group>"; };
+		37AB5A0E2626713500118674 /* INFLECTS.SEC */ = {isa = PBXFileReference; lastKnownFileType = file; path = INFLECTS.SEC; sourceTree = "<group>"; };
+		37AB5A0F2626713500118674 /* EWDSFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = EWDSFILE.GEN; sourceTree = "<group>"; };
+		37AB5A102626713500118674 /* CHECKEWD. */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHECKEWD.; sourceTree = "<group>"; };
+		37AB5A112626713500118674 /* DICTFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = DICTFILE.GEN; sourceTree = "<group>"; };
+		37AB5A122626713500118674 /* STEMLIST.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STEMLIST.GEN; sourceTree = "<group>"; };
+		37AB5A21262671D200118674 /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,27 +187,22 @@
 			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
-		37A4D1E32622284600A9E9EC /* words */ = {
-			isa = PBXGroup;
-			children = (
-				37A4D1E926222A0500A9E9EC /* ADDONS.LAT */,
-				37A4D1E526222A0500A9E9EC /* DICTFILE.GEN */,
-				37A4D1E826222A0500A9E9EC /* EWDSFILE.GEN */,
-				37A4D1EB26222A0500A9E9EC /* INDXFILE.GEN */,
-				37A4D1E726222A0500A9E9EC /* INFLECTS.SEC */,
-				37A4D1E626222A0500A9E9EC /* STEMFILE.GEN */,
-				37A4D1E426222A0500A9E9EC /* UNIQUES.LAT */,
-				37A4D25B262246EA00A9E9EC /* WORD.MDV */,
-				37A4D25A262246EA00A9E9EC /* WORD.MOD */,
-				37A4D1EA26222A0500A9E9EC /* words */,
-			);
-			path = words;
-			sourceTree = "<group>";
-		};
 		37A4D1FC26222A7000A9E9EC /* Words interaction */ = {
 			isa = PBXGroup;
 			children = (
-				37A4D1E32622284600A9E9EC /* words */,
+				37AB5A21262671D200118674 /* words */,
+				37AB5A062626713400118674 /* ADDONS.LAT */,
+				37AB5A102626713500118674 /* CHECKEWD. */,
+				37AB5A112626713500118674 /* DICTFILE.GEN */,
+				37AB5A0D2626713500118674 /* DICTLINE.GEN */,
+				37AB5A0F2626713500118674 /* EWDSFILE.GEN */,
+				37AB5A0C2626713500118674 /* EWDSLIST.GEN */,
+				37AB5A0B2626713500118674 /* INDXFILE.GEN */,
+				37AB5A092626713400118674 /* INFLECTS.LAT */,
+				37AB5A0E2626713500118674 /* INFLECTS.SEC */,
+				37AB5A072626713400118674 /* STEMFILE.GEN */,
+				37AB5A122626713500118674 /* STEMLIST.GEN */,
+				37AB5A0A2626713500118674 /* UNIQUES.LAT */,
 				37A4D1FD26222A8300A9E9EC /* Dictionary.swift */,
 			);
 			path = "Words interaction";
@@ -340,18 +341,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37A4D20626222B3800A9E9EC /* EWDSFILE.GEN in Resources */,
-				37A4D25D262246EA00A9E9EC /* WORD.MDV in Resources */,
+				37AB5A172626713500118674 /* INFLECTS.LAT in Resources */,
+				37AB5A192626713500118674 /* INDXFILE.GEN in Resources */,
 				37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */,
-				37A4D20526222B3800A9E9EC /* words in Resources */,
-				37A4D25C262246EA00A9E9EC /* WORD.MOD in Resources */,
+				37AB5A1C2626713500118674 /* INFLECTS.SEC in Resources */,
+				37AB5A1B2626713500118674 /* DICTLINE.GEN in Resources */,
+				37AB5A182626713500118674 /* UNIQUES.LAT in Resources */,
+				37AB5A142626713500118674 /* ADDONS.LAT in Resources */,
+				37AB5A202626713500118674 /* STEMLIST.GEN in Resources */,
+				37AB5A1D2626713500118674 /* EWDSFILE.GEN in Resources */,
+				37AB5A22262671D200118674 /* words in Resources */,
+				37AB5A152626713500118674 /* STEMFILE.GEN in Resources */,
+				37AB5A1F2626713500118674 /* DICTFILE.GEN in Resources */,
+				37AB5A1E2626713500118674 /* CHECKEWD. in Resources */,
 				37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */,
-				37A4D20826222B3800A9E9EC /* INDXFILE.GEN in Resources */,
-				37A4D20926222B3800A9E9EC /* UNIQUES.LAT in Resources */,
-				37A4D20326222B3800A9E9EC /* INFLECTS.SEC in Resources */,
-				37A4D20A26222B3B00A9E9EC /* ADDONS.LAT in Resources */,
-				37A4D20426222B3800A9E9EC /* DICTFILE.GEN in Resources */,
-				37A4D20726222B3800A9E9EC /* STEMFILE.GEN in Resources */,
+				37AB5A1A2626713500118674 /* EWDSLIST.GEN in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
