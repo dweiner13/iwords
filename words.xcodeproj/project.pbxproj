@@ -30,6 +30,7 @@
 		37AB5A1F2626713500118674 /* DICTFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A112626713500118674 /* DICTFILE.GEN */; };
 		37AB5A202626713500118674 /* STEMLIST.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A122626713500118674 /* STEMLIST.GEN */; };
 		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
+		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		37AB5A112626713500118674 /* DICTFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = DICTFILE.GEN; sourceTree = "<group>"; };
 		37AB5A122626713500118674 /* STEMLIST.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STEMLIST.GEN; sourceTree = "<group>"; };
 		37AB5A21262671D200118674 /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
+		37AB5A232626733300118674 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				37A4D24626223BC100A9E9EC /* Main.storyboard */,
 				37A4D1B8262227E400A9E9EC /* macOS.entitlements */,
 				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
+				37AB5A232626733300118674 /* Credits.rtf */,
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
 				37A4D256262240D000A9E9EC /* LookupWindowController.swift */,
 			);
@@ -344,6 +347,7 @@
 				37AB5A172626713500118674 /* INFLECTS.LAT in Resources */,
 				37AB5A192626713500118674 /* INDXFILE.GEN in Resources */,
 				37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */,
+				37AB5A242626733300118674 /* Credits.rtf in Resources */,
 				37AB5A1C2626713500118674 /* INFLECTS.SEC in Resources */,
 				37AB5A1B2626713500118674 /* DICTLINE.GEN in Resources */,
 				37AB5A182626713500118674 /* UNIQUES.LAT in Resources */,
