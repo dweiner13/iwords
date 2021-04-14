@@ -152,15 +152,17 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
         UserDefaults.standard.setValue(searchQuery.direction.rawValue,
                                        forKey: "translationDirection")
+        if updateHistoryLists, let lastSearchQuery = lastSearchQuery, searchQuery != backList.last {
+            backList.append(lastSearchQuery)
+            forwardList = []
+        }
         if search(searchQuery) {
             if updateHistoryLists {
-                if let lastSearchQuery = lastSearchQuery {
-                    backList.append(lastSearchQuery)
-                    forwardList = []
-                }
                 history.append(searchQuery)
             }
             lastSearchQuery = searchQuery
+        } else {
+            lastSearchQuery = nil
         }
         updateBackForwardButtons()
     }
