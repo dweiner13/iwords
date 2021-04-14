@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## iWords
 
 You can use the [editor on GitHub](https://github.com/dweiner13/iwords/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
