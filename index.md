@@ -4,4 +4,4 @@ iWords is a small GUI wrapper around the excellent WORDS program by William Whit
 
 This project is in early stages and is not releasesd yet. Downloads and more information coming soon.
 
-<img width="772" alt="Screen Shot 2021-04-13 at 6 54 48 PM" src="https://user-images.githubusercontent.com/2500910/114791267-3a8c0280-9d54-11eb-8709-8a1a28295bed.png">
+<img width="270" alt="Screen Shot 2021-04-13 at 6 51 59 PM" src="https://user-images.githubusercontent.com/2500910/114791400-7f179e00-9d54-11eb-89ef-12ad462cff73.png">
