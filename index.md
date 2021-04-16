@@ -3,7 +3,7 @@
 iWords is a macOS Latin dictionary and parsing app that leverages the excellent 
 WORDS program by William Whitaker. The hope is to continue the legacy of the 
 venerable [Interpres app](https://sites.google.com/site/erikandremendoza/), which
-is 32-bit only and unsupported on modern macOS.
+is 32-bit and unsupported on modern macOS.
 
 This project is in early stages and is not released yet. Downloads and more information coming soon.
 
