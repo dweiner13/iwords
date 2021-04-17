@@ -116,13 +116,17 @@ class Dictionary {
             p.standardInput = pipe
         }
 
-        try p.run()
+        p.launch()
 
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(decoding: outputData, as: UTF8.self)
 
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
         let error = String(decoding: errorData, as: UTF8.self)
+
+        if p.isRunning {
+            p.terminate()
+        }
 
         if p.terminationStatus != 0 {
             throw DWError(description: "Program failed with exit code \(p.terminationStatus)")
