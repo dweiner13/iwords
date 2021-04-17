@@ -112,4 +112,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
     @IBAction func clearDefaults(_ sender: Any) {
         UserDefaults.resetStandardUserDefaults()
     }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        true
+    }
 }
