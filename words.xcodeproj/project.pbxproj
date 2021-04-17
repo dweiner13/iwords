@@ -30,6 +30,7 @@
 		37AB5A202626713500118674 /* STEMLIST.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A122626713500118674 /* STEMLIST.GEN */; };
 		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
+		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		37AB5A122626713500118674 /* STEMLIST.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STEMLIST.GEN; sourceTree = "<group>"; };
 		37AB5A21262671D200118674 /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
 		37AB5A232626733300118674 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				37AB5A21262671D200118674 /* words */,
+				37BF1C00262B7908003C4A97 /* WORD.MDV */,
 				37AB5A062626713400118674 /* ADDONS.LAT */,
 				37AB5A102626713500118674 /* CHECKEWD. */,
 				37AB5A112626713500118674 /* DICTFILE.GEN */,
@@ -365,6 +368,7 @@
 				37AB5A202626713500118674 /* STEMLIST.GEN in Resources */,
 				37AB5A1D2626713500118674 /* EWDSFILE.GEN in Resources */,
 				37AB5A22262671D200118674 /* words in Resources */,
+				37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */,
 				37AB5A152626713500118674 /* STEMFILE.GEN in Resources */,
 				37AB5A1F2626713500118674 /* DICTFILE.GEN in Resources */,
 				37AB5A1E2626713500118674 /* CHECKEWD. in Resources */,

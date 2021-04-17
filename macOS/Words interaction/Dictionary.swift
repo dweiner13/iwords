@@ -57,13 +57,21 @@ class Dictionary {
     private init() {}
 
     func getDefinition(_ search: String, direction: Direction, options: Options) throws -> String? {
-        var input = direction == .englishToLatin ? "~E\n" : "~L\n"
-        input += trim(input: search)
-        input += "\n\n\n"
-        let output = try runProcess(executablePath, stdin: input + "\n\n\n")
+        var arguments: [String] = []
+        // Add language control argument
+        if direction == .englishToLatin {
+            arguments.append("~e")
+        }
+        let search = trim(input: search)
+        let words = Array(search.split(separator: " ")).map(String.init(_:))
+        // English to latin only supports up to 2 words in query like "house n" or "travel v"
+        if direction == .englishToLatin && words.count > 2 {
+            throw DWError(description: "Query too long. For English-to-Latin, you can only enter 1 English word, or 1 English word and a part of speech (like \"attack v\").")
+        }
+        arguments.append(contentsOf: words)
+        let output = try runProcess(executablePath, arguments: arguments)
         if .diagnosticMode ~= options {
-            let definitions = try parseDefinitions(from: output) ?? "No results found"
-            return definitions + """
+            return output + """
             \n\n\n\n
             ===============
             DIAGNOSTIC MODE
@@ -71,41 +79,20 @@ class Dictionary {
 
             Program input:
             --------------
-            \(input)
+            \(arguments.debugDescription)
 
             Program output:
             ---------------
             \(output)
             """
         } else {
-            return try parseDefinitions(from: output)
+            return output
         }
     }
 
     private func trim(input: String) -> String {
         let commandCharacters = CharacterSet(["#", "!", "@"])
         return input.trimmingCharacters(in: commandCharacters)
-    }
-
-    private func parseDefinitions(from output: String) throws -> String? {
-        let lines = output.split(separator: "\n")
-        var start: Int?
-        var end: Int?
-        for (i, line) in lines.enumerated() {
-            if line == "=>" {
-                start = i + 1
-            } else if line == "=>Blank exits =>" {
-                end = i - 1
-            }
-        }
-        guard let start = start else {
-            return nil // No entry found
-        }
-        guard let end = end,
-              start < end else {
-            throw DWError(description: "Incorrectly formatted program output")
-        }
-        return lines[start...end].joined(separator: "\n")
     }
 
     @discardableResult
