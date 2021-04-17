@@ -134,6 +134,9 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
             .store(in: &cancellables)
 
         updateDirectionMenuItems()
+
+        // The window is restorable, so this will only affect initial launch after installation.
+        window?.setContentSize(NSSize(width: 700, height: 500))
     }
 
     var cancellables: [AnyCancellable] = []
