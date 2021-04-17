@@ -88,6 +88,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
         NotificationCenter.default.post(name: .focusSearch, object: nil)
     }
 
+    @IBAction func setLatinToEnglish(_ sender: Any) {
+        UserDefaults.standard.setValue(Dictionary.Direction.latinToEnglish.rawValue,
+                                       forKey: "translationDirection")
+    }
+
+    @IBAction func setEnglishToLatin(_ sender: Any) {
+        UserDefaults.standard.setValue(Dictionary.Direction.englishToLatin.rawValue,
+                                       forKey: "translationDirection")
+    }
+
     func menuNeedsUpdate(_ menu: NSMenu) {
         guard menu.identifier?.rawValue == "history" else {
             return

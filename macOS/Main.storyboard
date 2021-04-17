@@ -217,6 +217,27 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Dictionary" id="q8z-NN-qtj">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Dictionary" id="fza-HI-WC1">
+                                    <items>
+                                        <menuItem title="Latin to English" state="on" keyEquivalent="L" id="5iD-gI-CXi">
+                                            <connections>
+                                                <binding destination="2zu-H8-Kdr" name="value" keyPath="values.translationDirection" id="9it-tF-PuS">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="English to Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
+                                            <connections>
+                                                <binding destination="2zu-H8-Kdr" name="value" keyPath="values.translationDirection" id="Cfy-nF-M57"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="History" identifier="history" id="baK-B4-7Qa">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="History" identifier="history" id="CtW-Qh-q5x">
@@ -315,6 +336,7 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="AnR-hL-FcP"/>
+                <userDefaultsController id="2zu-H8-Kdr"/>
             </objects>
             <point key="canvasLocation" x="60" y="-592"/>
         </scene>
