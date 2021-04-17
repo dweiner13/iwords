@@ -23,4 +23,11 @@ class LookupViewController: NSViewController {
     func setResultText(_ text: String) {
         textView.string = text
     }
+
+    @IBAction func didPressHelp(_ sender: Any) {
+        guard let bookName = Bundle.main.object(forInfoDictionaryKey: "CFBundleHelpBookName") as? String else {
+            return
+        }
+        NSHelpManager.shared.openHelpAnchor("feedback", inBook: bookName)
+    }
 }

@@ -460,12 +460,24 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z5W-bF-ybe">
+                                <rect key="frame" x="400" y="8" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uex-h9-cvd">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="didPressHelp:" target="XfG-lQ-9wD" id="V92-0f-ZNV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="z5W-bF-ybe" secondAttribute="bottom" constant="12" id="45Q-IL-aZq"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="C0C-bc-4tP"/>
                             <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="bhh-wV-9Nk"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cpg-3Y-Fcr"/>
                             <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="jki-pv-nYk"/>
+                            <constraint firstAttribute="trailing" secondItem="z5W-bF-ybe" secondAttribute="trailing" constant="12" id="nt3-2a-KQR"/>
                         </constraints>
                     </view>
                     <connections>
