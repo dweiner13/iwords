@@ -32,6 +32,13 @@
                                                 <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Clear Defaults" id="uIy-0s-gud">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="clearDefaults:" target="Voe-Tx-rLC" id="See-45-TIm"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="isDebug" id="Cef-kG-GjA"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="XUb-bA-Hdu"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -342,7 +349,7 @@
                     <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="533" width="600" height="601"/>
+                        <rect key="contentRect" x="196" y="533" width="700" height="600"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="480" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">

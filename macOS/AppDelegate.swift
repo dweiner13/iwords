@@ -80,4 +80,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
         let history = LookupWindowController.shared.history.reversed()[historyItemIndex]
         LookupWindowController.shared.setSearchQuery(history)
     }
+
+    @IBAction func clearDefaults(_ sender: Any) {
+        UserDefaults.resetStandardUserDefaults()
+    }
 }
