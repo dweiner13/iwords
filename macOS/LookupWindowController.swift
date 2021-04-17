@@ -132,6 +132,10 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
             .publisher(for: .goForward)
             .sink(receiveValue: goForward(_:))
             .store(in: &cancellables)
+        NotificationCenter.default
+            .publisher(for: .focusSearch)
+            .sink(receiveValue: focusSearch(_:))
+            .store(in: &cancellables)
 
         updateDirectionMenuItems()
 
@@ -246,6 +250,11 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
             setSearchQuery(forward, updateHistoryLists: false)
         }
         updateBackForwardButtons()
+    }
+
+    @objc
+    private func focusSearch(_ sender: Any?) {
+        searchField?.becomeFirstResponder()
     }
 
     var canGoBack: Bool {

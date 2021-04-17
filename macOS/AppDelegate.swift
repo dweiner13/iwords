@@ -10,6 +10,7 @@ import Cocoa
 extension Notification.Name {
     static let goBack = Notification.Name("goBack")
     static let goForward = Notification.Name("goForward")
+    static let focusSearch = Notification.Name("focusSearch")
 }
 
 @main
@@ -81,6 +82,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
 
     @IBAction func goForward(_ sender: Any) {
         NotificationCenter.default.post(name: .goForward, object: nil)
+    }
+
+    @IBAction func focusSearch(_ sender: Any) {
+        NotificationCenter.default.post(name: .focusSearch, object: nil)
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
