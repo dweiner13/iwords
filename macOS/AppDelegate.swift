@@ -25,6 +25,34 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
         }
         Self.shared = self
         LookupWindowController.shared.updateBackForwardButtons()
+        registerDefaults()
+
+        #if DEBUG
+        startListeningToUserDefaults()
+
+        UserDefaults.standard.setValue(1, forKey: "diagnosticMode")
+        #endif
+    }
+
+    #if DEBUG
+    private func startListeningToUserDefaults() {
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.diagnosticMode", options: .new, context: nil)
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard keyPath == "values.diagnosticMode" else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+            return
+        }
+        print(UserDefaults.standard.dictionaryRepresentation())
+    }
+    #endif
+
+    private func registerDefaults() {
+        UserDefaults.standard.register(defaults: [
+            "diagnosticMode": false,
+            "direction": 0
+        ])
     }
 
     @objc
