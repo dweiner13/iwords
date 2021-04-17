@@ -31,6 +31,7 @@
 		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
 		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
+		37BF1C0C262B8366003C4A97 /* iWords.help in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C0B262B8366003C4A97 /* iWords.help */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		37AB5A21262671D200118674 /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
 		37AB5A232626733300118674 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
+		37BF1C0B262B8366003C4A97 /* iWords.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iWords.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 				37A4D1A8262227E400A9E9EC /* Assets.xcassets */,
 				37A4D1FC26222A7000A9E9EC /* Words interaction */,
 				37A4D1A7262227E300A9E9EC /* ContentView.swift */,
+				37BF1C0B262B8366003C4A97 /* iWords.help */,
 				37A4D1B7262227E400A9E9EC /* Info.plist */,
 				37A4D24626223BC100A9E9EC /* Main.storyboard */,
 				37A4D1B8262227E400A9E9EC /* macOS.entitlements */,
@@ -363,6 +366,7 @@
 				37AB5A242626733300118674 /* Credits.rtf in Resources */,
 				37AB5A1C2626713500118674 /* INFLECTS.SEC in Resources */,
 				37AB5A1B2626713500118674 /* DICTLINE.GEN in Resources */,
+				37BF1C0C262B8366003C4A97 /* iWords.help in Resources */,
 				37AB5A182626713500118674 /* UNIQUES.LAT in Resources */,
 				37AB5A142626713500118674 /* ADDONS.LAT in Resources */,
 				37AB5A202626713500118674 /* STEMLIST.GEN in Resources */,
