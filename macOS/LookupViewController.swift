@@ -17,6 +17,7 @@ class LookupViewController: NSViewController {
         let bodyFont = NSFont.preferredFont(forTextStyle: .body)
         textView.font = .monospacedSystemFont(ofSize: bodyFont.pointSize, weight: .regular)
         textView.textContainerInset = NSSize(width: 24, height: 12)
+        textView.string = "Welcome to iWords, a Latin dictionary. Search a word to get started."
     }
 
     func setResultText(_ text: String) {
