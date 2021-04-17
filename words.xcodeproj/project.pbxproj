@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -51,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
 		37A4D1A7262227E300A9E9EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		37A4D1A8262227E400A9E9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A4D1AD262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +127,7 @@
 				37A4D1C0262227E400A9E9EC /* Tests iOS */,
 				37A4D1CB262227E400A9E9EC /* Tests macOS */,
 				37A4D1AE262227E400A9E9EC /* Products */,
+				37C9FDFB2628DFAD00AE794D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -207,8 +209,16 @@
 				37AB5A122626713500118674 /* STEMLIST.GEN */,
 				37AB5A0A2626713500118674 /* UNIQUES.LAT */,
 				37A4D1FD26222A8300A9E9EC /* Dictionary.swift */,
+				371BE240262B3D3100FC1FED /* WordsEntitlements.plist */,
 			);
 			path = "Words interaction";
+			sourceTree = "<group>";
+		};
+		37C9FDFB2628DFAD00AE794D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,6 +248,8 @@
 				37A4D1B1262227E400A9E9EC /* Sources */,
 				37A4D1B2262227E400A9E9EC /* Frameworks */,
 				37A4D1B3262227E400A9E9EC /* Resources */,
+				37C9FDFC2628DFDB00AE794D /* ShellScript */,
+				37C9FDFA2628DDB900AE794D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -379,6 +391,44 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		37C9FDFA2628DDB900AE794D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/bin/sh -x";
+			shellScript = "codesign --force --options=runtime \\\n --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \\\n --entitlements \"${SRCROOT}/macOS/Words interaction/WordsEntitlements.plist\" \\\n \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/macOS/words\"\n";
+		};
+		37C9FDFC2628DFDB00AE794D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/MacOS\" \nmv \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/Resources/words\" \\\n \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/MacOS/words\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		37A4D1A9262227E400A9E9EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -465,6 +515,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -525,6 +576,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -559,6 +611,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.words;
 				PRODUCT_NAME = "$(inherited)";
 				SDKROOT = iphoneos;
@@ -584,6 +637,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.words;
 				PRODUCT_NAME = "$(inherited)";
 				SDKROOT = iphoneos;
@@ -602,6 +656,7 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(inherited)";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -611,7 +666,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.words;
+				MARKETING_VERSION = 0.1;
+				OTHER_CODE_SIGN_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
@@ -626,6 +683,7 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(inherited)";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -635,7 +693,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.words;
+				MARKETING_VERSION = 0.1;
+				OTHER_CODE_SIGN_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;

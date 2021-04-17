@@ -41,13 +41,18 @@ class Dictionary {
     public static let shared = Dictionary()
 
     private lazy var executableURL: URL = {
-        guard let url = Bundle.main.url(forResource: "words", withExtension: nil) else {
+        guard let url = Bundle.main.url(forAuxiliaryExecutable: "words") else {
             fatalError("Could not find words program file in bundle.")
         }
         return url
     }()
     private lazy var executablePath = executableURL.path
-    private lazy var workingDir = executableURL.deletingLastPathComponent()
+    private lazy var workingDir: URL = {
+        guard var url = Bundle.main.url(forResource: "DICTFILE", withExtension: "GEN") else {
+            fatalError("Could not find resource directory.")
+        }
+        return url.deletingLastPathComponent()
+    }()
 
     private init() {}
 
@@ -131,6 +136,10 @@ class Dictionary {
 
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
         let error = String(decoding: errorData, as: UTF8.self)
+
+        if p.terminationStatus != 0 {
+            throw DWError(description: "Program failed with exit code \(p.terminationStatus)")
+        }
 
         if error.count > 0 {
             throw DWError(description: error)
