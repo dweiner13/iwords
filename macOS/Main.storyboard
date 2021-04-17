@@ -22,21 +22,15 @@
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
-                                        <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Diagnostic Mode" id="zjB-TO-LRE">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="isDebug" id="H9d-mp-ojy"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="Kwj-Wj-vux">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
                                                 <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Clear Defaults" id="uIy-0s-gud">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="clearDefaults:" target="Voe-Tx-rLC" id="See-45-TIm"/>
-                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="isDebug" id="Cef-kG-GjA"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="XUb-bA-Hdu"/>

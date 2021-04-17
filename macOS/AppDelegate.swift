@@ -124,10 +124,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
         LookupWindowController.shared.setSearchQuery(history)
     }
 
-    @IBAction func clearDefaults(_ sender: Any) {
-        UserDefaults.resetStandardUserDefaults()
-    }
-
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }

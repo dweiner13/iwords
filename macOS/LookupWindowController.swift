@@ -11,7 +11,7 @@ import Combine
 extension UserDefaults {
     var dictionaryOptions: Dictionary.Options {
         var options = Dictionary.Options()
-        if bool(forKey: "diagnosticMode") {
+        if bool(forKey: "diagnosticMode"), AppDelegate.shared.isDebug {
             options.insert(.diagnosticMode)
         }
         return options
