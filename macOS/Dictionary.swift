@@ -35,7 +35,7 @@ class Dictionary {
 
         var description: String {
             switch self {
-            case .latinToEnglish: return "Latin To English"
+            case .latinToEnglish: return "Latin to English"
             case .englishToLatin: return "English to Latin"
             }
         }
