@@ -6,16 +6,25 @@
 //
 
 import Cocoa
+import Combine
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static var shared: AppDelegate!
 
-    @IBOutlet weak var backItem: NSMenuItem!
-    @IBOutlet weak var forwardItem: NSMenuItem!
+    @IBOutlet weak var latinToEnglishItem: NSMenuItem!
+    @IBOutlet weak var englishToLatinItem: NSMenuItem!
 
-    func keyWindowController() -> LookupWindowController {
-        NSApp.keyWindow?.windowController as! LookupWindowController
+    private var direction: Dictionary.Direction {
+        get {
+            keyWindowController()?.direction ?? DEFAULT_DIRECTION
+        }
+    }
+
+    private var cancellables: [AnyCancellable] = []
+
+    func keyWindowController() -> LookupWindowController? {
+        NSApp.keyWindow?.windowController as? LookupWindowController
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -30,6 +39,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         UserDefaults.standard.setValue(1, forKey: "diagnosticMode")
         #endif
+
+        NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)
+            .sink { [weak self] _ in
+                self?.updateDirectionItemsState()
+            }
+            .store(in: &cancellables)
+    }
+
+    func updateDirectionItemsState() {
+        latinToEnglishItem.state = direction == .latinToEnglish ? .on  : .off
+        englishToLatinItem.state = direction == .englishToLatin ? .on :  .off
     }
 
     #if DEBUG
@@ -64,11 +84,31 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }
+
+    @IBAction
+    func newWindow(_ sender: Any?) {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateInitialController() as! LookupWindowController
+        let newWindow = controller.window!
+
+        if let keyWindow = NSApp.keyWindow {
+            let newPoint = newWindow.cascadeTopLeft(from: keyWindow.topLeft)
+            newWindow.setFrameTopLeftPoint(newPoint)
+        }
+
+        newWindow.makeKeyAndOrderFront(sender)
+    }
+}
+
+extension NSWindow {
+    var topLeft: NSPoint {
+        convertPoint(toScreen: NSPoint(x: 0, y: frame.height))
+    }
 }
 
 extension AppDelegate: HistoryDelegate {
     func historyController(_ historyController: HistoryController,
                            didSelectHistoryItem query: SearchQuery) {
-        AppDelegate.shared.keyWindowController().setSearchQuery(query)
+        keyWindowController()?.setSearchQuery(query)
     }
 }

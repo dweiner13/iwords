@@ -69,12 +69,23 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
+                                        <menuItem title="New Window" keyEquivalent="n" id="vlf-zo-wEf">
+                                            <connections>
+                                                <action selector="newWindow:" target="Voe-Tx-rLC" id="8iR-a3-eqL"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="New Tab" keyEquivalent="t" id="dan-2o-CEK">
+                                            <connections>
+                                                <action selector="newTab:" target="Ady-hI-5gd" id="ZKT-P2-Wp9"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
                                         <menuItem title="New Search" keyEquivalent="l" id="7v1-zJ-fgu">
                                             <connections>
                                                 <action selector="focusSearch:" target="Ady-hI-5gd" id="Ssr-7g-XuO"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
+                                        <menuItem isSeparatorItem="YES" id="3jA-Gu-wqu"/>
                                         <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="HmO-Ls-i7Q"/>
@@ -217,13 +228,12 @@
                                     <items>
                                         <menuItem title="Latin to English" state="on" keyEquivalent="L" id="5iD-gI-CXi">
                                             <connections>
-                                                <action selector="setLatinToEnglish:" target="Ady-hI-5gd" id="wts-ft-lVf"/>
+                                                <action selector="setLatinToEnglish:" target="Ady-hI-5gd" id="W9L-AX-aK5"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="English to Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
                                             <connections>
-                                                <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="zfg-19-Ofu"/>
-                                                <binding destination="2zu-H8-Kdr" name="value" keyPath="values.translationDirection" id="Cfy-nF-M57"/>
+                                                <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="LSS-QM-c8U"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -253,6 +263,18 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
                                     <items>
+                                        <menuItem title="Show Tab Bar" keyEquivalent="T" id="1jF-4u-U1T">
+                                            <connections>
+                                                <action selector="toggleTabBar:" target="Ady-hI-5gd" id="F4A-CI-Vsf"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Show All Tabs" keyEquivalent="\" id="gb9-fD-p2S">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleTabOverview:" target="Ady-hI-5gd" id="1Db-xo-Oow"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="RnI-8p-IH7"/>
                                         <menuItem title="Customize Toolbar…" id="1UK-8n-QPP">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -260,12 +282,6 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
-                                        <menuItem title="Show Sidebar" keyEquivalent="s" id="kIP-vf-haE">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="toggleSidebar:" target="Ady-hI-5gd" id="iwa-gc-5KM"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
@@ -321,7 +337,9 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="iWords" customModuleProvider="target">
                     <connections>
                         <outlet property="backItem" destination="pt3-cq-4zk" id="R0z-3K-wc8"/>
+                        <outlet property="englishToLatinItem" destination="NHV-k5-i8L" id="6fj-r8-hhg"/>
                         <outlet property="forwardItem" destination="wIv-El-3Oj" id="C34-yk-L3Y"/>
+                        <outlet property="latinToEnglishItem" destination="5iD-gI-CXi" id="Rmc-CE-jFO"/>
                     </connections>
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -338,11 +356,11 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" customClass="LookupWindowController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="IQv-IB-iLA">
+                <windowController id="B8D-0N-5wS" customClass="LookupWindowController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="185" y="303" width="700" height="600"/>
+                        <rect key="contentRect" x="185" y="304" width="700" height="599"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="480" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">
@@ -408,6 +426,7 @@
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
+                                <toolbarItem reference="ocg-9b-k2f"/>
                                 <toolbarItem reference="Pk9-hB-iRd"/>
                                 <searchToolbarItem reference="rsD-Xn-hWC"/>
                             </defaultToolbarItems>

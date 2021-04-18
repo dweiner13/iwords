@@ -49,16 +49,18 @@ class SearchQuery: NSObject {
     }
 }
 
-private let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
+let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
 
 /// This class is functionally the singleton controller for the whole application.
 class LookupWindowController: NSWindowController {
 
-    static var shared: LookupWindowController!
-
     @objc dynamic
-    private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue
-    private var direction: Dictionary.Direction {
+    private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue {
+        didSet {
+            AppDelegate.shared.updateDirectionItemsState()
+        }
+    }
+    var direction: Dictionary.Direction {
         get {
             .init(rawValue: _direction)!
         }
@@ -86,14 +88,6 @@ class LookupWindowController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
-
-        guard Self.shared == nil else {
-            fatalError()
-        }
-
-        Self.shared = self
-
-        searchField.becomeFirstResponder()
 
         // Set up menu form equivalents for buttons
         let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
@@ -147,6 +141,8 @@ class LookupWindowController: NSWindowController {
 
         searchField.stringValue = searchQuery.searchText
 
+        self.window?.tab.title = searchQuery.searchText
+
         direction = searchQuery.direction
         search(searchQuery)
         if updateHistoryLists {
@@ -158,12 +154,12 @@ class LookupWindowController: NSWindowController {
     }
 
     @objc
-    private func setLatinToEnglish() {
+    private func setLatinToEnglish(_ sender: Any?) {
         direction = .latinToEnglish
     }
 
     @objc
-    private func setEnglishToLatin() {
+    private func setEnglishToLatin(_ sender: Any?) {
         direction = .englishToLatin
     }
 
@@ -190,6 +186,23 @@ class LookupWindowController: NSWindowController {
     @objc
     private func focusSearch(_ sender: Any?) {
         searchField?.becomeFirstResponder()
+    }
+
+    @objc
+    private func newTab(_ sender: Any?) {
+        window?.addTabbedWindow(Self.newWindow(), ordered: .above)
+    }
+
+    override func newWindowForTab(_ sender: Any?) {
+        let window = Self.newWindow()
+        self.window?.addTabbedWindow(window, ordered: .above)
+        window.makeKeyAndOrderFront(sender)
+    }
+
+    static func newWindow() -> NSWindow {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateInitialController() as! LookupWindowController
+        return controller.window!
     }
 }
 
@@ -236,5 +249,11 @@ extension LookupWindowController: NSMenuDelegate {
 
         menu.items[0].state = _direction == 0 ? .on : .off
         menu.items[1].state = _direction == 1 ? .on : .off
+    }
+}
+
+extension LookupWindowController: NSWindowDelegate {
+    func windowDidBecomeKey(_ notification: Notification) {
+        searchField.becomeFirstResponder()
     }
 }
