@@ -7,10 +7,6 @@
 
 import Cocoa
 
-extension Notification.Name {
-    static let focusSearch = Notification.Name("focusSearch")
-}
-
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static var shared: AppDelegate!
@@ -63,10 +59,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         #else
         return false
         #endif
-    }
-
-    @IBAction func focusSearch(_ sender: Any) {
-        NotificationCenter.default.post(name: .focusSearch, object: nil)
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

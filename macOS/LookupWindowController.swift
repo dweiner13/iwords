@@ -104,11 +104,6 @@ class LookupWindowController: NSWindowController {
         directionMenuItem.submenu = directionMenu
         directionItem.menuFormRepresentation = directionMenuItem
 
-        NotificationCenter.default
-            .publisher(for: .focusSearch)
-            .sink(receiveValue: focusSearch(_:))
-            .store(in: &cancellables)
-
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
     }

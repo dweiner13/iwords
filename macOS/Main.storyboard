@@ -71,7 +71,7 @@
                                     <items>
                                         <menuItem title="New Search" keyEquivalent="l" id="7v1-zJ-fgu">
                                             <connections>
-                                                <action selector="focusSearch:" target="Voe-Tx-rLC" id="443-XY-XDV"/>
+                                                <action selector="focusSearch:" target="Ady-hI-5gd" id="Ssr-7g-XuO"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
