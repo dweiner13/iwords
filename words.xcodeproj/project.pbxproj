@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37A4D1C2262227E400A9E9EC /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1C1262227E400A9E9EC /* Tests_iOS.swift */; };
 		37A4D1CD262227E400A9E9EC /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */; };
-		37A4D1D2262227E400A9E9EC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1A7262227E300A9E9EC /* ContentView.swift */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
 		37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1FD26222A8300A9E9EC /* Dictionary.swift */; };
 		37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D24626223BC100A9E9EC /* Main.storyboard */; };
@@ -53,7 +53,7 @@
 
 /* Begin PBXFileReference section */
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
-		37A4D1A7262227E300A9E9EC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37A4D1A8262227E400A9E9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A4D1AD262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1B0262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -121,6 +121,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37679DFA262C7761003D15E1 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				37A4D1A8262227E400A9E9EC /* Assets.xcassets */,
+				37BF1C0B262B8366003C4A97 /* iWords.help */,
+				37A4D1B7262227E400A9E9EC /* Info.plist */,
+				37A4D1B8262227E400A9E9EC /* macOS.entitlements */,
+				37AB5A232626733300118674 /* Credits.rtf */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
 		37A4D1A0262227E300A9E9EC = {
 			isa = PBXGroup;
 			children = (
@@ -163,17 +175,14 @@
 		37A4D1B6262227E400A9E9EC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
-				37A4D1A8262227E400A9E9EC /* Assets.xcassets */,
-				37A4D1FC26222A7000A9E9EC /* Words interaction */,
-				37A4D1A7262227E300A9E9EC /* ContentView.swift */,
-				37BF1C0B262B8366003C4A97 /* iWords.help */,
-				37A4D1B7262227E400A9E9EC /* Info.plist */,
 				37A4D24626223BC100A9E9EC /* Main.storyboard */,
-				37A4D1B8262227E400A9E9EC /* macOS.entitlements */,
-				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
-				37AB5A232626733300118674 /* Credits.rtf */,
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
+				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
 				37A4D256262240D000A9E9EC /* LookupWindowController.swift */,
+				37A4D1FD26222A8300A9E9EC /* Dictionary.swift */,
+				37A4D1FC26222A7000A9E9EC /* WORDS */,
+				37679DFA262C7761003D15E1 /* Supporting files */,
+				37679DFB262C779E003D15E1 /* HistoryController.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -196,7 +205,7 @@
 			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
-		37A4D1FC26222A7000A9E9EC /* Words interaction */ = {
+		37A4D1FC26222A7000A9E9EC /* WORDS */ = {
 			isa = PBXGroup;
 			children = (
 				37AB5A21262671D200118674 /* words */,
@@ -213,10 +222,9 @@
 				37AB5A072626713400118674 /* STEMFILE.GEN */,
 				37AB5A122626713500118674 /* STEMLIST.GEN */,
 				37AB5A0A2626713500118674 /* UNIQUES.LAT */,
-				37A4D1FD26222A8300A9E9EC /* Dictionary.swift */,
 				371BE240262B3D3100FC1FED /* WordsEntitlements.plist */,
 			);
-			path = "Words interaction";
+			path = WORDS;
 			sourceTree = "<group>";
 		};
 		37C9FDFB2628DFAD00AE794D /* Frameworks */ = {
@@ -340,10 +348,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				37A4D1AC262227E400A9E9EC /* words (iOS) */,
 				37A4D1B4262227E400A9E9EC /* words (macOS) */,
-				37A4D1BC262227E400A9E9EC /* Tests iOS */,
 				37A4D1C7262227E400A9E9EC /* Tests macOS */,
+				37A4D1AC262227E400A9E9EC /* words (iOS) */,
+				37A4D1BC262227E400A9E9EC /* Tests iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -413,7 +421,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -x";
-			shellScript = "codesign --force --options=runtime \\\n --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \\\n --entitlements \"${SRCROOT}/macOS/Words interaction/WordsEntitlements.plist\" \\\n \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/macOS/words\"\n";
+			shellScript = "codesign --force --options=runtime \\\n --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \\\n --entitlements \"${SRCROOT}/macOS/WORDS/WordsEntitlements.plist\" \\\n \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/macOS/words\"\n";
 		};
 		37C9FDFC2628DFDB00AE794D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -447,9 +455,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */,
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
 				37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */,
-				37A4D1D2262227E400A9E9EC /* ContentView.swift in Sources */,
 				37A4D24D26223D7A00A9E9EC /* LookupViewController.swift in Sources */,
 				37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */,
 			);
@@ -660,14 +668,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = "$(inherited)";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = macOS/Info.plist;
+				INFOPLIST_FILE = "macOS/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -687,14 +695,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = "$(inherited)";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = macOS/Info.plist;
+				INFOPLIST_FILE = "macOS/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

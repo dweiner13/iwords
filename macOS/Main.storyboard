@@ -248,7 +248,7 @@
                                         </menuItem>
                                     </items>
                                     <connections>
-                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="aBY-K1-p9e"/>
+                                        <outlet property="delegate" destination="vaf-za-0QZ" id="5ng-ty-Rcv"/>
                                     </connections>
                                 </menu>
                             </menuItem>
@@ -327,12 +327,16 @@
                         <outlet property="forwardItem" destination="wIv-El-3Oj" id="C34-yk-L3Y"/>
                     </connections>
                 </customObject>
-                <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="AnR-hL-FcP"/>
                 <userDefaultsController id="2zu-H8-Kdr"/>
+                <customObject id="vaf-za-0QZ" customClass="HistoryController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="delegate" destination="Voe-Tx-rLC" id="FIU-Ed-KB2"/>
+                    </connections>
+                </customObject>
             </objects>
-            <point key="canvasLocation" x="60" y="-592"/>
+            <point key="canvasLocation" x="55" y="-578"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -486,7 +490,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="43.5" y="694"/>
+            <point key="canvasLocation" x="61" y="696"/>
         </scene>
     </scenes>
     <resources>

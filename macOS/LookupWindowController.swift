@@ -25,9 +25,10 @@ private extension NSUserInterfaceItemIdentifier {
         NSUserInterfaceItemIdentifier("backForwardMenuFormForwardItem")
 }
 
-struct SearchQuery: Equatable, CustomDebugStringConvertible {
+struct SearchQuery: Equatable, Identifiable, CustomDebugStringConvertible {
     let searchText: String
     let direction: Dictionary.Direction
+    let id = UUID()
 
     var debugDescription: String {
         #"<"\#(searchText) (\#(direction))>"#
@@ -47,12 +48,6 @@ struct SearchQuery: Equatable, CustomDebugStringConvertible {
 class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
     static var shared: LookupWindowController!
-
-    var history: [SearchQuery] = [] {
-        didSet {
-            print("history: \(history)")
-        }
-    }
 
     var canGoBack: Bool {
         !backList.isEmpty
@@ -199,6 +194,7 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         }
     }
 
+    // The core of the logic for actually performing a query and updating the UI.
     private func setSearchQuery(_ searchQuery: SearchQuery,
                                 updateHistoryLists: Bool) {
         guard !searchQuery.searchText.isEmpty,
@@ -215,7 +211,7 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         }
         if search(searchQuery) {
             if updateHistoryLists {
-                history.append(searchQuery)
+                HistoryController.shared.recordVisit(to: searchQuery)
             }
             lastSearchQuery = searchQuery
         } else {
