@@ -8,13 +8,11 @@
 import Cocoa
 
 extension Notification.Name {
-    static let goBack = Notification.Name("goBack")
-    static let goForward = Notification.Name("goForward")
     static let focusSearch = Notification.Name("focusSearch")
 }
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenuDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static var shared: AppDelegate!
 
     @IBOutlet weak var backItem: NSMenuItem!
@@ -29,7 +27,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
             fatalError()
         }
         Self.shared = self
-        LookupWindowController.shared.updateBackForwardButtons()
         registerDefaults()
 
         #if DEBUG
@@ -69,25 +66,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
         #endif
     }
 
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        switch menuItem.identifier?.rawValue {
-        case "back":
-            return LookupWindowController.shared.canGoBack
-        case "forward":
-            return LookupWindowController.shared.canGoForward
-        default:
-            return true
-        }
-    }
-
-    @IBAction func goBack(_ sender: Any) {
-        NotificationCenter.default.post(name: .goBack, object: nil)
-    }
-
-    @IBAction func goForward(_ sender: Any) {
-        NotificationCenter.default.post(name: .goForward, object: nil)
-    }
-
     @IBAction func focusSearch(_ sender: Any) {
         NotificationCenter.default.post(name: .focusSearch, object: nil)
     }
@@ -109,12 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
 
 extension AppDelegate: HistoryDelegate {
     func historyController(_ historyController: HistoryController,
-                           didSelectHistoryItemWithIdentifier identifier: String) {
-        guard let item = historyController.historyItem(withIdentifier: identifier) else {
-            assertionFailure("Somehow got historyController:didSelectHistoryItemWithIdentifier: callback with an identifier for a history item that doesn't exist: \(identifier)")
-            return
-        }
-
-        AppDelegate.shared.keyWindowController().setSearchQuery(item)
+                           didSelectHistoryItem query: SearchQuery) {
+        AppDelegate.shared.keyWindowController().setSearchQuery(query)
     }
 }

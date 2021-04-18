@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
+		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37A4D1C2262227E400A9E9EC /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1C1262227E400A9E9EC /* Tests_iOS.swift */; };
 		37A4D1CD262227E400A9E9EC /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
+		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
 		37A4D1A8262227E400A9E9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A4D1AD262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1B0262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				37A4D1FC26222A7000A9E9EC /* WORDS */,
 				37679DFA262C7761003D15E1 /* Supporting files */,
 				37679DFB262C779E003D15E1 /* HistoryController.swift */,
+				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
 				37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */,
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
 				37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */,

@@ -238,12 +238,12 @@
                                     <items>
                                         <menuItem title="Back" keyEquivalent="[" identifier="back" id="pt3-cq-4zk" userLabel="Back">
                                             <connections>
-                                                <action selector="goBack:" target="Voe-Tx-rLC" id="pgP-Ts-Hlp"/>
+                                                <action selector="goBack:" target="Ady-hI-5gd" id="HoQ-ZT-PSj"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Forward" keyEquivalent="]" identifier="forward" id="wIv-El-3Oj" userLabel="Forward">
                                             <connections>
-                                                <action selector="goForward:" target="Voe-Tx-rLC" id="ZSB-Rr-6zg"/>
+                                                <action selector="goForward:" target="Ady-hI-5gd" id="hKZ-GT-Xs7"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -383,7 +383,6 @@
                                             </menu>
                                         </popUpButtonCell>
                                         <connections>
-                                            <action selector="popUpButtonSelectionChanged:" target="B8D-0N-5wS" id="SES-y8-OJm"/>
                                             <binding destination="XY3-6L-JDo" name="selectedIndex" keyPath="values.translationDirection" id="9CE-Ln-UWH"/>
                                         </connections>
                                     </popUpButton>
@@ -401,7 +400,7 @@
                                             </segments>
                                         </segmentedCell>
                                         <connections>
-                                            <action selector="backForwardControlPressed:" target="B8D-0N-5wS" id="56m-WB-ON9"/>
+                                            <action selector="backForwardControlPressed:" target="Aj2-OM-btO" id="jUy-Ar-pig"/>
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
@@ -417,7 +416,7 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="backForwardControl" destination="62q-qB-wIS" id="Mbu-9S-2cF"/>
+                        <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
                         <outlet property="directionItem" destination="Pk9-hB-iRd" id="oe2-wh-6gk"/>
                         <outlet property="popUpButton" destination="oa1-GU-gBJ" id="LZ5-aN-Vvq"/>
@@ -427,6 +426,12 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="XY3-6L-JDo"/>
+                <customObject id="Aj2-OM-btO" customClass="BackForwardController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="delegate" destination="B8D-0N-5wS" id="LMO-Ny-JIv"/>
+                        <outlet property="segmentedControl" destination="62q-qB-wIS" id="TEJ-1E-TUb"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="60" y="67.5"/>
         </scene>

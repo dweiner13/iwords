@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 struct DWError: LocalizedError, Identifiable {
     let id = UUID()
@@ -53,8 +54,11 @@ class Dictionary {
         }
         return url.deletingLastPathComponent()
     }()
+    private var cancellables: [AnyCancellable] = []
 
-    private init() {}
+    private init() {
+        startListening()
+    }
 
     func getDefinition(_ search: String, direction: Direction, options: Options) throws -> String? {
         var arguments: [String] = []
@@ -90,6 +94,14 @@ class Dictionary {
         }
     }
 
+    private func startListening() {
+        NotificationCenter.default.publisher(for: Process.didTerminateNotification)
+            .sink { notification in
+                print("Process did terminate: \(notification.object.debugDescription)")
+            }
+            .store(in: &cancellables)
+    }
+
     private func trim(input: String) -> String {
         let commandCharacters = CharacterSet(["#", "!", "@"])
         return input.trimmingCharacters(in: commandCharacters)
@@ -118,15 +130,13 @@ class Dictionary {
 
         p.launch()
 
+        p.waitUntilExit()
+
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(decoding: outputData, as: UTF8.self)
 
         let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
         let error = String(decoding: errorData, as: UTF8.self)
-
-        if p.isRunning {
-            p.terminate()
-        }
 
         if p.terminationStatus != 0 {
             throw DWError(description: "Program failed with exit code \(p.terminationStatus)")

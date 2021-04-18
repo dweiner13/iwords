@@ -17,7 +17,7 @@ extension NSUserInterfaceItemIdentifier {
 protocol HistoryDelegate {
     func historyController(
         _ historyController: HistoryController,
-        didSelectHistoryItemWithIdentifier identifier: String
+        didSelectHistoryItem query: SearchQuery
     )
 }
 
@@ -57,10 +57,6 @@ class HistoryController: NSObject {
         }
         history.append(query)
     }
-
-    func historyItem(withIdentifier identifier: String) -> SearchQuery? {
-        history.first { $0.id.uuidString == identifier }
-    }
 }
 
 // MARK: - NSMenuDelegate
@@ -93,7 +89,7 @@ extension HistoryController: NSMenuDelegate, NSMenuItemValidation {
         let historyItem = history.reversed()[historyItemIndex]
         delegate?.historyController(
             self,
-            didSelectHistoryItemWithIdentifier: historyItem.id.uuidString
+            didSelectHistoryItem: historyItem
         )
     }
 
