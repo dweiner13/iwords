@@ -1,5 +1,3 @@
-## iWords
-
 <center>
   <img width="179" 
        alt="iWords application icon" 
