@@ -52,8 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func registerDefaults() {
         UserDefaults.standard.register(defaults: [
-            "diagnosticMode": false,
-            "direction": 0
+            "diagnosticMode": false
         ])
     }
 
@@ -68,16 +67,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction func focusSearch(_ sender: Any) {
         NotificationCenter.default.post(name: .focusSearch, object: nil)
-    }
-
-    @IBAction func setLatinToEnglish(_ sender: Any) {
-        UserDefaults.standard.setValue(Dictionary.Direction.latinToEnglish.rawValue,
-                                       forKey: "translationDirection")
-    }
-
-    @IBAction func setEnglishToLatin(_ sender: Any) {
-        UserDefaults.standard.setValue(Dictionary.Direction.englishToLatin.rawValue,
-                                       forKey: "translationDirection")
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

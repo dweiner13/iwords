@@ -217,15 +217,12 @@
                                     <items>
                                         <menuItem title="Latin to English" state="on" keyEquivalent="L" id="5iD-gI-CXi">
                                             <connections>
-                                                <binding destination="2zu-H8-Kdr" name="value" keyPath="values.translationDirection" id="9it-tF-PuS">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
+                                                <action selector="setLatinToEnglish:" target="Ady-hI-5gd" id="wts-ft-lVf"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="English to Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
                                             <connections>
+                                                <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="zfg-19-Ofu"/>
                                                 <binding destination="2zu-H8-Kdr" name="value" keyPath="values.translationDirection" id="Cfy-nF-M57"/>
                                             </connections>
                                         </menuItem>
@@ -377,13 +374,17 @@
                                             <font key="font" metaFont="menu"/>
                                             <menu key="menu" id="8nX-cQ-etp">
                                                 <items>
-                                                    <menuItem title="Latin to English" state="on" id="rZL-Lw-nxS"/>
-                                                    <menuItem title="English to Latin" tag="1" id="ug1-oe-5s3" userLabel="English to Latin"/>
+                                                    <menuItem title="Latin to English" state="on" id="rZL-Lw-nxS">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="English to Latin" tag="1" id="ug1-oe-5s3" userLabel="English to Latin">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
                                                 </items>
                                             </menu>
                                         </popUpButtonCell>
                                         <connections>
-                                            <binding destination="XY3-6L-JDo" name="selectedIndex" keyPath="values.translationDirection" id="9CE-Ln-UWH"/>
+                                            <binding destination="B8D-0N-5wS" name="selectedIndex" keyPath="_direction" id="cXW-cV-e4d"/>
                                         </connections>
                                     </popUpButton>
                                 </toolbarItem>
@@ -419,7 +420,6 @@
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
                         <outlet property="directionItem" destination="Pk9-hB-iRd" id="oe2-wh-6gk"/>
-                        <outlet property="popUpButton" destination="oa1-GU-gBJ" id="LZ5-aN-Vvq"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>

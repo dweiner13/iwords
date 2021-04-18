@@ -11,6 +11,7 @@ import Combine
 extension NSUserInterfaceItemIdentifier {
     static let backMenuItem = NSUserInterfaceItemIdentifier("back")
     static let forwardMenuItem = NSUserInterfaceItemIdentifier("forward")
+    static let directionMenu = NSUserInterfaceItemIdentifier("directionMenu")
 }
 
 extension UserDefaults {
@@ -48,12 +49,25 @@ class SearchQuery: NSObject {
     }
 }
 
+private let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
+
 /// This class is functionally the singleton controller for the whole application.
 class LookupWindowController: NSWindowController {
 
     static var shared: LookupWindowController!
 
-    private var directionMenu: NSMenu!
+    @objc dynamic
+    private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue
+    private var direction: Dictionary.Direction {
+        get {
+            .init(rawValue: _direction)!
+        }
+        set {
+            _direction = newValue.rawValue
+        }
+    }
+
+    private lazy var directionMenu = makeDirectionMenu()
     private var lToEItem: NSMenuItem!
     private var eToLItem: NSMenuItem!
 
@@ -65,11 +79,6 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var searchField: NSSearchField!
 
     private var cancellables: [AnyCancellable] = []
-
-    private var direction: Dictionary.Direction {
-        let raw = UserDefaults.standard.integer(forKey: "translationDirection")
-        return Dictionary.Direction(rawValue: raw)!
-    }
 
     private var lookupViewController: LookupViewController! {
         contentViewController as? LookupViewController
@@ -92,43 +101,35 @@ class LookupWindowController: NSWindowController {
         backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
 
         let directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
-        let submenu = NSMenu()
-        lToEItem = NSMenuItem(title: "Latin to English", action: #selector(setLatinToEnglish), keyEquivalent: "")
-        lToEItem.state = .off
-        submenu.addItem(lToEItem)
-        eToLItem = NSMenuItem(title: "English to Latin", action: #selector(setEnglishToLatin), keyEquivalent: "")
-        eToLItem.state = .off
-        submenu.addItem(eToLItem)
-        directionMenu = submenu
-        directionMenuItem.submenu = submenu
+        directionMenuItem.submenu = directionMenu
         directionItem.menuFormRepresentation = directionMenuItem
-
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.translationDirection", options: .new, context: nil)
 
         NotificationCenter.default
             .publisher(for: .focusSearch)
             .sink(receiveValue: focusSearch(_:))
             .store(in: &cancellables)
 
-        updateDirectionMenuItems()
-
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
     }
 
-    override func observeValue(forKeyPath keyPath: String?,
-                               of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?,
-                               context: UnsafeMutableRawPointer?) {
-        guard NSUserDefaultsController.shared.isEqual(to: object),
-              keyPath == "values.translationDirection" else { return }
-        updateDirectionMenuItems()
-    }
-
-    func updateDirectionMenuItems() {
-        let new = UserDefaults.standard.integer(forKey: "translationDirection")
-        directionMenu?.items[0].state = new == 0 ? .on : .off
-        directionMenu?.items[1].state = new == 1 ? .on : .off
+    private func makeDirectionMenu() -> NSMenu {
+        let m = NSMenu()
+        lToEItem = NSMenuItem(title: "Latin to English",
+                              action: #selector(setLatinToEnglish),
+                              keyEquivalent: "L")
+        lToEItem.state = .off
+        lToEItem.keyEquivalentModifierMask = [.command, .shift]
+        m.addItem(lToEItem)
+        eToLItem = NSMenuItem(title: "English to Latin",
+                              action: #selector(setEnglishToLatin),
+                              keyEquivalent: "E")
+        eToLItem.state = .off
+        lToEItem.keyEquivalentModifierMask = [.command, .shift]
+        m.addItem(eToLItem)
+        m.delegate = self
+        m.identifier = .directionMenu
+        return m
     }
 
     public func setSearchQuery(_ searchQuery: SearchQuery) {
@@ -151,8 +152,7 @@ class LookupWindowController: NSWindowController {
 
         searchField.stringValue = searchQuery.searchText
 
-        UserDefaults.standard.setValue(searchQuery.direction.rawValue,
-                                       forKey: "translationDirection")
+        direction = searchQuery.direction
         search(searchQuery)
         if updateHistoryLists {
             HistoryController.shared.recordVisit(to: searchQuery)
@@ -164,12 +164,12 @@ class LookupWindowController: NSWindowController {
 
     @objc
     private func setLatinToEnglish() {
-        UserDefaults.standard.setValue(Dictionary.Direction.latinToEnglish.rawValue, forKey: "translationDirection")
+        direction = .latinToEnglish
     }
 
     @objc
     private func setEnglishToLatin() {
-        UserDefaults.standard.setValue(Dictionary.Direction.englishToLatin.rawValue, forKey: "translationDirection")
+        direction = .englishToLatin
     }
 
     @IBAction
@@ -198,7 +198,7 @@ class LookupWindowController: NSWindowController {
     }
 }
 
-// Menu handling for back/forward
+// Handling for back/forward
 @objc
 extension LookupWindowController {
     override func responds(to aSelector: Selector!) -> Bool {
@@ -223,11 +223,23 @@ extension LookupWindowController {
 
 extension LookupWindowController: BackForwardDelegate {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController) {
+        assert(controller == backForwardController)
+
         guard let searchQuery = controller.currentSearchQuery else {
             return
         }
         _setSearchQuery(searchQuery,
                         updateHistoryLists: false,
                         updateBackForward: false)
+    }
+}
+
+// Handling for menu form representation of direction control
+extension LookupWindowController: NSMenuDelegate {
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        assert(menu.identifier == directionMenu.identifier)
+
+        menu.items[0].state = _direction == 0 ? .on : .off
+        menu.items[1].state = _direction == 1 ? .on : .off
     }
 }
