@@ -23,15 +23,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private var cancellables: [AnyCancellable] = []
 
+    override init() {
+        super.init()
+        guard Self.shared == nil else {
+            fatalError()
+        }
+        Self.shared = self
+    }
+
     func keyWindowController() -> LookupWindowController? {
         NSApp.keyWindow?.windowController as? LookupWindowController
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        guard Self.shared == nil else {
-            fatalError()
-        }
-        Self.shared = self
         registerDefaults()
 
         #if DEBUG
@@ -39,6 +43,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         UserDefaults.standard.setValue(1, forKey: "diagnosticMode")
         #endif
+
+        if NSApp.windows.isEmpty {
+            newWindow(self)
+        }
 
         NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)
             .sink { [weak self] _ in
@@ -68,7 +76,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func registerDefaults() {
         UserDefaults.standard.register(defaults: [
-            "diagnosticMode": false
+            "diagnosticMode": false,
+            "history": []
         ])
     }
 
@@ -87,13 +96,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction
     func newWindow(_ sender: Any?) {
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateInitialController() as! LookupWindowController
-        let newWindow = controller.window!
+        let newWindow = LookupWindowController.newWindow()
 
         if let keyWindow = NSApp.keyWindow {
             let newPoint = newWindow.cascadeTopLeft(from: keyWindow.topLeft)
             newWindow.setFrameTopLeftPoint(newPoint)
+        } else {
+            newWindow.center()
         }
 
         newWindow.makeKeyAndOrderFront(sender)

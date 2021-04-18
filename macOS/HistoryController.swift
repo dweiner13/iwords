@@ -23,6 +23,8 @@ protocol HistoryDelegate {
 
 // MARK: - HistoryController
 
+private let MAX_HISTORY = 50
+
 class HistoryController: NSObject {
     @IBOutlet
     weak var delegate: HistoryDelegate?
@@ -34,12 +36,23 @@ class HistoryController: NSObject {
     ///
     /// On menu updates, all items at this index and further will be removed and replaced with a
     /// list of history menu items.
+    ///
+    /// The default value is 2.
     @IBInspectable
     var beginManagedMenuIndex = 2
 
-    private var history: [SearchQuery] = [] {
-        didSet {
-            print("history: \(history)")
+    @IBAction
+    func clearHistory(_ sender: Any?) {
+        history.removeAll()
+    }
+
+    private var history: [SearchQuery] {
+        get {
+            UserDefaults.standard.array(forKey: "history")?
+                .compactMap(SearchQuery.init(fromPropertyListRepresentation:)) ?? []
+        }
+        set {
+            UserDefaults.standard.setValue(newValue.map { $0.propertyListRepresentation() }, forKey: "history")
         }
     }
 
@@ -56,6 +69,9 @@ class HistoryController: NSObject {
             return
         }
         history.append(query)
+        if history.count > MAX_HISTORY {
+            history = Array(history.dropFirst())
+        }
     }
 }
 
@@ -67,14 +83,17 @@ extension HistoryController: NSMenuDelegate, NSMenuItemValidation {
             return
         }
 
-        let items = [.separator()] + history
+        let items = [.separator(), clearHistoryMenuItem(), .separator()] + history
             .reversed()
             .enumerated()
             .map { tuple -> NSMenuItem in
                 let (i, query) = tuple
-                let item = NSMenuItem(title: query.searchText,
+                let item = NSMenuItem(title: query.description,
                                       action: #selector(historyMenuItemSelected(_:)),
                                       keyEquivalent: "")
+                let attrString = NSMutableAttributedString(string: query.searchText)
+                attrString.append(NSAttributedString(string: " (\(query.direction.description))", attributes: [.foregroundColor: NSColor.secondaryLabelColor]))
+                item.attributedTitle = attrString
                 item.target = self
                 item.tag = i
                 return item
@@ -83,14 +102,19 @@ extension HistoryController: NSMenuDelegate, NSMenuItemValidation {
         menu.items.replaceSubrange(beginManagedMenuIndex..., with: items)
     }
 
+    private func clearHistoryMenuItem() -> NSMenuItem {
+        let item = NSMenuItem(title: "Clear History",
+                              action: #selector(clearHistory(_:)),
+                              keyEquivalent: "")
+        item.target = self
+        return item
+    }
+
     @objc
     private func historyMenuItemSelected(_ sender: NSMenuItem) {
         let historyItemIndex = sender.tag
         let historyItem = history.reversed()[historyItemIndex]
-        delegate?.historyController(
-            self,
-            didSelectHistoryItem: historyItem
-        )
+        delegate?.historyController(self, didSelectHistoryItem: historyItem)
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {

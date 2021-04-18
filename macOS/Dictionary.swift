@@ -21,15 +21,22 @@ struct DWError: LocalizedError, Identifiable {
 // Provides a Swift API around the `words` executable.
 class Dictionary {
 
-    enum Direction: Int, CustomDebugStringConvertible {
+    enum Direction: Int, CustomStringConvertible, CustomDebugStringConvertible, Codable {
         // Do not change. Reflected in tags in interface builder.
         case latinToEnglish = 0
         case englishToLatin = 1
 
         var debugDescription: String {
             switch self {
-            case .englishToLatin: return "Eng->Ltn"
             case .latinToEnglish: return "Ltn->Eng"
+            case .englishToLatin: return "Eng->Ltn"
+            }
+        }
+
+        var description: String {
+            switch self {
+            case .latinToEnglish: return "Latin To English"
+            case .englishToLatin: return "English to Latin"
             }
         }
     }

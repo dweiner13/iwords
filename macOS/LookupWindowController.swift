@@ -25,39 +25,88 @@ extension UserDefaults {
 }
 
 @objc
-class SearchQuery: NSObject {
-    override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? SearchQuery else { return false }
-        return searchText == object.searchText &&
-            direction == object.direction
+class SearchQuery: NSObject, NSSecureCoding {
+    static var supportsSecureCoding: Bool {
+        true
     }
 
     let searchText: String
     let direction: Dictionary.Direction
 
     override var debugDescription: String {
-        #"<"\#(searchText) (\#(direction))>"#
+        "<\"\(searchText)\" (\(direction.debugDescription))>"
     }
 
-    func withDirection(_ direction: Dictionary.Direction) -> SearchQuery {
-        SearchQuery(searchText, direction)
+    override var description: String {
+        "\(searchText) (\(direction))"
+    }
+
+    func propertyListRepresentation() -> Any {
+        ["searchText": searchText, "direction": direction.rawValue]
+    }
+
+    init?(fromPropertyListRepresentation obj: Any) {
+        guard let obj = obj as? [String: Any] else {
+            fatalError("Could not decode from obj \(obj)")
+            return nil
+        }
+        guard let searchText = obj["searchText"] as? String,
+              let direction = obj["direction"] as? Int else {
+            return nil
+        }
+        self.searchText = searchText
+        self.direction = .init(rawValue: direction)!
+    }
+
+    required init?(coder: NSCoder) {
+        guard let searchText = coder.decodeObject(of: NSString.self, forKey: "searchText") as String? else {
+            return nil
+        }
+        self.searchText = searchText
+        guard let direction = Dictionary.Direction(rawValue: coder.decodeInteger(forKey: "direction")) else {
+            return nil
+        }
+        self.direction = direction
+        super.init()
     }
 
     init(_ searchText: String, _ direction: Dictionary.Direction) {
         self.searchText = searchText
         self.direction = direction
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? SearchQuery else { return false }
+        return searchText == object.searchText &&
+            direction == object.direction
+    }
+
+    func encode(with coder: NSCoder) {
+        coder.encode(searchText, forKey: "searchText")
+        coder.encode(direction.rawValue, forKey: "direction")
+    }
+
+    func withDirection(_ direction: Dictionary.Direction) -> SearchQuery {
+        SearchQuery(searchText, direction)
+    }
+}
+
+private extension NSStoryboard.SceneIdentifier {
+    static let lookupWindowController = NSStoryboard.SceneIdentifier("LookupWindowController")
 }
 
 let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
 
-/// This class is functionally the singleton controller for the whole application.
 class LookupWindowController: NSWindowController {
+
+    override class var restorableStateKeyPaths: [String] {
+        ["_direction", "window.tab.title"]
+    }
 
     @objc dynamic
     private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue {
         didSet {
-            AppDelegate.shared.updateDirectionItemsState()
+            AppDelegate.shared?.updateDirectionItemsState()
         }
     }
     var direction: Dictionary.Direction {
@@ -73,7 +122,8 @@ class LookupWindowController: NSWindowController {
     private var lToEItem: NSMenuItem!
     private var eToLItem: NSMenuItem!
 
-    @IBOutlet var backForwardController: BackForwardController!
+    @IBOutlet @objc
+    dynamic var backForwardController: BackForwardController!
 
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var directionItem: NSToolbarItem!
@@ -89,7 +139,7 @@ class LookupWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        // Set up menu form equivalents for buttons
+        // Set up menu form equivalents for toolbar items
         let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
         backForwardMenuItem.submenu = backForwardController.menu()
         backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
@@ -100,6 +150,20 @@ class LookupWindowController: NSWindowController {
 
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
+
+        window?.restorationClass = WindowRestoration.self
+    }
+
+    @objc
+    override func encodeRestorableState(with coder: NSCoder) {
+        backForwardController.encode(with: coder)
+        super.restoreState(with: coder)
+    }
+
+    @objc
+    override func restoreState(with coder: NSCoder) {
+        backForwardController.decode(with: coder)
+        super.restoreState(with: coder)
     }
 
     private func makeDirectionMenu() -> NSMenu {
@@ -151,6 +215,7 @@ class LookupWindowController: NSWindowController {
         if updateBackForward {
             backForwardController.recordVisit(to: searchQuery)
         }
+        invalidateRestorableState()
     }
 
     @objc
@@ -188,11 +253,6 @@ class LookupWindowController: NSWindowController {
         searchField?.becomeFirstResponder()
     }
 
-    @objc
-    private func newTab(_ sender: Any?) {
-        window?.addTabbedWindow(Self.newWindow(), ordered: .above)
-    }
-
     override func newWindowForTab(_ sender: Any?) {
         let window = Self.newWindow()
         self.window?.addTabbedWindow(window, ordered: .above)
@@ -201,7 +261,8 @@ class LookupWindowController: NSWindowController {
 
     static func newWindow() -> NSWindow {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateInitialController() as! LookupWindowController
+        let controller = storyboard.instantiateController(withIdentifier: .lookupWindowController)
+            as! LookupWindowController
         return controller.window!
     }
 }

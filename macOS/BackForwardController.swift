@@ -57,6 +57,23 @@ class BackForwardController: NSObject {
         }
     }
 
+    override init() {
+        super.init()
+    }
+
+    func decode(with coder: NSCoder) {
+        backList = coder.decodeObject(forKey: "backList") as? [SearchQuery] ?? []
+        forwardList = coder.decodeObject(forKey: "forwardList") as? [SearchQuery] ?? []
+        currentSearchQuery = coder.decodeObject(forKey: "currentSearchQuery") as? SearchQuery
+        updateSegmentedControl()
+    }
+
+    func encode(with coder: NSCoder) {
+        coder.encode(backList, forKey: "backList")
+        coder.encode(forwardList, forKey: "forwardList")
+        coder.encode(currentSearchQuery, forKey: "currentSearchQuery")
+    }
+
     /// A preconfigured a NSMenu with Back and Forward items.
     func menu() -> NSMenu {
         let m = NSMenu()
