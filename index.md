@@ -13,6 +13,9 @@ Latin dictionary built on macOS technologies.
 
 This project is still in alpha stage. Click below to download the latest alpha.
 
+NOTE: This app does not have an auto-updater yet. If you want to get future versions of the app, either check this
+page regularly or go to the [code repository](https://github.com/dweiner13/iwords/) on GitHub and add yourself as a watcher.
+
 [⬇️📦 Latest Alpha Release (v0.2-alpha)](https://github.com/dweiner13/iwords/releases/download/v0.2-alpha/iWords-0.2.zip)
 
 <a href="https://user-images.githubusercontent.com/2500910/114791452-95bdf500-9d54-11eb-9737-732701851621.png">
