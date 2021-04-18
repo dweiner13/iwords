@@ -53,6 +53,15 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
             print("history: \(history)")
         }
     }
+
+    var canGoBack: Bool {
+        !backList.isEmpty
+    }
+
+    var canGoForward: Bool {
+        !forwardList.isEmpty
+    }
+
     private var backList: [SearchQuery] = [] {
         didSet {
             print("backList: \(backList)")
@@ -76,6 +85,8 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
     @IBOutlet weak var popUpButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
 
+    private var cancellables: [AnyCancellable] = []
+
     private var direction: Dictionary.Direction {
         let raw = UserDefaults.standard.integer(forKey: "translationDirection")
         return Dictionary.Direction(rawValue: raw)!
@@ -96,10 +107,12 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
 
         searchField.becomeFirstResponder()
 
+        // Set up menu form equivalents for buttons
+
         updateBackForwardButtons()
-        var backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
+        let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
         let backForwardSubmenu = NSMenu()
-        let backItem = NSMenuItem(title: "Back",    action: #selector(goBack(_:)),    keyEquivalent: "")
+        let backItem = NSMenuItem(title: "Back", action: #selector(goBack(_:)), keyEquivalent: "")
         backItem.identifier = .backForwardMenuFormBackItem
         backForwardSubmenu.addItem(backItem)
         let forwardItem = NSMenuItem(title: "Forward", action: #selector(goForward(_:)), keyEquivalent: "")
@@ -110,7 +123,7 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         backForwardMenuItem.submenu = backForwardSubmenu
         backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
 
-        var directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
+        let directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
         let submenu = NSMenu()
         lToEItem = NSMenuItem(title: "Latin to English", action: #selector(setLatinToEnglish), keyEquivalent: "")
         lToEItem.state = .off
@@ -143,10 +156,47 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         window?.setContentSize(NSSize(width: 700, height: 500))
     }
 
-    var cancellables: [AnyCancellable] = []
-
     public func setSearchQuery(_ searchQuery: SearchQuery) {
         self.setSearchQuery(searchQuery, updateHistoryLists: true)
+    }
+
+    public func updateBackForwardButtons() {
+        backForwardControl.setEnabled(canGoBack,    forSegment: 0)
+        backForwardControl.setEnabled(canGoForward, forSegment: 1)
+    }
+
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.identifier {
+        case NSUserInterfaceItemIdentifier.backForwardMenuFormBackItem:
+            return canGoBack
+        case NSUserInterfaceItemIdentifier.backForwardMenuFormForwardItem:
+            return canGoForward
+        default:
+            return true
+        }
+    }
+
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        guard NSUserDefaultsController.shared.isEqual(to: object),
+              keyPath == "values.translationDirection" else { return }
+        updateDirectionMenuItems()
+    }
+
+    func updateDirectionMenuItems() {
+        let new = UserDefaults.standard.integer(forKey: "translationDirection")
+        directionMenu?.items[0].state = new == 0 ? .on : .off
+        directionMenu?.items[1].state = new == 1 ? .on : .off
+    }
+
+    @IBAction func backForwardControlPressed(_ sender: NSSegmentedControl) {
+        switch sender.selectedSegment {
+        case 0: goBack()
+        case 1: goForward()
+        default: return
+        }
     }
 
     private func setSearchQuery(_ searchQuery: SearchQuery,
@@ -172,21 +222,6 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
             lastSearchQuery = nil
         }
         updateBackForwardButtons()
-    }
-
-    override func observeValue(forKeyPath keyPath: String?,
-                               of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?,
-                               context: UnsafeMutableRawPointer?) {
-        guard NSUserDefaultsController.shared.isEqual(to: object),
-              keyPath == "values.translationDirection" else { return }
-        updateDirectionMenuItems()
-    }
-
-    func updateDirectionMenuItems() {
-        let new = UserDefaults.standard.integer(forKey: "translationDirection")
-        directionMenu?.items[0].state = new == 0 ? .on : .off
-        directionMenu?.items[1].state = new == 1 ? .on : .off
     }
 
     @objc
@@ -222,14 +257,6 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
         }
     }
 
-    @IBAction func backForwardControlPressed(_ sender: NSSegmentedControl) {
-        switch sender.selectedSegment {
-        case 0: goBack()
-        case 1: goForward()
-        default: return
-        }
-    }
-
     @objc
     private func goBack(_ sender: Any? = nil) {
         if let lastSearchQuery = lastSearchQuery {
@@ -255,29 +282,5 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
     @objc
     private func focusSearch(_ sender: Any?) {
         searchField?.becomeFirstResponder()
-    }
-
-    var canGoBack: Bool {
-        !backList.isEmpty
-    }
-
-    var canGoForward: Bool {
-        !forwardList.isEmpty
-    }
-
-    public func updateBackForwardButtons() {
-        backForwardControl.setEnabled(canGoBack,    forSegment: 0)
-        backForwardControl.setEnabled(canGoForward, forSegment: 1)
-    }
-
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        switch menuItem.identifier {
-        case NSUserInterfaceItemIdentifier.backForwardMenuFormBackItem:
-            return canGoBack
-        case NSUserInterfaceItemIdentifier.backForwardMenuFormForwardItem:
-            return canGoForward
-        default:
-            return true
-        }
     }
 }
