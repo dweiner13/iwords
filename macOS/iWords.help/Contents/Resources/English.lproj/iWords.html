@@ -5,11 +5,25 @@
 <meta name="description" content="">
 <meta name="robots" content="anchors">
 <style>
+:root {
+    color-scheme: light dark;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, Helvetica Neueu, Helvetica, Sans-Serif;
     font-size: 0.9em;
     margin: 2em;
     line-height: 1.4;
+}
+
+a[href] {
+    color: #C90275; /* Tyrian purple, keep synced with app accent color */
+}
+
+@media (prefers-color-scheme: dark) {
+    a[href] {
+        color: #FF009C; /* Lighter Tyrian purple for dark mode */
+    }
 }
 
 pre {
@@ -23,7 +37,16 @@ pre {
 }
 
 hr {
-    margin: 2em 0px;
+    margin: 2em -2em;
+    border-color: darkgrey;
+    border-style: solid;
+}
+
+blockquote {
+    margin-left: 1em;
+    padding-left: 1em;
+    border-left: 2px solid lightgrey;
+    opacity: 0.8;
 }
 </style>
 </head>
@@ -43,7 +66,7 @@ hr {
 <a name="feedback"></a>
 <h3>Feedback</h3>
 
-<p>If you have feedback, please email <a href="mailto:support@danielweiner.org?subject=iWords%20Feedback">dan@danielweiner.org</a>.
+<p>If you have feedback, please email <a href="mailto:support@danielweiner.org?subject=iWords%20Feedback">support@danielweiner.org</a>.
 Any suggestions or comments are appreciated!</p>
 
 <p>If reporting a bug, please include the steps you took
@@ -58,6 +81,7 @@ that led to the bug, including the search query and screenshots if applicable.</
 
 <em>excerpt from William Whitaker's original documentation on his WORDS program</em>
 
+<blockquote>
 <P>
 I am no expert in Latin, indeed my training is limited to a couple of
 years in high school more than 50 years ago.  But I always felt that Latin, as
@@ -177,13 +201,15 @@ You can sell it as your own, but at least tell me.
 This version is distributed without obligation, but the developer would
 appreciate comments and suggestions.
 <P>
+</blockquote>
 
 <hr>
-
 <a name="examples"></a>
 <h3 style="margin-bottom: 0.1em;">How to Read Output</h3>
 
 <em>excerpt from William Whitaker's original documentation on his WORDS program</em>
+
+<blockquote>
 <H4>Latin-to-English Examples</H4>
 <P>
 Following are annotated examples of output.  Examination of these will
@@ -953,6 +979,7 @@ and may imply that the plural tendency occurred only during certain periods.
 w/ means 'with'.
 <BR>
  <BR>
+</blockquote>
 
 </body>
 </html>
