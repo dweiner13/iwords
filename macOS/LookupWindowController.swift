@@ -100,7 +100,7 @@ let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
 class LookupWindowController: NSWindowController {
 
     override class var restorableStateKeyPaths: [String] {
-        ["_direction", "window.tab.title"]
+        ["_direction", "window.tab.title", "searchField.stringValue"]
     }
 
     @objc dynamic
@@ -109,6 +109,7 @@ class LookupWindowController: NSWindowController {
             AppDelegate.shared?.updateDirectionItemsState()
         }
     }
+
     var direction: Dictionary.Direction {
         get {
             .init(rawValue: _direction)!
