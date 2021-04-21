@@ -32,6 +32,9 @@
 		37AB5A202626713500118674 /* STEMLIST.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A122626713500118674 /* STEMLIST.GEN */; };
 		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
+		37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; };
+		37AF82B82630EAC200931F2C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; };
+		37AF82B92630EAC200931F2C /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
 		37BF1C0C262B8366003C4A97 /* iWords.help in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C0B262B8366003C4A97 /* iWords.help */; };
 /* End PBXBuildFile section */
@@ -52,6 +55,20 @@
 			remoteInfo = "words (macOS)";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		37AF82BA2630EAC200931F2C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				37AF82B92630EAC200931F2C /* Sparkle.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
@@ -89,6 +106,7 @@
 		37AB5A122626713500118674 /* STEMLIST.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STEMLIST.GEN; sourceTree = "<group>"; };
 		37AB5A21262671D200118674 /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
 		37AB5A232626733300118674 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		37AF82B62630EAC000931F2C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
 		37BF1C0B262B8366003C4A97 /* iWords.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iWords.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +123,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */,
+				37AF82B82630EAC200931F2C /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +256,7 @@
 		37C9FDFB2628DFAD00AE794D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37AF82B62630EAC000931F2C /* Sparkle.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -269,6 +290,7 @@
 				37A4D1B3262227E400A9E9EC /* Resources */,
 				37C9FDFC2628DFDB00AE794D /* ShellScript */,
 				37C9FDFA2628DDB900AE794D /* ShellScript */,
+				37AF82BA2630EAC200931F2C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -683,6 +705,10 @@
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "macOS/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -710,6 +736,10 @@
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "macOS/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
