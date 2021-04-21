@@ -6,26 +6,36 @@
 //
 
 import Cocoa
-
-extension Notification.Name {
-    static let goBack = Notification.Name("goBack")
-    static let goForward = Notification.Name("goForward")
-    static let focusSearch = Notification.Name("focusSearch")
-}
+import Combine
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenuDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static var shared: AppDelegate!
 
-    @IBOutlet weak var backItem: NSMenuItem!
-    @IBOutlet weak var forwardItem: NSMenuItem!
+    @IBOutlet weak var latinToEnglishItem: NSMenuItem!
+    @IBOutlet weak var englishToLatinItem: NSMenuItem!
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    private var direction: Dictionary.Direction {
+        get {
+            keyWindowController()?.direction ?? DEFAULT_DIRECTION
+        }
+    }
+
+    private var cancellables: [AnyCancellable] = []
+
+    override init() {
+        super.init()
         guard Self.shared == nil else {
             fatalError()
         }
         Self.shared = self
-        LookupWindowController.shared.updateBackForwardButtons()
+    }
+
+    func keyWindowController() -> LookupWindowController? {
+        NSApp.keyWindow?.windowController as? LookupWindowController
+    }
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
         registerDefaults()
 
         #if DEBUG
@@ -33,6 +43,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
 
         UserDefaults.standard.setValue(1, forKey: "diagnosticMode")
         #endif
+
+        if NSApp.windows.isEmpty {
+            newWindow(self)
+        }
+
+        NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)
+            .sink { [weak self] _ in
+                self?.updateDirectionItemsState()
+            }
+            .store(in: &cancellables)
+    }
+
+    func updateDirectionItemsState() {
+        latinToEnglishItem.state = direction == .latinToEnglish ? .on  : .off
+        englishToLatinItem.state = direction == .englishToLatin ? .on :  .off
     }
 
     #if DEBUG
@@ -52,7 +77,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
     private func registerDefaults() {
         UserDefaults.standard.register(defaults: [
             "diagnosticMode": false,
-            "direction": 0
+            "history": []
         ])
     }
 
@@ -65,66 +90,34 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation, NSMenu
         #endif
     }
 
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        switch menuItem.identifier?.rawValue {
-        case "back":
-            return LookupWindowController.shared.canGoBack
-        case "forward":
-            return LookupWindowController.shared.canGoForward
-        default:
-            return true
-        }
-    }
-
-    @IBAction func goBack(_ sender: Any) {
-        NotificationCenter.default.post(name: .goBack, object: nil)
-    }
-
-    @IBAction func goForward(_ sender: Any) {
-        NotificationCenter.default.post(name: .goForward, object: nil)
-    }
-
-    @IBAction func focusSearch(_ sender: Any) {
-        NotificationCenter.default.post(name: .focusSearch, object: nil)
-    }
-
-    @IBAction func setLatinToEnglish(_ sender: Any) {
-        UserDefaults.standard.setValue(Dictionary.Direction.latinToEnglish.rawValue,
-                                       forKey: "translationDirection")
-    }
-
-    @IBAction func setEnglishToLatin(_ sender: Any) {
-        UserDefaults.standard.setValue(Dictionary.Direction.englishToLatin.rawValue,
-                                       forKey: "translationDirection")
-    }
-
-    func menuNeedsUpdate(_ menu: NSMenu) {
-        guard menu.identifier?.rawValue == "history" else {
-            return
-        }
-
-        let items = [.separator()] + LookupWindowController.shared.history
-            .reversed()
-            .enumerated()
-            .map { tuple -> NSMenuItem in
-                let (i, query) = tuple
-                let item = NSMenuItem(title: query.searchText,
-                                      action: #selector(historyMenuItemSelected(_:)),
-                                      keyEquivalent: "")
-                item.tag = i
-                return item
-            }
-
-        menu.items.replaceSubrange(2..., with: items)
-    }
-
-    @IBAction func historyMenuItemSelected(_ sender: NSMenuItem) {
-        let historyItemIndex = sender.tag
-        let history = LookupWindowController.shared.history.reversed()[historyItemIndex]
-        LookupWindowController.shared.setSearchQuery(history)
-    }
-
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
+    }
+
+    @IBAction
+    func newWindow(_ sender: Any?) {
+        let newWindow = LookupWindowController.newWindow()
+
+        if let keyWindow = NSApp.keyWindow {
+            let newPoint = newWindow.cascadeTopLeft(from: keyWindow.topLeft)
+            newWindow.setFrameTopLeftPoint(newPoint)
+        } else {
+            newWindow.center()
+        }
+
+        newWindow.makeKeyAndOrderFront(sender)
+    }
+}
+
+extension NSWindow {
+    var topLeft: NSPoint {
+        convertPoint(toScreen: NSPoint(x: 0, y: frame.height))
+    }
+}
+
+extension AppDelegate: HistoryDelegate {
+    func historyController(_ historyController: HistoryController,
+                           didSelectHistoryItem query: SearchQuery) {
+        keyWindowController()?.setSearchQuery(query)
     }
 }

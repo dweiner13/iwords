@@ -11,6 +11,10 @@ class LookupViewController: NSViewController {
 
     @IBOutlet var textView: NSTextView!
 
+    override class var restorableStateKeyPaths: [String] {
+        ["textView.string"]
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

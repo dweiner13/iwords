@@ -8,6 +8,12 @@
 import Cocoa
 import Combine
 
+extension NSUserInterfaceItemIdentifier {
+    static let backMenuItem = NSUserInterfaceItemIdentifier("back")
+    static let forwardMenuItem = NSUserInterfaceItemIdentifier("forward")
+    static let directionMenu = NSUserInterfaceItemIdentifier("directionMenu")
+}
+
 extension UserDefaults {
     var dictionaryOptions: Dictionary.Options {
         var options = Dictionary.Options()
@@ -18,79 +24,114 @@ extension UserDefaults {
     }
 }
 
-private extension NSUserInterfaceItemIdentifier {
-    static let backForwardMenuFormBackItem =
-        NSUserInterfaceItemIdentifier("backForwardMenuFormBackItem")
-    static let backForwardMenuFormForwardItem =
-        NSUserInterfaceItemIdentifier("backForwardMenuFormForwardItem")
-}
+@objc
+class SearchQuery: NSObject, NSSecureCoding {
+    static var supportsSecureCoding: Bool {
+        true
+    }
 
-struct SearchQuery: Equatable, CustomDebugStringConvertible {
     let searchText: String
     let direction: Dictionary.Direction
 
-    var debugDescription: String {
-        #"<"\#(searchText) (\#(direction))>"#
+    override var debugDescription: String {
+        "<\"\(searchText)\" (\(direction.debugDescription))>"
     }
 
-    func withDirection(_ direction: Dictionary.Direction) -> SearchQuery {
-        SearchQuery(searchText, direction)
+    override var description: String {
+        "\(searchText) (\(direction))"
+    }
+
+    func propertyListRepresentation() -> Any {
+        ["searchText": searchText, "direction": direction.rawValue]
+    }
+
+    init?(fromPropertyListRepresentation obj: Any) {
+        guard let obj = obj as? [String: Any] else {
+            fatalError("Could not decode from obj \(obj)")
+            return nil
+        }
+        guard let searchText = obj["searchText"] as? String,
+              let direction = obj["direction"] as? Int else {
+            return nil
+        }
+        self.searchText = searchText
+        self.direction = .init(rawValue: direction)!
+    }
+
+    required init?(coder: NSCoder) {
+        guard let searchText = coder.decodeObject(of: NSString.self, forKey: "searchText") as String? else {
+            return nil
+        }
+        self.searchText = searchText
+        guard let direction = Dictionary.Direction(rawValue: coder.decodeInteger(forKey: "direction")) else {
+            return nil
+        }
+        self.direction = direction
+        super.init()
     }
 
     init(_ searchText: String, _ direction: Dictionary.Direction) {
         self.searchText = searchText
         self.direction = direction
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? SearchQuery else { return false }
+        return searchText == object.searchText &&
+            direction == object.direction
+    }
+
+    func encode(with coder: NSCoder) {
+        coder.encode(searchText, forKey: "searchText")
+        coder.encode(direction.rawValue, forKey: "direction")
+    }
+
+    func withDirection(_ direction: Dictionary.Direction) -> SearchQuery {
+        SearchQuery(searchText, direction)
+    }
 }
 
-/// This class is functionally the singleton controller for the whole application.
-class LookupWindowController: NSWindowController, NSMenuItemValidation {
+private extension NSStoryboard.SceneIdentifier {
+    static let lookupWindowController = NSStoryboard.SceneIdentifier("LookupWindowController")
+}
 
-    static var shared: LookupWindowController!
+let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
 
-    var history: [SearchQuery] = [] {
+class LookupWindowController: NSWindowController {
+
+    override class var restorableStateKeyPaths: [String] {
+        ["_direction", "window.tab.title", "searchField.stringValue"]
+    }
+
+    @objc dynamic
+    private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue {
         didSet {
-            print("history: \(history)")
+            AppDelegate.shared?.updateDirectionItemsState()
         }
     }
 
-    var canGoBack: Bool {
-        !backList.isEmpty
-    }
-
-    var canGoForward: Bool {
-        !forwardList.isEmpty
-    }
-
-    private var backList: [SearchQuery] = [] {
-        didSet {
-            print("backList: \(backList)")
+    var direction: Dictionary.Direction {
+        get {
+            .init(rawValue: _direction)!
+        }
+        set {
+            _direction = newValue.rawValue
         }
     }
-    private var forwardList: [SearchQuery] = [] {
-        didSet {
-            print("forwardList: \(forwardList)")
-        }
-    }
-    private var lastSearchQuery: SearchQuery?
 
-    private var backForwaredMenu: NSMenu!
-    private var directionMenu: NSMenu!
+    private lazy var directionMenu = makeDirectionMenu()
     private var lToEItem: NSMenuItem!
     private var eToLItem: NSMenuItem!
 
+    @IBOutlet @objc
+    dynamic var backForwardController: BackForwardController!
+
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
-    @IBOutlet weak var backForwardControl: NSSegmentedControl!
     @IBOutlet weak var directionItem: NSToolbarItem!
     @IBOutlet weak var popUpButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
 
     private var cancellables: [AnyCancellable] = []
-
-    private var direction: Dictionary.Direction {
-        let raw = UserDefaults.standard.integer(forKey: "translationDirection")
-        return Dictionary.Direction(rawValue: raw)!
-    }
 
     private var lookupViewController: LookupViewController! {
         contentViewController as? LookupViewController
@@ -99,139 +140,93 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        guard Self.shared == nil else {
-            fatalError()
-        }
-
-        Self.shared = self
-
-        searchField.becomeFirstResponder()
-
-        // Set up menu form equivalents for buttons
-
-        updateBackForwardButtons()
+        // Set up menu form equivalents for toolbar items
         let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
-        let backForwardSubmenu = NSMenu()
-        let backItem = NSMenuItem(title: "Back", action: #selector(goBack(_:)), keyEquivalent: "")
-        backItem.identifier = .backForwardMenuFormBackItem
-        backForwardSubmenu.addItem(backItem)
-        let forwardItem = NSMenuItem(title: "Forward", action: #selector(goForward(_:)), keyEquivalent: "")
-        forwardItem.identifier = .backForwardMenuFormForwardItem
-        backForwardSubmenu.addItem(forwardItem)
-        backForwaredMenu = backForwardSubmenu
-        backForwaredMenu.autoenablesItems = true
-        backForwardMenuItem.submenu = backForwardSubmenu
+        backForwardMenuItem.submenu = backForwardController.menu()
         backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
 
         let directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
-        let submenu = NSMenu()
-        lToEItem = NSMenuItem(title: "Latin to English", action: #selector(setLatinToEnglish), keyEquivalent: "")
-        lToEItem.state = .off
-        submenu.addItem(lToEItem)
-        eToLItem = NSMenuItem(title: "English to Latin", action: #selector(setEnglishToLatin), keyEquivalent: "")
-        eToLItem.state = .off
-        submenu.addItem(eToLItem)
-        directionMenu = submenu
-        directionMenuItem.submenu = submenu
+        directionMenuItem.submenu = directionMenu
         directionItem.menuFormRepresentation = directionMenuItem
-
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.translationDirection", options: .new, context: nil)
-
-        NotificationCenter.default
-            .publisher(for: .goBack)
-            .sink(receiveValue: goBack(_:))
-            .store(in: &cancellables)
-        NotificationCenter.default
-            .publisher(for: .goForward)
-            .sink(receiveValue: goForward(_:))
-            .store(in: &cancellables)
-        NotificationCenter.default
-            .publisher(for: .focusSearch)
-            .sink(receiveValue: focusSearch(_:))
-            .store(in: &cancellables)
-
-        updateDirectionMenuItems()
 
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
+
+        window?.restorationClass = WindowRestoration.self
+    }
+
+    @objc
+    override func encodeRestorableState(with coder: NSCoder) {
+        backForwardController.encode(with: coder)
+        super.restoreState(with: coder)
+    }
+
+    @objc
+    override func restoreState(with coder: NSCoder) {
+        backForwardController.decode(with: coder)
+        super.restoreState(with: coder)
+    }
+
+    private func makeDirectionMenu() -> NSMenu {
+        let m = NSMenu()
+        lToEItem = NSMenuItem(title: "Latin to English",
+                              action: #selector(setLatinToEnglish),
+                              keyEquivalent: "L")
+        lToEItem.state = .off
+        lToEItem.keyEquivalentModifierMask = [.command, .shift]
+        m.addItem(lToEItem)
+        eToLItem = NSMenuItem(title: "English to Latin",
+                              action: #selector(setEnglishToLatin),
+                              keyEquivalent: "E")
+        eToLItem.state = .off
+        lToEItem.keyEquivalentModifierMask = [.command, .shift]
+        m.addItem(eToLItem)
+        m.delegate = self
+        m.identifier = .directionMenu
+        return m
     }
 
     public func setSearchQuery(_ searchQuery: SearchQuery) {
-        self.setSearchQuery(searchQuery, updateHistoryLists: true)
-    }
-
-    public func updateBackForwardButtons() {
-        backForwardControl.setEnabled(canGoBack,    forSegment: 0)
-        backForwardControl.setEnabled(canGoForward, forSegment: 1)
-    }
-
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        switch menuItem.identifier {
-        case NSUserInterfaceItemIdentifier.backForwardMenuFormBackItem:
-            return canGoBack
-        case NSUserInterfaceItemIdentifier.backForwardMenuFormForwardItem:
-            return canGoForward
-        default:
-            return true
-        }
-    }
-
-    override func observeValue(forKeyPath keyPath: String?,
-                               of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?,
-                               context: UnsafeMutableRawPointer?) {
-        guard NSUserDefaultsController.shared.isEqual(to: object),
-              keyPath == "values.translationDirection" else { return }
-        updateDirectionMenuItems()
-    }
-
-    func updateDirectionMenuItems() {
-        let new = UserDefaults.standard.integer(forKey: "translationDirection")
-        directionMenu?.items[0].state = new == 0 ? .on : .off
-        directionMenu?.items[1].state = new == 1 ? .on : .off
-    }
-
-    @IBAction func backForwardControlPressed(_ sender: NSSegmentedControl) {
-        switch sender.selectedSegment {
-        case 0: goBack()
-        case 1: goForward()
-        default: return
-        }
-    }
-
-    private func setSearchQuery(_ searchQuery: SearchQuery,
-                                updateHistoryLists: Bool) {
-        guard !searchQuery.searchText.isEmpty,
-              searchQuery != lastSearchQuery else {
+        guard searchQuery != backForwardController.currentSearchQuery else {
+            print("Ignoring redundant search query \(searchQuery)")
             return
         }
+        self._setSearchQuery(searchQuery,
+                             updateHistoryLists: true,
+                             updateBackForward: true)
+    }
+
+    // The core of the logic for actually performing a query and updating the UI.
+    private func _setSearchQuery(_ searchQuery : SearchQuery,
+                                 updateHistoryLists: Bool,
+                                 updateBackForward: Bool) {
+        guard !searchQuery.searchText.isEmpty else {
+            return
+        }
+
         searchField.stringValue = searchQuery.searchText
 
-        UserDefaults.standard.setValue(searchQuery.direction.rawValue,
-                                       forKey: "translationDirection")
-        if updateHistoryLists, let lastSearchQuery = lastSearchQuery, lastSearchQuery != backList.last {
-            backList.append(lastSearchQuery)
-            forwardList = []
+        self.window?.tab.title = searchQuery.searchText
+
+        direction = searchQuery.direction
+        search(searchQuery)
+        if updateHistoryLists {
+            HistoryController.shared.recordVisit(to: searchQuery)
         }
-        if search(searchQuery) {
-            if updateHistoryLists {
-                history.append(searchQuery)
-            }
-            lastSearchQuery = searchQuery
-        } else {
-            lastSearchQuery = nil
+        if updateBackForward {
+            backForwardController.recordVisit(to: searchQuery)
         }
-        updateBackForwardButtons()
+        invalidateRestorableState()
     }
 
     @objc
-    private func setLatinToEnglish() {
-        UserDefaults.standard.setValue(Dictionary.Direction.latinToEnglish.rawValue, forKey: "translationDirection")
+    private func setLatinToEnglish(_ sender: Any?) {
+        direction = .latinToEnglish
     }
 
     @objc
-    private func setEnglishToLatin() {
-        UserDefaults.standard.setValue(Dictionary.Direction.englishToLatin.rawValue, forKey: "translationDirection")
+    private func setEnglishToLatin(_ sender: Any?) {
+        direction = .englishToLatin
     }
 
     @IBAction
@@ -240,8 +235,7 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
     }
 
     /// - Returns: whether or not a result was found
-    @discardableResult
-    private func search(_ query: SearchQuery) -> Bool {
+    private func search(_ query: SearchQuery) {
         do {
             let results = try Dictionary.shared.getDefinition(
                 query.searchText,
@@ -249,38 +243,79 @@ class LookupWindowController: NSWindowController, NSMenuItemValidation {
                 options: UserDefaults.standard.dictionaryOptions
             )
             lookupViewController.setResultText(results ?? "No results found")
-            print("Query entered: \"\(query)\"")
-            return results != nil
+            print("Query entered: \"\(query.debugDescription)\"")
         } catch {
             self.presentError(error)
-            return false
         }
-    }
-
-    @objc
-    private func goBack(_ sender: Any? = nil) {
-        if let lastSearchQuery = lastSearchQuery {
-            forwardList.append(lastSearchQuery)
-        }
-        if let back = backList.popLast() {
-            setSearchQuery(back, updateHistoryLists: false)
-        }
-        updateBackForwardButtons()
-    }
-
-    @objc
-    private func goForward(_ sender: Any? = nil) {
-        if let lastSearchTerm = lastSearchQuery {
-            backList.append(lastSearchTerm)
-        }
-        if let forward = forwardList.popLast() {
-            setSearchQuery(forward, updateHistoryLists: false)
-        }
-        updateBackForwardButtons()
     }
 
     @objc
     private func focusSearch(_ sender: Any?) {
         searchField?.becomeFirstResponder()
+    }
+
+    override func newWindowForTab(_ sender: Any?) {
+        let window = Self.newWindow()
+        self.window?.addTabbedWindow(window, ordered: .above)
+        window.makeKeyAndOrderFront(sender)
+    }
+
+    static func newWindow() -> NSWindow {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateController(withIdentifier: .lookupWindowController)
+            as! LookupWindowController
+        return controller.window!
+    }
+}
+
+// Handling for back/forward
+@objc
+extension LookupWindowController {
+    override func responds(to aSelector: Selector!) -> Bool {
+        switch aSelector {
+        case #selector(goBack(_:)):
+            return backForwardController.canGoBack
+        case #selector(goForward(_:)):
+            return backForwardController.canGoForward
+        default:
+            return super.responds(to: aSelector)
+        }
+    }
+
+    func goBack(_ sender: Any?) {
+        backForwardController.goBack(sender)
+    }
+
+    func goForward(_ sender: Any?) {
+        backForwardController.goForward(sender)
+    }
+}
+
+extension LookupWindowController: BackForwardDelegate {
+    func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController) {
+        assert(controller == backForwardController)
+
+        guard let searchQuery = controller.currentSearchQuery else {
+            return
+        }
+        _setSearchQuery(searchQuery,
+                        updateHistoryLists: false,
+                        updateBackForward: false)
+    }
+}
+
+// Handling for menu form representation of direction control
+extension LookupWindowController: NSMenuDelegate {
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        assert(menu.identifier == directionMenu.identifier)
+
+        menu.items[0].state = _direction == 0 ? .on : .off
+        menu.items[1].state = _direction == 1 ? .on : .off
+    }
+}
+
+extension LookupWindowController: NSWindowDelegate {
+    func windowDidBecomeKey(_ notification: Notification) {
+        searchField.becomeFirstResponder()
     }
 }
