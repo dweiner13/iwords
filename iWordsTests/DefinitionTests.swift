@@ -20,26 +20,37 @@ class DefinitionTests: XCTestCase {
 
     func test() {
         var example: String
-        example = "via, viae  N (1st) F   [XXXAX]  "
-        XCTAssertEqual(expansion.parse(example), iWords.Expansion(principleParts: "via, viae", pos: iWords.PartOfSpeech.noun, declension: iWords.Declension.first, gender: iWords.Gender.feminine))
-
-        example = "vir, viri  N (2nd) M   [XXXAX]  "
+        example = "vir                  N      2 3 NOM S M                 \n" +
+        "vir                  N      2 3 VOC S M                 \n" +
+        "vir, viri  N (2nd) M   [XXXAX]  \n" +
+        "man; husband; hero; person of courage, honor, and nobility;"
         XCTAssertEqual(
-            expansion.parse(example),
-            iWords.Expansion(
-                principleParts: "vir, viri",
-                pos: iWords.PartOfSpeech.noun,
-                declension: iWords.Declension.second,
-                gender: iWords.Gender.masculine
-            )
+            parse(example),
+            iWords.Definition(
+                possibilities: ["vir                  N      2 3 NOM S M                 ",
+                                "vir                  N      2 3 VOC S M                 "],
+                expansion: iWords.Expansion(principleParts: "vir, viri",
+                                            pos: iWords.PartOfSpeech.noun,
+                                            declension: iWords.Declension.second,
+                                            gender: iWords.Gender.masculine),
+                meaning: "man; husband; hero; person of courage, honor, and nobility;")
         )
-
-        example = """
-        vir                  N      2 3 NOM S M
-        vir                  N      2 3 VOC S M
-        vir, viri  N (2nd) M   [XXXAX]
-        man; husband; hero; person of courage, honor, and nobility;
-        """
-        XCTFail("\(result.parse(example))")
+        example = "vi.a                 N      1 1 NOM S F                 \n" +
+        "vi.a                 N      1 1 VOC S F                 \n" +
+        "vi.a                 N      1 1 ABL S F                 \n" +
+        "via, viae  N (1st) F   [XXXAX]  \n" +
+        "way, road, street; journey;"
+        XCTAssertEqual(
+            parse(example),
+            iWords.Definition(
+                possibilities: ["vi.a                 N      1 1 NOM S F                 ",
+                                "vi.a                 N      1 1 VOC S F                 ",
+                                "vi.a                 N      1 1 ABL S F                 "],
+                expansion: iWords.Expansion(principleParts: "via, viae",
+                                            pos: iWords.PartOfSpeech.noun,
+                                            declension: iWords.Declension.first,
+                                            gender: iWords.Gender.feminine),
+                meaning: "way, road, street; journey;")
+        )
     }
 }

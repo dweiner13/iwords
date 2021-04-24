@@ -46,10 +46,10 @@ private func notLineEnding(_ c: UTF8.CodeUnit) -> Bool {
     c != .init(ascii: "\r") && c != .init(ascii: "\n")
 }
 
-struct Definition {
+struct Definition: Equatable {
     let possibilities: [String]
     let expansion: Expansion
-    let definition: String
+    let meaning: String
 }
 
 struct Expansion: Equatable {
@@ -84,12 +84,28 @@ let expansion = principleParts
     .skip(Prefix(2))
     .skip(StartsWith(") "))
     .take(gend)
+    .skip(PrefixThrough("\n"))
     .map(Expansion.init)
 
 let possibility = PrefixUpTo("\n")
 
-let result = Prefix { str in
-        return str.count == 57
-    }
-    .take(expansion)
+let result = expansion
     .take(Rest())
+
+func parse(_ str: String) -> Definition? {
+    let lines = str.split(whereSeparator: \.isNewline)
+    let possibilities = lines.lazy
+        .prefix { substr in
+            substr.count == 56 && !substr.contains("]")
+        }
+        .map(String.init(_:))
+    let rest = lines[possibilities.count...].joined(separator: "\n")
+    guard let (expansion, meaning) = result.parse(rest) else {
+        return nil
+    }
+    return Definition(
+        possibilities: Array(possibilities),
+        expansion: expansion,
+        meaning: String(meaning)
+    )
+}
