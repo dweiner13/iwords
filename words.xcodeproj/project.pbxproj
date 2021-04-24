@@ -18,6 +18,7 @@
 		37A4D24D26223D7A00A9E9EC /* LookupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */; };
 		37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D2512622401900A9E9EC /* AppDelegate.swift */; };
 		37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D256262240D000A9E9EC /* LookupWindowController.swift */; };
+		37AA04D8263435C100353747 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 37AA04D7263435C100353747 /* README.md */; };
 		37AB5A142626713500118674 /* ADDONS.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A062626713400118674 /* ADDONS.LAT */; };
 		37AB5A152626713500118674 /* STEMFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A072626713400118674 /* STEMFILE.GEN */; };
 		37AB5A172626713500118674 /* INFLECTS.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A092626713400118674 /* INFLECTS.LAT */; };
@@ -92,6 +93,7 @@
 		37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupViewController.swift; sourceTree = "<group>"; };
 		37A4D2512622401900A9E9EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37A4D256262240D000A9E9EC /* LookupWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupWindowController.swift; sourceTree = "<group>"; };
+		37AA04D7263435C100353747 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37AB5A062626713400118674 /* ADDONS.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ADDONS.LAT; sourceTree = "<group>"; };
 		37AB5A072626713400118674 /* STEMFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = STEMFILE.GEN; sourceTree = "<group>"; };
 		37AB5A092626713400118674 /* INFLECTS.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INFLECTS.LAT; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 		37A4D1A0262227E300A9E9EC = {
 			isa = PBXGroup;
 			children = (
+				37AA04D7263435C100353747 /* README.md */,
 				37A4D1A5262227E300A9E9EC /* Shared */,
 				37A4D1AF262227E400A9E9EC /* iOS */,
 				37A4D1B6262227E400A9E9EC /* macOS */,
@@ -409,6 +412,7 @@
 				37AB5A1D2626713500118674 /* EWDSFILE.GEN in Resources */,
 				37AB5A22262671D200118674 /* words in Resources */,
 				37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */,
+				37AA04D8263435C100353747 /* README.md in Resources */,
 				37AB5A152626713500118674 /* STEMFILE.GEN in Resources */,
 				37AB5A1F2626713500118674 /* DICTFILE.GEN in Resources */,
 				37AB5A1E2626713500118674 /* CHECKEWD. in Resources */,
@@ -701,7 +705,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0.3.4;
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -715,7 +719,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 0.3.4;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
@@ -732,7 +736,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0.3.4;
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -746,7 +750,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 0.3.4;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
