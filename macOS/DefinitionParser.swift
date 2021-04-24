@@ -72,19 +72,44 @@ enum Person: Int {
          third
 }
 
-protocol Word {
-    var root: String { get }
-    var ending: String { get }
-
-    var pos: PartOfSpeech { get }
-
-    init?(_ line: String)
-}
+protocol Word {}
 
 struct Noun: Word {
+    struct Expansion {
+        var principalParts: String
+        var declension: Declension
+        var gender: Gender // TODO: handle "Uncommon" here and for DeclinedNoun
+
+        init?(line: Line) {
+            
+        }
+    }
+
+    let possibilities: [DeclinedNoun]
+    let expansion: Expansion
+    let definition: String
+
+    init?(_ lines: [String]) {
+        for line in lines {
+            if let DeclinedNoun =
+        }
+    }
+}
+
+struct DeclinedNoun: Equatable {
+    internal init(root: String, ending: String, declension: Declension, variant: Int, case: Case, number: Number, gender: Gender) {
+        self.root = root
+        self.ending = ending
+        self.declension = declension
+        self.variant = variant
+        self.case = `case`
+        self.number = number
+        self.gender = gender
+    }
+
     let root: String
     let ending: String
-    let pos: PartOfSpeech
+    let pos: PartOfSpeech = .noun
 
     let declension: Declension
     let variant: Int
@@ -92,43 +117,44 @@ struct Noun: Word {
     let number: Number
     let gender: Gender
 
-    init?(_ line: String) {
-        guard let tokens: [Token] = parse(line: line) else {
+    init?(_ partial: PartialWord) {
+        guard partial.pos == .noun,
+              let root       = partial.root,
+              let ending     = partial.ending,
+              let declension = partial.declension,
+              let variant    = partial.variant,
+              let `case`     = partial.case,
+              let number     = partial.number,
+              let gender     = partial.gender else {
             return nil
         }
-        let valid = tokens.allSatisfy {
-            switch $0 {
-            case .root, .ending, .pos, .declension, .variant, .case, .number, .gender:
-                return true
-            default:
-                return false
-            }
-        }
-        if !valid {
-            return nil
-        }
-
-        for token in tokens {
-            switch token {
-            case .root(let root): self.root = String(root)
-            case .ending(let ending): self.ending = String(ending)
-            case .pos(let pos): self.pos = pos
-            case .declension(let declension): self.declension = declension
-            case .variant(let variant): self.variant = variant
-            case .case(let `case`): self.case = `case`
-            case .number(let number): self.number = number
-            case .gender(let gender): self.gender = gender
-            default:
-                return nil
-            }
-        }
+        self.root = root
+        self.ending = ending
+        self.declension = declension
+        self.variant = variant
+        self.case = `case`
+        self.number = number
+        self.gender = gender
     }
 }
 
-struct Verb: Word {
+
+struct ConjugatedVerb: Equatable {
+    internal init(root: String, ending: String, conjugation: Conjugation, variant: Int, tense: Tense, voice: Voice, mood: Mood, person: Person, number: Number) {
+        self.root = root
+        self.ending = ending
+        self.conjugation = conjugation
+        self.variant = variant
+        self.tense = tense
+        self.voice = voice
+        self.mood = mood
+        self.person = person
+        self.number = number
+    }
+
     let root: String
     let ending: String
-    let pos: PartOfSpeech
+    let pos: PartOfSpeech = .verb
 
     let conjugation: Conjugation
     let variant: Int
@@ -138,57 +164,49 @@ struct Verb: Word {
     let person: Person
     let number: Number
 
-    init?(_ line: String) {
-        guard let tokens: [Token] = parse(line: line) else {
+    init?(_ partial: PartialWord) {
+        guard partial.pos == .verb,
+              let root        = partial.root,
+              let ending      = partial.ending,
+              let conjugation = partial.conjugation,
+              let variant     = partial.variant,
+              let tense       = partial.tense,
+              let voice       = partial.voice,
+              let mood        = partial.mood,
+              let person      = partial.person,
+              let number      = partial.number else {
             return nil
         }
-        let valid = tokens.allSatisfy {
-            switch $0 {
-            case .root, .ending, .pos, .conjugation, .variant, .tense, .voice, .mood, .person, .number:
-                return true
-            default:
-                return false
-            }
-        }
-        if !valid {
-            return nil
-        }
-
-        for token in tokens {
-            switch token {
-            case .root(let root): self.root = String(root)
-            case .ending(let ending): self.ending = String(ending)
-            case .pos(let pos): self.pos = pos
-            case .conjugation(let conjugation): self.conjugation = conjugation
-            case .variant(let variant): self.variant = variant
-            case .tense(let tense): self.tense = tense
-            case .voice(let voice): self.voice = voice
-            case .mood(let mood): self.mood = mood
-            case .person(let person): self.person = person
-            case .number(let number): self.number = number
-            default:
-                return nil
-            }
-        }
+        self.root = root
+        self.ending = ending
+        self.conjugation = conjugation
+        self.variant = variant
+        self.tense = tense
+        self.voice = voice
+        self.mood = mood
+        self.person = person
+        self.number = number
     }
 }
 
 struct PartialWord {
-    let root: String?
-    let ending: String?
-    let pos: PartOfSpeech?
+    var root: String?
+    var ending: String?
+    var pos: PartOfSpeech?
 
-    let declension: Declension?
-    let variant: Int?
-    let `case`: Case?
-    let number: Number?
-    let gender: Gender?
+    var declension: Declension?
+    var variant: Int?
+    var `case`: Case?
+    var number: Number?
+    var gender: Gender?
 
-    let conjugation: Conjugation?
-    let tense: Tense?
-    let voice: Voice?
-    let mood: Mood?
-    let person: Person?
+    var conjugation: Conjugation?
+    var tense: Tense?
+    var voice: Voice?
+    var mood: Mood?
+    var person: Person?
+
+    init() {}
 }
 
 enum Token: Equatable, Hashable {
@@ -207,21 +225,13 @@ enum Token: Equatable, Hashable {
          person(Person)
 }
 
-func parse(line: String) -> Word? {
-    guard let tokens: [Token] = parse(line: line) else {
-        print("Failed to parse \(line)")
-        return  nil
-    }
-    return nil
-}
-
-func parse(line: String) -> [Token]? {
+func _parse(line: String) -> PartialWord? {
     let split = line.split(whereSeparator: { $0.isWhitespace || $0 == "." })
     var tokens: [Token] = []
 
     var linePOS: PartOfSpeech?
     
-    for s in split {
+    loop: for s in split {
         switch (tokens.last, linePOS) {
         case (.none, _):
             tokens.append(.root(s))
@@ -259,7 +269,7 @@ func parse(line: String) -> [Token]? {
             tokens.append(.gender(gender))
         case (.gender, _):
             print("Encountered extra text: \(s)")
-            return tokens
+            break
 
         // Verb path:
         case (.pos, .verb):
@@ -286,14 +296,33 @@ func parse(line: String) -> [Token]? {
             guard let number = Number(rawValue: String(s)) else { return nil }
             tokens.append(.number(number))
         case (.number, .verb):
-            return tokens
+            break loop
 
         default:
             return nil
         }
     }
 
-    return tokens
+    var partial = PartialWord()
+    for token in tokens {
+        switch token {
+        case .case(let `case`): partial.case = `case`
+        case .conjugation(let conjugation): partial.conjugation = conjugation
+        case .declension(let declension): partial.declension = declension
+        case .ending(let ending): partial.ending = String(ending)
+        case .gender(let gender): partial.gender = gender
+        case .mood(let mood): partial.mood = mood
+        case .number(let number): partial.number = number
+        case .person(let person): partial.person = person
+        case .pos(let pos): partial.pos = pos
+        case .root(let root): partial.root = String(root)
+        case .tense(let tense): partial.tense = tense
+        case .variant(let variant): partial.variant = variant
+        case .voice(let voice): partial.voice = voice
+        }
+    }
+
+    return partial
 }
 
 

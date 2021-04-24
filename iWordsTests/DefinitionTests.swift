@@ -19,29 +19,33 @@ class DefinitionTests: XCTestCase {
     }
 
     func testExampleNouns() throws {
+        func test(_ input: String, _ output: DeclinedNoun) {
+            guard let word = _parse(line: input) else {
+                XCTFail()
+                return
+            }
+            XCTAssertEqual(DeclinedNoun(word), output)
+        }
+
         var input: String;
-        var expected: [Token<String>];
         input = "vi.a                 N      1 1 NOM S F"
-        expected = [
-            .root("vi"), .ending("a"), .pos(.noun), .declension(.first), .variant(1), .case(.nominative), .number(.singular), .gender(.feminine)
-        ]
-        XCTAssertEqual(parse(line: input), expected)
+        test(input, DeclinedNoun(root: "vi", ending: "a", declension: .first, variant: 1, case: .nominative, number: .singular, gender: .feminine))
 
         input = "testamentari.um      N      2 1 GEN P M                   uncommon"
-        expected = [
-            .root("testamentari"), .ending("um"), .pos(.noun), .declension(.second), .variant(1), .case(.genitive), .number(.plural), .gender(.masculine)
-        ]
-        XCTAssertEqual(parse(line: input), expected)
+        test(input, DeclinedNoun(root: "testamentari", ending: "um", declension: .second, variant: 1, case: .genitive, number: .plural, gender: .masculine))
     }
 
     func testExampleVerbs() throws {
+        func test(_ input: String, _ output: ConjugatedVerb) {
+            guard let word = _parse(line: input) else {
+                XCTFail()
+                return
+            }
+            XCTAssertEqual(ConjugatedVerb(word), output)
+        }
         var input: String;
-        var expected: [Token<String>];
         input = "consul.ere           V      3 1 PRES ACTIVE  INF 0 X"
-        expected = [
-            .root("consul"), .ending("ere"), .pos(.verb), .conjugation(.third), .variant(1), .tense(.present), .voice(.active), .mood(.infinitive), .person(.none), .number(.invalid)
-        ]
-        XCTAssertEqual(parse(line: input), expected)
+        test(input, ConjugatedVerb(root: "consul", ending: "ere", conjugation: .third, variant: 1, tense: .present, voice: .active, mood: .infinitive, person: .none, number: .invalid))
     }
 
 }
