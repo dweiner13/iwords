@@ -104,11 +104,12 @@ func parse<S: StringProtocol>(line: S) -> [Token<S>]? {
             guard let gender = Gender(rawValue: String(s)) else { return nil }
             tokens.append(.gender(gender))
         case .gender:
-            break
+            print("Encountered extra text: \(s)")
+            return tokens
         }
     }
 
-    fatalError()
+    return tokens
 }
 
 //enum TokenType {

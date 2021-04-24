@@ -10,8 +10,6 @@
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
-		37A4D1C2262227E400A9E9EC /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1C1262227E400A9E9EC /* Tests_iOS.swift */; };
-		37A4D1CD262227E400A9E9EC /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
 		37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1FD26222A8300A9E9EC /* Dictionary.swift */; };
 		37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D24626223BC100A9E9EC /* Main.storyboard */; };
@@ -35,23 +33,17 @@
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
 		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
 		37BF1C0C262B8366003C4A97 /* iWords.help in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C0B262B8366003C4A97 /* iWords.help */; };
-		37CC43512634715400E60CE9 /* DefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC43502634715400E60CE9 /* DefinitionTests.swift */; };
+		37CC435B263476D200E60CE9 /* iWordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC435A263476D200E60CE9 /* iWordsTests.swift */; };
+		37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC4362263476DD00E60CE9 /* DefinitionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		37A4D1BE262227E400A9E9EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 37A4D1A1262227E300A9E9EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 37A4D1AC262227E400A9E9EC;
-			remoteInfo = "words (iOS)";
-		};
-		37A4D1C9262227E400A9E9EC /* PBXContainerItemProxy */ = {
+		37CC435D263476D200E60CE9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 37A4D1A1262227E300A9E9EC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 37A4D1B4262227E400A9E9EC;
-			remoteInfo = "words (macOS)";
+			remoteInfo = "iWords (macOS)";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -66,12 +58,6 @@
 		37A4D1B5262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1B7262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37A4D1B8262227E400A9E9EC /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		37A4D1BD262227E400A9E9EC /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		37A4D1C1262227E400A9E9EC /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
-		37A4D1C3262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		37A4D1C8262227E400A9E9EC /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
-		37A4D1CE262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37A4D1FD26222A8300A9E9EC /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		37A4D24626223BC100A9E9EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +80,10 @@
 		37AB5A232626733300118674 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
 		37BF1C0B262B8366003C4A97 /* iWords.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iWords.help; sourceTree = "<group>"; };
-		37CC43502634715400E60CE9 /* DefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionTests.swift; sourceTree = "<group>"; };
+		37CC4358263476D200E60CE9 /* iWordsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iWordsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		37CC435A263476D200E60CE9 /* iWordsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iWordsTests.swift; sourceTree = "<group>"; };
+		37CC435C263476D200E60CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37CC4362263476DD00E60CE9 /* DefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,14 +101,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37A4D1BA262227E400A9E9EC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		37A4D1C5262227E400A9E9EC /* Frameworks */ = {
+		37CC4355263476D200E60CE9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -147,8 +129,7 @@
 				37A4D1A5262227E300A9E9EC /* Shared */,
 				37A4D1AF262227E400A9E9EC /* iOS */,
 				37A4D1B6262227E400A9E9EC /* macOS */,
-				37A4D1C0262227E400A9E9EC /* Tests iOS */,
-				37A4D1CB262227E400A9E9EC /* Tests macOS */,
+				37CC4359263476D200E60CE9 /* iWordsTests */,
 				37A4D1AE262227E400A9E9EC /* Products */,
 				37C9FDFB2628DFAD00AE794D /* Frameworks */,
 			);
@@ -166,8 +147,7 @@
 			children = (
 				37A4D1AD262227E400A9E9EC /* iWords.app */,
 				37A4D1B5262227E400A9E9EC /* iWords.app */,
-				37A4D1BD262227E400A9E9EC /* Tests iOS.xctest */,
-				37A4D1C8262227E400A9E9EC /* Tests macOS.xctest */,
+				37CC4358263476D200E60CE9 /* iWordsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -198,25 +178,6 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
-		37A4D1C0262227E400A9E9EC /* Tests iOS */ = {
-			isa = PBXGroup;
-			children = (
-				37A4D1C1262227E400A9E9EC /* Tests_iOS.swift */,
-				37A4D1C3262227E400A9E9EC /* Info.plist */,
-			);
-			path = "Tests iOS";
-			sourceTree = "<group>";
-		};
-		37A4D1CB262227E400A9E9EC /* Tests macOS */ = {
-			isa = PBXGroup;
-			children = (
-				37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */,
-				37A4D1CE262227E400A9E9EC /* Info.plist */,
-				37CC43502634715400E60CE9 /* DefinitionTests.swift */,
-			);
-			path = "Tests macOS";
-			sourceTree = "<group>";
-		};
 		37A4D1FC26222A7000A9E9EC /* WORDS */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,6 +205,16 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		37CC4359263476D200E60CE9 /* iWordsTests */ = {
+			isa = PBXGroup;
+			children = (
+				37CC435A263476D200E60CE9 /* iWordsTests.swift */,
+				37CC435C263476D200E60CE9 /* Info.plist */,
+				37CC4362263476DD00E60CE9 /* DefinitionTests.swift */,
+			);
+			path = iWordsTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,41 +256,23 @@
 			productReference = 37A4D1B5262227E400A9E9EC /* iWords.app */;
 			productType = "com.apple.product-type.application";
 		};
-		37A4D1BC262227E400A9E9EC /* Tests iOS */ = {
+		37CC4357263476D200E60CE9 /* iWordsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 37A4D1DD262227E400A9E9EC /* Build configuration list for PBXNativeTarget "Tests iOS" */;
+			buildConfigurationList = 37CC435F263476D200E60CE9 /* Build configuration list for PBXNativeTarget "iWordsTests" */;
 			buildPhases = (
-				37A4D1B9262227E400A9E9EC /* Sources */,
-				37A4D1BA262227E400A9E9EC /* Frameworks */,
-				37A4D1BB262227E400A9E9EC /* Resources */,
+				37CC4354263476D200E60CE9 /* Sources */,
+				37CC4355263476D200E60CE9 /* Frameworks */,
+				37CC4356263476D200E60CE9 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				37A4D1BF262227E400A9E9EC /* PBXTargetDependency */,
+				37CC435E263476D200E60CE9 /* PBXTargetDependency */,
 			);
-			name = "Tests iOS";
-			productName = "Tests iOS";
-			productReference = 37A4D1BD262227E400A9E9EC /* Tests iOS.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		37A4D1C7262227E400A9E9EC /* Tests macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 37A4D1E0262227E400A9E9EC /* Build configuration list for PBXNativeTarget "Tests macOS" */;
-			buildPhases = (
-				37A4D1C4262227E400A9E9EC /* Sources */,
-				37A4D1C5262227E400A9E9EC /* Frameworks */,
-				37A4D1C6262227E400A9E9EC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				37A4D1CA262227E400A9E9EC /* PBXTargetDependency */,
-			);
-			name = "Tests macOS";
-			productName = "Tests macOS";
-			productReference = 37A4D1C8262227E400A9E9EC /* Tests macOS.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			name = iWordsTests;
+			productName = iWordsTests;
+			productReference = 37CC4358263476D200E60CE9 /* iWordsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -337,11 +290,7 @@
 					37A4D1B4262227E400A9E9EC = {
 						CreatedOnToolsVersion = 12.5;
 					};
-					37A4D1BC262227E400A9E9EC = {
-						CreatedOnToolsVersion = 12.5;
-						TestTargetID = 37A4D1AC262227E400A9E9EC;
-					};
-					37A4D1C7262227E400A9E9EC = {
+					37CC4357263476D200E60CE9 = {
 						CreatedOnToolsVersion = 12.5;
 						TestTargetID = 37A4D1B4262227E400A9E9EC;
 					};
@@ -361,9 +310,8 @@
 			projectRoot = "";
 			targets = (
 				37A4D1B4262227E400A9E9EC /* iWords (macOS) */,
-				37A4D1C7262227E400A9E9EC /* Tests macOS */,
 				37A4D1AC262227E400A9E9EC /* iWords (iOS) */,
-				37A4D1BC262227E400A9E9EC /* Tests iOS */,
+				37CC4357263476D200E60CE9 /* iWordsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -401,14 +349,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37A4D1BB262227E400A9E9EC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		37A4D1C6262227E400A9E9EC /* Resources */ = {
+		37CC4356263476D200E60CE9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -478,35 +419,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37A4D1B9262227E400A9E9EC /* Sources */ = {
+		37CC4354263476D200E60CE9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37A4D1C2262227E400A9E9EC /* Tests_iOS.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		37A4D1C4262227E400A9E9EC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				37CC43512634715400E60CE9 /* DefinitionTests.swift in Sources */,
-				37A4D1CD262227E400A9E9EC /* Tests_macOS.swift in Sources */,
+				37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */,
+				37CC435B263476D200E60CE9 /* iWordsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		37A4D1BF262227E400A9E9EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 37A4D1AC262227E400A9E9EC /* iWords (iOS) */;
-			targetProxy = 37A4D1BE262227E400A9E9EC /* PBXContainerItemProxy */;
-		};
-		37A4D1CA262227E400A9E9EC /* PBXTargetDependency */ = {
+		37CC435E263476D200E60CE9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 37A4D1B4262227E400A9E9EC /* iWords (macOS) */;
-			targetProxy = 37A4D1C9262227E400A9E9EC /* PBXContainerItemProxy */;
+			targetProxy = 37CC435D263476D200E60CE9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -733,90 +661,47 @@
 			};
 			name = Release;
 		};
-		37A4D1DE262227E400A9E9EC /* Debug */ = {
+		37CC4360263476D200E60CE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5TSNJUMDQY;
-				INFOPLIST_FILE = "Tests iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.danielweiner.Tests-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "words (iOS)";
-			};
-			name = Debug;
-		};
-		37A4D1DF262227E400A9E9EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5TSNJUMDQY;
-				INFOPLIST_FILE = "Tests iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.danielweiner.Tests-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "words (iOS)";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		37A4D1E1262227E400A9E9EC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
-				INFOPLIST_FILE = "Tests macOS/Info.plist";
+				INFOPLIST_FILE = iWordsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.danielweiner.Tests-macOS";
+				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iWordsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "words (macOS)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iWords.app/Contents/MacOS/iWords";
 			};
 			name = Debug;
 		};
-		37A4D1E2262227E400A9E9EC /* Release */ = {
+		37CC4361263476D200E60CE9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
-				INFOPLIST_FILE = "Tests macOS/Info.plist";
+				INFOPLIST_FILE = iWordsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.danielweiner.Tests-macOS";
+				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iWordsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "words (macOS)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iWords.app/Contents/MacOS/iWords";
 			};
 			name = Release;
 		};
@@ -850,20 +735,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		37A4D1DD262227E400A9E9EC /* Build configuration list for PBXNativeTarget "Tests iOS" */ = {
+		37CC435F263476D200E60CE9 /* Build configuration list for PBXNativeTarget "iWordsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				37A4D1DE262227E400A9E9EC /* Debug */,
-				37A4D1DF262227E400A9E9EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		37A4D1E0262227E400A9E9EC /* Build configuration list for PBXNativeTarget "Tests macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				37A4D1E1262227E400A9E9EC /* Debug */,
-				37A4D1E2262227E400A9E9EC /* Release */,
+				37CC4360263476D200E60CE9 /* Debug */,
+				37CC4361263476D200E60CE9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

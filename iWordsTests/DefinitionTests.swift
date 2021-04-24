@@ -18,10 +18,18 @@ class DefinitionTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        let input = "vi.a                 N      1 1 NOM S F"
-        let expected: [Token<String>] = [
+    func testExampleNouns() throws {
+        var input: String;
+        var expected: [Token<String>];
+        input = "vi.a                 N      1 1 NOM S F"
+        expected = [
             .root("vi"), .ending("a"), .pos(.noun), .declension(.first), .variant(1), .case(.nominative), .number(.singular), .gender(.feminine)
+        ]
+        XCTAssertEqual(parse(line: input), expected)
+
+        input = "testamentari.um      N      2 1 GEN P M                   uncommon"
+        expected = [
+            .root("testamentari"), .ending("um"), .pos(.noun), .declension(.second), .variant(1), .case(.genitive), .number(.plural), .gender(.masculine)
         ]
         XCTAssertEqual(parse(line: input), expected)
     }
