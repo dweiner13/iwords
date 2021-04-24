@@ -20,7 +20,6 @@ class DefinitionTests: XCTestCase {
 
     func test() {
         var example = "vi.a                 N      1 1 NOM S F"
-        
-        XCTFail()
+        XCTAssertEqual(parse(line: example), DeclinedNoun(root: "vi", ending: "a", declension: .first, variant: 1, case: .nominative, number: .singular, gender: .feminine))
     }
 }

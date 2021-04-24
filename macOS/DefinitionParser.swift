@@ -86,6 +86,63 @@ struct Noun: Word {
     let definition: String
 }
 
+class RangeParser {
+    let string: String
+
+    private func errorParsing<T>(type: T, start: Int, length: Int) -> DWError {
+        var msg = """
+        Failed to parse type \(T.self) from substring:
+        \(string)
+        """
+        msg += "\n"
+        msg += String(repeating: " ", count: start)
+        msg += "^"
+        msg += String(repeating: "-", count: max(0, length - 2))
+        if length > 1 {
+            msg += "^"
+        }
+        return DWError(description: msg)
+    }
+
+    init(_ string: String) {
+        self.string = string
+    }
+
+    func parse<T: LosslessStringConvertible>(from: Int, length: Int) throws -> T {
+        let start = string.index(string.startIndex, offsetBy: from)
+        let end = string.index(start, offsetBy: length)
+        let substr = string[start..<end]
+        guard let t = T(String(substr).trimmingCharacters(in: .whitespaces)) else {
+            throw errorParsing(type: T.self, start: from, length: length)
+        }
+        return t
+    }
+
+    func parse<T: RawRepresentable>(from: Int, length: Int) throws -> T where T.RawValue == String {
+        let start = string.index(string.startIndex, offsetBy: from)
+        let end = string.index(start, offsetBy: length)
+        let substr = string[start..<end]
+        guard let t = T(rawValue: String(substr).trimmingCharacters(in: .whitespaces)) else {
+            throw errorParsing(type: T.self, start: from, length: length)
+        }
+        return t
+    }
+
+    func parse<T: RawRepresentable>(from: Int, length: Int) throws -> T where T.RawValue == Int {
+        let start = string.index(string.startIndex, offsetBy: from)
+        let end = string.index(start, offsetBy: length)
+        let substr = string[start..<end]
+        guard let raw = Int(String(substr).trimmingCharacters(in: .whitespaces)), let t = T(rawValue: raw) else {
+            throw errorParsing(type: T.self, start: from, length: length)
+        }
+        return t
+    }
+}
+
+protocol RangeParseable {
+    init(parser: RangeParser) throws
+}
+
 struct DeclinedNoun: Equatable {
     internal init(root: String, ending: String, declension: Declension, variant: Int, case: Case, number: Number, gender: Gender) {
         self.root = root
@@ -98,7 +155,7 @@ struct DeclinedNoun: Equatable {
     }
 
     let root: String
-    let ending: String
+    let ending: String?
     let pos: PartOfSpeech = .noun
 
     let declension: Declension
@@ -108,6 +165,33 @@ struct DeclinedNoun: Equatable {
     let gender: Gender
 }
 
+func parse(line: String) -> DeclinedNoun {
+    let parser = RangeParser(line)
+    do {
+        return try DeclinedNoun(parser: parser)
+    } catch {
+        fatalError(error.localizedDescription)
+    }
+}
+
+extension DeclinedNoun: RangeParseable {
+    init(parser: RangeParser) throws {
+        let rootAndEnding: String = try parser.parse(from: 0, length: 21)
+        let rootAndEndingSplit = rootAndEnding.split(separator: ".")
+        root = String(rootAndEndingSplit[0])
+        if rootAndEndingSplit.count >= 1 {
+            ending = String(rootAndEndingSplit[1])
+        } else {
+            ending = nil
+        }
+
+        declension = try parser.parse(from: 28, length: 1)
+        variant = try parser.parse(from: 30, length: 1)
+        `case` = try parser.parse(from: 32, length: 3)
+        number = try parser.parse(from: 36, length: 1)
+        gender = try parser.parse(from: 38, length: 1)
+    }
+}
 
 struct ConjugatedVerb: Equatable {
     internal init(root: String, ending: String, conjugation: Conjugation, variant: Int, tense: Tense, voice: Voice, mood: Mood, person: Person, number: Number) {
