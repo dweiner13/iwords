@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "37A4D1B4262227E400A9E9EC"
+               BlueprintIdentifier = "37A4D1AC262227E400A9E9EC"
                BuildableName = "iWords.app"
-               BlueprintName = "words (macOS)"
-               ReferencedContainer = "container:words.xcodeproj">
+               BlueprintName = "iWords (iOS)"
+               ReferencedContainer = "container:iWords.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "37A4D1C7262227E400A9E9EC"
-               BuildableName = "Tests macOS.xctest"
-               BlueprintName = "Tests macOS"
-               ReferencedContainer = "container:words.xcodeproj">
+               BlueprintIdentifier = "37A4D1BC262227E400A9E9EC"
+               BuildableName = "Tests iOS.xctest"
+               BlueprintName = "Tests iOS"
+               ReferencedContainer = "container:iWords.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -54,10 +54,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "37A4D1B4262227E400A9E9EC"
+            BlueprintIdentifier = "37A4D1AC262227E400A9E9EC"
             BuildableName = "iWords.app"
-            BlueprintName = "words (macOS)"
-            ReferencedContainer = "container:words.xcodeproj">
+            BlueprintName = "iWords (iOS)"
+            ReferencedContainer = "container:iWords.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -71,10 +71,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "37A4D1B4262227E400A9E9EC"
+            BlueprintIdentifier = "37A4D1AC262227E400A9E9EC"
             BuildableName = "iWords.app"
-            BlueprintName = "words (macOS)"
-            ReferencedContainer = "container:words.xcodeproj">
+            BlueprintName = "iWords (iOS)"
+            ReferencedContainer = "container:iWords.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

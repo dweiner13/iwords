@@ -249,9 +249,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		37A4D1AC262227E400A9E9EC /* words (iOS) */ = {
+		37A4D1AC262227E400A9E9EC /* iWords (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 37A4D1D7262227E400A9E9EC /* Build configuration list for PBXNativeTarget "words (iOS)" */;
+			buildConfigurationList = 37A4D1D7262227E400A9E9EC /* Build configuration list for PBXNativeTarget "iWords (iOS)" */;
 			buildPhases = (
 				37A4D1A9262227E400A9E9EC /* Sources */,
 				37A4D1AA262227E400A9E9EC /* Frameworks */,
@@ -261,14 +261,14 @@
 			);
 			dependencies = (
 			);
-			name = "words (iOS)";
+			name = "iWords (iOS)";
 			productName = "words (iOS)";
 			productReference = 37A4D1AD262227E400A9E9EC /* iWords.app */;
 			productType = "com.apple.product-type.application";
 		};
-		37A4D1B4262227E400A9E9EC /* words (macOS) */ = {
+		37A4D1B4262227E400A9E9EC /* iWords (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 37A4D1DA262227E400A9E9EC /* Build configuration list for PBXNativeTarget "words (macOS)" */;
+			buildConfigurationList = 37A4D1DA262227E400A9E9EC /* Build configuration list for PBXNativeTarget "iWords (macOS)" */;
 			buildPhases = (
 				37A4D1B1262227E400A9E9EC /* Sources */,
 				37A4D1B2262227E400A9E9EC /* Frameworks */,
@@ -280,7 +280,7 @@
 			);
 			dependencies = (
 			);
-			name = "words (macOS)";
+			name = "iWords (macOS)";
 			productName = "words (macOS)";
 			productReference = 37A4D1B5262227E400A9E9EC /* iWords.app */;
 			productType = "com.apple.product-type.application";
@@ -347,7 +347,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 37A4D1A4262227E300A9E9EC /* Build configuration list for PBXProject "words" */;
+			buildConfigurationList = 37A4D1A4262227E300A9E9EC /* Build configuration list for PBXProject "iWords" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -360,9 +360,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				37A4D1B4262227E400A9E9EC /* words (macOS) */,
+				37A4D1B4262227E400A9E9EC /* iWords (macOS) */,
 				37A4D1C7262227E400A9E9EC /* Tests macOS */,
-				37A4D1AC262227E400A9E9EC /* words (iOS) */,
+				37A4D1AC262227E400A9E9EC /* iWords (iOS) */,
 				37A4D1BC262227E400A9E9EC /* Tests iOS */,
 			);
 		};
@@ -500,12 +500,12 @@
 /* Begin PBXTargetDependency section */
 		37A4D1BF262227E400A9E9EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 37A4D1AC262227E400A9E9EC /* words (iOS) */;
+			target = 37A4D1AC262227E400A9E9EC /* iWords (iOS) */;
 			targetProxy = 37A4D1BE262227E400A9E9EC /* PBXContainerItemProxy */;
 		};
 		37A4D1CA262227E400A9E9EC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 37A4D1B4262227E400A9E9EC /* words (macOS) */;
+			target = 37A4D1B4262227E400A9E9EC /* iWords (macOS) */;
 			targetProxy = 37A4D1C9262227E400A9E9EC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -823,7 +823,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		37A4D1A4262227E300A9E9EC /* Build configuration list for PBXProject "words" */ = {
+		37A4D1A4262227E300A9E9EC /* Build configuration list for PBXProject "iWords" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				37A4D1D5262227E400A9E9EC /* Debug */,
@@ -832,7 +832,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		37A4D1D7262227E400A9E9EC /* Build configuration list for PBXNativeTarget "words (iOS)" */ = {
+		37A4D1D7262227E400A9E9EC /* Build configuration list for PBXNativeTarget "iWords (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				37A4D1D8262227E400A9E9EC /* Debug */,
@@ -841,7 +841,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		37A4D1DA262227E400A9E9EC /* Build configuration list for PBXNativeTarget "words (macOS)" */ = {
+		37A4D1DA262227E400A9E9EC /* Build configuration list for PBXNativeTarget "iWords (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				37A4D1DB262227E400A9E9EC /* Debug */,
