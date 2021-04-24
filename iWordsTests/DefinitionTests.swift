@@ -34,4 +34,14 @@ class DefinitionTests: XCTestCase {
         XCTAssertEqual(parse(line: input), expected)
     }
 
+    func testExampleVerbs() throws {
+        var input: String;
+        var expected: [Token<String>];
+        input = "consul.ere           V      3 1 PRES ACTIVE  INF 0 X"
+        expected = [
+            .root("consul"), .ending("ere"), .pos(.verb), .conjugation(.third), .variant(1), .tense(.present), .voice(.active), .mood(.infinitive), .person(.none), .number(.invalid)
+        ]
+        XCTAssertEqual(parse(line: input), expected)
+    }
+
 }
