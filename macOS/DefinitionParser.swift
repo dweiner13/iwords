@@ -56,7 +56,7 @@ struct Expansion: Equatable {
     let principleParts: String
     let pos: PartOfSpeech
     let declension: Declension
-    let gender: Gender
+    let gender: Gender?
 }
 
 let principleParts = PrefixUpTo("  ").map(String.init(_:))
@@ -72,7 +72,7 @@ let decl = Prefix(1).compactMap { (substr: String.SubSequence) -> Declension? in
     }
     return decl
 }
-let gend = Prefix(1).compactMap { (substr: String.SubSequence) -> Gender? in
+let gend = Prefix(1).map { (substr: String.SubSequence) -> Gender? in
     Gender(rawValue: String(substr))
 }
 
@@ -106,6 +106,6 @@ func parse(_ str: String) -> Definition? {
     return Definition(
         possibilities: Array(possibilities),
         expansion: expansion,
-        meaning: String(meaning)
+        meaning: meaning.replacingOccurrences(of: "\n", with: " ")
     )
 }

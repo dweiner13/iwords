@@ -18,7 +18,7 @@ class DefinitionTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func test() {
+    func testNouns() {
         var example: String
         example = "vir                  N      2 3 NOM S M                 \n" +
         "vir                  N      2 3 VOC S M                 \n" +
@@ -51,6 +51,30 @@ class DefinitionTests: XCTestCase {
                                             declension: iWords.Declension.first,
                                             gender: iWords.Gender.feminine),
                 meaning: "way, road, street; journey;")
+        )
+    }
+    
+    func testVerbs() {
+        var example: String
+        example = "consul.ere           V      3 1 PRES ACTIVE  INF 0 X    \n" +
+            "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    \n" +
+            "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    \n" +
+            "consulo, consulere, consului, consultus  V (3rd)   [XXXAO]  \n" +
+            "ask information/advice of; consult, take counsel; deliberate/consider; advise;\n" +
+            "decide upon, adopt; look after/out for (DAT), pay attention to; refer to;" +
+            "*"
+        XCTAssertEqual(
+            parse(example),
+            iWords.Definition(
+                possibilities: ["consul.ere           V      3 1 PRES ACTIVE  INF 0 X    ", 
+                                "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    ",
+                                "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    "], 
+                expansion: iWords.Expansion(
+                    principleParts: "consulo, consulere, consului, consultus", 
+                    pos: iWords.PartOfSpeech.verb, 
+                    declension: iWords.Declension.third, 
+                    gender: nil), 
+                meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise; decide upon, adopt; look after/out for (DAT), pay attention to; refer to;*")
         )
     }
 }
