@@ -35,6 +35,8 @@
 		37BF1C0C262B8366003C4A97 /* iWords.help in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C0B262B8366003C4A97 /* iWords.help */; };
 		37CC435B263476D200E60CE9 /* iWordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC435A263476D200E60CE9 /* iWordsTests.swift */; };
 		37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC4362263476DD00E60CE9 /* DefinitionTests.swift */; };
+		37CC43662634AB8100E60CE9 /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 37CC43652634AB8100E60CE9 /* Parsing */; };
+		37CC43682634AB9000E60CE9 /* Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC43672634AB9000E60CE9 /* Parsing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,7 @@
 		37CC435A263476D200E60CE9 /* iWordsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iWordsTests.swift; sourceTree = "<group>"; };
 		37CC435C263476D200E60CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37CC4362263476DD00E60CE9 /* DefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionTests.swift; sourceTree = "<group>"; };
+		37CC43672634AB9000E60CE9 /* Parsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parsing.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37CC43662634AB8100E60CE9 /* Parsing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,6 +178,7 @@
 				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
 				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,
 				37AA04D92634485200353747 /* DefinitionParser.swift */,
+				37CC43672634AB9000E60CE9 /* Parsing.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -252,6 +257,9 @@
 			dependencies = (
 			);
 			name = "iWords (macOS)";
+			packageProductDependencies = (
+				37CC43652634AB8100E60CE9 /* Parsing */,
+			);
 			productName = "words (macOS)";
 			productReference = 37A4D1B5262227E400A9E9EC /* iWords.app */;
 			productType = "com.apple.product-type.application";
@@ -305,6 +313,9 @@
 				Base,
 			);
 			mainGroup = 37A4D1A0262227E300A9E9EC;
+			packageReferences = (
+				37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */,
+			);
 			productRefGroup = 37A4D1AE262227E400A9E9EC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -409,6 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
+				37CC43682634AB9000E60CE9 /* Parsing.swift in Sources */,
 				37AA04DA2634485200353747 /* DefinitionParser.swift in Sources */,
 				37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */,
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
@@ -745,6 +757,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-parsing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		37CC43652634AB8100E60CE9 /* Parsing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */;
+			productName = Parsing;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 37A4D1A1262227E300A9E9EC /* Project object */;
 }
