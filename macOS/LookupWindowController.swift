@@ -7,6 +7,7 @@
 
 import Cocoa
 import Combine
+import SwiftUI
 
 extension NSUserInterfaceItemIdentifier {
     static let backMenuItem = NSUserInterfaceItemIdentifier("back")
@@ -195,6 +196,26 @@ class LookupWindowController: NSWindowController {
                              updateHistoryLists: true,
                              updateBackForward: true)
     }
+    
+    private var definitionHostingView: NSView?
+    
+    private func setDefinitionView(with output: String) {
+        if let definition = parse(output) {
+            let view = NSHostingView(rootView: DefinitionView(definition: definition))
+            view.translatesAutoresizingMaskIntoConstraints = false
+            lookupViewController.view.addSubview(view)
+            NSLayoutConstraint.activate([
+                lookupViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+                lookupViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                lookupViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//                lookupViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+            definitionHostingView = view
+        } else {
+            definitionHostingView?.removeFromSuperview()
+            definitionHostingView = nil
+        }
+    }
 
     // The core of the logic for actually performing a query and updating the UI.
     private func _setSearchQuery(_ searchQuery : SearchQuery,
@@ -243,6 +264,7 @@ class LookupWindowController: NSWindowController {
                 options: UserDefaults.standard.dictionaryOptions
             )
             lookupViewController.setResultText(results ?? "No results found")
+            setDefinitionView(with: results ?? "")
             print("Query entered: \"\(query.debugDescription)\"")
         } catch {
             self.presentError(error)

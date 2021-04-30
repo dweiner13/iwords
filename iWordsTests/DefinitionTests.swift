@@ -29,10 +29,9 @@ class DefinitionTests: XCTestCase {
             iWords.Definition(
                 possibilities: ["vir                  N      2 3 NOM S M                 ",
                                 "vir                  N      2 3 VOC S M                 "],
-                expansion: iWords.Expansion(principleParts: "vir, viri",
-                                            pos: iWords.PartOfSpeech.noun,
-                                            declension: iWords.Declension.second,
-                                            gender: iWords.Gender.masculine),
+                expansion: iWords.Expansion.noun("vir, viri",
+                                            iWords.Declension.second,
+                                            iWords.Gender.masculine),
                 meaning: "man; husband; hero; person of courage, honor, and nobility;")
         )
         example = "vi.a                 N      1 1 NOM S F                 \n" +
@@ -46,11 +45,21 @@ class DefinitionTests: XCTestCase {
                 possibilities: ["vi.a                 N      1 1 NOM S F                 ",
                                 "vi.a                 N      1 1 VOC S F                 ",
                                 "vi.a                 N      1 1 ABL S F                 "],
-                expansion: iWords.Expansion(principleParts: "via, viae",
-                                            pos: iWords.PartOfSpeech.noun,
-                                            declension: iWords.Declension.first,
-                                            gender: iWords.Gender.feminine),
+                expansion: iWords.Expansion.noun("via, viae",
+                                            iWords.Declension.first,
+                                            iWords.Gender.feminine),
                 meaning: "way, road, street; journey;")
+        )
+        // Why dopes this not work
+        example = "copi.a               N      1 1 NOM S F                 \n" +
+        "copi.a               N      1 1 VOC S F                 \n" +
+        "copi.a               N      1 1 ABL S F                 \n" +
+        "copia, copiae  N (1st) F   [XXXAO]  \n" +
+        "plenty, abundance, supply; troops (pl.), supplies; forces; resources; wealth;\n" +
+        "number/amount/quantity; sum/whole amount; means, opportunity; access/admission;"
+        XCTAssertEqual(
+            parse(example),
+            iWords.Definition(possibilities: ["copi.a               N      1 1 NOM S F                 ", "copi.a               N      1 1 VOC S F                 ", "copi.a               N      1 1 ABL S F                 "], expansion: iWords.Expansion.noun("copia, copiae", .first, .feminine), meaning: "plenty, abundance, supply; troops (pl.), supplies; forces; resources; wealth; number/amount/quantity; sum/whole amount; means, opportunity; access/admission;")
         )
     }
     
@@ -69,12 +78,11 @@ class DefinitionTests: XCTestCase {
                 possibilities: ["consul.ere           V      3 1 PRES ACTIVE  INF 0 X    ", 
                                 "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    ",
                                 "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    "], 
-                expansion: iWords.Expansion(
-                    principleParts: "consulo, consulere, consului, consultus", 
-                    pos: iWords.PartOfSpeech.verb, 
-                    declension: iWords.Declension.third, 
-                    gender: nil), 
-                meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise; decide upon, adopt; look after/out for (DAT), pay attention to; refer to;*")
+                expansion: iWords.Expansion.verb(
+                    "consulo, consulere, consului, consultus", 
+                    iWords.Conjugation.third), 
+                meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise; decide upon, adopt; look after/out for (DAT), pay attention to; refer to;*",
+                truncated: true)
         )
     }
 }
