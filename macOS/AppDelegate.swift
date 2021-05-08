@@ -40,8 +40,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         #if DEBUG
         startListeningToUserDefaults()
-
-        UserDefaults.standard.setValue(1, forKey: "diagnosticMode")
         #endif
 
         if NSApp.windows.isEmpty {
@@ -70,7 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
             return
         }
-        print(UserDefaults.standard.dictionaryRepresentation())
+        print("User defaults changed", UserDefaults.standard.dictionaryRepresentation())
     }
     #endif
 

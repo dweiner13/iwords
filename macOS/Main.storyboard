@@ -306,6 +306,9 @@
                                                 <action selector="performZoom:" target="Ady-hI-5gd" id="DIl-cC-cCs"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Reset window size" id="CpE-fF-g1u">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
                                         <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -344,7 +347,6 @@
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="AnR-hL-FcP"/>
-                <userDefaultsController id="2zu-H8-Kdr"/>
                 <customObject id="vaf-za-0QZ" customClass="HistoryController" customModule="iWords" customModuleProvider="target">
                     <connections>
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="FIU-Ed-KB2"/>
