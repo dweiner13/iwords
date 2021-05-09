@@ -224,6 +224,8 @@ struct DefinitionView: View {
                     Text("\(definition.expansion.pos.description), \(declension.description), \(gender.description)")
                 case .verb(_, let conjugation):
                     Text("\(definition.expansion.pos.description), \(conjugation.description)")
+                case .adj:
+                    Text("\(definition.expansion.pos.description)")
                 }
             }
                 .foregroundColor(.secondary)
@@ -236,7 +238,7 @@ struct DefinitionView: View {
 
             DisclosureGroup("Declensions", isExpanded: $showDeclensions) {
                 VStack(alignment: .leading) {
-                    Text(definition.possibilities.joined(separator: "\n"))
+                    Text(definition.possibilities.map(\.debugDescription).joined(separator: "\n"))
                         .font(.system(.body, design: .monospaced))
                         .frame(maxWidth: .infinity)
                 }
@@ -264,12 +266,14 @@ struct DWBridgedDefinitionView: NSViewRepresentable {
 
 // MARK: DefinitionView_Previews
 struct DefinitionView_Previews: PreviewProvider {
-    static let noun = iWords.Definition(possibilities: ["copi.a               N      1 1 NOM S F                 ", "copi.a               N      1 1 VOC S F                 ", "copi.a               N      1 1 ABL S F                 "], expansion: .noun("copia, copiae", .first, .feminine), meaning: "plenty, abundance, supply; troops (pl.), supplies; forces; resources; wealth; number/amount/quantity; sum/whole amount; means, opportunity; access/admission;")
+    static let noun = iWords.Definition(possibilities: ["copi.a               N      1 1 NOM S F                 ", "copi.a               N      1 1 VOC S F                 ", "copi.a               N      1 1 ABL S F                 "].compactMap(possibility.parse),
+                                        expansion: .noun("copia, copiae", .first, .feminine),
+                                        meaning: "plenty, abundance, supply; troops (pl.), supplies; forces; resources; wealth; number/amount/quantity; sum/whole amount; means, opportunity; access/admission;")
     
     static let verb = iWords.Definition(
         possibilities: ["consul.ere           V      3 1 PRES ACTIVE  INF 0 X    ", 
                         "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    ",
-                        "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    "], 
+                        "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    "].compactMap(possibility.parse),
         expansion: .verb("consulo, consulere, consului, consultus", 
             .third), 
         meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise; decide upon, adopt; look after/out for (DAT), pay attention to; refer to;*",

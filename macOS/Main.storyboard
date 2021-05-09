@@ -387,7 +387,7 @@
                                 <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin to English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
                                     <nil key="toolTip"/>
                                     <popUpButton key="view" verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="oa1-GU-gBJ">
-                                        <rect key="frame" x="0.0" y="14" width="132" height="25"/>
+                                        <rect key="frame" x="0.0" y="14" width="128" height="25"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <popUpButtonCell key="cell" type="roundTextured" title="Latin to English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
