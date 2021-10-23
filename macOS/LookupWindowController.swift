@@ -200,8 +200,12 @@ class LookupWindowController: NSWindowController {
     private var definitionHostingView: NSView?
     
     private func setDefinitionView(with output: String) {
-        if let definitions = parse(output) {
-            let view = NSHostingView(rootView: DefinitionsView(definitions: definitions))
+
+        definitionHostingView?.isHidden = true
+        definitionHostingView?.removeFromSuperview()
+        definitionHostingView = nil
+        if let (definitions, truncated) = parse(output) {
+            let view = NSHostingView(rootView: DefinitionsView(definitions: (definitions, truncated)))
 //            let view = DWDefinitionsView(definitions: [definition], frame: .zero)
             view.translatesAutoresizingMaskIntoConstraints = false
             lookupViewController.view.addSubview(view)
@@ -214,9 +218,6 @@ class LookupWindowController: NSWindowController {
             definitionHostingView = view
             lookupViewController.textView.isHidden = true
         } else {
-            definitionHostingView?.isHidden = true
-            definitionHostingView?.removeFromSuperview()
-            definitionHostingView = nil
             lookupViewController.textView.isHidden = false
         }
     }

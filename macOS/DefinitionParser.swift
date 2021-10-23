@@ -129,7 +129,7 @@ enum Number: String {
 }
 
 // A fully declined instance of a noun
-struct Noun: Equatable, CustomDebugStringConvertible {
+struct Noun: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     let text: String
     let declension: Declension
     let variety: Int
@@ -138,7 +138,11 @@ struct Noun: Equatable, CustomDebugStringConvertible {
     let gender: Gender
 
     var debugDescription: String {
-        return "Noun: \(text), \(declension), \(variety), \(`case`), \(number), \(gender)"
+        "Noun: \(text), \(declension), \(variety), \(`case`), \(number), \(gender)"
+    }
+
+    var description: String {
+        "\(text) (\(declension)"
     }
 }
 
@@ -317,11 +321,13 @@ let possibility = nounPossibility.orElse(adjPossibility)
 let result = nounExpansion.orElse(verbExpansion)
     .take(Rest())
 
-func parse(_ str: String) -> [Definition]? {
+func parse(_ str: String) -> ([Definition], Bool)? {
     var definitions: [Definition] = []
     var lines = str
         .split(whereSeparator: \.isNewline)
         .makeIterator()
+
+    var truncated = false
 
     var possibilities: [Possibility] = []
     var exp: Expansion? = nil
@@ -345,7 +351,9 @@ func parse(_ str: String) -> [Definition]? {
             }
             exp = e
         } else {
-            if meaning == nil {
+            if line == "*" {
+                truncated = true
+            } else if meaning == nil {
                 meaning = String(line)
             } else {
                 meaning! += "\n\(line)"
@@ -355,7 +363,7 @@ func parse(_ str: String) -> [Definition]? {
 
     appendNewDefinition()
 
-    return definitions
+    return (definitions, truncated)
 }
 
 //func parse(_ str: String) -> Definition? {

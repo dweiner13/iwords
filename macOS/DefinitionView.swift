@@ -166,7 +166,7 @@ class DWDefinitionsView: NSView {
 
 // MARK: DefinitionsView
 struct DefinitionsView: View {
-    let definitions: [Definition]
+    let definitions: ([Definition], Bool)
     
     @State
     var showingTruncationInfo = false
@@ -174,12 +174,12 @@ struct DefinitionsView: View {
     var body: some View {
         ScrollView {
             LazyVStack {
-                ForEach(definitions) {
+                ForEach(definitions.0) {
                     DefinitionView(definition: $0)
                 }
             }
             
-            if true {
+            if definitions.1 {
                 HStack {
                     Text("additional results truncated")
                         .foregroundColor(.secondary)
@@ -231,6 +231,11 @@ struct DefinitionView: View {
                 .foregroundColor(.secondary)
                 .font(.system(.callout, design: .serif))
 
+            Text(definition.possibilities.map(\.debugDescription).joined(separator: "\n"))
+                .multilineTextAlignment(.leading)
+                .font(.system(.caption2, design: .serif))
+//                .font(.system(.caption, design: .monospaced))
+
             Rectangle().fill(SeparatorShapeStyle())
                 .frame(height: 1)
                 
@@ -239,6 +244,7 @@ struct DefinitionView: View {
             DisclosureGroup("Declensions", isExpanded: $showDeclensions) {
                 VStack(alignment: .leading) {
                     Text(definition.possibilities.map(\.debugDescription).joined(separator: "\n"))
+                        .multilineTextAlignment(.leading)
                         .font(.system(.body, design: .monospaced))
                         .frame(maxWidth: .infinity)
                 }
@@ -281,7 +287,7 @@ struct DefinitionView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            DefinitionsView(definitions: [noun, verb])
+            DefinitionsView(definitions: ([noun, verb], true))
 //            DWBridgedDefinitionView(definitions: [noun, verb])
                 .frame(width: 500, height: 500, alignment: .center)
         }
