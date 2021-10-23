@@ -8,7 +8,7 @@
 
 iWords is a Latin dictionary app for macOS that leverages 
 [WORDS](https://mk270.github.io/whitakers-words/) by William Whitaker. The hope is to continue the legacy of the 
-venerable [Interpres app](https://sites.google.com/site/erikandremendoza/) in providing a powerful and easy
+venerable old Interpres app, in providing a powerful and easy
 Latin dictionary built on macOS technologies.
 
 This project is still in alpha stage. Click below to download the latest alpha.
