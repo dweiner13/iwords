@@ -53,6 +53,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                                queue: nil) { [weak self] notification in
             self?.updateDirectionItemsState()
         }
+
+        NSApp.servicesProvider = ServiceProvider()
     }
 
     func updateDirectionItemsState() {

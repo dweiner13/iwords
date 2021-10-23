@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		371052902724604C0077CE3D /* FontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710528F2724604C0077CE3D /* FontSizeController.swift */; };
+		3710529227247B790077CE3D /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710529127247B790077CE3D /* ServiceProvider.swift */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		3710528F2724604C0077CE3D /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
+		3710529127247B790077CE3D /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
 				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,
 				3710528F2724604C0077CE3D /* FontSizeController.swift */,
+				3710529127247B790077CE3D /* ServiceProvider.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
 				37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */,
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
+				3710529227247B790077CE3D /* ServiceProvider.swift in Sources */,
 				37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */,
 				37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */,
 				371052902724604C0077CE3D /* FontSizeController.swift in Sources */,
