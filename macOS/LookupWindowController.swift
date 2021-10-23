@@ -107,6 +107,9 @@ class LookupWindowController: NSWindowController {
     private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue {
         didSet {
             AppDelegate.shared?.updateDirectionItemsState()
+            if #available(macOS 11.0, *) {
+                window?.subtitle = Dictionary.Direction(rawValue: _direction)!.description
+            }
         }
     }
 
@@ -175,12 +178,12 @@ class LookupWindowController: NSWindowController {
 
     private func makeDirectionMenu() -> NSMenu {
         let m = NSMenu()
-        lToEItem = NSMenuItem(title: "Latin to English",
+        lToEItem = NSMenuItem(title: Dictionary.Direction.latinToEnglish.description,
                               action: #selector(setLatinToEnglish),
                               keyEquivalent: "")
         lToEItem.state = .off
         m.addItem(lToEItem)
-        eToLItem = NSMenuItem(title: "English to Latin",
+        eToLItem = NSMenuItem(title: Dictionary.Direction.englishToLatin.description,
                               action: #selector(setEnglishToLatin),
                               keyEquivalent: "")
         eToLItem.state = .off

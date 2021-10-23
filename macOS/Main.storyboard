@@ -227,12 +227,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Dictionary" id="fza-HI-WC1">
                                     <items>
-                                        <menuItem title="Latin to English" state="on" keyEquivalent="L" id="5iD-gI-CXi">
+                                        <menuItem title="Latin → English" state="on" keyEquivalent="L" id="5iD-gI-CXi" userLabel="Latin to English">
                                             <connections>
                                                 <action selector="setLatinToEnglish:" target="Ady-hI-5gd" id="W9L-AX-aK5"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="English to Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
+                                        <menuItem title="English → Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
                                             <connections>
                                                 <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="LSS-QM-c8U"/>
                                             </connections>
@@ -379,7 +379,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="LookupWindowController" id="B8D-0N-5wS" customClass="LookupWindowController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="iWords" allowsToolTipsWhenApplicationIsInactive="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="iWords" allowsToolTipsWhenApplicationIsInactive="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="185" y="304" width="700" height="599"/>
@@ -404,20 +404,20 @@
                                 </searchToolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mfa-ju-wND"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
-                                <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin to English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
+                                <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin → English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
                                     <nil key="toolTip"/>
                                     <popUpButton key="view" verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="oa1-GU-gBJ">
                                         <rect key="frame" x="0.0" y="14" width="128" height="25"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <popUpButtonCell key="cell" type="roundTextured" title="Latin to English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
+                                        <popUpButtonCell key="cell" type="roundTextured" title="Latin → English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="menu"/>
                                             <menu key="menu" id="8nX-cQ-etp">
                                                 <items>
-                                                    <menuItem title="Latin to English" state="on" id="rZL-Lw-nxS">
+                                                    <menuItem title="Latin → English" state="on" id="rZL-Lw-nxS">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
-                                                    <menuItem title="English to Latin" tag="1" id="ug1-oe-5s3" userLabel="English to Latin">
+                                                    <menuItem title="English → Latin" tag="1" id="ug1-oe-5s3" userLabel="English → Latin">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
                                                 </items>
@@ -448,8 +448,8 @@
                                 <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Font Size" paletteLabel="Font Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj">
-                                        <rect key="frame" x="0.0" y="14" width="77" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="71" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="gxG-KH-nnH">
                                             <font key="font" metaFont="system"/>
                                             <segments>
