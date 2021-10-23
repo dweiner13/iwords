@@ -30,6 +30,22 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+<<<<<<< ours
+||||||| ancestor
+	<key>SUFeedURL</key>
+	<string>https://iwords-distribution.s3.amazonaws.com/changelog.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>VTvuJdHhneRvlybG0Uc+Q6DAwGLlUB5lShK0JwJ3T8k=</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>iWords.help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER).help</string>
+=======
+	<key>CFBundleHelpBookFolder</key>
+	<string>iWords.help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER).help</string>
+>>>>>>> theirs
 	<key>NSServices</key>
 	<array>
 		<dict>
@@ -71,5 +87,9 @@
 			<string>1</string>
 		</dict>
 	</array>
+	<key>SUFeedURL</key>
+	<string>https://iwords-distribution.s3.amazonaws.com/changelog.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>VTvuJdHhneRvlybG0Uc+Q6DAwGLlUB5lShK0JwJ3T8k=</string>
 </dict>
 </plist>
