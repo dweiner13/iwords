@@ -173,13 +173,13 @@
 		37A4D1B6262227E400A9E9EC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				37679DFA262C7761003D15E1 /* Supporting files */,
 				37A4D24626223BC100A9E9EC /* Main.storyboard */,
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
 				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
 				37A4D256262240D000A9E9EC /* LookupWindowController.swift */,
 				37A4D1FD26222A8300A9E9EC /* Dictionary.swift */,
 				37A4D1FC26222A7000A9E9EC /* WORDS */,
-				37679DFA262C7761003D15E1 /* Supporting files */,
 				37679DFB262C779E003D15E1 /* HistoryController.swift */,
 				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
 				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,

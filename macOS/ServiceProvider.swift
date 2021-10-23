@@ -10,7 +10,7 @@ import AppKit
 @objc
 class ServiceProvider: NSObject {
     @objc
-    func translateLatinToEnglish(_ pasteboard: NSPasteboard, userData: String, error: NSErrorPointer) {
+    func lookUp(_ pasteboard: NSPasteboard, userData: String, error: NSErrorPointer) {
         func setError(localizedDescription: String) {
             let userInfo = [NSLocalizedDescriptionKey: localizedDescription]
             error?.pointee = NSError(domain: "org.danielweiner.org",
@@ -42,8 +42,12 @@ class ServiceProvider: NSObject {
             return
         }
 
-        let query = SearchQuery(sanitized(query: string), .latinToEnglish)
+        let query = SearchQuery(sanitized(query: string), getDirection(fromUserData: userData))
         windowController.setSearchQuery(query)
+    }
+
+    func getDirection(fromUserData userData: String) -> Dictionary.Direction {
+        Int(userData).flatMap(Dictionary.Direction.init(rawValue:)) ?? .latinToEnglish
     }
 
     func sanitized(query: String) -> String {
