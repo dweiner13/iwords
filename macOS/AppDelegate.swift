@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    private var cancellables: [AnyCancellable] = []
+    var observation: Any?
 
     override init() {
         super.init()
@@ -48,11 +48,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             newWindow(self)
         }
 
-        NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)
-            .sink { [weak self] _ in
-                self?.updateDirectionItemsState()
-            }
-            .store(in: &cancellables)
+        observation = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
+                                               object: nil,
+                                               queue: nil) { [weak self] notification in
+            self?.updateDirectionItemsState()
+        }
+
+        NSApp.servicesProvider = ServiceProvider()
     }
 
     func updateDirectionItemsState() {

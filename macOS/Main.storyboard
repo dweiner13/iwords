@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
         <capability name="Search Toolbar Item" minToolsVersion="12.0" minSystemVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -87,7 +88,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
-                                        <menuItem title="New Search" keyEquivalent="l" id="7v1-zJ-fgu">
+                                        <menuItem title="New Search" keyEquivalent="F" id="7v1-zJ-fgu">
                                             <connections>
                                                 <action selector="focusSearch:" target="Ady-hI-5gd" id="Ssr-7g-XuO"/>
                                             </connections>
@@ -233,14 +234,20 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Dictionary" id="fza-HI-WC1">
                                     <items>
-                                        <menuItem title="Latin to English" state="on" keyEquivalent="L" id="5iD-gI-CXi">
+                                        <menuItem title="Latin → English" state="on" keyEquivalent="L" id="5iD-gI-CXi" userLabel="Latin to English">
                                             <connections>
                                                 <action selector="setLatinToEnglish:" target="Ady-hI-5gd" id="W9L-AX-aK5"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="English to Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
+                                        <menuItem title="English → Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
                                             <connections>
                                                 <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="LSS-QM-c8U"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="ocP-aJ-jrt"/>
+                                        <menuItem title="Toggle Direction" keyEquivalent="d" id="s2W-Ty-fmT" userLabel="Toggle">
+                                            <connections>
+                                                <action selector="toggleDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -279,6 +286,25 @@
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleTabOverview:" target="Ady-hI-5gd" id="1Db-xo-Oow"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="DY9-CG-zxi"/>
+                                        <menuItem title="Increase Text Size" keyEquivalent="+" id="LY5-Jr-UWd">
+                                            <connections>
+                                                <action selector="increase:" target="Ep3-Cg-0Is" id="iAC-sb-38u"/>
+                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canIncrease" id="Air-um-zFu"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Decrease Text Size" keyEquivalent="-" id="ZDb-lj-Vk8">
+                                            <connections>
+                                                <action selector="decrease:" target="Ep3-Cg-0Is" id="Gi9-as-y26"/>
+                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canDecrease" id="dW0-26-RIO"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Reset Text Size" keyEquivalent="0" id="3u8-kf-UKB">
+                                            <connections>
+                                                <action selector="reset:" target="Ep3-Cg-0Is" id="GNt-Ep-Z48"/>
+                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canReset" id="LVz-uR-IEh"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="RnI-8p-IH7"/>
@@ -358,6 +384,8 @@
                     </connections>
                 </customObject>
                 <customObject id="OSl-4T-ebG" customClass="SUUpdater"/>
+                <customObject id="Ep3-Cg-0Is" customClass="FontSizeController" customModule="iWords" customModuleProvider="target"/>
+                <userDefaultsController id="ZZt-xK-ds5"/>
             </objects>
             <point key="canvasLocation" x="55" y="-578"/>
         </scene>
@@ -390,20 +418,20 @@
                                 </searchToolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mfa-ju-wND"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
-                                <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin to English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
+                                <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin → English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
                                     <nil key="toolTip"/>
                                     <popUpButton key="view" verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="oa1-GU-gBJ">
-                                        <rect key="frame" x="0.0" y="14" width="132" height="25"/>
+                                        <rect key="frame" x="0.0" y="14" width="128" height="25"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <popUpButtonCell key="cell" type="roundTextured" title="Latin to English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
+                                        <popUpButtonCell key="cell" type="roundTextured" title="Latin → English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="menu"/>
                                             <menu key="menu" id="8nX-cQ-etp">
                                                 <items>
-                                                    <menuItem title="Latin to English" state="on" id="rZL-Lw-nxS">
+                                                    <menuItem title="Latin → English" state="on" id="rZL-Lw-nxS">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
-                                                    <menuItem title="English to Latin" tag="1" id="ug1-oe-5s3" userLabel="English to Latin">
+                                                    <menuItem title="English → Latin" tag="1" id="ug1-oe-5s3" userLabel="English → Latin">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
                                                 </items>
@@ -422,12 +450,29 @@
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="chevron.left" catalog="system" width="32"/>
-                                                <segment image="chevron.right" catalog="system" width="32" tag="1"/>
+                                                <segment toolTip="Go back" image="NSGoBackTemplate" width="32"/>
+                                                <segment toolTip="Go forward" image="NSGoForwardTemplate" width="32" tag="1"/>
                                             </segments>
                                         </segmentedCell>
                                         <connections>
                                             <action selector="backForwardControlPressed:" target="Aj2-OM-btO" id="jUy-Ar-pig"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Font Size" paletteLabel="Font Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj">
+                                        <rect key="frame" x="0.0" y="14" width="71" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="gxG-KH-nnH">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment toolTip="Decrease font size" image="textformat.size.smaller" catalog="system" width="32"/>
+                                                <segment toolTip="Increase Text Size" image="textformat.size.larger" width="32" tag="1"/>
+                                            </segments>
+                                        </segmentedCell>
+                                        <connections>
+                                            <action selector="segmentedControlPressed:" target="hdv-M0-3Yq" id="dXl-Dw-lal"/>
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
@@ -447,6 +492,8 @@
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
                         <outlet property="directionItem" destination="Pk9-hB-iRd" id="oe2-wh-6gk"/>
+                        <outlet property="fontSizeController" destination="hdv-M0-3Yq" id="N0X-PG-W0S"/>
+                        <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
@@ -457,6 +504,11 @@
                     <connections>
                         <outlet property="delegate" destination="B8D-0N-5wS" id="LMO-Ny-JIv"/>
                         <outlet property="segmentedControl" destination="62q-qB-wIS" id="TEJ-1E-TUb"/>
+                    </connections>
+                </customObject>
+                <customObject id="hdv-M0-3Yq" customClass="FontSizeController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="segmentedControl" destination="1z5-4S-FWj" id="nK1-im-8xK"/>
                     </connections>
                 </customObject>
             </objects>
@@ -517,16 +569,24 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="fontSizeController" destination="MSZ-V0-exo" id="9ws-XK-tDk"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="MSZ-V0-exo" customClass="FontSizeController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="delegate" destination="XfG-lQ-9wD" id="LlZ-Qa-ADx"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="61" y="696"/>
         </scene>
     </scenes>
     <resources>
-        <image name="chevron.left" catalog="system" width="10" height="14"/>
-        <image name="chevron.right" catalog="system" width="10" height="14"/>
+        <image name="NSGoBackTemplate" width="10" height="14"/>
+        <image name="NSGoForwardTemplate" width="10" height="14"/>
+        <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
+        <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>
 </document>

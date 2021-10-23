@@ -107,6 +107,9 @@ class LookupWindowController: NSWindowController {
     private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue {
         didSet {
             AppDelegate.shared?.updateDirectionItemsState()
+            if #available(macOS 11.0, *) {
+                window?.subtitle = Dictionary.Direction(rawValue: _direction)!.description
+            }
         }
     }
 
@@ -126,12 +129,14 @@ class LookupWindowController: NSWindowController {
     @IBOutlet @objc
     dynamic var backForwardController: BackForwardController!
 
+    @IBOutlet @objc
+    var fontSizeController: FontSizeController!
+
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var directionItem: NSToolbarItem!
+    @IBOutlet weak var fontSizeItem: NSToolbarItem!
     @IBOutlet weak var popUpButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
-
-    private var cancellables: [AnyCancellable] = []
 
     private var lookupViewController: LookupViewController! {
         contentViewController as? LookupViewController
@@ -148,6 +153,10 @@ class LookupWindowController: NSWindowController {
         let directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
         directionMenuItem.submenu = directionMenu
         directionItem.menuFormRepresentation = directionMenuItem
+
+        let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
+        fontSizeMenuItem.submenu = fontSizeController.menu()
+        fontSizeItem.menuFormRepresentation = fontSizeMenuItem
 
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
@@ -169,17 +178,15 @@ class LookupWindowController: NSWindowController {
 
     private func makeDirectionMenu() -> NSMenu {
         let m = NSMenu()
-        lToEItem = NSMenuItem(title: "Latin to English",
+        lToEItem = NSMenuItem(title: Dictionary.Direction.latinToEnglish.description,
                               action: #selector(setLatinToEnglish),
-                              keyEquivalent: "L")
+                              keyEquivalent: "")
         lToEItem.state = .off
-        lToEItem.keyEquivalentModifierMask = [.command, .shift]
         m.addItem(lToEItem)
-        eToLItem = NSMenuItem(title: "English to Latin",
+        eToLItem = NSMenuItem(title: Dictionary.Direction.englishToLatin.description,
                               action: #selector(setEnglishToLatin),
-                              keyEquivalent: "E")
+                              keyEquivalent: "")
         eToLItem.state = .off
-        lToEItem.keyEquivalentModifierMask = [.command, .shift]
         m.addItem(eToLItem)
         m.delegate = self
         m.identifier = .directionMenu
@@ -219,12 +226,17 @@ class LookupWindowController: NSWindowController {
         invalidateRestorableState()
     }
 
-    @objc
+    @IBAction
+    private func toggleDirection(_ sender: Any?) {
+        direction.toggle()
+    }
+
+    @IBAction
     private func setLatinToEnglish(_ sender: Any?) {
         direction = .latinToEnglish
     }
 
-    @objc
+    @IBAction
     private func setEnglishToLatin(_ sender: Any?) {
         direction = .englishToLatin
     }
