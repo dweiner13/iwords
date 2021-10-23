@@ -126,6 +126,9 @@ class LookupWindowController: NSWindowController {
     @IBOutlet @objc
     dynamic var backForwardController: BackForwardController!
 
+    @IBOutlet @objc
+    var fontSizeController: FontSizeController!
+
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var directionItem: NSToolbarItem!
     @IBOutlet weak var popUpButton: NSPopUpButton!

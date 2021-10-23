@@ -9,7 +9,11 @@ import Cocoa
 
 class LookupViewController: NSViewController {
 
-    @IBOutlet var textView: NSTextView!
+    @IBOutlet
+    var textView: NSTextView!
+
+    @IBOutlet
+    var fontSizeController: FontSizeController!
 
     override class var restorableStateKeyPaths: [String] {
         ["textView.string"]
@@ -17,15 +21,18 @@ class LookupViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let bodyFont = NSFont.preferredFont(forTextStyle: .body)
-        textView.font = .monospacedSystemFont(ofSize: bodyFont.pointSize, weight: .regular)
         textView.textContainerInset = NSSize(width: 24, height: 12)
         textView.string = "Welcome to iWords, a Latin dictionary. Search a word to get started."
+
+        setFontSize(fontSizeController.fontSize)
     }
 
     func setResultText(_ text: String) {
         textView.string = text
+    }
+
+    private func setFontSize(_ fontSize: CGFloat) {
+        textView.font = .monospacedSystemFont(ofSize: fontSize, weight: .regular)
     }
 
     @IBAction func didPressHelp(_ sender: Any) {
@@ -33,5 +40,11 @@ class LookupViewController: NSViewController {
             return
         }
         NSHelpManager.shared.openHelpAnchor("feedback", inBook: bookName)
+    }
+}
+
+extension LookupViewController: FontSizeControllerDelegate {
+    func fontSizeController(_ controller: FontSizeController, fontSizeChangedTo fontSize: CGFloat) {
+        setFontSize(fontSize)
     }
 }

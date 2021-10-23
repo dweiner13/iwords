@@ -57,10 +57,6 @@ class BackForwardController: NSObject {
         }
     }
 
-    override init() {
-        super.init()
-    }
-
     func decode(with coder: NSCoder) {
         backList = coder.decodeObject(forKey: "backList") as? [SearchQuery] ?? []
         forwardList = coder.decodeObject(forKey: "forwardList") as? [SearchQuery] ?? []

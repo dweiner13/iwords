@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
         <capability name="Search Toolbar Item" minToolsVersion="12.0" minSystemVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -274,6 +275,25 @@
                                                 <action selector="toggleTabOverview:" target="Ady-hI-5gd" id="1Db-xo-Oow"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="DY9-CG-zxi"/>
+                                        <menuItem title="Increase Text Size" keyEquivalent="+" id="LY5-Jr-UWd">
+                                            <connections>
+                                                <action selector="increase:" target="Ep3-Cg-0Is" id="iAC-sb-38u"/>
+                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canIncrease" id="Air-um-zFu"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Decrease Text Size" keyEquivalent="-" id="ZDb-lj-Vk8">
+                                            <connections>
+                                                <action selector="decrease:" target="Ep3-Cg-0Is" id="Gi9-as-y26"/>
+                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canDecrease" id="dW0-26-RIO"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Reset Text Size" keyEquivalent="0" id="3u8-kf-UKB">
+                                            <connections>
+                                                <action selector="reset:" target="Ep3-Cg-0Is" id="GNt-Ep-Z48"/>
+                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canReset" id="LVz-uR-IEh"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="RnI-8p-IH7"/>
                                         <menuItem title="Customize Toolbar…" id="1UK-8n-QPP">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -350,6 +370,8 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="FIU-Ed-KB2"/>
                     </connections>
                 </customObject>
+                <customObject id="Ep3-Cg-0Is" customClass="FontSizeController" customModule="iWords" customModuleProvider="target"/>
+                <userDefaultsController id="ZZt-xK-ds5"/>
             </objects>
             <point key="canvasLocation" x="55" y="-578"/>
         </scene>
@@ -385,7 +407,7 @@
                                 <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin to English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
                                     <nil key="toolTip"/>
                                     <popUpButton key="view" verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="oa1-GU-gBJ">
-                                        <rect key="frame" x="0.0" y="14" width="132" height="25"/>
+                                        <rect key="frame" x="0.0" y="14" width="128" height="25"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <popUpButtonCell key="cell" type="roundTextured" title="Latin to English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -414,12 +436,29 @@
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="chevron.left" catalog="system" width="32"/>
-                                                <segment image="chevron.right" catalog="system" width="32" tag="1"/>
+                                                <segment toolTip="Go back" image="chevron.left" catalog="system" width="32"/>
+                                                <segment toolTip="Go forward" image="chevron.right" catalog="system" width="32" tag="1"/>
                                             </segments>
                                         </segmentedCell>
                                         <connections>
                                             <action selector="backForwardControlPressed:" target="Aj2-OM-btO" id="jUy-Ar-pig"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Font Size" paletteLabel="Font Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj">
+                                        <rect key="frame" x="0.0" y="14" width="77" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="gxG-KH-nnH">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment toolTip="Decrease font size" image="textformat.size.smaller" catalog="system" width="32"/>
+                                                <segment toolTip="Increase Text Size" image="textformat.size.larger" catalog="system" width="32" tag="1"/>
+                                            </segments>
+                                        </segmentedCell>
+                                        <connections>
+                                            <action selector="segmentedControlPressed:" target="hdv-M0-3Yq" id="dXl-Dw-lal"/>
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
@@ -439,6 +478,7 @@
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
                         <outlet property="directionItem" destination="Pk9-hB-iRd" id="oe2-wh-6gk"/>
+                        <outlet property="fontSizeController" destination="hdv-M0-3Yq" id="N0X-PG-W0S"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
@@ -449,6 +489,11 @@
                     <connections>
                         <outlet property="delegate" destination="B8D-0N-5wS" id="LMO-Ny-JIv"/>
                         <outlet property="segmentedControl" destination="62q-qB-wIS" id="TEJ-1E-TUb"/>
+                    </connections>
+                </customObject>
+                <customObject id="hdv-M0-3Yq" customClass="FontSizeController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="segmentedControl" destination="1z5-4S-FWj" id="nK1-im-8xK"/>
                     </connections>
                 </customObject>
             </objects>
@@ -465,15 +510,15 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="435" height="270"/>
+                                            <size key="minSize" width="420" height="270"/>
                                             <size key="maxSize" width="435" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -484,7 +529,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="419" y="0.0" width="16" height="270"/>
+                                    <rect key="frame" x="420" y="0.0" width="15" height="270"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -509,10 +554,16 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="fontSizeController" destination="MSZ-V0-exo" id="9ws-XK-tDk"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="MSZ-V0-exo" customClass="FontSizeController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="delegate" destination="XfG-lQ-9wD" id="LlZ-Qa-ADx"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="61" y="696"/>
         </scene>
@@ -520,5 +571,7 @@
     <resources>
         <image name="chevron.left" catalog="system" width="10" height="14"/>
         <image name="chevron.right" catalog="system" width="10" height="14"/>
+        <image name="textformat.size.larger" catalog="system" width="11" height="12"/>
+        <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>
 </document>
