@@ -14,6 +14,11 @@ protocol FontSizeControllerDelegate: AnyObject {
     func fontSizeController(_ controller: FontSizeController, fontSizeChangedTo fontSize: CGFloat)
 }
 
+private extension NSUserInterfaceItemIdentifier {
+    static let fontSizeMenuFormDecrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormDecrease")
+    static let fontSizeMenuFormIncrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormIncrease")
+}
+
 class FontSizeController: NSObject {
 
     @IBOutlet
@@ -32,8 +37,26 @@ class FontSizeController: NSObject {
         CGFloat(_fontSize)
     }
 
-    private let defaultSize: Int = 12
-    private let sizeRange: ClosedRange<Int> = 9...22
+    func menu() -> NSMenu {
+        let m = NSMenu()
+        let decrease = NSMenuItem(title: "Smaller text",
+                                  action: #selector(decrease(_:)),
+                                  keyEquivalent: "")
+        decrease.target = self
+        decrease.identifier = .fontSizeMenuFormDecrease
+        m.addItem(decrease)
+        let increase = NSMenuItem(title: "Bigger text",
+                                  action: #selector(increase(_:)),
+                                  keyEquivalent: "")
+        increase.target = self
+        increase.identifier = .fontSizeMenuFormIncrease
+        m.addItem(increase)
+        return m
+    }
+
+    private let defaultSize = 14
+    private let sizeRange: ClosedRange<Int> = 8...22
+    private let stepSize = 2
 
     private var _fontSize: Int {
         get {
@@ -70,12 +93,12 @@ class FontSizeController: NSObject {
 
     @objc
     var canIncrease: Bool {
-        sizeRange.contains(_fontSize + 1)
+        sizeRange.contains(_fontSize + stepSize)
     }
 
     @objc
     var canDecrease: Bool {
-        sizeRange.contains(_fontSize - 1)
+        sizeRange.contains(_fontSize - stepSize)
     }
 
     @objc
@@ -91,13 +114,13 @@ class FontSizeController: NSObject {
     @IBAction
     func increase(_ sender: Any?) {
         guard canIncrease else { return }
-        _fontSize = _fontSize + 1
+        _fontSize = _fontSize + stepSize
     }
 
     @IBAction
     func decrease(_ sender: Any?) {
         guard canDecrease else { return }
-        _fontSize = _fontSize - 1
+        _fontSize = _fontSize - stepSize
     }
 
     @IBAction
@@ -112,5 +135,15 @@ class FontSizeController: NSObject {
     private func updateSegmentedControl() {
         segmentedControl?.setEnabled(canDecrease, forSegment: 0)
         segmentedControl?.setEnabled(canIncrease, forSegment: 1)
+    }
+}
+
+extension FontSizeController: NSMenuItemValidation {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.identifier {
+        case .some(.fontSizeMenuFormDecrease): return canDecrease
+        case .some(.fontSizeMenuFormIncrease): return canIncrease
+        default: return false
+        }
     }
 }

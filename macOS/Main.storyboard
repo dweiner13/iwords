@@ -479,6 +479,7 @@
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
                         <outlet property="directionItem" destination="Pk9-hB-iRd" id="oe2-wh-6gk"/>
                         <outlet property="fontSizeController" destination="hdv-M0-3Yq" id="N0X-PG-W0S"/>
+                        <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>

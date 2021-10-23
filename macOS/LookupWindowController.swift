@@ -131,6 +131,7 @@ class LookupWindowController: NSWindowController {
 
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var directionItem: NSToolbarItem!
+    @IBOutlet weak var fontSizeItem: NSToolbarItem!
     @IBOutlet weak var popUpButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
 
@@ -151,6 +152,10 @@ class LookupWindowController: NSWindowController {
         let directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
         directionMenuItem.submenu = directionMenu
         directionItem.menuFormRepresentation = directionMenuItem
+
+        let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
+        fontSizeMenuItem.submenu = fontSizeController.menu()
+        fontSizeItem.menuFormRepresentation = fontSizeMenuItem
 
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
@@ -182,7 +187,7 @@ class LookupWindowController: NSWindowController {
                               action: #selector(setEnglishToLatin),
                               keyEquivalent: "E")
         eToLItem.state = .off
-        lToEItem.keyEquivalentModifierMask = [.command, .shift]
+        eToLItem.keyEquivalentModifierMask = [.command, .shift]
         m.addItem(eToLItem)
         m.delegate = self
         m.identifier = .directionMenu
