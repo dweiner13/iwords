@@ -32,7 +32,7 @@ class LookupViewController: NSViewController {
     }
 
     private func setFontSize(_ fontSize: CGFloat) {
-        textView.font = .monospacedSystemFont(ofSize: fontSize, weight: .regular)
+        textView.font = .init(name: "SF Mono", size: fontSize)
     }
 
     @IBAction func didPressHelp(_ sender: Any) {

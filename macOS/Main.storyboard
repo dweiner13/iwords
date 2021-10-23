@@ -436,8 +436,8 @@
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment toolTip="Go back" image="chevron.left" catalog="system" width="32"/>
-                                                <segment toolTip="Go forward" image="chevron.right" catalog="system" width="32" tag="1"/>
+                                                <segment toolTip="Go back" image="NSGoBackTemplate" width="32"/>
+                                                <segment toolTip="Go forward" image="NSGoForwardTemplate" width="32" tag="1"/>
                                             </segments>
                                         </segmentedCell>
                                         <connections>
@@ -454,7 +454,7 @@
                                             <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment toolTip="Decrease font size" image="textformat.size.smaller" catalog="system" width="32"/>
-                                                <segment toolTip="Increase Text Size" image="textformat.size.larger" catalog="system" width="32" tag="1"/>
+                                                <segment toolTip="Increase Text Size" image="textformat.size.larger" width="32" tag="1"/>
                                             </segments>
                                         </segmentedCell>
                                         <connections>
@@ -570,9 +570,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chevron.left" catalog="system" width="10" height="14"/>
-        <image name="chevron.right" catalog="system" width="10" height="14"/>
-        <image name="textformat.size.larger" catalog="system" width="11" height="12"/>
+        <image name="NSGoBackTemplate" width="10" height="14"/>
+        <image name="NSGoForwardTemplate" width="10" height="14"/>
+        <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
         <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>
 </document>

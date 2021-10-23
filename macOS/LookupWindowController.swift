@@ -135,8 +135,6 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var popUpButton: NSPopUpButton!
     @IBOutlet weak var searchField: NSSearchField!
 
-    private var cancellables: [AnyCancellable] = []
-
     private var lookupViewController: LookupViewController! {
         contentViewController as? LookupViewController
     }
