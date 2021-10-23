@@ -64,7 +64,6 @@
 		37679DFF262CC87C003D15E1 /* WindowRestoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestoration.swift; sourceTree = "<group>"; };
 		37A4D1A8262227E400A9E9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A4D1AD262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		37A4D1B0262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37A4D1B5262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1B7262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37A4D1B8262227E400A9E9EC /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
@@ -175,7 +174,6 @@
 		37A4D1AF262227E400A9E9EC /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				37A4D1B0262227E400A9E9EC /* Info.plist */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
