@@ -79,5 +79,9 @@
 			<string>1</string>
 		</dict>
 	</array>
+	<key>SUFeedURL</key>
+	<string>https://iwords-distribution.s3.amazonaws.com/changelog.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>VTvuJdHhneRvlybG0Uc+Q6DAwGLlUB5lShK0JwJ3T8k=</string>
 </dict>
 </plist>
