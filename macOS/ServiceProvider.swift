@@ -53,7 +53,7 @@ class ServiceProvider: NSObject {
     func sanitized(query: String) -> String {
         var result = query.trimmingCharacters(in: .whitespacesAndNewlines)
         // Replace newlines with spaces
-        while let range = result.rangeOfCharacter(from: .whitespaces) {
+        while let range = result.rangeOfCharacter(from: .newlines) {
             result.replaceSubrange(range, with: " ")
         }
         return result

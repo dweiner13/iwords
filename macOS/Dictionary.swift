@@ -72,7 +72,7 @@ class Dictionary {
         let words = Array(search.split(separator: " ")).map(String.init(_:))
         // English to latin only supports up to 2 words in query like "house n" or "travel v"
         if direction == .englishToLatin && words.count > 2 {
-            throw DWError(description: "Query too long. For English-to-Latin, you can only enter 1 English word, or 1 English word and a part of speech (like \"attack v\").")
+            throw DWError(description: "Query too long. For English-to-Latin, you can only enter 1 English word, or 1 English word and a part of speech (such as: \"attack v\").")
         }
         arguments.append(contentsOf: words)
         let output = try runProcess(executablePath, arguments: arguments)
