@@ -12,6 +12,8 @@
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
+		37988D51272494D500FFBB97 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 37988D50272494D500FFBB97 /* Intents.intentdefinition */; };
+		37988D532724985600FFBB97 /* LookUpIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37988D522724985600FFBB97 /* LookUpIntentHandler.swift */; };
 		37A4D1C2262227E400A9E9EC /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1C1262227E400A9E9EC /* Tests_iOS.swift */; };
 		37A4D1CD262227E400A9E9EC /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
@@ -62,8 +64,11 @@
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
 		37679DFF262CC87C003D15E1 /* WindowRestoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestoration.swift; sourceTree = "<group>"; };
+		37988D50272494D500FFBB97 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
+		37988D522724985600FFBB97 /* LookUpIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookUpIntentHandler.swift; sourceTree = "<group>"; };
 		37A4D1A8262227E400A9E9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A4D1AD262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		37A4D1B0262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37A4D1B5262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1B7262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37A4D1B8262227E400A9E9EC /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
@@ -140,6 +145,15 @@
 			path = "Supporting files";
 			sourceTree = "<group>";
 		};
+		37988D4F2724949200FFBB97 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				37988D50272494D500FFBB97 /* Intents.intentdefinition */,
+				37988D522724985600FFBB97 /* LookUpIntentHandler.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		37A4D1A0262227E300A9E9EC = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +188,7 @@
 		37A4D1AF262227E400A9E9EC /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				37A4D1B0262227E400A9E9EC /* Info.plist */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -181,6 +196,7 @@
 		37A4D1B6262227E400A9E9EC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				37988D4F2724949200FFBB97 /* Intents */,
 				37A4D24626223BC100A9E9EC /* Main.storyboard */,
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
 				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
@@ -469,6 +485,8 @@
 				37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */,
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
 				3710529227247B790077CE3D /* ServiceProvider.swift in Sources */,
+				37988D51272494D500FFBB97 /* Intents.intentdefinition in Sources */,
+				37988D532724985600FFBB97 /* LookUpIntentHandler.swift in Sources */,
 				37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */,
 				37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */,
 				371052902724604C0077CE3D /* FontSizeController.swift in Sources */,
