@@ -144,7 +144,6 @@
 			isa = PBXGroup;
 			children = (
 				37A4D1A5262227E300A9E9EC /* Shared */,
-				37A4D1AF262227E400A9E9EC /* iOS */,
 				37A4D1B6262227E400A9E9EC /* macOS */,
 				37A4D1C0262227E400A9E9EC /* Tests iOS */,
 				37A4D1CB262227E400A9E9EC /* Tests macOS */,
@@ -169,13 +168,6 @@
 				37A4D1C8262227E400A9E9EC /* Tests macOS.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		37A4D1AF262227E400A9E9EC /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = iOS;
 			sourceTree = "<group>";
 		};
 		37A4D1B6262227E400A9E9EC /* macOS */ = {
