@@ -39,6 +39,13 @@ class Dictionary {
             case .englishToLatin: return "English → Latin"
             }
         }
+
+        mutating func toggle() {
+            switch self {
+            case .latinToEnglish: self = .englishToLatin
+            case .englishToLatin: self = .latinToEnglish
+            }
+        }
     }
 
     struct Options: OptionSet {

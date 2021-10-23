@@ -81,7 +81,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
-                                        <menuItem title="New Search" keyEquivalent="l" id="7v1-zJ-fgu">
+                                        <menuItem title="New Search" keyEquivalent="F" id="7v1-zJ-fgu">
                                             <connections>
                                                 <action selector="focusSearch:" target="Ady-hI-5gd" id="Ssr-7g-XuO"/>
                                             </connections>
@@ -235,6 +235,12 @@
                                         <menuItem title="English → Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
                                             <connections>
                                                 <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="LSS-QM-c8U"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="ocP-aJ-jrt"/>
+                                        <menuItem title="Toggle Direction" keyEquivalent="d" id="s2W-Ty-fmT" userLabel="Toggle">
+                                            <connections>
+                                                <action selector="toggleDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
                                             </connections>
                                         </menuItem>
                                     </items>

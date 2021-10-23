@@ -226,12 +226,17 @@ class LookupWindowController: NSWindowController {
         invalidateRestorableState()
     }
 
-    @objc
+    @IBAction
+    private func toggleDirection(_ sender: Any?) {
+        direction.toggle()
+    }
+
+    @IBAction
     private func setLatinToEnglish(_ sender: Any?) {
         direction = .latinToEnglish
     }
 
-    @objc
+    @IBAction
     private func setEnglishToLatin(_ sender: Any?) {
         direction = .englishToLatin
     }
