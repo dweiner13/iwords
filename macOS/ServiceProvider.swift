@@ -23,18 +23,35 @@ class ServiceProvider: NSObject {
             return
         }
 
-        do {
-            let result = try Dictionary.shared.getDefinition(string.trimmingCharacters(in: .whitespacesAndNewlines),
-                                                             direction: .latinToEnglish,
-                                                             options: [])
-            guard let result = result else {
-                setError(localizedDescription: "No results found.")
-                return
+        let frontmostWindow = NSApp.orderedWindows.first ?? {
+            let newWindow = LookupWindowController.newWindow()
+
+            if let keyWindow = NSApp.keyWindow {
+                let newPoint = newWindow.cascadeTopLeft(from: keyWindow.topLeft)
+                newWindow.setFrameTopLeftPoint(newPoint)
+            } else {
+                newWindow.center()
             }
-            pasteboard.clearContents()
-            pasteboard.writeObjects([result as NSString])
-        } catch {
-            setError(localizedDescription: "Encountered error translating text: \(error.localizedDescription).")
+            return newWindow
+        }()
+
+        NSApp.activate(ignoringOtherApps: true)
+
+        guard let windowController = frontmostWindow.windowController as? LookupWindowController else {
+            setError(localizedDescription: "Could not find a window to display results in.")
+            return
         }
+
+        let query = SearchQuery(sanitized(query: string), .latinToEnglish)
+        windowController.setSearchQuery(query)
+    }
+
+    func sanitized(query: String) -> String {
+        var result = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        // Replace newlines with spaces
+        while let range = result.rangeOfCharacter(from: .whitespaces) {
+            result.replaceSubrange(range, with: " ")
+        }
+        return result
     }
 }

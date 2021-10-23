@@ -177,15 +177,13 @@ class LookupWindowController: NSWindowController {
         let m = NSMenu()
         lToEItem = NSMenuItem(title: "Latin to English",
                               action: #selector(setLatinToEnglish),
-                              keyEquivalent: "L")
+                              keyEquivalent: "")
         lToEItem.state = .off
-        lToEItem.keyEquivalentModifierMask = [.command, .shift]
         m.addItem(lToEItem)
         eToLItem = NSMenuItem(title: "English to Latin",
                               action: #selector(setEnglishToLatin),
-                              keyEquivalent: "E")
+                              keyEquivalent: "")
         eToLItem.state = .off
-        eToLItem.keyEquivalentModifierMask = [.command, .shift]
         m.addItem(eToLItem)
         m.delegate = self
         m.identifier = .directionMenu

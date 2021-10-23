@@ -35,10 +35,6 @@
 		<dict>
 			<key>NSMessage</key>
 			<string>translateLatinToEnglish</string>
-			<key>NSReturnTypes</key>
-			<array>
-				<string>NSStringPboardType</string>
-			</array>
 			<key>NSPortName</key>
 			<string>iWords</string>
 			<key>NSSendTypes</key>
