@@ -61,11 +61,6 @@ class Dictionary {
         }
         return url.deletingLastPathComponent()
     }()
-    private var cancellables: [AnyCancellable] = []
-
-    private init() {
-        startListening()
-    }
 
     func getDefinition(_ search: String, direction: Direction, options: Options) throws -> String? {
         var arguments: [String] = []
@@ -99,14 +94,6 @@ class Dictionary {
         } else {
             return output
         }
-    }
-
-    private func startListening() {
-        NotificationCenter.default.publisher(for: Process.didTerminateNotification)
-            .sink { notification in
-                print("Process did terminate: \(notification.object.debugDescription)")
-            }
-            .store(in: &cancellables)
     }
 
     private func trim(input: String) -> String {
