@@ -30,5 +30,25 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMessage</key>
+			<string>translateLatinToEnglish</string>
+			<key>NSPortName</key>
+			<string>iWords</string>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+			<key>NSRequiredContext</key>
+			<dict/>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Translate (Latin to English)</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
