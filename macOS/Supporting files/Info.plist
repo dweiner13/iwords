@@ -33,42 +33,42 @@
 	<key>NSServices</key>
 	<array>
 		<dict>
-			<key>NSMessage</key>
-			<string>lookUp</string>
-			<key>NSUserData</key>
-			<string>0</string>
-			<key>NSPortName</key>
-			<string>iWords</string>
-			<key>NSSendTypes</key>
-			<array>
-				<string>NSStringPboardType</string>
-			</array>
-			<key>NSRequiredContext</key>
-			<dict/>
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
 				<string>Look up in $(PRODUCT_NAME) (Latin to English)</string>
 			</dict>
-		</dict>
-		<dict>
 			<key>NSMessage</key>
 			<string>lookUp</string>
-			<key>NSUserData</key>
-			<string>1</string>
 			<key>NSPortName</key>
 			<string>iWords</string>
+			<key>NSRequiredContext</key>
+			<dict/>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>
 			</array>
-			<key>NSRequiredContext</key>
-			<dict/>
+			<key>NSUserData</key>
+			<string>0</string>
+		</dict>
+		<dict>
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
 				<string>Look up in $(PRODUCT_NAME) (English to Latin)</string>
 			</dict>
+			<key>NSMessage</key>
+			<string>lookUp</string>
+			<key>NSPortName</key>
+			<string>iWords</string>
+			<key>NSRequiredContext</key>
+			<dict/>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+			<key>NSUserData</key>
+			<string>1</string>
 		</dict>
 	</array>
 </dict>
