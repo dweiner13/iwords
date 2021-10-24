@@ -245,7 +245,7 @@ class LookupWindowController: NSWindowController {
     private func searchFieldAction(_ field: NSSearchField) {
         setSearchQuery(SearchQuery(field.stringValue, direction))
     }
-
+    
     /// - Returns: whether or not a result was found
     private func search(_ query: SearchQuery) {
         do {
@@ -303,6 +303,19 @@ extension LookupWindowController {
     }
 }
 
+extension LookupWindowController: NSWindowDelegate {
+    func windowDidBecomeKey(_ notification: Notification) {
+        searchField.becomeFirstResponder()
+    }
+
+    func windowWillUseStandardFrame(_ window: NSWindow, defaultFrame newFrame: NSRect) -> NSRect {
+        let standardFrame = NSRect(origin: window.frame.origin,
+                                 size: CGSize(width: lookupViewController.standardWidthAtCurrentFontSize(),
+                                              height: window.frame.height))
+        return standardFrame
+    }
+}
+
 extension LookupWindowController: BackForwardDelegate {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController) {
         assert(controller == backForwardController)
@@ -323,11 +336,5 @@ extension LookupWindowController: NSMenuDelegate {
 
         menu.items[0].state = _direction == 0 ? .on : .off
         menu.items[1].state = _direction == 1 ? .on : .off
-    }
-}
-
-extension LookupWindowController: NSWindowDelegate {
-    func windowDidBecomeKey(_ notification: Notification) {
-        searchField.becomeFirstResponder()
     }
 }
