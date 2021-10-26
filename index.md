@@ -13,7 +13,7 @@ Latin dictionary built on macOS technologies.
 
 This project is still in alpha stage. Click below to download the latest alpha.
 
-### [📦 Latest Alpha Release (v0.4.3)](https://github.com/dweiner13/iwords/releases/tag/v0.4.3)
+### [📦 Latest Alpha Release (v0.4.4)](https://github.com/dweiner13/iwords/releases/tag/v0.4.4)
  
 <a href="https://user-images.githubusercontent.com/2500910/114791452-95bdf500-9d54-11eb-9737-732701851621.png">
   <img width="540" 
