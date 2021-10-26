@@ -39,11 +39,7 @@ class LookupViewController: NSViewController {
     }
 
     private func setFontSize(_ fontSize: CGFloat) {
-        if let sfMono = NSFont(name: "SF Mono", size: fontSize) {
-            textView.font = sfMono
-        } else {
-            textView.font = .init(name: "Menlo", size: fontSize)
-        }
+        textView.font = NSFont(name: "Monaco", size: fontSize)
     }
 
     @IBAction func didPressHelp(_ sender: Any) {
