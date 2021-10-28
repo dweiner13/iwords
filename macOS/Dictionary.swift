@@ -83,11 +83,10 @@ class Dictionary {
         }
         arguments.append(contentsOf: words)
 
-        let start = CFAbsoluteTimeGetCurrent()
-        let output = try runProcess(executablePath, arguments: arguments)
-        let durationMS = (CFAbsoluteTimeGetCurrent() - start) * 1000
-
         if .diagnosticMode ~= options {
+            let start = CFAbsoluteTimeGetCurrent()
+            let output = try runProcess(executablePath, arguments: arguments)
+            let durationMS = (CFAbsoluteTimeGetCurrent() - start) * 1000
             return output + """
             \n\n\n\n
             time: \(String(format: "%.2f", durationMS))ms
@@ -96,7 +95,7 @@ class Dictionary {
             \(output)
             """
         } else {
-            return output
+            return try runProcess(executablePath, arguments: arguments)
         }
     }
 
