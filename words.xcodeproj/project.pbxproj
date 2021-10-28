@@ -679,7 +679,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/words (macOS)Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.4.7;
+				CURRENT_PROJECT_VERSION = 0.5.0;
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -689,7 +689,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 0.4.7;
+				MARKETING_VERSION = 0.5.0;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
@@ -706,7 +706,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.4.7;
+				CURRENT_PROJECT_VERSION = 0.5.0;
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -716,7 +716,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 0.4.7;
+				MARKETING_VERSION = 0.5.0;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
