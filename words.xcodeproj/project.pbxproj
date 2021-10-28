@@ -77,6 +77,7 @@
 		3710528F2724604C0077CE3D /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
 		3710529127247B790077CE3D /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
+		373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "words (macOS)Debug.entitlements"; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
 		37679DFF262CC87C003D15E1 /* WindowRestoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestoration.swift; sourceTree = "<group>"; };
@@ -153,6 +154,7 @@
 		37679DFA262C7761003D15E1 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */,
 				37A4D1A8262227E400A9E9EC /* Assets.xcassets */,
 				37BF1C0B262B8366003C4A97 /* iWords.help */,
 				37A4D1B7262227E400A9E9EC /* Info.plist */,
@@ -700,7 +702,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/macOS.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/words (macOS)Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.4.7;
