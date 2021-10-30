@@ -37,4 +37,4 @@ Or [view the Git repo](https://github.com/dweiner13/iwords) to see the source co
        src="https://user-images.githubusercontent.com/2500910/114791400-7f179e00-9d54-11eb-89ef-12ad462cff73.png">
 </a>
 
-{% raw %}{% seo %}{% endraw %}
+{% seo %}
