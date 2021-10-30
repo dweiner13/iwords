@@ -11,11 +11,21 @@ iWords is a Latin dictionary app for macOS that leverages
 venerable old Interpres app, in providing a powerful and easy
 Latin dictionary built on macOS technologies.
 
+## Download
+
 This project is still in alpha stage. Click below to download the latest alpha **(requires macOS 10.13 High Sierra or later)**.
 
 ### [📦 Latest Alpha Release (v0.4.7)](https://github.com/dweiner13/iwords/releases/download/v0.4.7/iWords.zip)
 
 Or [view the Git repo](https://github.com/dweiner13/iwords) to see the source code.
+
+## Features
+
+- Both Latin-to-Latin and English-to-Latin
+- No Internet connection required
+- Integrates with [macOS Services](https://support.apple.com/guide/mac-help/use-services-in-apps-mchlp1012/mac), so you can look up translations from within any app
+- Powerful and flexible - customize the toolbar, open as many windows and tabs as you need, change the font size, and make use of extensive keyboard shortcuts
+- Includes an offline Help manual
  
 <a href="https://user-images.githubusercontent.com/2500910/114791452-95bdf500-9d54-11eb-9737-732701851621.png">
   <img width="540" 
