@@ -11,13 +11,15 @@ import Parsing
 enum PartOfSpeech: String, CustomStringConvertible {
     case noun = "N",
          verb = "V",
-         adjective = "ADJ"
+         adjective = "ADJ",
+         adverb = "ADV"
     
     var description: String {
         switch self {
         case .noun: return "n."
         case .verb: return "v."
         case .adjective: return "adj."
+        case .adverb: return "adv."
         }
     }
 }
@@ -125,11 +127,12 @@ struct Definition: Equatable, Identifiable {
 enum Expansion: Equatable {
     case noun(String, Declension, Gender)
     case adj(String)
+    case adv(String)
     case verb(String, Conjugation)
     
     var principleParts: String {
         switch self {
-        case .noun(let pp, _, _), .verb(let pp, _), .adj(let pp): return pp
+        case .noun(let pp, _, _), .verb(let pp, _), .adj(let pp), .adv(let pp): return pp
         }
     }
     
@@ -138,6 +141,7 @@ enum Expansion: Equatable {
         case .noun: return .noun
         case .verb: return .verb
         case .adj: return .adjective
+        case .adv: return .adverb
         }
     }
 }
@@ -188,13 +192,13 @@ enum Degree: String, CustomStringConvertible {
     }
 }
 
-struct Adjective: Equatable, CustomDebugStringConvertible {
+struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     let text: String
     let declension: Declension
     let variety: Int
     let `case`: Case
     let number: Number
-    let gender: Gender
+    let gender: Gender?
     let degree: Degree
 
     var debugDescription: String {
@@ -202,13 +206,27 @@ struct Adjective: Equatable, CustomDebugStringConvertible {
     }
 
     var description: String {
-        "\(declension) \(`case`) \(number) \(gender) \(degree)"
+        "\(declension) \(`case`) \(number) \(gender?.description.appending(" ") ?? "")\(degree)"
+    }
+}
+
+struct Adverb: Equatable, CustomDebugStringConvertible {
+    let text: String
+    let degree: Degree
+
+    var debugDescription: String {
+        "Adverb: \(text) \(degree)"
+    }
+
+    var description: String {
+        "\(degree)"
     }
 }
 
 enum Possibility: Equatable, CustomDebugStringConvertible {
     case noun(Noun)
     case adjective(Adjective)
+    case adverb(Adverb)
 
     var debugDescription: String {
         switch self {
@@ -216,6 +234,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
             return noun.debugDescription
         case .adjective(let adj):
             return adj.debugDescription
+        case .adverb(let adv):
+            return adv.debugDescription
         }
     }
 
@@ -225,6 +245,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
             return noun.text
         case .adjective(let adj):
             return adj.text
+        case .adverb(let adv):
+            return adv.text
         }
     }
 
@@ -234,6 +256,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
             return noun.description
         case .adjective(let adj):
             return adj.description
+        case .adverb(let adv):
+            return adv.description
         }
     }
 }
@@ -270,6 +294,9 @@ let number = Prefix(1).compactMap { (substr: String.SubSequence) -> Number? in
 let gend = Prefix(1).compactMap { (substr: String.SubSequence) -> Gender? in
     Gender(rawValue: String(substr))
 }
+let gendOpt = Prefix(1).map { (substr: String.SubSequence) -> Gender? in
+    Gender(rawValue: String(substr))
+}
 let degr = Prefix(5).compactMap { (substr: String.SubSequence) -> Degree? in
     Degree(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
 }
@@ -293,6 +320,13 @@ let adjExpansion = principleParts
     .map(Expansion.adj)
     .eraseToAnyParser()
 
+let advExpansion = principleParts
+    .skip(StartsWith("  "))
+    .skip(StartsWith(PartOfSpeech.adverb.rawValue))
+    .skip(Rest())
+    .map(Expansion.adv)
+    .eraseToAnyParser()
+
 let verbExpansion = principleParts
     .skip(StartsWith("  "))
     .skip(StartsWith(PartOfSpeech.verb.rawValue))
@@ -304,7 +338,7 @@ let verbExpansion = principleParts
     .map(Expansion.verb)
     .eraseToAnyParser()
 
-let expansion = OneOfMany([nounExpansion, adjExpansion, verbExpansion])
+let expansion = OneOfMany([nounExpansion, adjExpansion, advExpansion, verbExpansion])
 
 // Parses a string with a given total length N. First M characters <= N must be non-whitespace, and
 // will be returned.
@@ -350,6 +384,7 @@ let nounPossibility = Prefix<Substring>(21).map {
     }
     .map(Noun.init)
     .map(Possibility.noun)
+    .eraseToAnyParser()
 
 let adjPossibility = Prefix<Substring>(21)
     .map {
@@ -364,7 +399,7 @@ let adjPossibility = Prefix<Substring>(21)
     .skip(StartsWith(" "))
     .take(number)
     .skip(StartsWith(" "))
-    .take(gend)
+    .take(gendOpt)
     .skip(StartsWith(" "))
     .take(degr)
     .skip(Rest())
@@ -373,11 +408,23 @@ let adjPossibility = Prefix<Substring>(21)
     }
     .map(Adjective.init)
     .map(Possibility.adjective)
+    .eraseToAnyParser()
 
-let possibility = nounPossibility.orElse(adjPossibility)
+let advPossibility = Prefix<Substring>(21)
+    .map {
+        $0.trimmingCharacters(in: .whitespaces)
+    }
+    .skip(StartsWith("ADV    "))
+    .take(degr)
+    .skip(Rest())
+    .map {
+        ($0.0, $0.1)
+    }
+    .map(Adverb.init)
+    .map(Possibility.adverb)
+    .eraseToAnyParser()
 
-let result = nounExpansion.orElse(verbExpansion)
-    .take(Rest())
+let possibility = OneOfMany([nounPossibility, adjPossibility, advPossibility])
 
 func parse(_ str: String) -> ([Definition], Bool)? {
     var definitions: [Definition] = []

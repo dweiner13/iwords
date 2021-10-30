@@ -206,7 +206,8 @@ struct DefinitionsView: View {
                     }
                 }
             }
-        }.background(Color.white)
+        }
+        .visualEffect(material: .contentBackground)
     }
 }
 
@@ -253,7 +254,7 @@ struct DefinitionView: View {
                             return Text("\(definition.expansion.pos.description), \(declension.description), \(gender.description)")
                         case .verb(_, let conjugation):
                             return Text("\(definition.expansion.pos.description), \(conjugation.description)")
-                        case .adj:
+                        case .adj, .adv:
                             return Text("\(definition.expansion.pos.description)")
                         }
                     }()
@@ -262,18 +263,20 @@ struct DefinitionView: View {
                 }
             }
 
-            ForEach(definition.possibilities, id: \.debugDescription) { possibility in
-                SelectableText {
-                    Text(possibility.word)
-                        .foregroundColor(Color.primary)
-                        .font(.system(size: fontSizeController.fontSize * 0.9, weight: .medium, design: .monospaced))
-                    + Text("\t")
-                    + Text(verbatim: possibility.description)
-                        .foregroundColor(.secondary)
-                        .font(.system(size: fontSizeController.fontSize * 0.9, weight: .regular, design: .serif))
+            VStack(alignment: .leading) {
+                ForEach(definition.possibilities, id: \.debugDescription) { possibility in
+                    SelectableText {
+                        Text(possibility.word)
+                            .foregroundColor(Color.primary)
+                            .font(.system(size: fontSizeController.fontSize * 0.9, weight: .medium, design: .monospaced))
+                        + Text("  ")
+                        + Text(verbatim: possibility.description)
+                            .foregroundColor(.secondary)
+                            .font(.system(size: fontSizeController.fontSize * 0.9, weight: .regular, design: .serif))
+                    }
                 }
+                .multilineTextAlignment(.leading)
             }
-            .multilineTextAlignment(.leading)
 
 //            DisclosureGroup("\(definition.possibilities.count) possibilities") {
 //                HStack {
@@ -291,7 +294,6 @@ struct DefinitionView: View {
                 .font(.system(size: fontSizeController.fontSize, weight: .regular, design: .serif))
         }
         .padding()
-        .visualEffect(material: .contentBackground)
     }
 }
 
