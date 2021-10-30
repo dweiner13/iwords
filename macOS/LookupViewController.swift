@@ -6,6 +6,11 @@
 //
 
 import Cocoa
+import SwiftUI
+
+enum ResultDisplayMode: Int {
+    case pretty, raw
+}
 
 class LookupViewController: NSViewController {
 
@@ -14,6 +19,21 @@ class LookupViewController: NSViewController {
 
     @IBOutlet
     var fontSizeController: FontSizeController!
+
+    private var text: String?
+
+    @IBOutlet weak var displayModeControl: NSSegmentedControl!
+
+    var mode: ResultDisplayMode {
+        get {
+            ResultDisplayMode(rawValue: displayModeControl.selectedSegment)!
+        }
+        set {
+            displayModeControl.selectedSegment = newValue.rawValue
+        }
+    }
+
+    private var definitionHostingView: NSView?
 
     override class var restorableStateKeyPaths: [String] {
         ["textView.string"]
@@ -35,18 +55,51 @@ class LookupViewController: NSViewController {
     }
 
     func setResultText(_ text: String) {
+        self.text = text
         textView.string = text
+
+        definitionHostingView?.isHidden = true
+        definitionHostingView?.removeFromSuperview()
+        definitionHostingView = nil
+        if #available(macOS 11.0, *),
+           let (definitions, truncated) = parse(text) {
+            displayModeControl.setEnabled(true, forSegment: 0)
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (definitions, truncated))
+                                        .environmentObject(fontSizeController))
+            hostingView.translatesAutoresizingMaskIntoConstraints = false
+            self.view.addSubview(hostingView)
+            NSLayoutConstraint.activate([
+                hostingView.topAnchor.constraint(equalTo: textView.topAnchor),
+                hostingView.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
+                hostingView.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
+                hostingView.bottomAnchor.constraint(equalTo: textView.bottomAnchor)
+            ])
+            definitionHostingView = hostingView
+        } else {
+            mode = .raw
+            displayModeControl.setEnabled(false, forSegment: 0)
+        }
+
+        updateForMode()
+    }
+
+    private func updateForMode() {
+        switch mode {
+        case .raw:
+            textView.isHidden = false
+            definitionHostingView?.isHidden = true
+        case .pretty:
+            textView.isHidden = true
+            definitionHostingView?.isHidden = false
+        }
     }
 
     private func setFontSize(_ fontSize: CGFloat) {
         textView.font = NSFont(name: "Monaco", size: fontSize)
     }
 
-    @IBAction func didPressHelp(_ sender: Any) {
-        guard let bookName = Bundle.main.object(forInfoDictionaryKey: "CFBundleHelpBookName") as? String else {
-            return
-        }
-        NSHelpManager.shared.openHelpAnchor("feedback", inBook: bookName)
+    @IBAction func didChangeMode(_ sender: Any) {
+        updateForMode()
     }
 }
 

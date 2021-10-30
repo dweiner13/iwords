@@ -183,31 +183,6 @@ class LookupWindowController: NSWindowController {
                              updateHistoryLists: true,
                              updateBackForward: true)
     }
-    
-    private var definitionHostingView: NSView?
-    
-    private func setDefinitionView(with output: String) {
-        definitionHostingView?.isHidden = true
-        definitionHostingView?.removeFromSuperview()
-        definitionHostingView = nil
-        if #available(macOS 11.0, *),
-            let (definitions, truncated) = parse(output) {
-            let view = NSHostingView(rootView: DefinitionsView(definitions: (definitions, truncated))
-                                        .environmentObject(fontSizeController))
-            view.translatesAutoresizingMaskIntoConstraints = false
-            lookupViewController.view.addSubview(view)
-            NSLayoutConstraint.activate([
-                lookupViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
-                lookupViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                lookupViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                lookupViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-            definitionHostingView = view
-            lookupViewController.textView.isHidden = true
-        } else {
-            lookupViewController.textView.isHidden = false
-        }
-    }
 
     // The core of the logic for actually performing a query and updating the UI.
     private func _setSearchQuery(_ searchQuery : SearchQuery,
@@ -260,9 +235,7 @@ class LookupWindowController: NSWindowController {
                 direction: query.direction,
                 options: UserDefaults.standard.dictionaryOptions
             )
-            lookupViewController.setResultText(results ?? "No results found")
-            setDefinitionView(with: results ?? "")
-            print("Query entered: \"\(query.debugDescription)\"")
+            lookupViewController.setResultText(results ?? "")
         } catch {
             self.presentError(error)
         }
