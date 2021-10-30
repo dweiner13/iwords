@@ -122,10 +122,6 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    private lazy var directionMenu = makeDirectionMenu()
-    private var lToEItem: NSMenuItem!
-    private var eToLItem: NSMenuItem!
-
     @IBOutlet @objc
     dynamic var backForwardController: BackForwardController!
 
@@ -135,7 +131,7 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var directionItem: NSToolbarItem!
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
-    @IBOutlet weak var popUpButton: NSPopUpButton!
+    @IBOutlet weak var directionToggleButton: NSButton!
     @IBOutlet weak var searchField: NSSearchField!
 
     private var lookupViewController: LookupViewController! {
@@ -150,8 +146,9 @@ class LookupWindowController: NSWindowController {
         backForwardMenuItem.submenu = backForwardController.menu()
         backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
 
-        let directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
-        directionMenuItem.submenu = directionMenu
+        let directionMenuItem = NSMenuItem(title: "Toggle Direction",
+                                           action: #selector(toggleDirection(_:)),
+                                           keyEquivalent: "")
         directionItem.menuFormRepresentation = directionMenuItem
 
         let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
@@ -174,23 +171,6 @@ class LookupWindowController: NSWindowController {
     override func restoreState(with coder: NSCoder) {
         backForwardController.decode(with: coder)
         super.restoreState(with: coder)
-    }
-
-    private func makeDirectionMenu() -> NSMenu {
-        let m = NSMenu()
-        lToEItem = NSMenuItem(title: Dictionary.Direction.latinToEnglish.description,
-                              action: #selector(setLatinToEnglish),
-                              keyEquivalent: "")
-        lToEItem.state = .off
-        m.addItem(lToEItem)
-        eToLItem = NSMenuItem(title: Dictionary.Direction.englishToLatin.description,
-                              action: #selector(setEnglishToLatin),
-                              keyEquivalent: "")
-        eToLItem.state = .off
-        m.addItem(eToLItem)
-        m.delegate = self
-        m.identifier = .directionMenu
-        return m
     }
 
     public func setSearchQuery(_ searchQuery: SearchQuery) {
@@ -326,15 +306,5 @@ extension LookupWindowController: BackForwardDelegate {
         _setSearchQuery(searchQuery,
                         updateHistoryLists: false,
                         updateBackForward: false)
-    }
-}
-
-// Handling for menu form representation of direction control
-extension LookupWindowController: NSMenuDelegate {
-    func menuNeedsUpdate(_ menu: NSMenu) {
-        assert(menu.identifier == directionMenu.identifier)
-
-        menu.items[0].state = _direction == 0 ? .on : .off
-        menu.items[1].state = _direction == 1 ? .on : .off
     }
 }
