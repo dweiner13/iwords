@@ -3,8 +3,10 @@
 <center>
   <img width="179" 
        alt="iWords application icon" 
-       src="https://user-images.githubusercontent.com/2500910/115124103-7b6f5b80-9f8e-11eb-825b-5e5df73d2352.png">
+       src="icon256@1x.png">
 </center>
+
+![](icon256@1x.png)
 
 iWords is a Latin dictionary app for macOS that leverages 
 [WORDS](https://mk270.github.io/whitakers-words/) by William Whitaker. The hope is to continue the legacy of the 
