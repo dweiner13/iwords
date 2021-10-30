@@ -37,7 +37,7 @@ pre {
 }
 
 hr {
-    margin: 2em -2em;
+    margin: 4em -1em;
     border-color: darkgrey;
     border-style: solid;
 }
@@ -48,20 +48,88 @@ blockquote {
     border-left: 2px solid lightgrey;
     opacity: 0.8;
 }
+
+kbd {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgrey;
+    border-radius: 4px;
+    font-size: 110%;
+    padding: 2px 5px;
+    margin: 2px;
+    font-weight: bold;
+}
 </style>
 </head>
 <body>
 <h2>iWords Help</h2>
-<p>iWords is a Latin dictionary based on <a href="http://mk270.github.io/whitakers-words/">Whitaker's WORDS</a>.</p>
+<p>iWords is a Latin dictionary for macOS based on Whitaker's WORDS, a beloved and venerable dictionary
+and parsing program for Latin.</p>
+
+<p>The WORDS project website can be found at <a href="https://mk270.github.io/whitakers-words/">mk270.github.io/whitakers-words</a>. </p>
+
+<p>The iWords website can be found at <a href="https://dweiner13.github.io/iwords">dweiner13.github.io/iwords</a>.</p>
+
+<hr>
 
 <h3>Table of Contents</h3>
 <ul>
+<li><a href="#userinterface">User Interface</a></li>
 <li><a href="#feedback">Feedback</a></li>
-<li><a href="#introduction">Introduction to WORDS</a></li>
+<li><a href="#introduction">Introduction to the WORDS Dictionary</a></li>
 <li><a href="#examples">How to Read Output</a></li>
 </ul>
 
 <hr>
+
+<a name="userinterface">
+<h3>User Interface</h3>
+
+<h4>The App Window and the Toolbar</h4>
+
+<p>The main window for iWords consists of the <b>toolbar</b> and the <b>results area</b> below it.</p>
+
+<p>By default, the toolbar includes, from left to right:
+
+<ul>
+<li><b>Back</b> and <b>Forward</b> buttons. These navigate through your search history.</li>
+<li>The <b>Direction</b> dropdown, which lets you toggle between Latin to English and English to Latin.</li>
+<li>The <b>Search</b> field. You can enter a single term if translating from English to Latin, or multiple
+    terms (separated by spaces) if translating from Latin to English. Press Return to search.</li>
+</ul>
+
+<p>Like many apps in macOS, the toolbar can be customized by control- or right-clicking on it, allowing
+you to add, remove, and re-arrange user interface elements to your tastes.</p>
+
+<p>Note that iWords' windows can be resized, which can allow more or fewer toolbar
+items to be shown. If a window is too narrow to display all toolbar items, they will still be accessible, but iWords will
+collapse extra toolbar items into an overflow menu (􀆌).</p>
+
+<h4>The Menu Bar</h4>
+
+<p>All features exposed through the toolbar are also available through the
+macOS menu bar, and many have keyboard shortcuts. The menu bar also includes some additional functionality:</p>
+
+<ul>
+<li>You can create additional windows or tabs from the <b>File</b> menu.</li>
+<li>The <b>History</b> menu displays the last 50 queries made across all windows or tabs in the application. Selecting
+a query will search it again in the frontmost window. You can also Clear History from this menu.</li>
+<li>The *View* menu allows you to increase, decrease, or reset the font size in the results area.</li>
+</ul>
+
+<h4>Services</h4>
+
+<p>iWords also integrates with macOS system services, allowing you to perform a query from anywhere
+on your computer:
+
+<ol>
+<li>Select text in an application (for example, Chrome or Mail)</li>
+<li>Go to the application menu in the menu bar, then select Services, then select either "Look up in iWords (English to Latin)" or "Look up in iWords (Latin to English)"</li>
+<li>iWords will open and show the results for your query in the frontmost window.</li>
+</ol>
+
+<hr>
+
 
 <a name="feedback"></a>
 <h3>Feedback</h3>
@@ -77,7 +145,7 @@ that led to the bug, including the search query and screenshots if applicable.</
 <!-- the following HTML has been copy-pasted from the original source with minor formatting modifications -->
 
 <A name="introduction">
-<H3>Introduction to WORDS</H3></A>
+<H3>Introduction to the WORDS Dictionary</H3></A>
 
 <em>excerpt from William Whitaker's original documentation on his WORDS program</em>
 

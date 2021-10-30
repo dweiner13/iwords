@@ -35,8 +35,15 @@ class Dictionary {
 
         var description: String {
             switch self {
-            case .latinToEnglish: return "Latin to English"
-            case .englishToLatin: return "English to Latin"
+            case .latinToEnglish: return "Latin → English"
+            case .englishToLatin: return "English → Latin"
+            }
+        }
+
+        mutating func toggle() {
+            switch self {
+            case .latinToEnglish: self = .englishToLatin
+            case .englishToLatin: self = .latinToEnglish
             }
         }
     }
@@ -61,11 +68,6 @@ class Dictionary {
         }
         return url.deletingLastPathComponent()
     }()
-    private var cancellables: [AnyCancellable] = []
-
-    private init() {
-        startListening()
-    }
 
     func getDefinition(_ search: String, direction: Direction, options: Options) throws -> String? {
         var arguments: [String] = []
@@ -77,36 +79,24 @@ class Dictionary {
         let words = Array(search.split(separator: " ")).map(String.init(_:))
         // English to latin only supports up to 2 words in query like "house n" or "travel v"
         if direction == .englishToLatin && words.count > 2 {
-            throw DWError(description: "Query too long. For English-to-Latin, you can only enter 1 English word, or 1 English word and a part of speech (like \"attack v\").")
+            throw DWError(description: "Query too long. For English-to-Latin, you can only enter 1 English word, or 1 English word and a part of speech (such as: \"attack verb\").")
         }
         arguments.append(contentsOf: words)
-        let output = try runProcess(executablePath, arguments: arguments)
+
         if .diagnosticMode ~= options {
+            let start = CFAbsoluteTimeGetCurrent()
+            let output = try runProcess(executablePath, arguments: arguments)
+            let durationMS = (CFAbsoluteTimeGetCurrent() - start) * 1000
             return output + """
             \n\n\n\n
-            ===============
-            DIAGNOSTIC MODE
-            ===============
+            time: \(String(format: "%.2f", durationMS))ms
 
-            Program input:
-            --------------
-            \(arguments.debugDescription)
-
-            Program output:
-            ---------------
+            % words \(arguments.joined(separator: " "))
             \(output)
             """
         } else {
-            return output
+            return try runProcess(executablePath, arguments: arguments)
         }
-    }
-
-    private func startListening() {
-        NotificationCenter.default.publisher(for: Process.didTerminateNotification)
-            .sink { notification in
-                print("Process did terminate: \(notification.object.debugDescription)")
-            }
-            .store(in: &cancellables)
     }
 
     private func trim(input: String) -> String {

@@ -6,6 +6,10 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>iWords.help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER).help</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
@@ -30,5 +34,50 @@
 	<string>iWords.help</string>
 	<key>CFBundleHelpBookName</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER).help</string>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Look up in $(PRODUCT_NAME) (Latin to English)</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>lookUp</string>
+			<key>NSPortName</key>
+			<string>iWords</string>
+			<key>NSRequiredContext</key>
+			<dict/>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+			<key>NSUserData</key>
+			<string>0</string>
+		</dict>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Look up in $(PRODUCT_NAME) (English to Latin)</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>lookUp</string>
+			<key>NSPortName</key>
+			<string>iWords</string>
+			<key>NSRequiredContext</key>
+			<dict/>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+			<key>NSUserData</key>
+			<string>1</string>
+		</dict>
+	</array>
+	<key>SUFeedURL</key>
+	<string>https://iwords-distribution.s3.amazonaws.com/changelog.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>VTvuJdHhneRvlybG0Uc+Q6DAwGLlUB5lShK0JwJ3T8k=</string>
 </dict>
 </plist>
