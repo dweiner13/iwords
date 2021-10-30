@@ -1,6 +1,5 @@
 ---
-title: iWords - macOS Latin Dictionary
-description: iWords is a Latin dictionary app for macOS based on Whitaker's Words
+title: iWords Latin Dictionary for macOS
 image: Icon-128@2x.png
 ---
 
@@ -13,9 +12,7 @@ image: Icon-128@2x.png
 </center>
 
 iWords is a Latin dictionary app for macOS that leverages 
-[WORDS](https://mk270.github.io/whitakers-words/) by William Whitaker. The hope is to continue the legacy of the 
-venerable old Interpres app, in providing a powerful and easy
-Latin dictionary built on macOS technologies.
+[WORDS](https://mk270.github.io/whitakers-words/) by William Whitaker. The intention is to continue the legacy of the venerable Interpres app, in providing a powerful Latin dictionary built on macOS technologies.
 
 ## Download
 
