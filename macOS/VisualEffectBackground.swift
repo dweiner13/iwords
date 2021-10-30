@@ -23,6 +23,7 @@ struct VisualEffectEmphasizedKey: EnvironmentKey {
     static var defaultValue: Bool? = nil
 }
 
+@available(macOS 10.15, *)
 extension EnvironmentValues {
     var visualEffectMaterial: NSVisualEffectView.Material? {
         get { self[VisualEffectMaterialKey.self] }
@@ -40,6 +41,7 @@ extension EnvironmentValues {
     }
 }
 
+@available(macOS 10.15, *)
 struct VisualEffectBackground: NSViewRepresentable {
     private let material: NSVisualEffectView.Material
     private let blendingMode: NSVisualEffectView.BlendingMode
@@ -70,6 +72,7 @@ struct VisualEffectBackground: NSViewRepresentable {
     }
 }
 
+@available(macOS 10.15, *)
 extension View {
     func visualEffect(
         material: NSVisualEffectView.Material,

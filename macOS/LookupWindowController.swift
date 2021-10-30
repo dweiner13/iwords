@@ -187,13 +187,13 @@ class LookupWindowController: NSWindowController {
     private var definitionHostingView: NSView?
     
     private func setDefinitionView(with output: String) {
-
         definitionHostingView?.isHidden = true
         definitionHostingView?.removeFromSuperview()
         definitionHostingView = nil
-        if let (definitions, truncated) = parse(output) {
-            let view = NSHostingView(rootView: DefinitionsView(definitions: (definitions, truncated)))
-//            let view = DWDefinitionsView(definitions: [definition], frame: .zero)
+        if #available(macOS 11.0, *),
+            let (definitions, truncated) = parse(output) {
+            let view = NSHostingView(rootView: DefinitionsView(definitions: (definitions, truncated))
+                                        .environmentObject(fontSizeController))
             view.translatesAutoresizingMaskIntoConstraints = false
             lookupViewController.view.addSubview(view)
             NSLayoutConstraint.activate([

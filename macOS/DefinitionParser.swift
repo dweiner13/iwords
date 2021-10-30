@@ -15,23 +15,23 @@ enum PartOfSpeech: String, CustomStringConvertible {
     
     var description: String {
         switch self {
-        case .noun: return "noun"
-        case .verb: return "verb"
-        case .adjective: return "adjective"
+        case .noun: return "n."
+        case .verb: return "v."
+        case .adjective: return "adj."
         }
     }
 }
 
-enum Gender: String {
+enum Gender: String, CustomStringConvertible {
     case masculine = "M",
          feminine = "F",
          neuter = "N"
     
     var description: String {
         switch self {
-        case .masculine: return "masculine"
-        case .feminine: return "feminine"
-        case .neuter: return "neuter"
+        case .masculine: return "masc."
+        case .feminine: return "fem."
+        case .neuter: return "neut."
         }
     }
 }
@@ -45,11 +45,11 @@ enum Declension: Int, CustomStringConvertible {
     
     var description: String {
         switch self {
-        case .first: return "1st declension"
-        case .second: return "2nd declension"
-        case .third: return "3rd declension"
-        case .fourth: return "4th declension"
-        case .fifth: return "5th declension"
+        case .first: return "1st decl."
+        case .second: return "2nd decl."
+        case .third: return "3rd decl."
+        case .fourth: return "4th decl."
+        case .fifth: return "5th decl."
         }
     }
 }
@@ -62,15 +62,15 @@ enum Conjugation: Int, CustomStringConvertible {
     
     var description: String {
         switch self {
-        case .first: return "1st conjugation"
-        case .second: return "2nd conjugation"
-        case .third: return "3rd conjugation"
-        case .fourth: return "4th conjugation"
+        case .first: return "1st conj."
+        case .second: return "2nd conj."
+        case .third: return "3rd conj."
+        case .fourth: return "4th conj."
         }
     }
 }
 
-enum Case: String {
+enum Case: String, CustomStringConvertible {
     case nominative = "NOM"
     case accusative = "ACC"
     case ablative = "ABL"
@@ -78,6 +78,25 @@ enum Case: String {
     case genitive = "GEN"
     case locative = "LOC"
     case vocative = "VOC"
+
+    var description: String {
+        switch self {
+        case .nominative:
+            return "nom."
+        case .accusative:
+            return "acc."
+        case .ablative:
+            return "abl."
+        case .dative:
+            return "dat."
+        case .genitive:
+            return "gen."
+        case .locative:
+            return "loc."
+        case .vocative:
+            return "voc."
+        }
+    }
 }
 
 private func notLineEnding(_ c: UTF8.CodeUnit) -> Bool {
@@ -123,9 +142,18 @@ enum Expansion: Equatable {
     }
 }
 
-enum Number: String {
+enum Number: String, CustomStringConvertible {
     case singular = "S"
     case plural = "P"
+
+    var description: String {
+        switch self {
+        case .singular:
+            return "sing."
+        case .plural:
+            return "pl."
+        }
+    }
 }
 
 // A fully declined instance of a noun
@@ -142,14 +170,22 @@ struct Noun: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     }
 
     var description: String {
-        "\(text) (\(declension)"
+        "\(`case`) \(number)"
     }
 }
 
-enum Degree: String {
+enum Degree: String, CustomStringConvertible {
     case positive = "POS"
     case comparative = "COMP"
     case superlative = "SUPER"
+
+    var description: String {
+        switch self {
+        case .positive: return "pos."
+        case .comparative: return "comp."
+        case .superlative: return "super."
+        }
+    }
 }
 
 struct Adjective: Equatable, CustomDebugStringConvertible {
@@ -162,7 +198,11 @@ struct Adjective: Equatable, CustomDebugStringConvertible {
     let degree: Degree
 
     var debugDescription: String {
-        return "Adjective: \(text), \(declension), \(variety), \(`case`), \(number), \(gender), \(degree)"
+        "Adjective: \(text), \(declension), \(variety), \(`case`), \(number), \(gender), \(degree)"
+    }
+
+    var description: String {
+        "\(declension) \(`case`) \(number) \(gender) \(degree)"
     }
 }
 
@@ -176,6 +216,24 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
             return noun.debugDescription
         case .adjective(let adj):
             return adj.debugDescription
+        }
+    }
+
+    var word: String {
+        switch self {
+        case .noun(let noun):
+            return noun.text
+        case .adjective(let adj):
+            return adj.text
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .noun(let noun):
+            return noun.description
+        case .adjective(let adj):
+            return adj.description
         }
     }
 }

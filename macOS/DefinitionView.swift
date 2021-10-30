@@ -8,6 +8,7 @@
 import SwiftUI
 
 // MARK: DWTextView
+@available(macOS 10.15, *)
 class DWTextView: NSTextView {
     override var intrinsicContentSize: NSSize {
 //        layoutManager!.ensureLayout(for: textContainer!)
@@ -56,6 +57,7 @@ class DWTextView: NSTextView {
 }
 
 // MARK: TextView
+@available(macOS 11.0, *)
 struct TextView: NSViewRepresentable {
     let text: String
     
@@ -94,6 +96,7 @@ struct TextView: NSViewRepresentable {
 }
 
 // MARK: DWDefinitionsView
+@available(macOS 11.0, *)
 class DWDefinitionsView: NSView {
     let definitions: [Definition]
 
@@ -165,6 +168,7 @@ class DWDefinitionsView: NSView {
 }
 
 // MARK: DefinitionsView
+@available(macOS 11.0, *)
 struct DefinitionsView: View {
     let definitions: ([Definition], Bool)
     
@@ -202,53 +206,89 @@ struct DefinitionsView: View {
                     }
                 }
             }
+        }.background(Color.white)
+    }
+}
+
+@available(macOS 11.0, *)
+struct SelectableText: View {
+    let content: () -> Text
+
+    var body: some View {
+        if #available(macOS 12.0, *) {
+            content().textSelection(.enabled)
+        } else {
+            content()
         }
     }
 }
 
+@available(macOS 11.0, *)
+extension Text {
+    func safeSelectable() -> some View {
+        SelectableText { self }
+    }
+}
+
 // MARK: DefinitionView
+@available(macOS 11.0, *)
 struct DefinitionView: View {
     let definition: Definition
 
     @State
     var showDeclensions = false
+
+    @EnvironmentObject
+    var fontSizeController: FontSizeController
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(verbatim: definition.expansion.principleParts)
-                .font(.system(.title, design: .serif))
-                .fontWeight(.medium)
-            Group {
-                switch definition.expansion {
-                case .noun(_, let declension, let gender):
-                    Text("\(definition.expansion.pos.description), \(declension.description), \(gender.description)")
-                case .verb(_, let conjugation):
-                    Text("\(definition.expansion.pos.description), \(conjugation.description)")
-                case .adj:
-                    Text("\(definition.expansion.pos.description)")
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline) {
+                SelectableText {
+                    Text(verbatim: definition.expansion.principleParts)
+                        .font(.system(size: fontSizeController.fontSize * 1.3, weight: .medium, design: .serif))
+                    + Text("  ") + { () -> Text in
+                        switch definition.expansion {
+                        case .noun(_, let declension, let gender):
+                            return Text("\(definition.expansion.pos.description), \(declension.description), \(gender.description)")
+                        case .verb(_, let conjugation):
+                            return Text("\(definition.expansion.pos.description), \(conjugation.description)")
+                        case .adj:
+                            return Text("\(definition.expansion.pos.description)")
+                        }
+                    }()
+                    .foregroundColor(.secondary)
+                    .font(.system(size: fontSizeController.fontSize * 1.1, weight: .regular, design: .serif))
                 }
             }
-                .foregroundColor(.secondary)
-                .font(.system(.callout, design: .serif))
 
-            Text(definition.possibilities.map(\.debugDescription).joined(separator: "\n"))
-                .multilineTextAlignment(.leading)
-                .font(.system(.caption2, design: .serif))
-//                .font(.system(.caption, design: .monospaced))
+            ForEach(definition.possibilities, id: \.debugDescription) { possibility in
+                SelectableText {
+                    Text(possibility.word)
+                        .foregroundColor(Color.primary)
+                        .font(.system(size: fontSizeController.fontSize * 0.9, weight: .medium, design: .monospaced))
+                    + Text("\t")
+                    + Text(verbatim: possibility.description)
+                        .foregroundColor(.secondary)
+                        .font(.system(size: fontSizeController.fontSize * 0.9, weight: .regular, design: .serif))
+                }
+            }
+            .multilineTextAlignment(.leading)
 
-            Rectangle().fill(SeparatorShapeStyle())
+//            DisclosureGroup("\(definition.possibilities.count) possibilities") {
+//                HStack {
+//
+//                    Spacer()
+//                }
+//            }
+
+            Rectangle()
+                .fill(SeparatorShapeStyle())
                 .frame(height: 1)
-                
-            TextView(text: definition.meaning)
 
-            DisclosureGroup("Declensions", isExpanded: $showDeclensions) {
-                VStack(alignment: .leading) {
-                    Text(definition.possibilities.map(\.debugDescription).joined(separator: "\n"))
-                        .multilineTextAlignment(.leading)
-                        .font(.system(.body, design: .monospaced))
-                        .frame(maxWidth: .infinity)
-                }
-            }
+            Text(verbatim: definition.meaning)
+                .safeSelectable()
+                .font(.system(size: fontSizeController.fontSize, weight: .regular, design: .serif))
         }
         .padding()
         .visualEffect(material: .contentBackground)
@@ -256,6 +296,7 @@ struct DefinitionView: View {
 }
 
 // MARK: DWBridgedDefinitionView
+@available(macOS 11.0, *)
 struct DWBridgedDefinitionView: NSViewRepresentable {
     let definitions: [Definition] 
     
@@ -271,6 +312,7 @@ struct DWBridgedDefinitionView: NSViewRepresentable {
 }
 
 // MARK: DefinitionView_Previews
+@available(macOS 11.0, *)
 struct DefinitionView_Previews: PreviewProvider {
     static let noun = iWords.Definition(possibilities: ["copi.a               N      1 1 NOM S F                 ", "copi.a               N      1 1 VOC S F                 ", "copi.a               N      1 1 ABL S F                 "].compactMap(possibility.parse),
                                         expansion: .noun("copia, copiae", .first, .feminine),
