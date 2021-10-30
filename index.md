@@ -1,5 +1,6 @@
 ---
-title: iWords Latin Dictionary for macOS
+title: iWords
+description: Latin Dictionary app for macOS
 image: Icon-128@2x.png
 ---
 
