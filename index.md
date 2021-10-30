@@ -1,12 +1,10 @@
 <script async defer data-website-id="6cec7f4f-35d5-4b4b-8053-9f9ce2fd8a43" src="http://45.33.79.83:3000/umami.js"></script>
 
 <center>
-  <img width="179" 
+  <img width="256" 
        alt="iWords application icon" 
        src="icon256@1x.png">
 </center>
-
-![](icon256@1x.png)
 
 iWords is a Latin dictionary app for macOS that leverages 
 [WORDS](https://mk270.github.io/whitakers-words/) by William Whitaker. The hope is to continue the legacy of the 
