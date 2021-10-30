@@ -17,7 +17,7 @@ iWords is a Latin dictionary app for macOS that leverages
 
 ## Download
 
-This project is still in alpha stage. Click below to download the latest alpha **(requires macOS 10.13 High Sierra or later)**.
+This project is still in alpha stage. Click below to download the latest alpha *(requires macOS 10.13 High Sierra or later)*.
 
 ### [📦 Latest Alpha Release (v0.4.7)](https://github.com/dweiner13/iwords/releases/download/v0.4.7/iWords.zip)
 
