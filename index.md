@@ -1,3 +1,9 @@
+---
+title: iWords - macOS Latin Dictionary
+description: iWords is a Latin dictionary app for macOS based on Whitaker's Words
+image: Icon-128@2x.png
+---
+
 <script async defer data-website-id="6cec7f4f-35d5-4b4b-8053-9f9ce2fd8a43" src="http://45.33.79.83:3000/umami.js"></script>
 
 <center>
