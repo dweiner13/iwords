@@ -21,10 +21,10 @@ Or [view the Git repo](https://github.com/dweiner13/iwords) to see the source co
 
 ## Features
 
-- Both Latin-to-Latin and English-to-Latin
+- Search in Latin-to-English or English-to-Latin
 - No Internet connection required
 - Integrates with [macOS Services](https://support.apple.com/guide/mac-help/use-services-in-apps-mchlp1012/mac), so you can look up translations from within any app
-- Powerful and flexible - customize the toolbar, open as many windows and tabs as you need, change the font size, and make use of extensive keyboard shortcuts
+- Powerful and flexible — customize the toolbar, open as many windows and tabs as you need, change the font size, and make use of extensive keyboard shortcuts
 - Includes an offline Help manual
  
 <a href="https://user-images.githubusercontent.com/2500910/114791452-95bdf500-9d54-11eb-9737-732701851621.png">
