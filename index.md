@@ -31,8 +31,8 @@ Or [view the Git repo](https://github.com/dweiner13/iwords) to see the source co
 - Powerful and flexible — customize the toolbar, open as many windows and tabs as you need, change the font size, and make use of extensive keyboard shortcuts
 - Includes an offline Help manual
  
-<a href="https://user-images.githubusercontent.com/2500910/114791452-95bdf500-9d54-11eb-9737-732701851621.png">
-  <img width="540" 
-       alt="Screen shot of iWords" 
-       src="https://user-images.githubusercontent.com/2500910/114791400-7f179e00-9d54-11eb-89ef-12ad462cff73.png">
+<a href="screenshot@2x.png">
+  <img width="868" 
+       alt="Screen shot of the main iWords window, including the toolbar, the search field with a query typed in, and the results area which is displaying the dictionary results." 
+       src="screenshot@1x.png">
 </a>
