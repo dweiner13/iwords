@@ -159,7 +159,7 @@ class DefinitionTests: XCTestCase {
                         []),
                     meaning: "sale, purchase; (only sg. ACC/DAT w/dare); [venum dare => put up for sale];")]),
                 iWords.Definition(
-                    possibilities: [.verb(Verb(text: "veni", conjugation: .sixth, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),],
+                    possibilities: [.verb(Verb(text: "veni", conjugation: nil, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),],
                     words: [Word(expansion: iWords.Expansion.verb(
                         "veneo, venire, venivi(ii), venitus",
                         nil,
@@ -188,6 +188,11 @@ class DefinitionTests: XCTestCase {
         ])
 
         example = String(data: NSDataAsset(name: "queries/orietur")!.data, encoding: .utf8)!
-        XCTAssertEqual(parse(example)?.0, nil)
+        XCTAssertEqual(parse(example)?.0, [
+            iWords.Definition(possibilities: [.verb(Verb(text: "ori.etur", conjugation: .third, variety: 1, tense: .future, voice: nil, mood: .indicative, person: .third, number: .singular))],
+                              words: [Word(expansion: .verb("orior, ori, oritus sum", .third, ["dep."]), meaning: "rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;\nbe born/created; be born of, descend/spring from; proceed/be derived (from);")]),
+            iWords.Definition(possibilities: [.verb(Verb(text: "ori.etur", conjugation: .fourth, variety: 1, tense: .future, voice: nil, mood: .indicative, person: .third, number: .singular))],
+                              words: [Word(expansion: .verb("orior, oriri, ortus sum", .fourth, ["dep."]), meaning: "rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;\nbe born/created; be born of, descend/spring from; proceed/be derived (from);")])
+        ])
     }
 }

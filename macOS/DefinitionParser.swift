@@ -74,9 +74,7 @@ enum Conjugation: Int, CustomStringConvertible, Codable {
     case first = 1,
          second,
          third,
-         fourth,
-         fifth, // ??
-         sixth // ??
+         fourth
     
     var description: String {
         switch self {
@@ -84,8 +82,6 @@ enum Conjugation: Int, CustomStringConvertible, Codable {
         case .second: return "2nd conj."
         case .third: return "3rd conj."
         case .fourth: return "4th conj."
-        case .fifth: return "5th conj."
-        case .sixth: return "6th conj."
         }
     }
 
@@ -463,10 +459,10 @@ enum Person: Int, CustomStringConvertible, Parseable, Codable {
 // TODO: create a protocol for more DRY
 struct Verb: Equatable, CustomDebugStringConvertible, CustomStringConvertible, Codable {
     let text: String
-    let conjugation: Conjugation
+    let conjugation: Conjugation?
     let variety: Int
     let tense: Tense
-    let voice: Voice
+    let voice: Voice? // Voice can be nil for deponent verbs
     let mood: Mood
     let person: Person?
     let number: Number?
@@ -476,7 +472,7 @@ struct Verb: Equatable, CustomDebugStringConvertible, CustomStringConvertible, C
     }
 
     var description: String {
-        "\(conjugation) \(tense) \(voice) \(mood) \(person?.description.appending(" ") ?? "")\(number?.description ?? "")"
+        "\(conjugation?.description.appending(" ") ?? "")\(tense) \(voice?.description.appending(" ") ?? "")\(mood) \(person?.description.appending(" ") ?? "")\(number?.description ?? "")"
     }
 }
 
@@ -591,13 +587,13 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
                 $0.trimmingCharacters(in: .whitespaces)
             }
             .skip(StartsWith("V      "))
-            .take(Conjugation.parser)
+            .take(Conjugation?.parser)
             .skip(StartsWith(" "))
             .take(variety)
             .skip(StartsWith(" "))
             .take(Tense.parser)
             .skip(StartsWith(" "))
-            .take(Voice.parser)
+            .take(Voice?.parser)
             .skip(StartsWith(" "))
             .take(Mood.parser)
             .skip(StartsWith(" "))
@@ -653,7 +649,8 @@ func getNotes(_ str: Substring) -> [String] {
 func prettifyNote(_ note: String) -> String {
     let replacements: [String: String] = [
         "veryrare": "very rare",
-        "INTRANS": "intrans."
+        "INTRANS": "intrans.",
+        "DEP": "dep."
     ]
     return replacements[note] ?? note
 }
