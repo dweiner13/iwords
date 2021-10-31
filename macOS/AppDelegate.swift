@@ -41,8 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         #if DEBUG
         startListeningToUserDefaults()
-
-        UserDefaults.standard.setValue(1, forKey: "diagnosticMode")
         #endif
 
         if NSApp.windows.isEmpty {

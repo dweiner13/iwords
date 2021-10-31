@@ -55,9 +55,9 @@
 	<key>INIntentDefinitionSystemVersion</key>
 	<string>21A5552a</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>13A233</string>
+	<string>13A1030d</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>13.0</string>
+	<string>13.1</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -65,6 +65,8 @@
 			<string>search</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Look up a term in iWords</string>
 			<key>INIntentDescriptionID</key>
 			<string>q40FTn</string>
 			<key>INIntentInput</key>
@@ -98,7 +100,7 @@
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>0EuqLz</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<true/>
+					<false/>
 					<key>INIntentParameterCombinationTitle</key>
 					<string>Look up ${query}</string>
 					<key>INIntentParameterCombinationTitleID</key>
@@ -239,6 +241,8 @@
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
 				<integer>3</integer>
+				<key>INIntentResponseOutput</key>
+				<string>definition</string>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>

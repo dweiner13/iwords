@@ -21,29 +21,25 @@ extension Dictionary.Direction {
 
 @available(macOS 12.0, *)
 class LookUpIntentHandler: NSObject, LookUpIntentHandling {
-    func handle(intent: LookUpIntent, completion: @escaping (LookUpIntentResponse) -> Void) {
-        completion(.init(code: .failure, userActivity: nil))
+    func handle(intent: LookUpIntent) async -> LookUpIntentResponse {
+        guard let query = intent.query?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !query.isEmpty else {
+              return LookUpIntentResponse(code: .failure, userActivity: nil)
+        }
+
+        guard let direction = Dictionary.Direction(intent.direction) else {
+            return LookUpIntentResponse(code: .failure, userActivity: nil)
+        }
+
+        do {
+            let definition = try Dictionary.shared.getDefinition(query, direction: direction, options: [])
+            let response = LookUpIntentResponse(code: .success, userActivity: nil)
+            response.definition = definition
+            return response
+        } catch {
+            return LookUpIntentResponse(code: .failure, userActivity: nil)
+        }
     }
-//    func handle(intent: LookUpIntent) async -> LookUpIntentResponse {
-//        return .init(code: .failure, userActivity: nil)
-//        guard let query = intent.query?.trimmingCharacters(in: .whitespacesAndNewlines),
-//              !query.isEmpty else {
-//              return LookUpIntentResponse(code: .failure, userActivity: nil)
-//        }
-//
-//        guard let direction = Dictionary.Direction(intent.direction) else {
-//            return LookUpIntentResponse(code: .failure, userActivity: nil)
-//        }
-//
-//        do {
-//            let definition = try Dictionary.shared.getDefinition(query, direction: direction, options: [])
-//            let response = LookUpIntentResponse(code: .success, userActivity: nil)
-//            response.definition = definition
-//            return response
-//        } catch {
-//            return LookUpIntentResponse(code: .failure, userActivity: nil)
-//        }
-//    }
 
     func resolveDirection(for intent: LookUpIntent) async -> DirectionResolutionResult {
         guard Dictionary.Direction(intent.direction) != nil else {
