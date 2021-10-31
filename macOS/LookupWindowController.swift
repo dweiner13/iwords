@@ -223,13 +223,6 @@ class LookupWindowController: NSWindowController {
             NSSound.beep()
             return
         }
-        let data: Data
-        do {
-            data = try JSONEncoder().encode(definitions)
-        } catch {
-            self.presentError(error)
-            return
-        }
         let fileName = "\(backForwardController.currentSearchQuery?.searchText ?? "results").json"
         let savePanel = NSSavePanel()
         savePanel.nameFieldStringValue = fileName
@@ -242,7 +235,7 @@ class LookupWindowController: NSWindowController {
                 return
             }
             do {
-                try data.write(to: url)
+                try JSONEncoder().encode(definitions).write(to: url)
             } catch {
                 self.presentError(error)
             }

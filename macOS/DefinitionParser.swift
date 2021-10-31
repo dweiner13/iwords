@@ -12,7 +12,9 @@ enum PartOfSpeech: String, CustomStringConvertible, Codable {
     case noun = "N",
          verb = "V",
          adjective = "ADJ",
-         adverb = "ADV"
+         adverb = "ADV",
+         pronoun = "PRON",
+         preposition = "PREP"
     
     var description: String {
         switch self {
@@ -20,6 +22,8 @@ enum PartOfSpeech: String, CustomStringConvertible, Codable {
         case .verb: return "v."
         case .adjective: return "adj."
         case .adverb: return "adv."
+        case .pronoun: return "pron."
+        case .preposition: return "prep."
         }
     }
 
@@ -31,13 +35,15 @@ enum PartOfSpeech: String, CustomStringConvertible, Codable {
 enum Gender: String, CustomStringConvertible, Codable {
     case masculine = "M",
          feminine = "F",
-         neuter = "N"
+         neuter = "N",
+         common = "C"
     
     var description: String {
         switch self {
         case .masculine: return "masc."
         case .feminine: return "fem."
         case .neuter: return "neut."
+        case .common: return "common"
         }
     }
 
@@ -128,7 +134,7 @@ private func notLineEnding(_ c: UTF8.CodeUnit) -> Bool {
 }
 
 struct Word: Equatable, Codable {
-    let expansion: Expansion
+    let expansion: Expansion?
     let meaning: String
 }
 
@@ -158,10 +164,12 @@ enum Expansion: Equatable, Codable {
     case adj(String, [String])
     case adv(String, [String])
     case verb(String, Conjugation?, [String])
+    case pron(String, [String])
+    case prep(String, Case?, [String])
     
     var principleParts: String {
         switch self {
-        case .noun(let pp, _, _, _), .verb(let pp, _, _), .adj(let pp, _), .adv(let pp, _): return pp
+        case .noun(let pp, _, _, _), .verb(let pp, _, _), .adj(let pp, _), .adv(let pp, _), .pron(let pp, _), .prep(let pp, _, _): return pp
         }
     }
     
@@ -171,6 +179,8 @@ enum Expansion: Equatable, Codable {
         case .verb: return .verb
         case .adj: return .adjective
         case .adv: return .adverb
+        case .pron: return .pronoun
+        case .prep: return .preposition
         }
     }
 
@@ -183,6 +193,10 @@ enum Expansion: Equatable, Codable {
         case .adv(_, let notes):
             return notes
         case .verb(_, _, let notes):
+            return notes
+        case .pron(_, let notes):
+            return notes
+        case .prep(_, _, let notes):
             return notes
         }
     }
@@ -223,6 +237,15 @@ enum Expansion: Equatable, Codable {
             }
             .eraseToAnyParser()
 
+        let pronExpansion = principleParts
+            .skip(StartsWith("  "))
+            .skip(StartsWith(PartOfSpeech.pronoun.rawValue))
+            .take(Rest())
+            .map {
+                Expansion.pron($0.0, getNotes($0.1))
+            }
+            .eraseToAnyParser()
+
         let verbExpansion = principleParts
             .skip(StartsWith("  "))
             .skip(StartsWith(PartOfSpeech.verb.rawValue))
@@ -237,7 +260,18 @@ enum Expansion: Equatable, Codable {
             }
             .eraseToAnyParser()
 
-        return OneOfMany([nounExpansion, adjExpansion, advExpansion, verbExpansion]).eraseToAnyParser()
+        let prepExpansion = principleParts
+            .skip(StartsWith("  "))
+            .skip(StartsWith(PartOfSpeech.preposition.rawValue))
+            .skip(StartsWith("  "))
+            .take(Case?.parser)
+            .take(Rest())
+            .map {
+                Expansion.prep($0.0.0, $0.0.1, getNotes($0.1))
+            }
+            .eraseToAnyParser()
+
+        return OneOfMany([nounExpansion, adjExpansion, advExpansion, verbExpansion, pronExpansion, prepExpansion]).eraseToAnyParser()
     }()
 }
 
@@ -319,6 +353,36 @@ struct Adverb: Equatable, CustomDebugStringConvertible, CustomStringConvertible,
 
     var description: String {
         "\(degree)"
+    }
+}
+
+struct Pronoun: Equatable, CustomDebugStringConvertible, CustomStringConvertible, Codable {
+    let text: String
+    let declension: Declension?
+    let variety: Int
+    let `case`: Case
+    let number: Number
+    let gender: Gender
+
+    var debugDescription: String {
+        "Pronoun: \(text), \(declension), \(variety), \(`case`), \(number), \(gender)"
+    }
+
+    var description: String {
+        "\(`case`), \(number), \(gender)"
+    }
+}
+
+struct Preposition: Equatable, CustomDebugStringConvertible, CustomStringConvertible, Codable {
+    let text: String
+    let `case`: Case?
+
+    var debugDescription: String {
+        "Pronoun: \(text), \(`case`)"
+    }
+
+    var description: String {
+        "\(`case`?.description ?? "")"
     }
 }
 
@@ -481,6 +545,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
     case adjective(Adjective)
     case adverb(Adverb)
     case verb(Verb)
+    case pronoun(Pronoun)
+    case preposition(Preposition)
 
     var debugDescription: String {
         switch self {
@@ -492,6 +558,10 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             return adv.debugDescription
         case .verb(let verb):
             return verb.debugDescription
+        case .pronoun(let pronoun):
+            return pronoun.debugDescription
+        case .preposition(let preposition):
+            return preposition.debugDescription
         }
     }
 
@@ -505,6 +575,10 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             return adv.text
         case .verb(let verb):
             return verb.text
+        case .pronoun(let pronoun):
+            return pronoun.text
+        case .preposition(let preposition):
+            return preposition.text
         }
     }
 
@@ -518,6 +592,10 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             return adv.description
         case .verb(let verb):
             return verb.description
+        case .pronoun(let pronoun):
+            return pronoun.description
+        case .preposition(let preposition):
+            return preposition.description
         }
     }
 
@@ -607,7 +685,41 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             .map(Possibility.verb)
             .eraseToAnyParser()
 
-        return OneOfMany([nounPossibility, adjPossibility, advPossibility, verbPossibility])
+        let pronounPossibility: AnyParser<Substring, Possibility> = Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("PRON   "))
+            .take(Declension?.parser)
+            .skip(StartsWith(" "))
+            .take(variety)
+            .skip(StartsWith(" "))
+            .take(Case.parser)
+            .skip(StartsWith(" "))
+            .take(Number.parser)
+            .skip(StartsWith(" "))
+            .take(Gender.parser)
+            .skip(Rest())
+            .map {
+                Pronoun(text: $0.0.0, declension: $0.0.1, variety: $0.0.2, case: $0.0.3, number: $0.0.4, gender: $0.1)
+            }
+            .map(Possibility.pronoun)
+            .eraseToAnyParser()
+
+        let prepositionPossibility: AnyParser<Substring, Possibility> = Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("PREP   "))
+            .take(Case?.parser)
+            .skip(Rest())
+            .map {
+                Preposition(text: $0.0, case: $0.1)
+            }
+            .map(Possibility.preposition)
+            .eraseToAnyParser()
+
+        return OneOfMany([nounPossibility, adjPossibility, advPossibility, verbPossibility, pronounPossibility, prepositionPossibility])
             .eraseToAnyParser()
     }()
 }
@@ -650,7 +762,8 @@ func prettifyNote(_ note: String) -> String {
     let replacements: [String: String] = [
         "veryrare": "very rare",
         "INTRANS": "intrans.",
-        "DEP": "dep."
+        "DEP": "dep.",
+        "TRANS": "trans.",
     ]
     return replacements[note] ?? note
 }
@@ -676,8 +789,8 @@ func parse(_ str: String) -> ([Definition], Bool)? {
         words = []
     }
     let appendNewWord = {
-        guard let _exp = exp, let _meaning = meaning else { return }
-        words.append(Word(expansion: _exp, meaning: _meaning))
+        guard let _meaning = meaning else { return }
+        words.append(Word(expansion: exp, meaning: _meaning))
         exp = nil
         meaning = nil
     }
@@ -689,7 +802,7 @@ func parse(_ str: String) -> ([Definition], Bool)? {
         } else if let e = Expansion.parser.parse(line) {
             appendNewWord()
             exp = e
-        } else if exp != nil {
+        } else if exp != nil || (meaning == nil && !possibilities.isEmpty) {
             if line == "*" {
                 truncated = true
             } else if meaning == nil {

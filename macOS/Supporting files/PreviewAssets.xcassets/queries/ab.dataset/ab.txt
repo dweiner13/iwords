@@ -1,0 +1,4 @@
+ab                   PREP   ABL                         
+ab  PREP  ABL  
+by (agent), from (departure, cause, remote origin/time); after (reference);
+

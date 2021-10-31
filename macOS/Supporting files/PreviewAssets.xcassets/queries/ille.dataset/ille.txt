@@ -1,0 +1,4 @@
+ill.e                PRON   6 1 NOM S M                 
+ille, illa, illud  PRON  
+that; those (pl.); also DEMONST; that person/thing; the well known; the former;
+

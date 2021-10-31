@@ -95,8 +95,12 @@ struct DefinitionView: View {
             if let conjugation = conjugation {
                 descr += ", \(conjugation)"
             }
-        case .adj, .adv:
+        case .adj, .adv, .pron:
             break
+        case .prep(_, let `case`, _):
+            if let `case` = `case` {
+                descr += ", \(`case`.description)"
+            }
         }
         if !exp.notes.isEmpty {
             descr += " ("
@@ -130,16 +134,18 @@ struct DefinitionView: View {
 
             ForEach(definition.words, id: \.meaning) { word in
                 VStack(alignment: .leading, spacing: 4) {
-                    HStack(alignment: .firstTextBaseline) {
-                        SelectableText {
-                            Text(verbatim: word.expansion.principleParts)
-                                .font(.system(size: fontSizeController.fontSize * 1, weight: .bold, design: .serif))
-                            + Text("  ") + Text(verbatim: expansionDescription(word.expansion))
-                                .foregroundColor(.secondary)
-                                .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
+                    if let expansion = word.expansion {
+                        HStack(alignment: .firstTextBaseline) {
+                            SelectableText {
+                                Text(verbatim: expansion.principleParts ?? "")
+                                    .font(.system(size: fontSizeController.fontSize * 1, weight: .bold, design: .serif))
+                                + Text("  ") + Text(verbatim: expansionDescription(expansion))
+                                    .foregroundColor(.secondary)
+                                    .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
+                            }
                         }
+                        .padding(.leading, 16)
                     }
-                    .padding(.leading, 16)
 
                     Text(verbatim: word.meaning)
                         .safeSelectable()

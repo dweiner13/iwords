@@ -195,4 +195,41 @@ class DefinitionTests: XCTestCase {
                               words: [Word(expansion: .verb("orior, oriri, ortus sum", .fourth, ["dep."]), meaning: "rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;\nbe born/created; be born of, descend/spring from; proceed/be derived (from);")])
         ])
     }
+
+    func testPronouns() {
+        var example = String(data: NSDataAsset(name: "queries/ego")!.data, encoding: .utf8)!
+        XCTAssertEqual(parse(example)?.0, [
+            iWords.Definition(possibilities: [.pronoun(Pronoun(text: "ego", declension: .fifth, variety: 1, case: .nominative, number: .singular, gender: .common))],
+                              words: [Word(expansion: nil, meaning: "I, me (PERS); myself (REFLEX);")])
+        ])
+
+        example = String(data: NSDataAsset(name: "queries/ille")!.data, encoding: .utf8)!
+        XCTAssertEqual(parse(example)?.0, [
+            iWords.Definition(possibilities: [.pronoun(Pronoun(text: "ill.e", declension: nil, variety: 1, case: .nominative, number: .singular, gender: .masculine))],
+                              words: [Word(expansion: .pron("ille, illa, illud", []),
+                                           meaning: "that; those (pl.); also DEMONST; that person/thing; the well known; the former;")])
+        ])
+    }
+
+    func testPrepositions() {
+        var example = String(data: NSDataAsset(name: "queries/ab")!.data, encoding: .utf8)!
+        XCTAssertEqual(parse(example)?.0, [
+            iWords.Definition(possibilities: [.preposition(Preposition(text: "ab", case: .ablative))],
+                              words: [Word(expansion: .prep("ab", .ablative, []),
+                                           meaning: "by (agent), from (departure, cause, remote origin/time); after (reference);")])
+        ])
+    }
+
+    func testCombined() {
+        testQueryExpectedAssetPair(asset: "facile")
+        testQueryExpectedAssetPair(asset: "prae")
+    }
+
+    private func testQueryExpectedAssetPair(asset name: String) {
+        let raw = String(data: NSDataAsset(name: "queries/\(name)")!.data, encoding: .utf8)!
+        let expected = try! JSONDecoder().decode([Definition].self, from: NSDataAsset(name: "expected/\(name)")!.data)
+        XCTAssertNotNil(raw)
+        XCTAssertNotNil(expected)
+        XCTAssertEqual(parse(raw)?.0, expected)
+    }
 }

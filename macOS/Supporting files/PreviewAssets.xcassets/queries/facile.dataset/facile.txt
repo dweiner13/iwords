@@ -1,0 +1,10 @@
+facil.e              ADJ    3 2 NOM S N POS             
+facil.e              ADJ    3 2 VOC S N POS             
+facil.e              ADJ    3 2 ABL S X POS             
+facil.e              ADJ    3 2 ACC S N POS             
+facilis, facile, facilior -or -us, facillimus -a -um  ADJ  
+easy, easy to do, without difficulty, ready, quick, good natured, courteous;
+facile               ADV    POS                         
+facile, facilius, facillime  ADV  
+easily, readily, without difficulty; generally, often; willingly; heedlessly;
+
