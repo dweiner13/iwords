@@ -7,6 +7,7 @@
 
 import Cocoa
 import Combine
+import Intents
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
@@ -40,8 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         #if DEBUG
         startListeningToUserDefaults()
-
-        UserDefaults.standard.setValue(1, forKey: "diagnosticMode")
         #endif
 
         if NSApp.windows.isEmpty {
@@ -108,6 +107,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
 
         newWindow.makeKeyAndOrderFront(sender)
+    }
+
+    func application(_ application: NSApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+        print(userActivityType)
+        return false
+    }
+
+    @available(macOS 12.0, *)
+    func application(_ application: NSApplication, handlerFor intent: INIntent) -> Any? {
+        switch intent {
+        case is LookUpIntent: return LookUpIntentHandler()
+        default: return nil
+        }
     }
 }
 
