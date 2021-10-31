@@ -87,6 +87,22 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="3jA-Gu-wqu"/>
+                                        <menuItem title="Export Raw Results..." keyEquivalent="S" id="bYf-fa-jBW">
+                                            <connections>
+                                                <action selector="exportRawResult:" target="Ady-hI-5gd" id="XHt-KT-0ta"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Export Results as JSON..." keyEquivalent="J" id="L9E-xW-M2L">
+                                            <connections>
+                                                <action selector="exportJSONResult:" target="Ady-hI-5gd" id="aZp-oe-5U3"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="WNC-8h-mJy">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="zFd-KG-8sn"/>
                                         <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="HmO-Ls-i7Q"/>
@@ -332,6 +348,9 @@
                                                 <action selector="performZoom:" target="Ady-hI-5gd" id="DIl-cC-cCs"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Reset window size" id="CpE-fF-g1u">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
                                         <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -370,7 +389,6 @@
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="AnR-hL-FcP"/>
-                <userDefaultsController id="2zu-H8-Kdr"/>
                 <customObject id="vaf-za-0QZ" customClass="HistoryController" customModule="iWords" customModuleProvider="target">
                     <connections>
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="FIU-Ed-KB2"/>
@@ -500,11 +518,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="LookupViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="366"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
                                     <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -529,15 +547,31 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IER-Pz-Rs3">
+                                <rect key="frame" x="132" y="373" width="172" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="qh3-HL-ma3">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="Pretty" imageScaling="proportionallyUpOrDown" selected="YES"/>
+                                        <segment label="Raw" imageScaling="proportionallyUpOrDown" width="82" tag="1"/>
+                                    </segments>
+                                </segmentedCell>
+                                <connections>
+                                    <action selector="didChangeMode:" target="XfG-lQ-9wD" id="7oS-t1-xRw"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="C0C-bc-4tP"/>
-                            <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="bhh-wV-9Nk"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cpg-3Y-Fcr"/>
-                            <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="jki-pv-nYk"/>
+                            <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="9vM-Xs-u3T"/>
+                            <constraint firstItem="IER-Pz-Rs3" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="LmM-1k-EgQ"/>
+                            <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="eOu-Yp-T3G"/>
+                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="IER-Pz-Rs3" secondAttribute="bottom" constant="8" symbolic="YES" id="fa9-3M-ZYb"/>
+                            <constraint firstItem="IER-Pz-Rs3" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="tTO-is-2zM"/>
+                            <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="v0J-go-CBZ"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="displayModeControl" destination="IER-Pz-Rs3" id="gOC-zp-ipB"/>
                         <outlet property="fontSizeController" destination="MSZ-V0-exo" id="9ws-XK-tDk"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                     </connections>
@@ -548,8 +582,9 @@
                         <outlet property="delegate" destination="XfG-lQ-9wD" id="LlZ-Qa-ADx"/>
                     </connections>
                 </customObject>
+                <userDefaultsController id="jkl-w9-pOM"/>
             </objects>
-            <point key="canvasLocation" x="61" y="696"/>
+            <point key="canvasLocation" x="60.5" y="696"/>
         </scene>
     </scenes>
     <resources>

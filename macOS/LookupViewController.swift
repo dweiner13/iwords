@@ -6,6 +6,11 @@
 //
 
 import Cocoa
+import SwiftUI
+
+enum ResultDisplayMode: Int {
+    case pretty, raw
+}
 
 class LookupViewController: NSViewController {
 
@@ -15,8 +20,30 @@ class LookupViewController: NSViewController {
     @IBOutlet
     var fontSizeController: FontSizeController!
 
+    @objc
+    dynamic var text: String? {
+        didSet {
+            updateForResultText(text ?? "")
+        }
+    }
+
+    var definitions: [Definition]?
+
+    @IBOutlet weak var displayModeControl: NSSegmentedControl!
+
+    var mode: ResultDisplayMode {
+        get {
+            ResultDisplayMode(rawValue: displayModeControl.selectedSegment)!
+        }
+        set {
+            displayModeControl.selectedSegment = newValue.rawValue
+        }
+    }
+
+    private var definitionHostingView: NSView?
+
     override class var restorableStateKeyPaths: [String] {
-        ["textView.string"]
+        ["text"]
     }
 
     override func viewDidLoad() {
@@ -34,19 +61,53 @@ class LookupViewController: NSViewController {
         return textWidth + textView.textContainerInset.width * 2 + 24
     }
 
-    func setResultText(_ text: String) {
+    private func updateForResultText(_ text: String) {
         textView.string = text
+
+        definitionHostingView?.isHidden = true
+        definitionHostingView?.removeFromSuperview()
+        definitionHostingView = nil
+        if #available(macOS 11.0, *),
+           let (definitions, truncated) = parse(text) {
+            self.definitions = definitions
+            displayModeControl.setEnabled(true, forSegment: 0)
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (definitions, truncated))
+                                        .environmentObject(fontSizeController))
+            hostingView.translatesAutoresizingMaskIntoConstraints = false
+            self.view.addSubview(hostingView)
+            NSLayoutConstraint.activate([
+                hostingView.topAnchor.constraint(equalToSystemSpacingBelow: displayModeControl.bottomAnchor, multiplier: 1),
+                hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+            definitionHostingView = hostingView
+        } else {
+            self.definitions = nil
+            mode = .raw
+            displayModeControl.setEnabled(false, forSegment: 0)
+        }
+
+        updateForMode()
+    }
+
+    private func updateForMode() {
+        switch mode {
+        case .raw:
+            textView.isHidden = false
+            definitionHostingView?.isHidden = true
+        case .pretty:
+            textView.isHidden = true
+            definitionHostingView?.isHidden = false
+        }
     }
 
     private func setFontSize(_ fontSize: CGFloat) {
         textView.font = NSFont(name: "Monaco", size: fontSize)
     }
 
-    @IBAction func didPressHelp(_ sender: Any) {
-        guard let bookName = Bundle.main.object(forInfoDictionaryKey: "CFBundleHelpBookName") as? String else {
-            return
-        }
-        NSHelpManager.shared.openHelpAnchor("feedback", inBook: bookName)
+    @IBAction func didChangeMode(_ sender: Any) {
+        updateForMode()
     }
 }
 
@@ -54,4 +115,8 @@ extension LookupViewController: FontSizeControllerDelegate {
     func fontSizeController(_ controller: FontSizeController, fontSizeChangedTo fontSize: CGFloat) {
         setFontSize(fontSize)
     }
+}
+
+extension LookupViewController: NSOpenSavePanelDelegate {
+
 }

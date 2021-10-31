@@ -1,0 +1,3 @@
+ego                  PRON   5 1 NOM S C                 
+I, me (PERS); myself (REFLEX);
+
