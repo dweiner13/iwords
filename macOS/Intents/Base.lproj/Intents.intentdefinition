@@ -74,7 +74,7 @@
 			<key>INIntentKeyParameter</key>
 			<string>query</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>4</integer>
+			<integer>6</integer>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
 				<key>direction,query</key>
@@ -95,16 +95,16 @@
 			<dict>
 				<key>direction,query</key>
 				<dict>
-					<key>INIntentParameterCombinationSubtitle</key>
-					<string>${direction}</string>
-					<key>INIntentParameterCombinationSubtitleID</key>
-					<string>0EuqLz</string>
+					<key>INIntentParameterCombinationIsLinked</key>
+					<true/>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<true/>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Look up ${query}</string>
+					<string>Look up ${query} in ${direction}</string>
 					<key>INIntentParameterCombinationTitleID</key>
-					<string>FflkUx</string>
+					<string>GRApN3</string>
 				</dict>
 			</dict>
 			<key>INIntentParameters</key>
