@@ -52,7 +52,7 @@ extension Optional where Wrapped == Gender {
     }
 }
 
-enum Declension: Int, CustomStringConvertible {
+enum Declension: Int, CustomStringConvertible, Parseable {
     case first = 1,
          second,
          third,
@@ -67,14 +67,6 @@ enum Declension: Int, CustomStringConvertible {
         case .fourth: return "4th decl."
         case .fifth: return "5th decl."
         }
-    }
-
-    static let parser = Prefix(1).compactMap { (substr: String.SubSequence) -> Declension? in
-        guard let raw = Int(String(substr)),
-              let decl = Declension(rawValue: raw) else {
-                  return nil
-              }
-        return decl
     }
 }
 
@@ -106,7 +98,7 @@ enum Conjugation: Int, CustomStringConvertible {
     }
 }
 
-enum Case: String, CustomStringConvertible {
+enum Case: String, CustomStringConvertible, Parseable {
     case nominative = "NOM"
     case accusative = "ACC"
     case ablative = "ABL"
@@ -132,13 +124,6 @@ enum Case: String, CustomStringConvertible {
         case .vocative:
             return "voc."
         }
-    }
-
-    static let parser = Prefix(3).compactMap { (substr: String.SubSequence) -> Case? in
-        guard let decl = Case(rawValue: String(substr)) else {
-            return nil
-        }
-        return decl
     }
 }
 
@@ -166,14 +151,14 @@ struct Definition: Equatable, Identifiable {
 }
 
 enum Expansion: Equatable {
-    case noun(String, Declension, Gender)
-    case adj(String)
-    case adv(String)
-    case verb(String, Conjugation?)
+    case noun(String, Declension?, Gender, [String])
+    case adj(String, [String])
+    case adv(String, [String])
+    case verb(String, Conjugation?, [String])
     
     var principleParts: String {
         switch self {
-        case .noun(let pp, _, _), .verb(let pp, _), .adj(let pp), .adv(let pp): return pp
+        case .noun(let pp, _, _, _), .verb(let pp, _, _), .adj(let pp, _), .adv(let pp, _): return pp
         }
     }
     
@@ -204,10 +189,10 @@ enum Number: String, CaseIterable, CustomStringConvertible, Parseable {
 // A fully declined instance of a noun
 struct Noun: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     let text: String
-    let declension: Declension
+    let declension: Declension?
     let variety: Int
-    let `case`: Case
-    let number: Number
+    let `case`: Case?
+    let number: Number?
     let gender: Gender
 
     var debugDescription: String {
@@ -215,7 +200,7 @@ struct Noun: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     }
 
     var description: String {
-        "\(`case`) \(number)"
+        "\(`case`?.description.appending(" ") ?? "")\(number?.description ?? "")"
     }
 }
 
@@ -470,30 +455,43 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
 
 let principleParts = PrefixUpTo("  ").map(String.init(_:))
 
+func getNotes(_ str: Substring) -> [String] {
+    str
+        .ifNotEmptyAfterTrimmingCharactersIn(.whitespacesAndNewlines)?
+        .components(separatedBy: "  ") ?? []
+}
+
 let nounExpansion = principleParts
     .skip(StartsWith("  "))
     .skip(StartsWith(PartOfSpeech.noun.rawValue))
-    .skip(StartsWith(" ("))
-    .take(Declension.parser)
-    .skip(Prefix(2))
-    .skip(StartsWith(") "))
+    .take(StartsWith(" (")
+            .take(Declension?.parser)
+            .skip(Prefix(2))
+            .skip(StartsWith(") "))
+            .orElse(Skip(StartsWith(" ")).map { Declension?.none }))
     .take(Gender.parser)
-    .skip(Rest())
-    .map(Expansion.noun)
+    .take(Rest())
+    .map {
+        Expansion.noun($0.0.0, $0.0.1, $0.0.2, getNotes($0.1))
+    }
     .eraseToAnyParser()
 
 let adjExpansion = principleParts
     .skip(StartsWith("  "))
     .skip(StartsWith(PartOfSpeech.adjective.rawValue))
-    .skip(Rest())
-    .map(Expansion.adj)
+    .take(Rest())
+    .map {
+        Expansion.adj($0.0, getNotes($0.1))
+    }
     .eraseToAnyParser()
 
 let advExpansion = principleParts
     .skip(StartsWith("  "))
     .skip(StartsWith(PartOfSpeech.adverb.rawValue))
-    .skip(Rest())
-    .map(Expansion.adv)
+    .take(Rest())
+    .map {
+        Expansion.adv($0.0, getNotes($0.1))
+    }
     .eraseToAnyParser()
 
 let verbExpansion = principleParts
@@ -503,8 +501,11 @@ let verbExpansion = principleParts
             .take(Conjugation?.parser)
             .skip(Prefix(2))
             .skip(StartsWith(") "))
-            .orElse(Skip(Rest()).map { Conjugation?.none }))
-    .map(Expansion.verb)
+            .orElse(Skip(StartsWith(" ")).map { Conjugation?.none }))
+    .take(Rest())
+    .map {
+        Expansion.verb($0.0.0, $0.0.1, getNotes($0.1))
+    }
     .eraseToAnyParser()
 
 let expansion = OneOfMany([nounExpansion, adjExpansion, advExpansion, verbExpansion])
@@ -538,13 +539,13 @@ let nounPossibility = Prefix<Substring>(21).map {
         $0.trimmingCharacters(in: .whitespaces)
     }
     .skip(StartsWith("N      "))
-    .take(Declension.parser)
+    .take(Declension?.parser)
     .skip(StartsWith(" "))
     .take(variety)
     .skip(StartsWith(" "))
-    .take(Case.parser)
+    .take(Case?.parser)
     .skip(StartsWith(" "))
-    .take(Number.parser)
+    .take(Number?.parser)
     .skip(StartsWith(" "))
     .take(Gender.parser)
     .skip(Rest())
@@ -661,6 +662,8 @@ func parse(_ str: String) -> ([Definition], Bool)? {
                 meaning! += "\n\(line)"
             }
         } else {
+            print("🚨 Parsing failed at line:")
+            print(line)
             return nil
         }
     }

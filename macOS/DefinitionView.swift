@@ -112,12 +112,12 @@ struct DefinitionView: View {
                             .font(.system(size: fontSizeController.fontSize * 1, weight: .bold, design: .serif))
                         + Text("  ") + { () -> Text in
                             switch definition.expansion {
-                            case .noun(_, let declension, let gender):
-                                return Text("\(definition.expansion.pos.description), \(declension.description), \(gender.description)")
-                            case .verb(_, let conjugation):
-                                return Text("\(definition.expansion.pos.description)\(conjugation.map { ", " + $0.description } ?? "")")
-                            case .adj, .adv:
-                                return Text("\(definition.expansion.pos.description)")
+                            case .noun(_, let declension, let gender, let notes):
+                                return Text("\(definition.expansion.pos.description), \(declension.map { $0.description + ", " } ?? "")\(gender.description) \(notes.joined(separator: ", "))")
+                            case .verb(_, let conjugation, let notes):
+                                return Text("\(definition.expansion.pos.description)\(conjugation.map { ", " + $0.description } ?? "") \(notes.joined(separator: ", "))")
+                            case .adj(_, let notes), .adv(_, let notes):
+                                return Text("\(definition.expansion.pos.description) \(notes.joined(separator: ", "))")
                             }
                         }()
                         .foregroundColor(.secondary)

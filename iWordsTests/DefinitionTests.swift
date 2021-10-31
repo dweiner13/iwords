@@ -9,34 +9,26 @@ import XCTest
 @testable import iWords
 
 class DefinitionTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testNouns() {
         var example: String
         example = "vir                  N      2 3 NOM S M                 \n" +
         "vir                  N      2 3 VOC S M                 \n" +
-        "vir, viri  N (2nd) M   [XXXAX]  \n" +
+        "vir, viri  N (2nd) M            \n" +
         "man; husband; hero; person of courage, honor, and nobility;"
         var expected = iWords.Definition(
             possibilities: [.noun(Noun(text: "vir", declension: .second, variety: 3, case: .nominative, number: .singular, gender: .masculine)),
                             .noun(Noun(text: "vir", declension: .second, variety: 3, case: .vocative, number: .singular, gender: .masculine))],
             expansion: iWords.Expansion.noun("vir, viri",
                                              iWords.Declension.second,
-                                             iWords.Gender.masculine),
+                                             iWords.Gender.masculine,
+                                             []),
             meaning: "man; husband; hero; person of courage, honor, and nobility;")
         XCTAssertEqual(parse(example)?.0.first, expected)
 
         example = "vi.a                 N      1 1 NOM S F                 \n" +
         "vi.a                 N      1 1 VOC S F                 \n" +
         "vi.a                 N      1 1 ABL S F                 \n" +
-        "via, viae  N (1st) F   [XXXAX]  \n" +
+        "via, viae  N (1st) F            \n" +
         "way, road, street; journey;"
         expected = iWords.Definition(
             possibilities: [.noun(Noun(text: "vi.a", declension: .first, variety: 1, case: .nominative, number: .singular, gender: .feminine)),
@@ -44,8 +36,20 @@ class DefinitionTests: XCTestCase {
                             .noun(Noun(text: "vi.a", declension: .first, variety: 1, case: .ablative,   number: .singular, gender: .feminine))],
             expansion: iWords.Expansion.noun("via, viae",
                                              iWords.Declension.first,
-                                             iWords.Gender.feminine),
+                                             iWords.Gender.feminine,
+                                             []),
             meaning: "way, road, street; journey;")
+        XCTAssertEqual(parse(example)?.0.first, expected)
+
+        example = "res                  N      9 9 X   X N                 \n" +
+        "res, undeclined  N N    Late  uncommon\n" +
+        "res; (20th letter of Hebrew alphabet); (transliterate as R);\n" +
+        "*\n"
+
+        expected = iWords.Definition(
+            possibilities: [.noun(Noun(text: "res", declension: nil, variety: 9, case: nil, number: nil, gender: .neuter))],
+            expansion: .noun("res, undeclined", nil, .neuter, ["Late", "uncommon"]),
+            meaning: "res; (20th letter of Hebrew alphabet); (transliterate as R);")
         XCTAssertEqual(parse(example)?.0.first, expected)
     }
 
@@ -60,7 +64,7 @@ class DefinitionTests: XCTestCase {
             possibilities: [.adjective(Adjective(text: "cops", declension: .third, variety: 1, case: .nominative, number: .singular, gender: nil,     degree: .positive)),
                             .adjective(Adjective(text: "cops", declension: .third, variety: 1, case: .vocative,   number: .singular, gender: nil,     degree: .positive)),
                             .adjective(Adjective(text: "cops", declension: .third, variety: 1, case: .accusative, number: .singular, gender: .neuter, degree: .positive))],
-            expansion: .adj("cops, (gen.), copis"),
+            expansion: .adj("cops, (gen.), copis", ["uncommon"]),
             meaning: "well/abundantly equipped/supplied; rich; swelling (of chest with pride);")
         XCTAssertEqual(parse(example)?.0.first, expected)
 
@@ -80,8 +84,18 @@ class DefinitionTests: XCTestCase {
                             .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .nominative, number: .plural, gender: .neuter, degree: .positive)),
                             .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .vocative, number: .plural, gender: .neuter, degree: .positive)),
                             .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .accusative, number: .plural, gender: .neuter, degree: .positive))],
-            expansion: .adj("alius, alia, aliud"),
+            expansion: .adj("alius, alia, aliud", []),
             meaning: "other, another; different, changed; [alii...alii => some...others]; (A+G);")
+        XCTAssertEqual(parse(example)?.0.first, expected)
+
+        example = "re.i                 ADJ    1 1 GEN S M POS             \n" +
+        "reus, rea, reum  ADJ    Medieval  uncommon\n" +
+        "liable to (penalty of); guilty; [mens rea => guilty mind (modern legal term)];"
+
+        expected = iWords.Definition(
+            possibilities: [.adjective(Adjective(text: "re.i", declension: .first, variety: 1, case: .genitive, number: .singular, gender: .masculine, degree: .positive))],
+            expansion: .adj("reus, rea, reum", ["Medieval", "uncommon"]),
+            meaning: "liable to (penalty of); guilty; [mens rea => guilty mind (modern legal term)];")
         XCTAssertEqual(parse(example)?.0.first, expected)
     }
 
@@ -92,7 +106,7 @@ class DefinitionTests: XCTestCase {
         "at/in another time/place; previously, subsequently; elsewhere; otherwise;\n"
         var expected = iWords.Definition(
             possibilities: [.adverb(Adverb(text: "alias", degree: .positive))],
-            expansion: .adv("alias"),
+            expansion: .adv("alias", []),
             meaning: "at/in another time/place; previously, subsequently; elsewhere; otherwise;")
         XCTAssertEqual(parse(example)?.0.first, expected)
     }
@@ -102,7 +116,7 @@ class DefinitionTests: XCTestCase {
         example = "consul.ere           V      3 1 PRES ACTIVE  INF 0 X    \n" +
             "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    \n" +
             "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    \n" +
-            "consulo, consulere, consului, consultus  V (3rd)   [XXXAO]  \n" +
+            "consulo, consulere, consului, consultus  V (3rd)            \n" +
             "ask information/advice of; consult, take counsel; deliberate/consider; advise;\n" +
             "decide upon, adopt; look after/out for (DAT), pay attention to; refer to;"
         XCTAssertEqual(
@@ -113,7 +127,8 @@ class DefinitionTests: XCTestCase {
                                 .verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .future, voice: .passive, mood: .indicative, person: .second, number: .singular))],
                 expansion: iWords.Expansion.verb(
                     "consulo, consulere, consului, consultus",
-                    iWords.Conjugation.third),
+                    iWords.Conjugation.third,
+                    []),
                 meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise;\ndecide upon, adopt; look after/out for (DAT), pay attention to; refer to;")
         )
 
@@ -139,20 +154,23 @@ class DefinitionTests: XCTestCase {
                     expansion: iWords.Expansion.noun(
                         "venum, veni",
                         .second,
-                        .neuter),
+                        .neuter,
+                        []),
                     meaning: "sale, purchase; (only sg. ACC/DAT w/dare); [venum dare => put up for sale];"),
                 iWords.Definition(
                     possibilities: [.verb(Verb(text: "veni", conjugation: .sixth, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),],
                     expansion: iWords.Expansion.verb(
                         "veneo, venire, venivi(ii), venitus",
-                        nil),
+                        nil,
+                        []),
                     meaning: "go for sale, be sold (as slave), be disposed of for (dishonorable/venal) gain;"),
                 iWords.Definition(
                     possibilities: [.verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),
                                     .verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .perfect, voice: .active, mood: .indicative, person: .first, number: .singular)),],
                     expansion: iWords.Expansion.verb(
                         "venio, venire, veni, ventus",
-                        .fourth),
+                        .fourth,
+                        []),
                     meaning: "come;")
             ]
         )
