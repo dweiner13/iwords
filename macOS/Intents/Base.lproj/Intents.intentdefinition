@@ -66,7 +66,7 @@
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDescription</key>
-			<string>Look up a term in iWords</string>
+			<string>Get a definition from iWords.</string>
 			<key>INIntentDescriptionID</key>
 			<string>q40FTn</string>
 			<key>INIntentInput</key>
@@ -82,7 +82,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Look up ${query} using the ${direction} dictionary</string>
+					<string>Look up ${query} in ${direction}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>wRV2CL</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
@@ -100,7 +100,7 @@
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>0EuqLz</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
-					<false/>
+					<true/>
 					<key>INIntentParameterCombinationTitle</key>
 					<string>Look up ${query}</string>
 					<key>INIntentParameterCombinationTitleID</key>
