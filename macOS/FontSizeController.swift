@@ -85,6 +85,7 @@ class FontSizeController: NSObject {
             return
         }
         delegate?.fontSizeController(self, fontSizeChangedTo: fontSize)
+        updateSegmentedControl()
     }
 
     deinit {

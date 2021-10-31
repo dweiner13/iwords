@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="Search Toolbar Item" minToolsVersion="12.0" minSystemVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -81,7 +81,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
-                                        <menuItem title="New Search" keyEquivalent="l" id="7v1-zJ-fgu">
+                                        <menuItem title="New Search" keyEquivalent="F" id="7v1-zJ-fgu">
                                             <connections>
                                                 <action selector="focusSearch:" target="Ady-hI-5gd" id="Ssr-7g-XuO"/>
                                             </connections>
@@ -227,14 +227,20 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Dictionary" id="fza-HI-WC1">
                                     <items>
-                                        <menuItem title="Latin to English" state="on" keyEquivalent="L" id="5iD-gI-CXi">
+                                        <menuItem title="Latin → English" state="on" keyEquivalent="L" id="5iD-gI-CXi" userLabel="Latin to English">
                                             <connections>
                                                 <action selector="setLatinToEnglish:" target="Ady-hI-5gd" id="W9L-AX-aK5"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="English to Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
+                                        <menuItem title="English → Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
                                             <connections>
                                                 <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="LSS-QM-c8U"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="ocP-aJ-jrt"/>
+                                        <menuItem title="Toggle Direction" keyEquivalent="d" id="s2W-Ty-fmT" userLabel="Toggle">
+                                            <connections>
+                                                <action selector="toggleDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -404,30 +410,6 @@
                                 </searchToolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mfa-ju-wND"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
-                                <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin to English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
-                                    <nil key="toolTip"/>
-                                    <popUpButton key="view" verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="oa1-GU-gBJ">
-                                        <rect key="frame" x="0.0" y="14" width="128" height="25"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <popUpButtonCell key="cell" type="roundTextured" title="Latin to English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="menu"/>
-                                            <menu key="menu" id="8nX-cQ-etp">
-                                                <items>
-                                                    <menuItem title="Latin to English" state="on" id="rZL-Lw-nxS">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="English to Latin" tag="1" id="ug1-oe-5s3" userLabel="English to Latin">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </popUpButtonCell>
-                                        <connections>
-                                            <binding destination="B8D-0N-5wS" name="selectedIndex" keyPath="_direction" id="cXW-cV-e4d"/>
-                                        </connections>
-                                    </popUpButton>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="6AC416F3-CFB1-43E6-AD16-62FD92158C30" label="Back/Forward" paletteLabel="Back/Forward" title="Back/Forward" sizingBehavior="auto" navigational="YES" id="5fT-cZ-IJv" userLabel="Back/Forward">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="62q-qB-wIS">
@@ -448,8 +430,8 @@
                                 <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Font Size" paletteLabel="Font Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj">
-                                        <rect key="frame" x="0.0" y="14" width="77" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="71" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="gxG-KH-nnH">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -462,11 +444,23 @@
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="4C14CD93-0495-4F30-A917-FD7CD19B66A4" label="Toggle Direction" paletteLabel="Toggle Direction" toolTip="Toggle the translation direction" image="arrow.left.arrow.right" catalog="system" bordered="YES" sizingBehavior="auto" navigational="YES" id="FaB-SV-uQT">
+                                    <button key="view" verticalHuggingPriority="750" id="jHl-f1-qFJ">
+                                        <rect key="frame" x="0.0" y="14" width="127" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="arrow.left.arrow.right" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RmB-so-059">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="toggleDirection:" target="B8D-0N-5wS" id="xXv-Dt-dQ5"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
                                 <toolbarItem reference="ocg-9b-k2f"/>
-                                <toolbarItem reference="Pk9-hB-iRd"/>
                                 <searchToolbarItem reference="rsD-Xn-hWC"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -477,7 +471,8 @@
                     <connections>
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
-                        <outlet property="directionItem" destination="Pk9-hB-iRd" id="oe2-wh-6gk"/>
+                        <outlet property="directionItem" destination="FaB-SV-uQT" id="ypv-c0-ecm"/>
+                        <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="C4R-Rb-OST"/>
                         <outlet property="fontSizeController" destination="hdv-M0-3Yq" id="N0X-PG-W0S"/>
                         <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
@@ -511,15 +506,15 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="420" height="270"/>
+                                            <size key="minSize" width="435" height="270"/>
                                             <size key="maxSize" width="435" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -530,28 +525,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="420" y="0.0" width="15" height="270"/>
+                                    <rect key="frame" x="419" y="0.0" width="16" height="270"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z5W-bF-ybe">
-                                <rect key="frame" x="400" y="8" width="25" height="25"/>
-                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uex-h9-cvd">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="didPressHelp:" target="XfG-lQ-9wD" id="V92-0f-ZNV"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="z5W-bF-ybe" secondAttribute="bottom" constant="12" id="45Q-IL-aZq"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="C0C-bc-4tP"/>
                             <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="bhh-wV-9Nk"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cpg-3Y-Fcr"/>
                             <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="jki-pv-nYk"/>
-                            <constraint firstAttribute="trailing" secondItem="z5W-bF-ybe" secondAttribute="trailing" constant="12" id="nt3-2a-KQR"/>
                         </constraints>
                     </view>
                     <connections>
@@ -572,6 +555,7 @@
     <resources>
         <image name="NSGoBackTemplate" width="10" height="14"/>
         <image name="NSGoForwardTemplate" width="10" height="14"/>
+        <image name="arrow.left.arrow.right" catalog="system" width="16" height="17"/>
         <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
         <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>

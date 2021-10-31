@@ -107,6 +107,9 @@ class LookupWindowController: NSWindowController {
     private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue {
         didSet {
             AppDelegate.shared?.updateDirectionItemsState()
+            if #available(macOS 11.0, *) {
+                window?.subtitle = Dictionary.Direction(rawValue: _direction)!.description
+            }
         }
     }
 
@@ -119,10 +122,6 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    private lazy var directionMenu = makeDirectionMenu()
-    private var lToEItem: NSMenuItem!
-    private var eToLItem: NSMenuItem!
-
     @IBOutlet @objc
     dynamic var backForwardController: BackForwardController!
 
@@ -132,7 +131,7 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var directionItem: NSToolbarItem!
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
-    @IBOutlet weak var popUpButton: NSPopUpButton!
+    @IBOutlet weak var directionToggleButton: NSButton!
     @IBOutlet weak var searchField: NSSearchField!
 
     private var lookupViewController: LookupViewController! {
@@ -147,8 +146,9 @@ class LookupWindowController: NSWindowController {
         backForwardMenuItem.submenu = backForwardController.menu()
         backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
 
-        let directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
-        directionMenuItem.submenu = directionMenu
+        let directionMenuItem = NSMenuItem(title: "Toggle Direction",
+                                           action: #selector(toggleDirection(_:)),
+                                           keyEquivalent: "")
         directionItem.menuFormRepresentation = directionMenuItem
 
         let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
@@ -171,23 +171,6 @@ class LookupWindowController: NSWindowController {
     override func restoreState(with coder: NSCoder) {
         backForwardController.decode(with: coder)
         super.restoreState(with: coder)
-    }
-
-    private func makeDirectionMenu() -> NSMenu {
-        let m = NSMenu()
-        lToEItem = NSMenuItem(title: "Latin to English",
-                              action: #selector(setLatinToEnglish),
-                              keyEquivalent: "")
-        lToEItem.state = .off
-        m.addItem(lToEItem)
-        eToLItem = NSMenuItem(title: "English to Latin",
-                              action: #selector(setEnglishToLatin),
-                              keyEquivalent: "")
-        eToLItem.state = .off
-        m.addItem(eToLItem)
-        m.delegate = self
-        m.identifier = .directionMenu
-        return m
     }
 
     public func setSearchQuery(_ searchQuery: SearchQuery) {
@@ -223,12 +206,17 @@ class LookupWindowController: NSWindowController {
         invalidateRestorableState()
     }
 
-    @objc
+    @IBAction
+    private func toggleDirection(_ sender: Any?) {
+        direction.toggle()
+    }
+
+    @IBAction
     private func setLatinToEnglish(_ sender: Any?) {
         direction = .latinToEnglish
     }
 
-    @objc
+    @IBAction
     private func setEnglishToLatin(_ sender: Any?) {
         direction = .englishToLatin
     }
@@ -237,7 +225,7 @@ class LookupWindowController: NSWindowController {
     private func searchFieldAction(_ field: NSSearchField) {
         setSearchQuery(SearchQuery(field.stringValue, direction))
     }
-
+    
     /// - Returns: whether or not a result was found
     private func search(_ query: SearchQuery) {
         do {
@@ -295,6 +283,19 @@ extension LookupWindowController {
     }
 }
 
+extension LookupWindowController: NSWindowDelegate {
+    func windowDidBecomeKey(_ notification: Notification) {
+        searchField.becomeFirstResponder()
+    }
+
+    func windowWillUseStandardFrame(_ window: NSWindow, defaultFrame newFrame: NSRect) -> NSRect {
+        let standardFrame = NSRect(origin: window.frame.origin,
+                                 size: CGSize(width: lookupViewController.standardWidthAtCurrentFontSize(),
+                                              height: window.frame.height))
+        return standardFrame
+    }
+}
+
 extension LookupWindowController: BackForwardDelegate {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController) {
         assert(controller == backForwardController)
@@ -305,21 +306,5 @@ extension LookupWindowController: BackForwardDelegate {
         _setSearchQuery(searchQuery,
                         updateHistoryLists: false,
                         updateBackForward: false)
-    }
-}
-
-// Handling for menu form representation of direction control
-extension LookupWindowController: NSMenuDelegate {
-    func menuNeedsUpdate(_ menu: NSMenu) {
-        assert(menu.identifier == directionMenu.identifier)
-
-        menu.items[0].state = _direction == 0 ? .on : .off
-        menu.items[1].state = _direction == 1 ? .on : .off
-    }
-}
-
-extension LookupWindowController: NSWindowDelegate {
-    func windowDidBecomeKey(_ notification: Notification) {
-        searchField.becomeFirstResponder()
     }
 }
