@@ -18,7 +18,7 @@ struct DefinitionsView: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack {
+            LazyVStack(alignment: .leading, spacing: 16) {
                 ForEach(definitions.0) {
                     DefinitionView(definition: $0)
                 }
@@ -85,73 +85,74 @@ struct DefinitionView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline) {
-                SelectableText {
-                    Text(verbatim: definition.expansion.principleParts)
-                        .font(.system(size: fontSizeController.fontSize * 1.3, weight: .medium, design: .serif))
-                    + Text("  ") + { () -> Text in
-                        switch definition.expansion {
-                        case .noun(_, let declension, let gender):
-                            return Text("\(definition.expansion.pos.description), \(declension.description), \(gender.description)")
-                        case .verb(_, let conjugation):
-                            return Text("\(definition.expansion.pos.description)\(conjugation.map { ", " + $0.description } ?? "")")
-                        case .adj, .adv:
-                            return Text("\(definition.expansion.pos.description)")
+
+            if !definition.possibilities.isEmpty {
+                VStack(alignment: .leading) {
+                    ForEach(definition.possibilities, id: \.debugDescription) { possibility in
+                        SelectableText {
+                            Text(possibility.word)
+                                .foregroundColor(Color.primary)
+                                .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
+                            + Text("  ")
+                            + Text(verbatim: possibility.description)
+                                .foregroundColor(.secondary)
+                                .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
                         }
-                    }()
-                    .foregroundColor(.secondary)
-                    .font(.system(size: fontSizeController.fontSize * 1.1, weight: .regular, design: .serif))
-                }
+                    }
+                    .multilineTextAlignment(.leading)
+                }.padding(.top, 16)
+
+                Divider()
             }
 
-            VStack(alignment: .leading) {
-                ForEach(definition.possibilities, id: \.debugDescription) { possibility in
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(alignment: .firstTextBaseline) {
                     SelectableText {
-                        Text(possibility.word)
-                            .foregroundColor(Color.primary)
-                            .font(.system(size: fontSizeController.fontSize * 0.9, weight: .medium, design: .monospaced))
-                        + Text("  ")
-                        + Text(verbatim: possibility.description)
-                            .foregroundColor(.secondary)
-                            .font(.system(size: fontSizeController.fontSize * 0.9, weight: .regular, design: .serif))
+                        Text(verbatim: definition.expansion.principleParts)
+                            .font(.system(size: fontSizeController.fontSize * 1, weight: .bold, design: .serif))
+                        + Text("  ") + { () -> Text in
+                            switch definition.expansion {
+                            case .noun(_, let declension, let gender):
+                                return Text("\(definition.expansion.pos.description), \(declension.description), \(gender.description)")
+                            case .verb(_, let conjugation):
+                                return Text("\(definition.expansion.pos.description)\(conjugation.map { ", " + $0.description } ?? "")")
+                            case .adj, .adv:
+                                return Text("\(definition.expansion.pos.description)")
+                            }
+                        }()
+                        .foregroundColor(.secondary)
+                        .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
                     }
                 }
-                .multilineTextAlignment(.leading)
+                .padding(.leading, 16)
+
+                Text(verbatim: definition.meaning)
+                    .safeSelectable()
+                    .font(.system(size: fontSizeController.fontSize, weight: .regular, design: .serif))
+                    .padding(.leading, 32)
             }
-
-            Rectangle()
-                .fill(SeparatorShapeStyle())
-                .frame(height: 1)
-
-            Text(verbatim: definition.meaning)
-                .safeSelectable()
-                .font(.system(size: fontSizeController.fontSize, weight: .regular, design: .serif))
+            .padding(.leading, 0)
         }
-        .padding()
+        .padding(.horizontal)
     }
+}
+
+func previewQuery(_ name: String) -> String {
+    String(data: NSDataAsset(name: name)!.data, encoding: .utf8)!
 }
 
 // MARK: DefinitionView_Previews
 @available(macOS 11.0, *)
 struct DefinitionView_Previews: PreviewProvider {
-    static let noun = iWords.Definition(possibilities: ["copi.a               N      1 1 NOM S F                 ", "copi.a               N      1 1 VOC S F                 ", "copi.a               N      1 1 ABL S F                 "].compactMap(possibility.parse),
-                                        expansion: .noun("copia, copiae", .first, .feminine),
-                                        meaning: "plenty, abundance, supply; troops (pl.), supplies; forces; resources; wealth; number/amount/quantity; sum/whole amount; means, opportunity; access/admission;")
-    
-    static let verb = iWords.Definition(
-        possibilities: ["consul.ere           V      3 1 PRES ACTIVE  INF 0 X    ", 
-                        "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    ",
-                        "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    "].compactMap(possibility.parse),
-        expansion: .verb("consulo, consulere, consului, consultus", 
-            .third), 
-        meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise; decide upon, adopt; look after/out for (DAT), pay attention to; refer to;*",
-        truncated: true)
+    static let definitions = parse(previewQuery("queries/incubat alias res vici"))!
     
     static var previews: some View {
         Group {
-            DefinitionsView(definitions: ([noun, verb], true))
+            DefinitionsView(definitions: definitions)
 //            DWBridgedDefinitionView(definitions: [noun, verb])
-                .frame(width: 500, height: 500, alignment: .center)
+                .environmentObject(FontSizeController())
+                .padding(.vertical)
+                .frame(width: 500, height: 900, alignment: .center)
         }
     }
 }

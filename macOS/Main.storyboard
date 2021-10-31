@@ -536,8 +536,8 @@
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillProportionally" style="rounded" trackingMode="selectOne" id="qh3-HL-ma3">
                                     <font key="font" metaFont="system"/>
                                     <segments>
-                                        <segment label="Pretty"/>
-                                        <segment label="Raw" width="75" selected="YES" tag="1"/>
+                                        <segment label="Pretty" imageScaling="proportionallyUpOrDown" selected="YES"/>
+                                        <segment label="Raw" imageScaling="proportionallyUpOrDown" width="75" tag="1"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>
@@ -566,6 +566,7 @@
                         <outlet property="delegate" destination="XfG-lQ-9wD" id="LlZ-Qa-ADx"/>
                     </connections>
                 </customObject>
+                <userDefaultsController id="jkl-w9-pOM"/>
             </objects>
             <point key="canvasLocation" x="60.5" y="696"/>
         </scene>

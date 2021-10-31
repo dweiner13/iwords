@@ -235,7 +235,7 @@ class LookupWindowController: NSWindowController {
                 direction: query.direction,
                 options: UserDefaults.standard.dictionaryOptions
             )
-            lookupViewController.setResultText(results ?? "")
+            lookupViewController.text = results ?? ""
         } catch {
             self.presentError(error)
         }

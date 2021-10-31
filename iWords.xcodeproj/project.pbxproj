@@ -11,6 +11,7 @@
 		3710529227247B790077CE3D /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710529127247B790077CE3D /* ServiceProvider.swift */; };
 		373AECBD272E22CB0021A393 /* Difference in Frameworks */ = {isa = PBXBuildFile; productRef = 373AECBC272E22CB0021A393 /* Difference */; };
 		373AECBF272E22D90021A393 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECBE272E22D90021A393 /* Utils.swift */; };
+		373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
@@ -60,6 +61,7 @@
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
 		373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "words (macOS)Debug.entitlements"; sourceTree = "<group>"; };
 		373AECBE272E22D90021A393 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		373AECC0272EB0160021A393 /* PreviewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewAssets.xcassets; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
 		37679DFF262CC87C003D15E1 /* WindowRestoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestoration.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				37A4D1B7262227E400A9E9EC /* Info.plist */,
 				37A4D1B8262227E400A9E9EC /* macOS.entitlements */,
 				37AB5A232626733300118674 /* Credits.rtf */,
+				373AECC0272EB0160021A393 /* PreviewAssets.xcassets */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 			files = (
 				37AB5A172626713500118674 /* INFLECTS.LAT in Resources */,
 				37AB5A192626713500118674 /* INDXFILE.GEN in Resources */,
+				373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */,
 				37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */,
 				37AB5A242626733300118674 /* Credits.rtf in Resources */,
 				37AB5A1C2626713500118674 /* INFLECTS.SEC in Resources */,
@@ -640,6 +644,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.5.0;
+				DEVELOPMENT_ASSET_PATHS = "macOS/Supporting\\ files/PreviewAssets.xcassets";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -667,6 +672,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 0.5.0;
+				DEVELOPMENT_ASSET_PATHS = "macOS/Supporting\\ files/PreviewAssets.xcassets";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;

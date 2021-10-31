@@ -633,7 +633,7 @@ func parse(_ str: String) -> ([Definition], Bool)? {
     var exp: Expansion? = nil
     var meaning: String? = nil
     let appendNewDefinition = {
-        guard !possibilities.isEmpty, let e = exp, let m = meaning else { return }
+        guard let e = exp, let m = meaning else { return }
         definitions.append(.init(possibilities: possibilities,
                                  expansion: e,
                                  meaning: m))
@@ -645,12 +645,14 @@ func parse(_ str: String) -> ([Definition], Bool)? {
         if let p = possibility.parse(line) {
             appendNewDefinition()
             possibilities.append(p)
-        } else if exp == nil {
-            guard let e = expansion.parse(line) else {
-                return nil
+        } else if let e = expansion.parse(line) {
+            if exp == nil {
+                exp = e
+            } else {
+                appendNewDefinition()
+                exp = e
             }
-            exp = e
-        } else {
+        } else if exp != nil {
             if line == "*" {
                 truncated = true
             } else if meaning == nil {
@@ -658,6 +660,8 @@ func parse(_ str: String) -> ([Definition], Bool)? {
             } else {
                 meaning! += "\n\(line)"
             }
+        } else {
+            return nil
         }
     }
 

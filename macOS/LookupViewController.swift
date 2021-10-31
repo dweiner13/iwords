@@ -20,7 +20,12 @@ class LookupViewController: NSViewController {
     @IBOutlet
     var fontSizeController: FontSizeController!
 
-    private var text: String?
+    @objc
+    dynamic var text: String? {
+        didSet {
+            updateForResultText(text ?? "")
+        }
+    }
 
     @IBOutlet weak var displayModeControl: NSSegmentedControl!
 
@@ -36,7 +41,7 @@ class LookupViewController: NSViewController {
     private var definitionHostingView: NSView?
 
     override class var restorableStateKeyPaths: [String] {
-        ["textView.string"]
+        ["text"]
     }
 
     override func viewDidLoad() {
@@ -54,8 +59,7 @@ class LookupViewController: NSViewController {
         return textWidth + textView.textContainerInset.width * 2 + 24
     }
 
-    func setResultText(_ text: String) {
-        self.text = text
+    private func updateForResultText(_ text: String) {
         textView.string = text
 
         definitionHostingView?.isHidden = true
