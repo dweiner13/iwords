@@ -9,20 +9,7 @@ import AppKit
 
 @objc
 class ServiceProvider: NSObject {
-    @objc
-    func lookUp(_ pasteboard: NSPasteboard, userData: String, error: NSErrorPointer) {
-        func setError(localizedDescription: String) {
-            let userInfo = [NSLocalizedDescriptionKey: localizedDescription]
-            error?.pointee = NSError(domain: "org.danielweiner.org",
-                                     code: 1,
-                                     userInfo: userInfo)
-        }
-
-        guard let string = pasteboard.string(forType: .string) else {
-            setError(localizedDescription: "Could not retrieve text from the pasteboard.")
-            return
-        }
-
+    func lookUp(_ text: String, direction: Dictionary.Direction) {
         let frontmostWindow = NSApp.orderedWindows.first ?? {
             let newWindow = LookupWindowController.newWindow()
 
@@ -38,12 +25,28 @@ class ServiceProvider: NSObject {
         NSApp.activate(ignoringOtherApps: true)
 
         guard let windowController = frontmostWindow.windowController as? LookupWindowController else {
-            setError(localizedDescription: "Could not find a window to display results in.")
             return
         }
 
-        let query = SearchQuery(sanitized(query: string), getDirection(fromUserData: userData))
+        let query = SearchQuery(sanitized(query: text), direction)
         windowController.setSearchQuery(query)
+    }
+
+    @objc
+    func lookUp(_ pasteboard: NSPasteboard, userData: String, error: NSErrorPointer) {
+        func setError(localizedDescription: String) {
+            let userInfo = [NSLocalizedDescriptionKey: localizedDescription]
+            error?.pointee = NSError(domain: "org.danielweiner.org",
+                                     code: 1,
+                                     userInfo: userInfo)
+        }
+
+        guard let text = pasteboard.string(forType: .string) else {
+            setError(localizedDescription: "Could not retrieve text from the pasteboard.")
+            return
+        }
+
+        lookUp(text, direction: getDirection(fromUserData: userData))
     }
 
     func getDirection(fromUserData userData: String) -> Dictionary.Direction {
