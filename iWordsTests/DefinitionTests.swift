@@ -97,26 +97,64 @@ class DefinitionTests: XCTestCase {
         XCTAssertEqual(parse(example)?.0.first, expected)
     }
 
-//    func testVerbs() {
-//        var example: String
-//        example = "consul.ere           V      3 1 PRES ACTIVE  INF 0 X    \n" +
-//            "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    \n" +
-//            "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    \n" +
-//            "consulo, consulere, consului, consultus  V (3rd)   [XXXAO]  \n" +
-//            "ask information/advice of; consult, take counsel; deliberate/consider; advise;\n" +
-//            "decide upon, adopt; look after/out for (DAT), pay attention to; refer to;" +
-//            "*"
-//        XCTAssertEqual(
-//            parse(example).1,
-//            iWords.Definition(
-//                possibilities: ["consul.ere           V      3 1 PRES ACTIVE  INF 0 X    ",
-//                                "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    ",
-//                                "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    "],
-//                expansion: iWords.Expansion.verb(
-//                    "consulo, consulere, consului, consultus",
-//                    iWords.Conjugation.third),
-//                meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise; decide upon, adopt; look after/out for (DAT), pay attention to; refer to;*",
-//                truncated: true)
-//        )
-//    }
+    func testVerbs() {
+        var example: String
+        example = "consul.ere           V      3 1 PRES ACTIVE  INF 0 X    \n" +
+            "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    \n" +
+            "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    \n" +
+            "consulo, consulere, consului, consultus  V (3rd)   [XXXAO]  \n" +
+            "ask information/advice of; consult, take counsel; deliberate/consider; advise;\n" +
+            "decide upon, adopt; look after/out for (DAT), pay attention to; refer to;"
+        XCTAssertEqual(
+            parse(example)?.0.first,
+            iWords.Definition(
+                possibilities: [.verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .present, voice: .active, mood: .infinitive, person: nil, number: nil)),
+                                .verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .present, voice: .passive, mood: .imperative, person: .second, number: .singular)),
+                                .verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .future, voice: .passive, mood: .indicative, person: .second, number: .singular))],
+                expansion: iWords.Expansion.verb(
+                    "consulo, consulere, consului, consultus",
+                    iWords.Conjugation.third),
+                meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise;\ndecide upon, adopt; look after/out for (DAT), pay attention to; refer to;")
+        )
+
+        example = "ven.i                N      2 2 GEN S N                 \n" +
+        "ven.i                N      2 2 LOC S N                 \n" +
+        "venum, veni  N (2nd) N  \n" +
+        "sale, purchase; (only sg. ACC/DAT w/dare); [venum dare => put up for sale];\r\n" +
+        "veni                 V      6 1 PRES ACTIVE  IMP 2 S    \n" +
+        "veneo, venire, venivi(ii), venitus  V  \n" +
+        "go for sale, be sold (as slave), be disposed of for (dishonorable/venal) gain;\r\n" +
+        "ven.i                V      4 1 PRES ACTIVE  IMP 2 S    \n" +
+        "ven.i                V      4 1 PERF ACTIVE  IND 1 S    \n" +
+        "venio, venire, veni, ventus  V (4th)  \n" +
+        "come;\r\n" +
+        "*\n"
+
+        XCTAssertEqual(
+            parse(example)?.0,
+            [
+                iWords.Definition(
+                    possibilities: [.noun(Noun(text: "ven.i", declension: .second, variety: 2, case: .genitive, number: .singular, gender: .neuter)),
+                                    .noun(Noun(text: "ven.i", declension: .second, variety: 2, case: .locative, number: .singular, gender: .neuter))],
+                    expansion: iWords.Expansion.noun(
+                        "venum, veni",
+                        .second,
+                        .neuter),
+                    meaning: "sale, purchase; (only sg. ACC/DAT w/dare); [venum dare => put up for sale];"),
+                iWords.Definition(
+                    possibilities: [.verb(Verb(text: "veni", conjugation: .sixth, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),],
+                    expansion: iWords.Expansion.verb(
+                        "veneo, venire, venivi(ii), venitus",
+                        nil),
+                    meaning: "go for sale, be sold (as slave), be disposed of for (dishonorable/venal) gain;"),
+                iWords.Definition(
+                    possibilities: [.verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),
+                                    .verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .perfect, voice: .active, mood: .indicative, person: .first, number: .singular)),],
+                    expansion: iWords.Expansion.verb(
+                        "venio, venire, veni, ventus",
+                        .fourth),
+                    meaning: "come;")
+            ]
+        )
+    }
 }

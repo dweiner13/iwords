@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Difference",
+        "repositoryURL": "https://github.com/krzysztofzablocki/Difference.git",
+        "state": {
+          "branch": null,
+          "revision": "e8d023826efc3aef58cf21cc2f6483ad3a067f5b",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "swift-argument-parser",
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {

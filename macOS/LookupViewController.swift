@@ -69,10 +69,10 @@ class LookupViewController: NSViewController {
             hostingView.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(hostingView)
             NSLayoutConstraint.activate([
-                hostingView.topAnchor.constraint(equalTo: textView.topAnchor),
-                hostingView.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
-                hostingView.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
-                hostingView.bottomAnchor.constraint(equalTo: textView.bottomAnchor)
+                hostingView.topAnchor.constraint(equalToSystemSpacingBelow: displayModeControl.bottomAnchor, multiplier: 1),
+                hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
             definitionHostingView = hostingView
         } else {

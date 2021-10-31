@@ -22,6 +22,10 @@ enum PartOfSpeech: String, CustomStringConvertible {
         case .adverb: return "adv."
         }
     }
+
+    static let parser = Prefix(1).compactMap { (substr: String.SubSequence) -> PartOfSpeech? in
+        PartOfSpeech(rawValue: String(substr))
+    }
 }
 
 enum Gender: String, CustomStringConvertible {
@@ -35,6 +39,16 @@ enum Gender: String, CustomStringConvertible {
         case .feminine: return "fem."
         case .neuter: return "neut."
         }
+    }
+
+    static let parser = Prefix(1).compactMap { (substr: String.SubSequence) -> Gender? in
+        Gender(rawValue: String(substr))
+    }
+}
+
+extension Optional where Wrapped == Gender {
+    static let parser = Prefix(1).map { (substr: String.SubSequence) -> Gender? in
+        Gender(rawValue: String(substr))
     }
 }
 
@@ -54,13 +68,23 @@ enum Declension: Int, CustomStringConvertible {
         case .fifth: return "5th decl."
         }
     }
+
+    static let parser = Prefix(1).compactMap { (substr: String.SubSequence) -> Declension? in
+        guard let raw = Int(String(substr)),
+              let decl = Declension(rawValue: raw) else {
+                  return nil
+              }
+        return decl
+    }
 }
 
 enum Conjugation: Int, CustomStringConvertible {
     case first = 1,
          second,
          third,
-         fourth
+         fourth,
+         fifth, // ??
+         sixth // ??
     
     var description: String {
         switch self {
@@ -68,7 +92,17 @@ enum Conjugation: Int, CustomStringConvertible {
         case .second: return "2nd conj."
         case .third: return "3rd conj."
         case .fourth: return "4th conj."
+        case .fifth: return "5th conj."
+        case .sixth: return "6th conj."
         }
+    }
+
+    static let parser = Prefix(1).compactMap { (substr: String.SubSequence) -> Conjugation? in
+        guard let raw = Int(String(substr)),
+              let conj = Conjugation(rawValue: raw) else {
+                  return nil
+              }
+        return conj
     }
 }
 
@@ -99,6 +133,13 @@ enum Case: String, CustomStringConvertible {
             return "voc."
         }
     }
+
+    static let parser = Prefix(3).compactMap { (substr: String.SubSequence) -> Case? in
+        guard let decl = Case(rawValue: String(substr)) else {
+            return nil
+        }
+        return decl
+    }
 }
 
 private func notLineEnding(_ c: UTF8.CodeUnit) -> Bool {
@@ -128,7 +169,7 @@ enum Expansion: Equatable {
     case noun(String, Declension, Gender)
     case adj(String)
     case adv(String)
-    case verb(String, Conjugation)
+    case verb(String, Conjugation?)
     
     var principleParts: String {
         switch self {
@@ -146,7 +187,7 @@ enum Expansion: Equatable {
     }
 }
 
-enum Number: String, CustomStringConvertible {
+enum Number: String, CaseIterable, CustomStringConvertible, Parseable {
     case singular = "S"
     case plural = "P"
 
@@ -190,6 +231,10 @@ enum Degree: String, CustomStringConvertible {
         case .superlative: return "super."
         }
     }
+
+    static let parser = Prefix(5).compactMap { (substr: String.SubSequence) -> Degree? in
+        Degree(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
 }
 
 struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
@@ -202,7 +247,7 @@ struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertib
     let degree: Degree
 
     var debugDescription: String {
-        "Adjective: \(text), \(declension), \(variety), \(`case`), \(number), \(gender), \(degree)"
+        "Adjective: \(text), \(declension), \(variety), \(`case`), \(number), \(String(describing: gender)), \(degree)"
     }
 
     var description: String {
@@ -210,7 +255,7 @@ struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertib
     }
 }
 
-struct Adverb: Equatable, CustomDebugStringConvertible {
+struct Adverb: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     let text: String
     let degree: Degree
 
@@ -223,10 +268,165 @@ struct Adverb: Equatable, CustomDebugStringConvertible {
     }
 }
 
+protocol Parseable: CaseIterable, RawRepresentable {
+    static var parser: AnyParser<String.SubSequence, Self> { get }
+}
+
+extension Parseable where RawValue == Int {
+    static var parser: AnyParser<String.SubSequence, Self> {
+        Prefix(1).compactMap { (substr: String.SubSequence) -> Self? in
+            guard let raw = Int(String(substr)),
+                  let value = Self.init(rawValue: raw) else {
+                      return nil
+                  }
+            return value
+        }.eraseToAnyParser()
+    }
+}
+
+extension Optional where Wrapped: RawRepresentable, Wrapped.RawValue == Int {
+    static var parser: AnyParser<String.SubSequence, Self> {
+        Prefix(1).map { (substr: String.SubSequence) -> Self in
+            guard let raw = Int(String(substr)),
+                  let value = Wrapped.init(rawValue: raw) else {
+                      return nil
+                  }
+            return value
+        }.eraseToAnyParser()
+    }
+}
+
+extension Parseable where RawValue == String {
+    static var parser: AnyParser<String.SubSequence, Self> {
+        let max = allCases.reduce(0) { partialResult, element in
+            element.rawValue.count > partialResult ? element.rawValue.count : partialResult
+        }
+        return Prefix(max).compactMap { (substr: String.SubSequence) -> Self? in
+            Self.init(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
+        }.eraseToAnyParser()
+    }
+}
+
+extension Optional where Wrapped: RawRepresentable, Wrapped: CaseIterable, Wrapped.RawValue == String {
+    static var parser: AnyParser<String.SubSequence, Self> {
+        let max = Wrapped.allCases.reduce(0) { partialResult, element in
+            element.rawValue.count > partialResult ? element.rawValue.count : partialResult
+        }
+        return Prefix(max).map { (substr: String.SubSequence) -> Self in
+            Wrapped.init(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
+        }.eraseToAnyParser()
+    }
+}
+
+enum Tense: String, CustomStringConvertible {
+    case present = "PRES"
+    case imperfect = "IMPF"
+    case future = "FUT"
+    case perfect = "PERF"
+    case pluperfect = "PLUP"
+    case futurePerfect = "FUTP"
+
+    var description: String {
+        switch self {
+        case .present:
+            return "pres."
+        case .imperfect:
+            return "impf."
+        case .future:
+            return "fut."
+        case .perfect:
+            return "perf."
+        case .pluperfect:
+            return "plup."
+        case .futurePerfect:
+            return "fut. perf."
+        }
+    }
+
+    static let parser = Prefix(4).compactMap { (substr: String.SubSequence) -> Tense? in
+        Tense(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+}
+
+enum Voice: String, CustomStringConvertible, Parseable {
+    case active = "ACTIVE"
+    case passive = "PASSIVE"
+    case middle = "MIDDLE" // ? do we need this ?
+
+    var description: String {
+        switch self {
+        case .active:
+            return "active"
+        case .passive:
+            return "passive"
+        case .middle:
+            return "middle"
+        }
+    }
+}
+
+enum Mood: String, CustomStringConvertible, Parseable {
+    case indicative = "IND"
+    case infinitive = "INF"
+    case subjunctive = "SUB"
+    case imperative = "IMP"
+
+    var description: String {
+        switch self {
+        case .indicative:
+            return "ind."
+        case .infinitive:
+            return "inf."
+        case .subjunctive:
+            return "sub."
+        case .imperative:
+            return "imp."
+        }
+    }
+}
+
+enum Person: Int, CustomStringConvertible, Parseable {
+    case first = 1
+    case second = 2
+    case third = 3
+
+    var description: String {
+        switch self {
+        case .first:
+            return "1st person"
+        case .second:
+            return "2nd person"
+        case .third:
+            return "3rd person"
+        }
+    }
+}
+
+// TODO: create a protocol for more DRY
+struct Verb: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
+    let text: String
+    let conjugation: Conjugation
+    let variety: Int
+    let tense: Tense
+    let voice: Voice
+    let mood: Mood
+    let person: Person?
+    let number: Number?
+
+    var debugDescription: String {
+        "Verb: \(text) \(conjugation) \(variety) \(tense) \(voice) \(mood) \(person) \(number)"
+    }
+
+    var description: String {
+        "\(conjugation) \(tense) \(voice) \(mood) \(person?.description.appending(" ") ?? "")\(number?.description ?? "")"
+    }
+}
+
 enum Possibility: Equatable, CustomDebugStringConvertible {
     case noun(Noun)
     case adjective(Adjective)
     case adverb(Adverb)
+    case verb(Verb)
 
     var debugDescription: String {
         switch self {
@@ -236,6 +436,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
             return adj.debugDescription
         case .adverb(let adv):
             return adv.debugDescription
+        case .verb(let verb):
+            return verb.debugDescription
         }
     }
 
@@ -247,6 +449,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
             return adj.text
         case .adverb(let adv):
             return adv.text
+        case .verb(let verb):
+            return verb.text
         }
     }
 
@@ -258,57 +462,22 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
             return adj.description
         case .adverb(let adv):
             return adv.description
+        case .verb(let verb):
+            return verb.description
         }
     }
 }
 
 let principleParts = PrefixUpTo("  ").map(String.init(_:))
 
-let pos = Prefix(1).compactMap { (substr: String.SubSequence) -> PartOfSpeech? in
-    PartOfSpeech(rawValue: String(substr))
-}
-
-let decl = Prefix(1).compactMap { (substr: String.SubSequence) -> Declension? in
-    guard let raw = Int(String(substr)),
-          let decl = Declension(rawValue: raw) else {
-        return nil
-    }
-    return decl
-}
-let `case` = Prefix(3).compactMap { (substr: String.SubSequence) -> Case? in
-    guard let decl = Case(rawValue: String(substr)) else {
-        return nil
-    }
-    return decl
-}
-let conj = Prefix(1).compactMap { (substr: String.SubSequence) -> Conjugation? in
-    guard let raw = Int(String(substr)),
-          let conj = Conjugation(rawValue: raw) else {
-        return nil
-    }
-    return conj
-}
-let number = Prefix(1).compactMap { (substr: String.SubSequence) -> Number? in
-    Number(rawValue: String(substr))
-}
-let gend = Prefix(1).compactMap { (substr: String.SubSequence) -> Gender? in
-    Gender(rawValue: String(substr))
-}
-let gendOpt = Prefix(1).map { (substr: String.SubSequence) -> Gender? in
-    Gender(rawValue: String(substr))
-}
-let degr = Prefix(5).compactMap { (substr: String.SubSequence) -> Degree? in
-    Degree(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
-}
-
 let nounExpansion = principleParts
     .skip(StartsWith("  "))
     .skip(StartsWith(PartOfSpeech.noun.rawValue))
     .skip(StartsWith(" ("))
-    .take(decl)
+    .take(Declension.parser)
     .skip(Prefix(2))
     .skip(StartsWith(") "))
-    .take(gend)
+    .take(Gender.parser)
     .skip(Rest())
     .map(Expansion.noun)
     .eraseToAnyParser()
@@ -330,11 +499,11 @@ let advExpansion = principleParts
 let verbExpansion = principleParts
     .skip(StartsWith("  "))
     .skip(StartsWith(PartOfSpeech.verb.rawValue))
-    .skip(StartsWith(" ("))
-    .take(conj)
-    .skip(Prefix(2))
-    .skip(StartsWith(") "))
-    .skip(Rest())
+    .take(StartsWith(" (")
+            .take(Conjugation?.parser)
+            .skip(Prefix(2))
+            .skip(StartsWith(") "))
+            .orElse(Skip(Rest()).map { Conjugation?.none }))
     .map(Expansion.verb)
     .eraseToAnyParser()
 
@@ -369,15 +538,15 @@ let nounPossibility = Prefix<Substring>(21).map {
         $0.trimmingCharacters(in: .whitespaces)
     }
     .skip(StartsWith("N      "))
-    .take(decl)
+    .take(Declension.parser)
     .skip(StartsWith(" "))
     .take(variety)
     .skip(StartsWith(" "))
-    .take(`case`)
+    .take(Case.parser)
     .skip(StartsWith(" "))
-    .take(number)
+    .take(Number.parser)
     .skip(StartsWith(" "))
-    .take(gend)
+    .take(Gender.parser)
     .skip(Rest())
     .map {
         ($0.0.0, $0.0.1, $0.0.2, $0.0.3, $0.0.4, $0.1)
@@ -391,17 +560,17 @@ let adjPossibility = Prefix<Substring>(21)
         $0.trimmingCharacters(in: .whitespaces)
     }
     .skip(StartsWith("ADJ    "))
-    .take(decl)
+    .take(Declension.parser)
     .skip(StartsWith(" "))
     .take(variety)
     .skip(StartsWith(" "))
-    .take(`case`)
+    .take(Case.parser)
     .skip(StartsWith(" "))
-    .take(number)
+    .take(Number.parser)
     .skip(StartsWith(" "))
-    .take(gendOpt)
+    .take(Gender?.parser)
     .skip(StartsWith(" "))
-    .take(degr)
+    .take(Degree.parser)
     .skip(Rest())
     .map {
         ($0.0.0, $0.0.1, $0.0.2, $0.0.3, $0.0.4, $0.1, $0.2)
@@ -415,7 +584,7 @@ let advPossibility = Prefix<Substring>(21)
         $0.trimmingCharacters(in: .whitespaces)
     }
     .skip(StartsWith("ADV    "))
-    .take(degr)
+    .take(Degree.parser)
     .skip(Rest())
     .map {
         ($0.0, $0.1)
@@ -424,7 +593,33 @@ let advPossibility = Prefix<Substring>(21)
     .map(Possibility.adverb)
     .eraseToAnyParser()
 
-let possibility = OneOfMany([nounPossibility, adjPossibility, advPossibility])
+// ambulav.issem        V      1 1 PLUP ACTIVE  SUB 1 S
+let verbPossibility: AnyParser<Substring, Possibility> = Prefix<Substring>(21)
+    .map {
+        $0.trimmingCharacters(in: .whitespaces)
+    }
+    .skip(StartsWith("V      "))
+    .take(Conjugation.parser)
+    .skip(StartsWith(" "))
+    .take(variety)
+    .skip(StartsWith(" "))
+    .take(Tense.parser)
+    .skip(StartsWith(" "))
+    .take(Voice.parser)
+    .skip(StartsWith(" "))
+    .take(Mood.parser)
+    .skip(StartsWith(" "))
+    .take(Person?.parser)
+    .skip(StartsWith(" "))
+    .take(Number?.parser)
+    .skip(Rest())
+    .map {
+        Verb(text: $0.0.0, conjugation: $0.0.1, variety: $0.0.2, tense: $0.0.3, voice: $0.0.4, mood: $0.1, person: $0.2, number: $0.3)
+    }
+    .map(Possibility.verb)
+    .eraseToAnyParser()
+
+let possibility = OneOfMany([nounPossibility, adjPossibility, advPossibility, verbPossibility])
 
 func parse(_ str: String) -> ([Definition], Bool)? {
     var definitions: [Definition] = []

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		371052902724604C0077CE3D /* FontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710528F2724604C0077CE3D /* FontSizeController.swift */; };
 		3710529227247B790077CE3D /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710529127247B790077CE3D /* ServiceProvider.swift */; };
+		373AECBD272E22CB0021A393 /* Difference in Frameworks */ = {isa = PBXBuildFile; productRef = 373AECBC272E22CB0021A393 /* Difference */; };
+		373AECBF272E22D90021A393 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECBE272E22D90021A393 /* Utils.swift */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
@@ -57,6 +59,7 @@
 		3710529127247B790077CE3D /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
 		373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "words (macOS)Debug.entitlements"; sourceTree = "<group>"; };
+		373AECBE272E22D90021A393 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
 		37679DFF262CC87C003D15E1 /* WindowRestoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestoration.swift; sourceTree = "<group>"; };
@@ -108,6 +111,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37CC43662634AB8100E60CE9 /* Parsing in Frameworks */,
+				373AECBD272E22CB0021A393 /* Difference in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +223,7 @@
 				37CC435A263476D200E60CE9 /* iWordsTests.swift */,
 				37CC435C263476D200E60CE9 /* Info.plist */,
 				37CC4362263476DD00E60CE9 /* DefinitionTests.swift */,
+				373AECBE272E22D90021A393 /* Utils.swift */,
 			);
 			path = iWordsTests;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 			name = "iWords (macOS)";
 			packageProductDependencies = (
 				37CC43652634AB8100E60CE9 /* Parsing */,
+				373AECBC272E22CB0021A393 /* Difference */,
 			);
 			productName = "words (macOS)";
 			productReference = 37A4D1B5262227E400A9E9EC /* iWords.app */;
@@ -316,6 +322,7 @@
 			mainGroup = 37A4D1A0262227E300A9E9EC;
 			packageReferences = (
 				37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */,
+				373AECBB272E22CA0021A393 /* XCRemoteSwiftPackageReference "Difference" */,
 			);
 			productRefGroup = 37A4D1AE262227E400A9E9EC /* Products */;
 			projectDirPath = "";
@@ -441,6 +448,7 @@
 			files = (
 				37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */,
 				37CC435B263476D200E60CE9 /* iWordsTests.swift in Sources */,
+				373AECBF272E22D90021A393 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +771,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		373AECBB272E22CA0021A393 /* XCRemoteSwiftPackageReference "Difference" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzysztofzablocki/Difference.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-parsing";
@@ -774,6 +790,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		373AECBC272E22CB0021A393 /* Difference */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 373AECBB272E22CA0021A393 /* XCRemoteSwiftPackageReference "Difference" */;
+			productName = Difference;
+		};
 		37CC43652634AB8100E60CE9 /* Parsing */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */;

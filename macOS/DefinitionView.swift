@@ -94,7 +94,7 @@ struct DefinitionView: View {
                         case .noun(_, let declension, let gender):
                             return Text("\(definition.expansion.pos.description), \(declension.description), \(gender.description)")
                         case .verb(_, let conjugation):
-                            return Text("\(definition.expansion.pos.description), \(conjugation.description)")
+                            return Text("\(definition.expansion.pos.description)\(conjugation.map { ", " + $0.description } ?? "")")
                         case .adj, .adv:
                             return Text("\(definition.expansion.pos.description)")
                         }
