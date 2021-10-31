@@ -82,6 +82,29 @@ struct DefinitionView: View {
 
     @EnvironmentObject
     var fontSizeController: FontSizeController
+
+    func expansionDescription(_ exp: Expansion) -> String {
+        var descr = exp.pos.description
+        switch exp {
+        case .noun(_, let declension, let gender, _):
+            if let declension = declension {
+                descr +=  ", \(declension.description)"
+            }
+            descr += ", \(gender.description)"
+        case .verb(_, let conjugation, _):
+            if let conjugation = conjugation {
+                descr += ", \(conjugation)"
+            }
+        case .adj, .adv:
+            break
+        }
+        if !exp.notes.isEmpty {
+            descr += " ("
+            descr += exp.notes.joined(separator: ", ")
+            descr += ")"
+        }
+        return descr
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -105,33 +128,25 @@ struct DefinitionView: View {
                 Divider()
             }
 
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(alignment: .firstTextBaseline) {
-                    SelectableText {
-                        Text(verbatim: definition.expansion.principleParts)
-                            .font(.system(size: fontSizeController.fontSize * 1, weight: .bold, design: .serif))
-                        + Text("  ") + { () -> Text in
-                            switch definition.expansion {
-                            case .noun(_, let declension, let gender, let notes):
-                                return Text("\(definition.expansion.pos.description), \(declension.map { $0.description + ", " } ?? "")\(gender.description) \(notes.joined(separator: ", "))")
-                            case .verb(_, let conjugation, let notes):
-                                return Text("\(definition.expansion.pos.description)\(conjugation.map { ", " + $0.description } ?? "") \(notes.joined(separator: ", "))")
-                            case .adj(_, let notes), .adv(_, let notes):
-                                return Text("\(definition.expansion.pos.description) \(notes.joined(separator: ", "))")
-                            }
-                        }()
-                        .foregroundColor(.secondary)
-                        .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
+            ForEach(definition.words, id: \.meaning) { word in
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(alignment: .firstTextBaseline) {
+                        SelectableText {
+                            Text(verbatim: word.expansion.principleParts)
+                                .font(.system(size: fontSizeController.fontSize * 1, weight: .bold, design: .serif))
+                            + Text("  ") + Text(verbatim: expansionDescription(word.expansion))
+                                .foregroundColor(.secondary)
+                                .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
+                        }
                     }
-                }
-                .padding(.leading, 16)
+                    .padding(.leading, 16)
 
-                Text(verbatim: definition.meaning)
-                    .safeSelectable()
-                    .font(.system(size: fontSizeController.fontSize, weight: .regular, design: .serif))
-                    .padding(.leading, 32)
+                    Text(verbatim: word.meaning)
+                        .safeSelectable()
+                        .font(.system(size: fontSizeController.fontSize, weight: .regular, design: .serif))
+                        .padding(.leading, 32)
+                }
             }
-            .padding(.leading, 0)
         }
         .padding(.horizontal)
     }

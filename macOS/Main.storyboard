@@ -87,6 +87,22 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="3jA-Gu-wqu"/>
+                                        <menuItem title="Export Raw Results..." keyEquivalent="S" id="bYf-fa-jBW">
+                                            <connections>
+                                                <action selector="exportRawResult:" target="Ady-hI-5gd" id="XHt-KT-0ta"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Export Results as JSON..." keyEquivalent="J" id="L9E-xW-M2L">
+                                            <connections>
+                                                <action selector="exportJSONResult:" target="Ady-hI-5gd" id="aZp-oe-5U3"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="WNC-8h-mJy">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="zFd-KG-8sn"/>
                                         <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="HmO-Ls-i7Q"/>
@@ -508,15 +524,15 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="366"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="435" height="366"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="420" height="366"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="435" height="366"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="420" height="366"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="435" height="366"/>
+                                            <size key="minSize" width="420" height="366"/>
                                             <size key="maxSize" width="435" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -527,17 +543,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="419" y="0.0" width="16" height="366"/>
+                                    <rect key="frame" x="420" y="0.0" width="15" height="366"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IER-Pz-Rs3">
-                                <rect key="frame" x="152" y="373" width="131" height="24"/>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillProportionally" style="rounded" trackingMode="selectOne" id="qh3-HL-ma3">
+                                <rect key="frame" x="132" y="373" width="172" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="qh3-HL-ma3">
                                     <font key="font" metaFont="system"/>
                                     <segments>
                                         <segment label="Pretty" imageScaling="proportionallyUpOrDown" selected="YES"/>
-                                        <segment label="Raw" imageScaling="proportionallyUpOrDown" width="75" tag="1"/>
+                                        <segment label="Raw" imageScaling="proportionallyUpOrDown" width="82" tag="1"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>

@@ -8,7 +8,7 @@
 import Foundation
 import Parsing
 
-enum PartOfSpeech: String, CustomStringConvertible {
+enum PartOfSpeech: String, CustomStringConvertible, Codable {
     case noun = "N",
          verb = "V",
          adjective = "ADJ",
@@ -28,7 +28,7 @@ enum PartOfSpeech: String, CustomStringConvertible {
     }
 }
 
-enum Gender: String, CustomStringConvertible {
+enum Gender: String, CustomStringConvertible, Codable {
     case masculine = "M",
          feminine = "F",
          neuter = "N"
@@ -52,7 +52,7 @@ extension Optional where Wrapped == Gender {
     }
 }
 
-enum Declension: Int, CustomStringConvertible, Parseable {
+enum Declension: Int, CustomStringConvertible, Parseable, Codable {
     case first = 1,
          second,
          third,
@@ -70,7 +70,7 @@ enum Declension: Int, CustomStringConvertible, Parseable {
     }
 }
 
-enum Conjugation: Int, CustomStringConvertible {
+enum Conjugation: Int, CustomStringConvertible, Codable {
     case first = 1,
          second,
          third,
@@ -98,7 +98,7 @@ enum Conjugation: Int, CustomStringConvertible {
     }
 }
 
-enum Case: String, CustomStringConvertible, Parseable {
+enum Case: String, CustomStringConvertible, Parseable, Codable {
     case nominative = "NOM"
     case accusative = "ACC"
     case ablative = "ABL"
@@ -131,26 +131,33 @@ private func notLineEnding(_ c: UTF8.CodeUnit) -> Bool {
     c != .init(ascii: "\r") && c != .init(ascii: "\n")
 }
 
-struct Definition: Equatable, Identifiable {
+struct Word: Equatable, Codable {
+    let expansion: Expansion
+    let meaning: String
+}
+
+struct Definition: Equatable, Identifiable, Codable {
     var id: String {
-        return expansion.principleParts + expansion.pos.description
+        possibilities.description + words.description
     }
 
-    internal init(possibilities: [Possibility], expansion: Expansion, meaning: String, truncated: Bool = false) {
+    internal init(
+        possibilities: [Possibility],
+        words: [Word],
+        truncated: Bool = false
+    ) {
         self.possibilities = possibilities
-        self.expansion = expansion
-        self.meaning = meaning
+        self.words = words
         self.truncated = truncated
     }
     
     let possibilities: [Possibility]
-    let expansion: Expansion
-    let meaning: String
+    let words: [Word]
     // Whether or not extra unlikely possibilities were excluded from the list of results.
     let truncated: Bool
 }
 
-enum Expansion: Equatable {
+enum Expansion: Equatable, Codable {
     case noun(String, Declension?, Gender, [String])
     case adj(String, [String])
     case adv(String, [String])
@@ -170,9 +177,75 @@ enum Expansion: Equatable {
         case .adv: return .adverb
         }
     }
+
+    var notes: [String] {
+        switch self {
+        case .noun(_, _, _, let notes):
+            return notes
+        case .adj(_, let notes):
+            return notes
+        case .adv(_, let notes):
+            return notes
+        case .verb(_, _, let notes):
+            return notes
+        }
+    }
+
+    static let parser: AnyParser<Substring, Expansion> = {
+        let principleParts = PrefixUpTo("  ").map(String.init(_:))
+
+        let nounExpansion = principleParts
+            .skip(StartsWith("  "))
+            .skip(StartsWith(PartOfSpeech.noun.rawValue))
+            .take(StartsWith(" (")
+                    .take(Declension?.parser)
+                    .skip(Prefix(2))
+                    .skip(StartsWith(") "))
+                    .orElse(Skip(StartsWith(" ")).map { Declension?.none }))
+            .take(Gender.parser)
+            .take(Rest())
+            .map {
+                Expansion.noun($0.0.0, $0.0.1, $0.0.2, getNotes($0.1))
+            }
+            .eraseToAnyParser()
+
+        let adjExpansion = principleParts
+            .skip(StartsWith("  "))
+            .skip(StartsWith(PartOfSpeech.adjective.rawValue))
+            .take(Rest())
+            .map {
+                Expansion.adj($0.0, getNotes($0.1))
+            }
+            .eraseToAnyParser()
+
+        let advExpansion = principleParts
+            .skip(StartsWith("  "))
+            .skip(StartsWith(PartOfSpeech.adverb.rawValue))
+            .take(Rest())
+            .map {
+                Expansion.adv($0.0, getNotes($0.1))
+            }
+            .eraseToAnyParser()
+
+        let verbExpansion = principleParts
+            .skip(StartsWith("  "))
+            .skip(StartsWith(PartOfSpeech.verb.rawValue))
+            .take(StartsWith(" (")
+                    .take(Conjugation?.parser)
+                    .skip(Prefix(2))
+                    .skip(StartsWith(") "))
+                    .orElse(Skip(StartsWith(" ")).map { Conjugation?.none }))
+            .take(Rest())
+            .map {
+                Expansion.verb($0.0.0, $0.0.1, getNotes($0.1))
+            }
+            .eraseToAnyParser()
+
+        return OneOfMany([nounExpansion, adjExpansion, advExpansion, verbExpansion]).eraseToAnyParser()
+    }()
 }
 
-enum Number: String, CaseIterable, CustomStringConvertible, Parseable {
+enum Number: String, CaseIterable, CustomStringConvertible, Parseable, Codable {
     case singular = "S"
     case plural = "P"
 
@@ -187,7 +260,7 @@ enum Number: String, CaseIterable, CustomStringConvertible, Parseable {
 }
 
 // A fully declined instance of a noun
-struct Noun: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
+struct Noun: Equatable, CustomDebugStringConvertible, CustomStringConvertible, Codable {
     let text: String
     let declension: Declension?
     let variety: Int
@@ -204,7 +277,7 @@ struct Noun: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     }
 }
 
-enum Degree: String, CustomStringConvertible {
+enum Degree: String, CustomStringConvertible, Codable {
     case positive = "POS"
     case comparative = "COMP"
     case superlative = "SUPER"
@@ -222,7 +295,7 @@ enum Degree: String, CustomStringConvertible {
     }
 }
 
-struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
+struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertible, Codable {
     let text: String
     let declension: Declension
     let variety: Int
@@ -240,7 +313,7 @@ struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertib
     }
 }
 
-struct Adverb: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
+struct Adverb: Equatable, CustomDebugStringConvertible, CustomStringConvertible, Codable {
     let text: String
     let degree: Degree
 
@@ -303,7 +376,7 @@ extension Optional where Wrapped: RawRepresentable, Wrapped: CaseIterable, Wrapp
     }
 }
 
-enum Tense: String, CustomStringConvertible {
+enum Tense: String, CustomStringConvertible, Codable {
     case present = "PRES"
     case imperfect = "IMPF"
     case future = "FUT"
@@ -333,7 +406,7 @@ enum Tense: String, CustomStringConvertible {
     }
 }
 
-enum Voice: String, CustomStringConvertible, Parseable {
+enum Voice: String, CustomStringConvertible, Parseable, Codable {
     case active = "ACTIVE"
     case passive = "PASSIVE"
     case middle = "MIDDLE" // ? do we need this ?
@@ -350,7 +423,7 @@ enum Voice: String, CustomStringConvertible, Parseable {
     }
 }
 
-enum Mood: String, CustomStringConvertible, Parseable {
+enum Mood: String, CustomStringConvertible, Parseable, Codable {
     case indicative = "IND"
     case infinitive = "INF"
     case subjunctive = "SUB"
@@ -370,7 +443,7 @@ enum Mood: String, CustomStringConvertible, Parseable {
     }
 }
 
-enum Person: Int, CustomStringConvertible, Parseable {
+enum Person: Int, CustomStringConvertible, Parseable, Codable {
     case first = 1
     case second = 2
     case third = 3
@@ -388,7 +461,7 @@ enum Person: Int, CustomStringConvertible, Parseable {
 }
 
 // TODO: create a protocol for more DRY
-struct Verb: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
+struct Verb: Equatable, CustomDebugStringConvertible, CustomStringConvertible, Codable {
     let text: String
     let conjugation: Conjugation
     let variety: Int
@@ -407,7 +480,7 @@ struct Verb: Equatable, CustomDebugStringConvertible, CustomStringConvertible {
     }
 }
 
-enum Possibility: Equatable, CustomDebugStringConvertible {
+enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
     case noun(Noun)
     case adjective(Adjective)
     case adverb(Adverb)
@@ -451,64 +524,97 @@ enum Possibility: Equatable, CustomDebugStringConvertible {
             return verb.description
         }
     }
-}
 
-let principleParts = PrefixUpTo("  ").map(String.init(_:))
-
-func getNotes(_ str: Substring) -> [String] {
-    str
-        .ifNotEmptyAfterTrimmingCharactersIn(.whitespacesAndNewlines)?
-        .components(separatedBy: "  ") ?? []
-}
-
-let nounExpansion = principleParts
-    .skip(StartsWith("  "))
-    .skip(StartsWith(PartOfSpeech.noun.rawValue))
-    .take(StartsWith(" (")
+    static let parser: AnyParser<Substring, Possibility> = {
+        let nounPossibility = Prefix<Substring>(21).map {
+            $0.trimmingCharacters(in: .whitespaces)
+        }
+            .skip(StartsWith("N      "))
             .take(Declension?.parser)
-            .skip(Prefix(2))
-            .skip(StartsWith(") "))
-            .orElse(Skip(StartsWith(" ")).map { Declension?.none }))
-    .take(Gender.parser)
-    .take(Rest())
-    .map {
-        Expansion.noun($0.0.0, $0.0.1, $0.0.2, getNotes($0.1))
-    }
-    .eraseToAnyParser()
+            .skip(StartsWith(" "))
+            .take(variety)
+            .skip(StartsWith(" "))
+            .take(Case?.parser)
+            .skip(StartsWith(" "))
+            .take(Number?.parser)
+            .skip(StartsWith(" "))
+            .take(Gender.parser)
+            .skip(Rest())
+            .map {
+                ($0.0.0, $0.0.1, $0.0.2, $0.0.3, $0.0.4, $0.1)
+            }
+            .map(Noun.init)
+            .map(Possibility.noun)
+            .eraseToAnyParser()
 
-let adjExpansion = principleParts
-    .skip(StartsWith("  "))
-    .skip(StartsWith(PartOfSpeech.adjective.rawValue))
-    .take(Rest())
-    .map {
-        Expansion.adj($0.0, getNotes($0.1))
-    }
-    .eraseToAnyParser()
+        let adjPossibility = Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("ADJ    "))
+            .take(Declension.parser)
+            .skip(StartsWith(" "))
+            .take(variety)
+            .skip(StartsWith(" "))
+            .take(Case.parser)
+            .skip(StartsWith(" "))
+            .take(Number.parser)
+            .skip(StartsWith(" "))
+            .take(Gender?.parser)
+            .skip(StartsWith(" "))
+            .take(Degree.parser)
+            .skip(Rest())
+            .map {
+                ($0.0.0, $0.0.1, $0.0.2, $0.0.3, $0.0.4, $0.1, $0.2)
+            }
+            .map(Adjective.init)
+            .map(Possibility.adjective)
+            .eraseToAnyParser()
 
-let advExpansion = principleParts
-    .skip(StartsWith("  "))
-    .skip(StartsWith(PartOfSpeech.adverb.rawValue))
-    .take(Rest())
-    .map {
-        Expansion.adv($0.0, getNotes($0.1))
-    }
-    .eraseToAnyParser()
+        let advPossibility = Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("ADV    "))
+            .take(Degree.parser)
+            .skip(Rest())
+            .map {
+                ($0.0, $0.1)
+            }
+            .map(Adverb.init)
+            .map(Possibility.adverb)
+            .eraseToAnyParser()
 
-let verbExpansion = principleParts
-    .skip(StartsWith("  "))
-    .skip(StartsWith(PartOfSpeech.verb.rawValue))
-    .take(StartsWith(" (")
-            .take(Conjugation?.parser)
-            .skip(Prefix(2))
-            .skip(StartsWith(") "))
-            .orElse(Skip(StartsWith(" ")).map { Conjugation?.none }))
-    .take(Rest())
-    .map {
-        Expansion.verb($0.0.0, $0.0.1, getNotes($0.1))
-    }
-    .eraseToAnyParser()
+        // ambulav.issem        V      1 1 PLUP ACTIVE  SUB 1 S
+        let verbPossibility: AnyParser<Substring, Possibility> = Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("V      "))
+            .take(Conjugation.parser)
+            .skip(StartsWith(" "))
+            .take(variety)
+            .skip(StartsWith(" "))
+            .take(Tense.parser)
+            .skip(StartsWith(" "))
+            .take(Voice.parser)
+            .skip(StartsWith(" "))
+            .take(Mood.parser)
+            .skip(StartsWith(" "))
+            .take(Person?.parser)
+            .skip(StartsWith(" "))
+            .take(Number?.parser)
+            .skip(Rest())
+            .map {
+                Verb(text: $0.0.0, conjugation: $0.0.1, variety: $0.0.2, tense: $0.0.3, voice: $0.0.4, mood: $0.1, person: $0.2, number: $0.3)
+            }
+            .map(Possibility.verb)
+            .eraseToAnyParser()
 
-let expansion = OneOfMany([nounExpansion, adjExpansion, advExpansion, verbExpansion])
+        return OneOfMany([nounPossibility, adjPossibility, advPossibility, verbPossibility])
+            .eraseToAnyParser()
+    }()
+}
 
 // Parses a string with a given total length N. First M characters <= N must be non-whitespace, and
 // will be returned.
@@ -535,92 +641,22 @@ struct Padded<Input>: Parser where Input: Collection,
 
 let variety = Prefix<Substring>(1).map(String.init(_:)).compactMap(Int.init(_:))
 
-let nounPossibility = Prefix<Substring>(21).map {
-        $0.trimmingCharacters(in: .whitespaces)
-    }
-    .skip(StartsWith("N      "))
-    .take(Declension?.parser)
-    .skip(StartsWith(" "))
-    .take(variety)
-    .skip(StartsWith(" "))
-    .take(Case?.parser)
-    .skip(StartsWith(" "))
-    .take(Number?.parser)
-    .skip(StartsWith(" "))
-    .take(Gender.parser)
-    .skip(Rest())
-    .map {
-        ($0.0.0, $0.0.1, $0.0.2, $0.0.3, $0.0.4, $0.1)
-    }
-    .map(Noun.init)
-    .map(Possibility.noun)
-    .eraseToAnyParser()
+func getNotes(_ str: Substring) -> [String] {
+    str
+        .ifNotEmptyAfterTrimmingCharactersIn(.whitespacesAndNewlines)?
+        .components(separatedBy: "  ")
+        .compactMap { $0.ifNotEmptyAfterTrimmingCharactersIn(.whitespacesAndNewlines) }
+        .map(prettifyNote)
+    ?? []
+}
 
-let adjPossibility = Prefix<Substring>(21)
-    .map {
-        $0.trimmingCharacters(in: .whitespaces)
-    }
-    .skip(StartsWith("ADJ    "))
-    .take(Declension.parser)
-    .skip(StartsWith(" "))
-    .take(variety)
-    .skip(StartsWith(" "))
-    .take(Case.parser)
-    .skip(StartsWith(" "))
-    .take(Number.parser)
-    .skip(StartsWith(" "))
-    .take(Gender?.parser)
-    .skip(StartsWith(" "))
-    .take(Degree.parser)
-    .skip(Rest())
-    .map {
-        ($0.0.0, $0.0.1, $0.0.2, $0.0.3, $0.0.4, $0.1, $0.2)
-    }
-    .map(Adjective.init)
-    .map(Possibility.adjective)
-    .eraseToAnyParser()
-
-let advPossibility = Prefix<Substring>(21)
-    .map {
-        $0.trimmingCharacters(in: .whitespaces)
-    }
-    .skip(StartsWith("ADV    "))
-    .take(Degree.parser)
-    .skip(Rest())
-    .map {
-        ($0.0, $0.1)
-    }
-    .map(Adverb.init)
-    .map(Possibility.adverb)
-    .eraseToAnyParser()
-
-// ambulav.issem        V      1 1 PLUP ACTIVE  SUB 1 S
-let verbPossibility: AnyParser<Substring, Possibility> = Prefix<Substring>(21)
-    .map {
-        $0.trimmingCharacters(in: .whitespaces)
-    }
-    .skip(StartsWith("V      "))
-    .take(Conjugation.parser)
-    .skip(StartsWith(" "))
-    .take(variety)
-    .skip(StartsWith(" "))
-    .take(Tense.parser)
-    .skip(StartsWith(" "))
-    .take(Voice.parser)
-    .skip(StartsWith(" "))
-    .take(Mood.parser)
-    .skip(StartsWith(" "))
-    .take(Person?.parser)
-    .skip(StartsWith(" "))
-    .take(Number?.parser)
-    .skip(Rest())
-    .map {
-        Verb(text: $0.0.0, conjugation: $0.0.1, variety: $0.0.2, tense: $0.0.3, voice: $0.0.4, mood: $0.1, person: $0.2, number: $0.3)
-    }
-    .map(Possibility.verb)
-    .eraseToAnyParser()
-
-let possibility = OneOfMany([nounPossibility, adjPossibility, advPossibility, verbPossibility])
+func prettifyNote(_ note: String) -> String {
+    let replacements: [String: String] = [
+        "veryrare": "very rare",
+        "INTRANS": "intrans."
+    ]
+    return replacements[note] ?? note
+}
 
 func parse(_ str: String) -> ([Definition], Bool)? {
     var definitions: [Definition] = []
@@ -631,28 +667,31 @@ func parse(_ str: String) -> ([Definition], Bool)? {
     var truncated = false
 
     var possibilities: [Possibility] = []
-    var exp: Expansion? = nil
-    var meaning: String? = nil
+
+    var exp: Expansion?
+    var meaning: String?
+    var words: [Word] = []
     let appendNewDefinition = {
-        guard let e = exp, let m = meaning else { return }
+        guard !words.isEmpty else { return }
         definitions.append(.init(possibilities: possibilities,
-                                 expansion: e,
-                                 meaning: m))
+                                 words: words))
         possibilities = []
+        words = []
+    }
+    let appendNewWord = {
+        guard let _exp = exp, let _meaning = meaning else { return }
+        words.append(Word(expansion: _exp, meaning: _meaning))
         exp = nil
         meaning = nil
     }
     while let line = lines.next() {
-        if let p = possibility.parse(line) {
+        if let p = Possibility.parser.parse(line) {
+            appendNewWord()
             appendNewDefinition()
             possibilities.append(p)
-        } else if let e = expansion.parse(line) {
-            if exp == nil {
-                exp = e
-            } else {
-                appendNewDefinition()
-                exp = e
-            }
+        } else if let e = Expansion.parser.parse(line) {
+            appendNewWord()
+            exp = e
         } else if exp != nil {
             if line == "*" {
                 truncated = true
@@ -668,26 +707,8 @@ func parse(_ str: String) -> ([Definition], Bool)? {
         }
     }
 
+    appendNewWord()
     appendNewDefinition()
 
     return (definitions, truncated)
 }
-
-//func parse(_ str: String) -> Definition? {
-//    let lines = str.split(whereSeparator: \.isNewline)
-//    let possibilities = lines.lazy
-//        .prefix { substr in
-//            substr.count == 56 && !substr.contains("]")
-//        }
-//        .compactMap(possibility.parse)
-//    let rest = lines[possibilities.count...].joined(separator: "\n")
-//    guard let (expansion, meaning) = result.parse(rest) else {
-//        return nil
-//    }
-//    return Definition(
-//        possibilities: Array(possibilities.map { "\($0)" }),
-//        expansion: expansion,
-//        meaning: meaning.replacingOccurrences(of: "\n", with: " ").trimmingCharacters(in: ["*"]),
-//        truncated: meaning.last == "*"
-//    )
-//}

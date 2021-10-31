@@ -184,6 +184,72 @@ class LookupWindowController: NSWindowController {
                              updateBackForward: true)
     }
 
+    @IBAction
+    private func exportRawResult(_ sender: Any?) {
+        guard let text = lookupViewController?.text,
+              let window = window else {
+                  NSSound.beep()
+                  return
+              }
+        let data = text.data(using: .utf8)
+        let fileName = "\(backForwardController.currentSearchQuery?.searchText ?? "results").txt"
+        let savePanel = NSSavePanel()
+        savePanel.nameFieldStringValue = fileName
+        savePanel.beginSheetModal(for: window) { [savePanel] modalResponse in
+            guard modalResponse == .OK else {
+                return
+            }
+            guard let url = savePanel.url else {
+                NSSound.beep()
+                return
+            }
+            do {
+                try data?.write(to: url)
+            } catch {
+                self.presentError(error)
+            }
+        }
+    }
+
+    #if DEBUG
+    private func canExportJSONResult() -> Bool {
+        lookupViewController?.definitions != nil
+    }
+
+    @IBAction
+    private func exportJSONResult(_ sender: Any?) {
+        guard let definitions = lookupViewController?.definitions,
+              let window = window else {
+            NSSound.beep()
+            return
+        }
+        let data: Data
+        do {
+            data = try JSONEncoder().encode(definitions)
+        } catch {
+            self.presentError(error)
+            return
+        }
+        let fileName = "\(backForwardController.currentSearchQuery?.searchText ?? "results").json"
+        let savePanel = NSSavePanel()
+        savePanel.nameFieldStringValue = fileName
+        savePanel.beginSheetModal(for: window) { [savePanel] modalResponse in
+            guard modalResponse == .OK else {
+                return
+            }
+            guard let url = savePanel.url else {
+                NSSound.beep()
+                return
+            }
+            do {
+                try data.write(to: url)
+            } catch {
+                self.presentError(error)
+            }
+        }
+    }
+    #endif
+
     // The core of the logic for actually performing a query and updating the UI.
     private func _setSearchQuery(_ searchQuery : SearchQuery,
                                  updateHistoryLists: Bool,
@@ -269,6 +335,8 @@ extension LookupWindowController {
             return backForwardController.canGoBack
         case #selector(goForward(_:)):
             return backForwardController.canGoForward
+        case #selector(exportJSONResult(_:)):
+            return canExportJSONResult()
         default:
             return super.responds(to: aSelector)
         }

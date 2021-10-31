@@ -13,6 +13,7 @@
 		373AECBF272E22D90021A393 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECBE272E22D90021A393 /* Utils.swift */; };
 		373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
 		373AECC7272ECDA40021A393 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECC5272ECCD30021A393 /* String+.swift */; };
+		373AECC8272EF26D0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
@@ -39,7 +40,6 @@
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
 		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
 		37BF1C0C262B8366003C4A97 /* iWords.help in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C0B262B8366003C4A97 /* iWords.help */; };
-		37CC435B263476D200E60CE9 /* iWordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC435A263476D200E60CE9 /* iWordsTests.swift */; };
 		37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC4362263476DD00E60CE9 /* DefinitionTests.swift */; };
 		37CC43662634AB8100E60CE9 /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 37CC43652634AB8100E60CE9 /* Parsing */; };
 		37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC43692634D81900E60CE9 /* DefinitionView.swift */; };
@@ -95,7 +95,6 @@
 		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
 		37BF1C0B262B8366003C4A97 /* iWords.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iWords.help; sourceTree = "<group>"; };
 		37CC4358263476D200E60CE9 /* iWordsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iWordsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		37CC435A263476D200E60CE9 /* iWordsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iWordsTests.swift; sourceTree = "<group>"; };
 		37CC435C263476D200E60CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37CC4362263476DD00E60CE9 /* DefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionTests.swift; sourceTree = "<group>"; };
 		37CC43692634D81900E60CE9 /* DefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
@@ -234,7 +233,6 @@
 		37CC4359263476D200E60CE9 /* iWordsTests */ = {
 			isa = PBXGroup;
 			children = (
-				37CC435A263476D200E60CE9 /* iWordsTests.swift */,
 				37CC435C263476D200E60CE9 /* Info.plist */,
 				37CC4362263476DD00E60CE9 /* DefinitionTests.swift */,
 				373AECBE272E22D90021A393 /* Utils.swift */,
@@ -387,6 +385,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				373AECC8272EF26D0021A393 /* PreviewAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,7 +462,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */,
-				37CC435B263476D200E60CE9 /* iWordsTests.swift in Sources */,
 				373AECBF272E22D90021A393 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

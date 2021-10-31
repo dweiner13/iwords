@@ -27,6 +27,8 @@ class LookupViewController: NSViewController {
         }
     }
 
+    var definitions: [Definition]?
+
     @IBOutlet weak var displayModeControl: NSSegmentedControl!
 
     var mode: ResultDisplayMode {
@@ -67,6 +69,7 @@ class LookupViewController: NSViewController {
         definitionHostingView = nil
         if #available(macOS 11.0, *),
            let (definitions, truncated) = parse(text) {
+            self.definitions = definitions
             displayModeControl.setEnabled(true, forSegment: 0)
             let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (definitions, truncated))
                                         .environmentObject(fontSizeController))
@@ -80,6 +83,7 @@ class LookupViewController: NSViewController {
             ])
             definitionHostingView = hostingView
         } else {
+            self.definitions = nil
             mode = .raw
             displayModeControl.setEnabled(false, forSegment: 0)
         }
@@ -111,4 +115,8 @@ extension LookupViewController: FontSizeControllerDelegate {
     func fontSizeController(_ controller: FontSizeController, fontSizeChangedTo fontSize: CGFloat) {
         setFontSize(fontSize)
     }
+}
+
+extension LookupViewController: NSOpenSavePanelDelegate {
+
 }
