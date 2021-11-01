@@ -109,14 +109,59 @@ class LookupViewController: NSViewController {
     @IBAction func didChangeMode(_ sender: Any) {
         updateForMode()
     }
+
+    @objc
+    func printDocument(_ sender: Any) {
+        let printInfo = NSPrintInfo.shared
+        printInfo.verticalPagination = .automatic
+        printInfo.horizontalPagination = .fit
+        printInfo.isHorizontallyCentered = false
+        printInfo.isVerticallyCentered = false
+
+        let printView: NSView
+        let width = printInfo.imageablePageBounds.width
+        switch mode {
+        case .pretty:
+            guard #available(macOS 11.0, *) else {
+                fallthrough
+            }
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (definitions ?? [], false))
+                                                .environmentObject(fontSizeController))
+            hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
+            printView = hostingView
+        case .raw:
+            let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
+            textView.string = text ?? "(nil)"
+            textView.font = self.textView.font
+            textView.frame.size.height = textView.intrinsicContentSize.height
+            printView = textView
+        }
+
+        let op = NSPrintOperation(view: printView, printInfo: printInfo)
+        op.canSpawnSeparateThread = true
+        op.run()
+    }
+
+    @objc
+    func runPageLayout(_ sender: Any) {
+        NSPageLayout().runModal()
+    }
+
+    override func responds(to aSelector: Selector!) -> Bool {
+        switch aSelector {
+        case #selector(printDocument(_:)):
+            switch mode {
+            case .pretty: return definitions?.isEmpty == false
+            case .raw: return text != nil
+            }
+        default:
+            return super.responds(to: aSelector)
+        }
+    }
 }
 
 extension LookupViewController: FontSizeControllerDelegate {
     func fontSizeController(_ controller: FontSizeController, fontSizeChangedTo fontSize: CGFloat) {
         setFontSize(fontSize)
     }
-}
-
-extension LookupViewController: NSOpenSavePanelDelegate {
-
 }
