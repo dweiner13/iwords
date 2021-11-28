@@ -34,6 +34,13 @@
                                                 <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="fbp-5F-nwt"/>
+                                        <menuItem title="Check for Updates..." id="ZoS-HG-WAS">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="checkForUpdates:" target="OSl-4T-ebG" id="SwH-kz-gWl"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="XUb-bA-Hdu"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -400,6 +407,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="FIU-Ed-KB2"/>
                     </connections>
                 </customObject>
+                <customObject id="OSl-4T-ebG" customClass="SUUpdater"/>
                 <customObject id="Ep3-Cg-0Is" customClass="FontSizeController" customModule="iWords" customModuleProvider="target"/>
                 <userDefaultsController id="ZZt-xK-ds5"/>
             </objects>

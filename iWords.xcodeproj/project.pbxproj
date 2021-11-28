@@ -26,6 +26,7 @@
 		37A4D24D26223D7A00A9E9EC /* LookupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */; };
 		37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D2512622401900A9E9EC /* AppDelegate.swift */; };
 		37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D256262240D000A9E9EC /* LookupWindowController.swift */; };
+		37AA04D8263435C100353747 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 37AA04D7263435C100353747 /* README.md */; };
 		37AA04DA2634485200353747 /* DefinitionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AA04D92634485200353747 /* DefinitionParser.swift */; };
 		37AB5A142626713500118674 /* ADDONS.LAT in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A062626713400118674 /* ADDONS.LAT */; };
 		37AB5A152626713500118674 /* STEMFILE.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A072626713400118674 /* STEMFILE.GEN */; };
@@ -41,6 +42,9 @@
 		37AB5A202626713500118674 /* STEMLIST.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A122626713500118674 /* STEMLIST.GEN */; };
 		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
+		37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; };
+		37AF82B82630EAC200931F2C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; };
+		37AF82B92630EAC200931F2C /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		37B089FB272F237400932567 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 37B089FD272F237400932567 /* Intents.intentdefinition */; };
 		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
 		37BF1C0C262B8366003C4A97 /* iWords.help in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C0B262B8366003C4A97 /* iWords.help */; };
@@ -59,6 +63,20 @@
 			remoteInfo = "iWords (macOS)";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		37AF82BA2630EAC200931F2C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				37AF82B92630EAC200931F2C /* Sparkle.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3710528F2724604C0077CE3D /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
@@ -82,6 +100,7 @@
 		37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupViewController.swift; sourceTree = "<group>"; };
 		37A4D2512622401900A9E9EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37A4D256262240D000A9E9EC /* LookupWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupWindowController.swift; sourceTree = "<group>"; };
+		37AA04D7263435C100353747 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		37AA04D92634485200353747 /* DefinitionParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionParser.swift; sourceTree = "<group>"; };
 		37AB5A062626713400118674 /* ADDONS.LAT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ADDONS.LAT; sourceTree = "<group>"; };
 		37AB5A072626713400118674 /* STEMFILE.GEN */ = {isa = PBXFileReference; lastKnownFileType = file; path = STEMFILE.GEN; sourceTree = "<group>"; };
@@ -97,6 +116,7 @@
 		37AB5A122626713500118674 /* STEMLIST.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STEMLIST.GEN; sourceTree = "<group>"; };
 		37AB5A21262671D200118674 /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
 		37AB5A232626733300118674 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		37AF82B62630EAC000931F2C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		37B089FC272F237400932567 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
 		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
 		37BF1C0B262B8366003C4A97 /* iWords.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iWords.help; sourceTree = "<group>"; };
@@ -119,6 +139,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */,
+				37AF82B82630EAC200931F2C /* Sparkle.framework in Frameworks */,
 				37CC43662634AB8100E60CE9 /* Parsing in Frameworks */,
 				373AECBD272E22CB0021A393 /* Difference in Frameworks */,
 			);
@@ -168,6 +190,7 @@
 		37A4D1A0262227E300A9E9EC = {
 			isa = PBXGroup;
 			children = (
+				37AA04D7263435C100353747 /* README.md */,
 				37A4D1A5262227E300A9E9EC /* Shared */,
 				37A4D1B6262227E400A9E9EC /* macOS */,
 				37CC4359263476D200E60CE9 /* iWordsTests */,
@@ -242,6 +265,7 @@
 		37C9FDFB2628DFAD00AE794D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37AF82B62630EAC000931F2C /* Sparkle.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -285,6 +309,7 @@
 				37A4D1B3262227E400A9E9EC /* Resources */,
 				37C9FDFC2628DFDB00AE794D /* ShellScript */,
 				37C9FDFA2628DDB900AE794D /* ShellScript */,
+				37AF82BA2630EAC200931F2C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -389,6 +414,7 @@
 				37AB5A1D2626713500118674 /* EWDSFILE.GEN in Resources */,
 				37AB5A22262671D200118674 /* words in Resources */,
 				37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */,
+				37AA04D8263435C100353747 /* README.md in Resources */,
 				37AB5A152626713500118674 /* STEMFILE.GEN in Resources */,
 				37AB5A1F2626713500118674 /* DICTFILE.GEN in Resources */,
 				37AB5A1E2626713500118674 /* CHECKEWD. in Resources */,
@@ -687,6 +713,10 @@
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "macOS/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -715,6 +745,10 @@
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "macOS/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
