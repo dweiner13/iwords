@@ -11,18 +11,32 @@ import SwiftUI
 
 @available(macOS 11.0, *)
 struct DefinitionsView: View {
-    let definitions: ([Definition], Bool)
+    let definitions: ([ResultItem], Bool)
     
     @State
     var showingTruncationInfo = false
+
+    @EnvironmentObject
+    var fontSizeController: FontSizeController
     
     var body: some View {
         ScrollView {
-            LazyVStack(alignment: .leading, spacing: 16) {
+            LazyVStack(alignment: .leading) {
                 ForEach(definitions.0) {
-                    DefinitionView(definition: $0)
+                    switch $0 {
+                    case .definition(let definition):
+                        DefinitionView(definition: definition)
+                    case .text(let text):
+                        Text(verbatim: text)
+                            .safeSelectable()
+                            .font(.system(size: fontSizeController.fontSize,
+                                          weight: .regular,
+                                          design: .serif))
+                            .padding(.leading, 16)
+                    }
                 }
             }
+            .padding(.vertical, 16)
             
             if definitions.1 {
                 HStack {
@@ -165,11 +179,11 @@ func previewQuery(_ name: String) -> String {
 // MARK: DefinitionView_Previews
 @available(macOS 11.0, *)
 struct DefinitionView_Previews: PreviewProvider {
-    static let definitions = parse(previewQuery("queries/incubat alias res vici"))!
+    static let result = parse(previewQuery("queries/virimus"))!
     
     static var previews: some View {
         Group {
-            DefinitionsView(definitions: definitions)
+            DefinitionsView(definitions: (result.0, result.1))
 //            DWBridgedDefinitionView(definitions: [noun, verb])
                 .environmentObject(FontSizeController())
                 .padding(.vertical)

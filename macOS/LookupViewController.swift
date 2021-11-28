@@ -27,7 +27,7 @@ class LookupViewController: NSViewController {
         }
     }
 
-    var definitions: [Definition]?
+    var results: [ResultItem]?
 
     @IBOutlet weak var displayModeControl: NSSegmentedControl!
 
@@ -68,10 +68,11 @@ class LookupViewController: NSViewController {
         definitionHostingView?.removeFromSuperview()
         definitionHostingView = nil
         if #available(macOS 11.0, *),
-           let (definitions, truncated) = parse(text) {
-            self.definitions = definitions
+           let (results, isTruncated) = parse(text) {
+            let definitions = results.compactMap(\.definition)
+            self.results = results
             displayModeControl.setEnabled(true, forSegment: 0)
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (definitions, truncated))
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results, isTruncated))
                                         .environmentObject(fontSizeController))
             hostingView.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(hostingView)
@@ -83,7 +84,7 @@ class LookupViewController: NSViewController {
             ])
             definitionHostingView = hostingView
         } else {
-            self.definitions = nil
+            self.results = nil
             mode = .raw
             displayModeControl.setEnabled(false, forSegment: 0)
         }
@@ -125,7 +126,7 @@ class LookupViewController: NSViewController {
             guard #available(macOS 11.0, *) else {
                 fallthrough
             }
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (definitions ?? [], false))
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results ?? [], false))
                                                 .environmentObject(fontSizeController))
             hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
             printView = hostingView
@@ -151,7 +152,7 @@ class LookupViewController: NSViewController {
         switch aSelector {
         case #selector(printDocument(_:)):
             switch mode {
-            case .pretty: return definitions?.isEmpty == false
+            case .pretty: return results?.isEmpty == false
             case .raw: return text != nil
             }
         default:

@@ -24,7 +24,7 @@ class DefinitionTests: XCTestCase {
                                              iWords.Gender.masculine,
                                              []),
             meaning: "man; husband; hero; person of courage, honor, and nobility;")])
-        XCTAssertEqual(parse(example)?.0, [expected])
+        assert(query: example, parsesIntoDefinitions: [expected])
 
         example = "vi.a                 N      1 1 NOM S F                 \n" +
         "vi.a                 N      1 1 VOC S F                 \n" +
@@ -40,7 +40,7 @@ class DefinitionTests: XCTestCase {
                                              iWords.Gender.feminine,
                                              []),
                          meaning: "way, road, street; journey;")]);
-        XCTAssertEqual(parse(example)?.0.first, expected)
+        assert(query: example, parsesIntoDefinitions: [expected])
 
         example = "res                  N      9 9 X   X N                 \n" +
         "res, undeclined  N N    Late  uncommon\n" +
@@ -51,7 +51,7 @@ class DefinitionTests: XCTestCase {
             possibilities: [.noun(Noun(text: "res", declension: nil, variety: 9, case: nil, number: nil, gender: .neuter))],
             words: [Word(expansion: .noun("res, undeclined", nil, .neuter, ["Late", "uncommon"]),
             meaning: "res; (20th letter of Hebrew alphabet); (transliterate as R);")])
-        XCTAssertEqual(parse(example)?.0.first, expected)
+        assert(query: example, parsesIntoDefinitions: [expected])
     }
 
     func testAdjectives() {
@@ -67,7 +67,7 @@ class DefinitionTests: XCTestCase {
                             .adjective(Adjective(text: "cops", declension: .third, variety: 1, case: .accusative, number: .singular, gender: .neuter, degree: .positive))],
             words: [Word(expansion: .adj("cops, (gen.), copis", ["uncommon"]),
             meaning: "well/abundantly equipped/supplied; rich; swelling (of chest with pride);")])
-        XCTAssertEqual(parse(example)?.0.first, expected)
+        assert(query: example, parsesIntoDefinitions: [expected])
 
         example = "ali.a                ADJ    1 5 NOM S F POS             \n" +
         "ali.a                ADJ    1 5 VOC S F POS             \n" +
@@ -87,7 +87,7 @@ class DefinitionTests: XCTestCase {
                             .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .accusative, number: .plural, gender: .neuter, degree: .positive))],
             words: [Word(expansion: .adj("alius, alia, aliud", []),
             meaning: "other, another; different, changed; [alii...alii => some...others]; (A+G);")])
-        XCTAssertEqual(parse(example)?.0.first, expected)
+        assert(query: example, parsesIntoDefinitions: [expected])
 
         example = "re.i                 ADJ    1 1 GEN S M POS             \n" +
         "reus, rea, reum  ADJ    Medieval  uncommon\n" +
@@ -97,7 +97,7 @@ class DefinitionTests: XCTestCase {
             possibilities: [.adjective(Adjective(text: "re.i", declension: .first, variety: 1, case: .genitive, number: .singular, gender: .masculine, degree: .positive))],
             words: [Word(expansion: .adj("reus, rea, reum", ["Medieval", "uncommon"]),
             meaning: "liable to (penalty of); guilty; [mens rea => guilty mind (modern legal term)];")])
-        XCTAssertEqual(parse(example)?.0.first, expected)
+        assert(query: example, parsesIntoDefinitions: [expected])
     }
 
     func testAdverbs() {
@@ -109,7 +109,7 @@ class DefinitionTests: XCTestCase {
             possibilities: [.adverb(Adverb(text: "alias", degree: .positive))],
             words: [Word(expansion: .adv("alias", []),
             meaning: "at/in another time/place; previously, subsequently; elsewhere; otherwise;")])
-        XCTAssertEqual(parse(example)?.0.first, expected)
+        assert(query: example, parsesIntoDefinitions: [expected])
     }
 
     func testVerbs() {
@@ -120,8 +120,7 @@ class DefinitionTests: XCTestCase {
             "consulo, consulere, consului, consultus  V (3rd)            \n" +
             "ask information/advice of; consult, take counsel; deliberate/consider; advise;\n" +
             "decide upon, adopt; look after/out for (DAT), pay attention to; refer to;"
-        XCTAssertEqual(
-            parse(example)?.0.first,
+        var expected = [
             iWords.Definition(
                 possibilities: [.verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .present, voice: .active, mood: .infinitive, person: nil, number: nil)),
                                 .verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .present, voice: .passive, mood: .imperative, person: .second, number: .singular)),
@@ -130,8 +129,9 @@ class DefinitionTests: XCTestCase {
                     "consulo, consulere, consului, consultus",
                     iWords.Conjugation.third,
                     []),
-                meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise;\ndecide upon, adopt; look after/out for (DAT), pay attention to; refer to;")])
-        )
+                             meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise;\ndecide upon, adopt; look after/out for (DAT), pay attention to; refer to;")])
+        ]
+        assert(query: example, parsesIntoDefinitions: expected)
 
         example = "ven.i                N      2 2 GEN S N                 \n" +
         "ven.i                N      2 2 LOC S N                 \n" +
@@ -145,91 +145,117 @@ class DefinitionTests: XCTestCase {
         "venio, venire, veni, ventus  V (4th)  \n" +
         "come;\r\n" +
         "*\n"
-
-        XCTAssertEqual(
-            parse(example)?.0,
-            [
-                iWords.Definition(
-                    possibilities: [.noun(Noun(text: "ven.i", declension: .second, variety: 2, case: .genitive, number: .singular, gender: .neuter)),
-                                    .noun(Noun(text: "ven.i", declension: .second, variety: 2, case: .locative, number: .singular, gender: .neuter))],
-                    words: [Word(expansion: iWords.Expansion.noun(
-                        "venum, veni",
-                        .second,
-                        .neuter,
-                        []),
-                    meaning: "sale, purchase; (only sg. ACC/DAT w/dare); [venum dare => put up for sale];")]),
-                iWords.Definition(
-                    possibilities: [.verb(Verb(text: "veni", conjugation: nil, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),],
-                    words: [Word(expansion: iWords.Expansion.verb(
-                        "veneo, venire, venivi(ii), venitus",
-                        nil,
-                        []),
-                    meaning: "go for sale, be sold (as slave), be disposed of for (dishonorable/venal) gain;")]),
-                iWords.Definition(
-                    possibilities: [.verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),
-                                    .verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .perfect, voice: .active, mood: .indicative, person: .first, number: .singular)),],
-                    words: [Word(expansion: iWords.Expansion.verb(
-                        "venio, venire, veni, ventus",
-                        .fourth,
-                        []),
-                    meaning: "come;")])
-            ]
-        )
+        expected = [
+            iWords.Definition(
+                possibilities: [.noun(Noun(text: "ven.i", declension: .second, variety: 2, case: .genitive, number: .singular, gender: .neuter)),
+                                .noun(Noun(text: "ven.i", declension: .second, variety: 2, case: .locative, number: .singular, gender: .neuter))],
+                words: [Word(expansion: iWords.Expansion.noun(
+                    "venum, veni",
+                    .second,
+                    .neuter,
+                    []),
+                             meaning: "sale, purchase; (only sg. ACC/DAT w/dare); [venum dare => put up for sale];")]),
+            iWords.Definition(
+                possibilities: [.verb(Verb(text: "veni", conjugation: nil, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),],
+                words: [Word(expansion: iWords.Expansion.verb(
+                    "veneo, venire, venivi(ii), venitus",
+                    nil,
+                    []),
+                             meaning: "go for sale, be sold (as slave), be disposed of for (dishonorable/venal) gain;")]),
+            iWords.Definition(
+                possibilities: [.verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),
+                                .verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .perfect, voice: .active, mood: .indicative, person: .first, number: .singular)),],
+                words: [Word(expansion: iWords.Expansion.verb(
+                    "venio, venire, veni, ventus",
+                    .fourth,
+                    []),
+                             meaning: "come;")])
+        ]
+        assert(query: example, parsesIntoDefinitions: expected)
 
         example = "incub.at             V      1 1 PRES ACTIVE  IND 3 S    \n" +
         "incubo, incubare, incubavi, incubatus  V (1st) INTRANS    veryrare\n" +
         "brood; (rare alt. perf/vpar for incubo);\n" +
         "incubo, incubare, incubui, incubitus  V (1st)  \n" +
         "lie in or on (w/DAT); sit upon; brood over; keep a jealous watch (over);"
-        XCTAssertEqual(parse(example)?.0, [
+        expected = [
             iWords.Definition(possibilities: [.verb(Verb(text: "incub.at", conjugation: .first, variety: 1, tense: .present, voice: .active, mood: .indicative, person: .third, number: .singular))],
                               words: [Word(expansion: .verb("incubo, incubare, incubavi, incubatus", .first, ["intrans.", "very rare"]), meaning: "brood; (rare alt. perf/vpar for incubo);"),
                                       Word(expansion: .verb("incubo, incubare, incubui, incubitus", .first, []), meaning: "lie in or on (w/DAT); sit upon; brood over; keep a jealous watch (over);")]),
-        ])
+        ]
+        assert(query: example, parsesIntoDefinitions: expected)
 
         example = String(data: NSDataAsset(name: "queries/orietur")!.data, encoding: .utf8)!
-        XCTAssertEqual(parse(example)?.0, [
+        expected = [
             iWords.Definition(possibilities: [.verb(Verb(text: "ori.etur", conjugation: .third, variety: 1, tense: .future, voice: nil, mood: .indicative, person: .third, number: .singular))],
                               words: [Word(expansion: .verb("orior, ori, oritus sum", .third, ["dep."]), meaning: "rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;\nbe born/created; be born of, descend/spring from; proceed/be derived (from);")]),
             iWords.Definition(possibilities: [.verb(Verb(text: "ori.etur", conjugation: .fourth, variety: 1, tense: .future, voice: nil, mood: .indicative, person: .third, number: .singular))],
                               words: [Word(expansion: .verb("orior, oriri, ortus sum", .fourth, ["dep."]), meaning: "rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;\nbe born/created; be born of, descend/spring from; proceed/be derived (from);")])
-        ])
+        ]
+        assert(query: example, parsesIntoDefinitions: expected)
     }
 
     func testPronouns() {
         var example = String(data: NSDataAsset(name: "queries/ego")!.data, encoding: .utf8)!
-        XCTAssertEqual(parse(example)?.0, [
+        var expected = [
             iWords.Definition(possibilities: [.pronoun(Pronoun(text: "ego", declension: .fifth, variety: 1, case: .nominative, number: .singular, gender: .common))],
                               words: [Word(expansion: nil, meaning: "I, me (PERS); myself (REFLEX);")])
-        ])
+        ]
+        assert(query: example, parsesIntoDefinitions: expected)
 
         example = String(data: NSDataAsset(name: "queries/ille")!.data, encoding: .utf8)!
-        XCTAssertEqual(parse(example)?.0, [
+        expected = [
             iWords.Definition(possibilities: [.pronoun(Pronoun(text: "ill.e", declension: nil, variety: 1, case: .nominative, number: .singular, gender: .masculine))],
                               words: [Word(expansion: .pron("ille, illa, illud", []),
                                            meaning: "that; those (pl.); also DEMONST; that person/thing; the well known; the former;")])
-        ])
+        ]
+        assert(query: example, parsesIntoDefinitions: expected)
     }
 
     func testPrepositions() {
         var example = String(data: NSDataAsset(name: "queries/ab")!.data, encoding: .utf8)!
-        XCTAssertEqual(parse(example)?.0, [
+        var expected = [
             iWords.Definition(possibilities: [.preposition(Preposition(text: "ab", case: .ablative))],
                               words: [Word(expansion: .prep("ab", .ablative, []),
                                            meaning: "by (agent), from (departure, cause, remote origin/time); after (reference);")])
-        ])
+        ]
+        assert(query: example, parsesIntoDefinitions: expected)
     }
 
     func testCombined() {
-        testQueryExpectedAssetPair(asset: "facile")
-        testQueryExpectedAssetPair(asset: "prae")
+        testQueryExpectedAssetPairLegacy(asset: "facile")
+        testQueryExpectedAssetPairLegacy(asset: "prae")
+    }
+
+    func testNotes() {
+        testQueryExpectedAssetPair(asset: "virimus")
+    }
+
+    private func assert(query: String, parsesIntoResults results: [ResultItem]) {
+        XCTAssertEqual(parse(query)?.0, results)
     }
 
     private func testQueryExpectedAssetPair(asset name: String) {
         let raw = String(data: NSDataAsset(name: "queries/\(name)")!.data, encoding: .utf8)!
-        let expected = try! JSONDecoder().decode([Definition].self, from: NSDataAsset(name: "expected/\(name)")!.data)
+        let expected = try! JSONDecoder().decode([ResultItem].self,
+                                                 from: NSDataAsset(name: "expected/\(name)")!.data)
         XCTAssertNotNil(raw)
         XCTAssertNotNil(expected)
-        XCTAssertEqual(parse(raw)?.0, expected)
+        assert(query: raw, parsesIntoResults: expected)
+    }
+
+    // MARK: Legacy (no support for notes)
+
+    private func assert(query: String, parsesIntoDefinitions defs: [Definition]) {
+        XCTAssertEqual(parse(query)?.0, defs.map { ResultItem.definition($0) })
+    }
+
+    private func testQueryExpectedAssetPairLegacy(asset name: String) {
+        let raw = String(data: NSDataAsset(name: "queries/\(name)")!.data, encoding: .utf8)!
+        let expected = try! JSONDecoder().decode([Definition].self,
+                                                 from: NSDataAsset(name: "expected/\(name)")!.data)
+        XCTAssertNotNil(raw)
+        XCTAssertNotNil(expected)
+        assert(query: raw, parsesIntoDefinitions: expected)
     }
 }

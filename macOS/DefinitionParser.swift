@@ -768,8 +768,28 @@ func prettifyNote(_ note: String) -> String {
     return replacements[note] ?? note
 }
 
-func parse(_ str: String) -> ([Definition], Bool)? {
-    var definitions: [Definition] = []
+enum ResultItem: Equatable, Codable, Identifiable {
+    case definition(Definition)
+    case text(String)
+
+    var id: String {
+        switch self {
+        case .definition(let def): return def.id
+        case .text(let text): return text
+        }
+    }
+
+    var definition: Definition? {
+        if case .definition(let def) = self {
+            return def
+        } else {
+            return nil
+        }
+    }
+}
+
+func parse(_ str: String) -> ([ResultItem], Bool)? {
+    var results: [ResultItem] = []
     var lines = str
         .split(whereSeparator: \.isNewline)
         .makeIterator()
@@ -783,8 +803,8 @@ func parse(_ str: String) -> ([Definition], Bool)? {
     var words: [Word] = []
     let appendNewDefinition = {
         guard !words.isEmpty else { return }
-        definitions.append(.init(possibilities: possibilities,
-                                 words: words))
+        results.append(.definition(Definition(possibilities: possibilities,
+                                              words: words)))
         possibilities = []
         words = []
     }
@@ -813,12 +833,12 @@ func parse(_ str: String) -> ([Definition], Bool)? {
         } else {
             print("🚨 Parsing failed at line:")
             print(line)
-            return nil
+            results.append(.text(String(line)))
         }
     }
 
     appendNewWord()
     appendNewDefinition()
 
-    return (definitions, truncated)
+    return (results, truncated)
 }

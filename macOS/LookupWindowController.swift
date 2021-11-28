@@ -213,12 +213,12 @@ class LookupWindowController: NSWindowController {
 
     #if DEBUG
     private func canExportJSONResult() -> Bool {
-        lookupViewController?.definitions != nil
+        lookupViewController?.results != nil
     }
 
     @IBAction
     private func exportJSONResult(_ sender: Any?) {
-        guard let definitions = lookupViewController?.definitions,
+        guard let results = lookupViewController?.results,
               let window = window else {
             NSSound.beep()
             return
@@ -235,7 +235,7 @@ class LookupWindowController: NSWindowController {
                 return
             }
             do {
-                try JSONEncoder().encode(definitions).write(to: url)
+                try JSONEncoder().encode(results).write(to: url)
             } catch {
                 self.presentError(error)
             }
