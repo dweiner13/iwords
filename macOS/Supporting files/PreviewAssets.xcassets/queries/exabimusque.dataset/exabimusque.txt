@@ -1,0 +1,8 @@
+que                  TACKON                             
+-que = and (enclitic, translated before attached word); completes plerus/uter;
+ex                   PREFIX                             
+- out, away from; beyond; completely;
+abi.mus              V      6 1 PRES ACTIVE  IND 1 P    
+abeo, abire, abivi(ii), abitus  V INTRANS  
+depart, go away; go off, go forth; pass away, die, disappear; be changed;
+

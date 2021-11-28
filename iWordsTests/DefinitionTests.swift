@@ -231,6 +231,10 @@ class DefinitionTests: XCTestCase {
         testQueryExpectedAssetPair(asset: "virimus")
     }
 
+    func testPrefixesAndTackons() {
+        testQueryExpectedAssetPair(asset: "exabimusque")
+    }
+
     private func assert(query: String, parsesIntoResults results: [ResultItem]) {
         XCTAssertEqual(parse(query)?.0, results)
     }

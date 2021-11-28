@@ -15,6 +15,7 @@ enum PartOfSpeech: String, CustomStringConvertible, Codable {
          adverb = "ADV",
          pronoun = "PRON",
          preposition = "PREP"
+
     
     var description: String {
         switch self {
@@ -25,10 +26,6 @@ enum PartOfSpeech: String, CustomStringConvertible, Codable {
         case .pronoun: return "pron."
         case .preposition: return "prep."
         }
-    }
-
-    static let parser = Prefix(1).compactMap { (substr: String.SubSequence) -> PartOfSpeech? in
-        PartOfSpeech(rawValue: String(substr))
     }
 }
 
@@ -47,13 +44,13 @@ enum Gender: String, CustomStringConvertible, Codable {
         }
     }
 
-    static let parser = Prefix(1).compactMap { (substr: String.SubSequence) -> Gender? in
+    static let parser = Parsing.Prefix(1).compactMap { (substr: String.SubSequence) -> Gender? in
         Gender(rawValue: String(substr))
     }
 }
 
 extension Optional where Wrapped == Gender {
-    static let parser = Prefix(1).map { (substr: String.SubSequence) -> Gender? in
+    static let parser = Parsing.Prefix(1).map { (substr: String.SubSequence) -> Gender? in
         Gender(rawValue: String(substr))
     }
 }
@@ -91,7 +88,7 @@ enum Conjugation: Int, CustomStringConvertible, Codable {
         }
     }
 
-    static let parser = Prefix(1).compactMap { (substr: String.SubSequence) -> Conjugation? in
+    static let parser = Parsing.Prefix(1).compactMap { (substr: String.SubSequence) -> Conjugation? in
         guard let raw = Int(String(substr)),
               let conj = Conjugation(rawValue: raw) else {
                   return nil
@@ -209,7 +206,7 @@ enum Expansion: Equatable, Codable {
             .skip(StartsWith(PartOfSpeech.noun.rawValue))
             .take(StartsWith(" (")
                     .take(Declension?.parser)
-                    .skip(Prefix(2))
+                    .skip(Parsing.Prefix(2))
                     .skip(StartsWith(") "))
                     .orElse(Skip(StartsWith(" ")).map { Declension?.none }))
             .take(Gender.parser)
@@ -251,7 +248,7 @@ enum Expansion: Equatable, Codable {
             .skip(StartsWith(PartOfSpeech.verb.rawValue))
             .take(StartsWith(" (")
                     .take(Conjugation?.parser)
-                    .skip(Prefix(2))
+                    .skip(Parsing.Prefix(2))
                     .skip(StartsWith(") "))
                     .orElse(Skip(StartsWith(" ")).map { Conjugation?.none }))
             .take(Rest())
@@ -320,17 +317,17 @@ enum Degree: String, CustomStringConvertible, Codable {
         }
     }
 
-    static let parser = Prefix(5).compactMap { (substr: String.SubSequence) -> Degree? in
+    static let parser = Parsing.Prefix(5).compactMap { (substr: String.SubSequence) -> Degree? in
         Degree(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
     }
 }
 
 struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertible, Codable {
     let text: String
-    let declension: Declension
+    let declension: Declension?
     let variety: Int
-    let `case`: Case
-    let number: Number
+    let `case`: Case?
+    let number: Number?
     let gender: Gender?
     let degree: Degree
 
@@ -339,7 +336,7 @@ struct Adjective: Equatable, CustomDebugStringConvertible, CustomStringConvertib
     }
 
     var description: String {
-        "\(declension) \(`case`) \(number) \(gender?.description.appending(" ") ?? "")\(degree)"
+        "\(declension?.description.appending(" ") ?? "")\(`case`?.description.appending(" ") ?? "")\(number?.description.appending(" ") ?? "")\(gender?.description.appending(" ") ?? "")\(degree)"
     }
 }
 
@@ -392,7 +389,7 @@ protocol Parseable: CaseIterable, RawRepresentable {
 
 extension Parseable where RawValue == Int {
     static var parser: AnyParser<String.SubSequence, Self> {
-        Prefix(1).compactMap { (substr: String.SubSequence) -> Self? in
+        Parsing.Prefix(1).compactMap { (substr: String.SubSequence) -> Self? in
             guard let raw = Int(String(substr)),
                   let value = Self.init(rawValue: raw) else {
                       return nil
@@ -404,7 +401,7 @@ extension Parseable where RawValue == Int {
 
 extension Optional where Wrapped: RawRepresentable, Wrapped.RawValue == Int {
     static var parser: AnyParser<String.SubSequence, Self> {
-        Prefix(1).map { (substr: String.SubSequence) -> Self in
+        Parsing.Prefix(1).map { (substr: String.SubSequence) -> Self in
             guard let raw = Int(String(substr)),
                   let value = Wrapped.init(rawValue: raw) else {
                       return nil
@@ -419,7 +416,7 @@ extension Parseable where RawValue == String {
         let max = allCases.reduce(0) { partialResult, element in
             element.rawValue.count > partialResult ? element.rawValue.count : partialResult
         }
-        return Prefix(max).compactMap { (substr: String.SubSequence) -> Self? in
+        return Parsing.Prefix(max).compactMap { (substr: String.SubSequence) -> Self? in
             Self.init(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
         }.eraseToAnyParser()
     }
@@ -430,7 +427,7 @@ extension Optional where Wrapped: RawRepresentable, Wrapped: CaseIterable, Wrapp
         let max = Wrapped.allCases.reduce(0) { partialResult, element in
             element.rawValue.count > partialResult ? element.rawValue.count : partialResult
         }
-        return Prefix(max).map { (substr: String.SubSequence) -> Self in
+        return Parsing.Prefix(max).map { (substr: String.SubSequence) -> Self in
             Wrapped.init(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
         }.eraseToAnyParser()
     }
@@ -461,7 +458,7 @@ enum Tense: String, CustomStringConvertible, Codable {
         }
     }
 
-    static let parser = Prefix(4).compactMap { (substr: String.SubSequence) -> Tense? in
+    static let parser = Parsing.Prefix(4).compactMap { (substr: String.SubSequence) -> Tense? in
         Tense(rawValue: substr.trimmingCharacters(in: .whitespacesAndNewlines))
     }
 }
@@ -547,6 +544,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
     case verb(Verb)
     case pronoun(Pronoun)
     case preposition(Preposition)
+    case prefix(String)
+    case tackon(String)
 
     var debugDescription: String {
         switch self {
@@ -562,6 +561,10 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             return pronoun.debugDescription
         case .preposition(let preposition):
             return preposition.debugDescription
+        case .prefix(let text):
+            return "Prefix: \(text)"
+        case .tackon(let text):
+            return "Tackon: \(text)"
         }
     }
 
@@ -579,6 +582,10 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             return pronoun.text
         case .preposition(let preposition):
             return preposition.text
+        case .prefix(let text):
+            return text
+        case .tackon(let text):
+            return text
         }
     }
 
@@ -596,11 +603,15 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             return pronoun.description
         case .preposition(let preposition):
             return preposition.description
+        case .prefix(let text):
+            return "prefix"
+        case .tackon(let text):
+            return "tackon"
         }
     }
 
     static let parser: AnyParser<Substring, Possibility> = {
-        let nounPossibility = Prefix<Substring>(21).map {
+        let nounPossibility = Parsing.Prefix<Substring>(21).map {
             $0.trimmingCharacters(in: .whitespaces)
         }
             .skip(StartsWith("N      "))
@@ -621,18 +632,18 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             .map(Possibility.noun)
             .eraseToAnyParser()
 
-        let adjPossibility = Prefix<Substring>(21)
+        let adjPossibility = Parsing.Prefix<Substring>(21)
             .map {
                 $0.trimmingCharacters(in: .whitespaces)
             }
             .skip(StartsWith("ADJ    "))
-            .take(Declension.parser)
+            .take(Declension?.parser)
             .skip(StartsWith(" "))
             .take(variety)
             .skip(StartsWith(" "))
-            .take(Case.parser)
+            .take(Case?.parser)
             .skip(StartsWith(" "))
-            .take(Number.parser)
+            .take(Number?.parser)
             .skip(StartsWith(" "))
             .take(Gender?.parser)
             .skip(StartsWith(" "))
@@ -645,7 +656,7 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             .map(Possibility.adjective)
             .eraseToAnyParser()
 
-        let advPossibility = Prefix<Substring>(21)
+        let advPossibility = Parsing.Prefix<Substring>(21)
             .map {
                 $0.trimmingCharacters(in: .whitespaces)
             }
@@ -660,7 +671,7 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             .eraseToAnyParser()
 
         // ambulav.issem        V      1 1 PLUP ACTIVE  SUB 1 S
-        let verbPossibility: AnyParser<Substring, Possibility> = Prefix<Substring>(21)
+        let verbPossibility: AnyParser<Substring, Possibility> = Parsing.Prefix<Substring>(21)
             .map {
                 $0.trimmingCharacters(in: .whitespaces)
             }
@@ -685,7 +696,7 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             .map(Possibility.verb)
             .eraseToAnyParser()
 
-        let pronounPossibility: AnyParser<Substring, Possibility> = Prefix<Substring>(21)
+        let pronounPossibility: AnyParser<Substring, Possibility> = Parsing.Prefix<Substring>(21)
             .map {
                 $0.trimmingCharacters(in: .whitespaces)
             }
@@ -706,7 +717,7 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             .map(Possibility.pronoun)
             .eraseToAnyParser()
 
-        let prepositionPossibility: AnyParser<Substring, Possibility> = Prefix<Substring>(21)
+        let prepositionPossibility: AnyParser<Substring, Possibility> = Parsing.Prefix<Substring>(21)
             .map {
                 $0.trimmingCharacters(in: .whitespaces)
             }
@@ -719,7 +730,40 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             .map(Possibility.preposition)
             .eraseToAnyParser()
 
-        return OneOfMany([nounPossibility, adjPossibility, advPossibility, verbPossibility, pronounPossibility, prepositionPossibility])
+        let prefixPossibility: AnyParser<Substring, Possibility> = Parsing.Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("PREFIX "))
+            .skip(Rest())
+            .map {
+                $0
+            }
+            .map(Possibility.prefix)
+            .eraseToAnyParser()
+
+        let tackonPossibility: AnyParser<Substring, Possibility> = Parsing.Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("TACKON "))
+            .skip(Rest())
+            .map {
+                $0
+            }
+            .map(Possibility.tackon)
+            .eraseToAnyParser()
+
+        return OneOfMany([
+            nounPossibility,
+            adjPossibility,
+            advPossibility,
+            verbPossibility,
+            pronounPossibility,
+            prepositionPossibility,
+            prefixPossibility,
+            tackonPossibility
+        ])
             .eraseToAnyParser()
     }()
 }
@@ -747,7 +791,7 @@ struct Padded<Input>: Parser where Input: Collection,
     }
 }
 
-let variety = Prefix<Substring>(1).map(String.init(_:)).compactMap(Int.init(_:))
+let variety = Parsing.Prefix<Substring>(1).map(String.init(_:)).compactMap(Int.init(_:))
 
 func getNotes(_ str: Substring) -> [String] {
     str
