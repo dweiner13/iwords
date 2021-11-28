@@ -492,6 +492,7 @@
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
+                                <toolbarItem reference="FaB-SV-uQT"/>
                                 <toolbarItem reference="ocg-9b-k2f"/>
                                 <searchToolbarItem reference="rsD-Xn-hWC"/>
                             </defaultToolbarItems>
@@ -536,17 +537,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="366"/>
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="420" height="366"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="420" height="404"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="420" height="366"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="420" height="404"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="420" height="366"/>
+                                            <size key="minSize" width="420" height="404"/>
                                             <size key="maxSize" width="435" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -557,35 +558,19 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="420" y="0.0" width="15" height="366"/>
+                                    <rect key="frame" x="420" y="0.0" width="15" height="404"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IER-Pz-Rs3">
-                                <rect key="frame" x="132" y="373" width="172" height="24"/>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="qh3-HL-ma3">
-                                    <font key="font" metaFont="system"/>
-                                    <segments>
-                                        <segment label="Pretty" imageScaling="proportionallyUpOrDown" selected="YES"/>
-                                        <segment label="Raw" imageScaling="proportionallyUpOrDown" width="82" tag="1"/>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <action selector="didChangeMode:" target="XfG-lQ-9wD" id="7oS-t1-xRw"/>
-                                </connections>
-                            </segmentedControl>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="9vM-Xs-u3T"/>
-                            <constraint firstItem="IER-Pz-Rs3" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="LmM-1k-EgQ"/>
+                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="SfU-VI-8sz"/>
                             <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="eOu-Yp-T3G"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="IER-Pz-Rs3" secondAttribute="bottom" constant="8" symbolic="YES" id="fa9-3M-ZYb"/>
-                            <constraint firstItem="IER-Pz-Rs3" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="tTO-is-2zM"/>
                             <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="v0J-go-CBZ"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="displayModeControl" destination="IER-Pz-Rs3" id="gOC-zp-ipB"/>
                         <outlet property="fontSizeController" destination="MSZ-V0-exo" id="9ws-XK-tDk"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                     </connections>

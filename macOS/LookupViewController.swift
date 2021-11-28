@@ -9,7 +9,7 @@ import Cocoa
 import SwiftUI
 
 enum ResultDisplayMode: Int {
-    case pretty, raw
+    case raw, pretty
 }
 
 class LookupViewController: NSViewController {
@@ -29,14 +29,15 @@ class LookupViewController: NSViewController {
 
     var results: [ResultItem]?
 
-    @IBOutlet weak var displayModeControl: NSSegmentedControl!
-
     var mode: ResultDisplayMode {
         get {
-            ResultDisplayMode(rawValue: displayModeControl.selectedSegment)!
+            #if DEBUG
+            return ResultDisplayMode(rawValue: UserDefaults.standard.integer(forKey: "resultDisplayMode"))!
+            #endif
+            return .raw
         }
         set {
-            displayModeControl.selectedSegment = newValue.rawValue
+            UserDefaults.standard.set(newValue.rawValue, forKey: "resultDisplayMode")
         }
     }
 
@@ -67,17 +68,17 @@ class LookupViewController: NSViewController {
         definitionHostingView?.isHidden = true
         definitionHostingView?.removeFromSuperview()
         definitionHostingView = nil
+        
         if #available(macOS 11.0, *),
            let (results, isTruncated) = parse(text) {
             let definitions = results.compactMap(\.definition)
             self.results = results
-            displayModeControl.setEnabled(true, forSegment: 0)
             let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results, isTruncated))
                                         .environmentObject(fontSizeController))
             hostingView.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(hostingView)
             NSLayoutConstraint.activate([
-                hostingView.topAnchor.constraint(equalToSystemSpacingBelow: displayModeControl.bottomAnchor, multiplier: 1),
+                hostingView.topAnchor.constraint(equalTo: view.topAnchor),
                 hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -86,7 +87,6 @@ class LookupViewController: NSViewController {
         } else {
             self.results = nil
             mode = .raw
-            displayModeControl.setEnabled(false, forSegment: 0)
         }
 
         updateForMode()

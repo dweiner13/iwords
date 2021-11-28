@@ -18,8 +18,6 @@
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
 		37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */; };
-		37A4D1C2262227E400A9E9EC /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1C1262227E400A9E9EC /* Tests_iOS.swift */; };
-		37A4D1CD262227E400A9E9EC /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1CC262227E400A9E9EC /* Tests_macOS.swift */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
 		37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1FD26222A8300A9E9EC /* Dictionary.swift */; };
 		37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D24626223BC100A9E9EC /* Main.storyboard */; };

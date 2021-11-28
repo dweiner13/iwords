@@ -328,8 +328,10 @@ extension LookupWindowController {
             return backForwardController.canGoBack
         case #selector(goForward(_:)):
             return backForwardController.canGoForward
+            #if DEBUG
         case #selector(exportJSONResult(_:)):
             return canExportJSONResult()
+            #endif
         default:
             return super.responds(to: aSelector)
         }
