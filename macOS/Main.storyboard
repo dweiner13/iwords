@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="Search Toolbar Item" minToolsVersion="12.0" minSystemVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -94,6 +94,28 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="3jA-Gu-wqu"/>
+                                        <menuItem title="Print..." keyEquivalent="p" id="6Ld-fy-Su7">
+                                            <connections>
+                                                <action selector="printDocument:" target="Ady-hI-5gd" id="RnQ-E6-Lz8"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="EdA-Bx-xcI"/>
+                                        <menuItem title="Export Raw Results..." keyEquivalent="S" id="bYf-fa-jBW">
+                                            <connections>
+                                                <action selector="exportRawResult:" target="Ady-hI-5gd" id="XHt-KT-0ta"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Export Results as JSON..." keyEquivalent="J" id="L9E-xW-M2L">
+                                            <connections>
+                                                <action selector="exportJSONResult:" target="Ady-hI-5gd" id="aZp-oe-5U3"/>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="WNC-8h-mJy">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="zFd-KG-8sn"/>
                                         <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="HmO-Ls-i7Q"/>
@@ -339,6 +361,9 @@
                                                 <action selector="performZoom:" target="Ady-hI-5gd" id="DIl-cC-cCs"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Reset window size" id="CpE-fF-g1u">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
                                         <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -377,7 +402,6 @@
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="AnR-hL-FcP"/>
-                <userDefaultsController id="2zu-H8-Kdr"/>
                 <customObject id="vaf-za-0QZ" customClass="HistoryController" customModule="iWords" customModuleProvider="target">
                     <connections>
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="FIU-Ed-KB2"/>
@@ -418,30 +442,6 @@
                                 </searchToolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mfa-ju-wND"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
-                                <toolbarItem implicitItemIdentifier="50BD7E03-7451-4498-AAAF-75B7C6786A1B" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin → English" sizingBehavior="auto" id="Pk9-hB-iRd" userLabel="Direction">
-                                    <nil key="toolTip"/>
-                                    <popUpButton key="view" verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="oa1-GU-gBJ">
-                                        <rect key="frame" x="0.0" y="14" width="128" height="25"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <popUpButtonCell key="cell" type="roundTextured" title="Latin → English" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="rZL-Lw-nxS" id="t03-X9-a6h">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="menu"/>
-                                            <menu key="menu" id="8nX-cQ-etp">
-                                                <items>
-                                                    <menuItem title="Latin → English" state="on" id="rZL-Lw-nxS">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="English → Latin" tag="1" id="ug1-oe-5s3" userLabel="English → Latin">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </popUpButtonCell>
-                                        <connections>
-                                            <binding destination="B8D-0N-5wS" name="selectedIndex" keyPath="_direction" id="cXW-cV-e4d"/>
-                                        </connections>
-                                    </popUpButton>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="6AC416F3-CFB1-43E6-AD16-62FD92158C30" label="Back/Forward" paletteLabel="Back/Forward" title="Back/Forward" sizingBehavior="auto" navigational="YES" id="5fT-cZ-IJv" userLabel="Back/Forward">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="62q-qB-wIS">
@@ -476,11 +476,23 @@
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="4C14CD93-0495-4F30-A917-FD7CD19B66A4" label="Toggle Direction" paletteLabel="Toggle Direction" toolTip="Toggle the translation direction" image="arrow.left.arrow.right" catalog="system" bordered="YES" sizingBehavior="auto" navigational="YES" id="FaB-SV-uQT">
+                                    <button key="view" verticalHuggingPriority="750" id="jHl-f1-qFJ">
+                                        <rect key="frame" x="33" y="14" width="28" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="arrow.left.arrow.right" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RmB-so-059">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="toggleDirection:" target="B8D-0N-5wS" id="xXv-Dt-dQ5"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
                                 <toolbarItem reference="ocg-9b-k2f"/>
-                                <toolbarItem reference="Pk9-hB-iRd"/>
                                 <searchToolbarItem reference="rsD-Xn-hWC"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -491,7 +503,8 @@
                     <connections>
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
-                        <outlet property="directionItem" destination="Pk9-hB-iRd" id="oe2-wh-6gk"/>
+                        <outlet property="directionItem" destination="FaB-SV-uQT" id="ypv-c0-ecm"/>
+                        <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="C4R-Rb-OST"/>
                         <outlet property="fontSizeController" destination="hdv-M0-3Yq" id="N0X-PG-W0S"/>
                         <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
@@ -519,21 +532,21 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="LookupViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="270"/>
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="366"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="420" height="366"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="420" height="270"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="420" height="366"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="420" height="270"/>
+                                            <size key="minSize" width="420" height="366"/>
                                             <size key="maxSize" width="435" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -544,31 +557,35 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="420" y="0.0" width="15" height="270"/>
+                                    <rect key="frame" x="420" y="0.0" width="15" height="366"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z5W-bF-ybe">
-                                <rect key="frame" x="400" y="8" width="25" height="25"/>
-                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uex-h9-cvd">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IER-Pz-Rs3">
+                                <rect key="frame" x="132" y="373" width="172" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="qh3-HL-ma3">
                                     <font key="font" metaFont="system"/>
-                                </buttonCell>
+                                    <segments>
+                                        <segment label="Pretty" imageScaling="proportionallyUpOrDown" selected="YES"/>
+                                        <segment label="Raw" imageScaling="proportionallyUpOrDown" width="82" tag="1"/>
+                                    </segments>
+                                </segmentedCell>
                                 <connections>
-                                    <action selector="didPressHelp:" target="XfG-lQ-9wD" id="V92-0f-ZNV"/>
+                                    <action selector="didChangeMode:" target="XfG-lQ-9wD" id="7oS-t1-xRw"/>
                                 </connections>
-                            </button>
+                            </segmentedControl>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="z5W-bF-ybe" secondAttribute="bottom" constant="12" id="45Q-IL-aZq"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="C0C-bc-4tP"/>
-                            <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="bhh-wV-9Nk"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cpg-3Y-Fcr"/>
-                            <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="jki-pv-nYk"/>
-                            <constraint firstAttribute="trailing" secondItem="z5W-bF-ybe" secondAttribute="trailing" constant="12" id="nt3-2a-KQR"/>
+                            <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="9vM-Xs-u3T"/>
+                            <constraint firstItem="IER-Pz-Rs3" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="LmM-1k-EgQ"/>
+                            <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="eOu-Yp-T3G"/>
+                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="IER-Pz-Rs3" secondAttribute="bottom" constant="8" symbolic="YES" id="fa9-3M-ZYb"/>
+                            <constraint firstItem="IER-Pz-Rs3" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="tTO-is-2zM"/>
+                            <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="v0J-go-CBZ"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="displayModeControl" destination="IER-Pz-Rs3" id="gOC-zp-ipB"/>
                         <outlet property="fontSizeController" destination="MSZ-V0-exo" id="9ws-XK-tDk"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                     </connections>
@@ -579,13 +596,15 @@
                         <outlet property="delegate" destination="XfG-lQ-9wD" id="LlZ-Qa-ADx"/>
                     </connections>
                 </customObject>
+                <userDefaultsController id="jkl-w9-pOM"/>
             </objects>
-            <point key="canvasLocation" x="61" y="696"/>
+            <point key="canvasLocation" x="60.5" y="696"/>
         </scene>
     </scenes>
     <resources>
         <image name="NSGoBackTemplate" width="10" height="14"/>
         <image name="NSGoForwardTemplate" width="10" height="14"/>
+        <image name="arrow.left.arrow.right" catalog="system" width="16" height="17"/>
         <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
         <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>

@@ -7,6 +7,7 @@
 
 import Cocoa
 import Combine
+import SwiftUI
 
 extension NSUserInterfaceItemIdentifier {
     static let backMenuItem = NSUserInterfaceItemIdentifier("back")
@@ -122,10 +123,6 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    private lazy var directionMenu = makeDirectionMenu()
-    private var lToEItem: NSMenuItem!
-    private var eToLItem: NSMenuItem!
-
     @IBOutlet @objc
     dynamic var backForwardController: BackForwardController!
 
@@ -135,7 +132,7 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var directionItem: NSToolbarItem!
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
-    @IBOutlet weak var popUpButton: NSPopUpButton!
+    @IBOutlet weak var directionToggleButton: NSButton!
     @IBOutlet weak var searchField: NSSearchField!
 
     private var lookupViewController: LookupViewController! {
@@ -150,8 +147,9 @@ class LookupWindowController: NSWindowController {
         backForwardMenuItem.submenu = backForwardController.menu()
         backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
 
-        let directionMenuItem = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
-        directionMenuItem.submenu = directionMenu
+        let directionMenuItem = NSMenuItem(title: "Toggle Direction",
+                                           action: #selector(toggleDirection(_:)),
+                                           keyEquivalent: "")
         directionItem.menuFormRepresentation = directionMenuItem
 
         let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
@@ -176,23 +174,6 @@ class LookupWindowController: NSWindowController {
         super.restoreState(with: coder)
     }
 
-    private func makeDirectionMenu() -> NSMenu {
-        let m = NSMenu()
-        lToEItem = NSMenuItem(title: Dictionary.Direction.latinToEnglish.description,
-                              action: #selector(setLatinToEnglish),
-                              keyEquivalent: "")
-        lToEItem.state = .off
-        m.addItem(lToEItem)
-        eToLItem = NSMenuItem(title: Dictionary.Direction.englishToLatin.description,
-                              action: #selector(setEnglishToLatin),
-                              keyEquivalent: "")
-        eToLItem.state = .off
-        m.addItem(eToLItem)
-        m.delegate = self
-        m.identifier = .directionMenu
-        return m
-    }
-
     public func setSearchQuery(_ searchQuery: SearchQuery) {
         guard searchQuery != backForwardController.currentSearchQuery else {
             print("Ignoring redundant search query \(searchQuery)")
@@ -202,6 +183,65 @@ class LookupWindowController: NSWindowController {
                              updateHistoryLists: true,
                              updateBackForward: true)
     }
+
+    @IBAction
+    private func exportRawResult(_ sender: Any?) {
+        guard let text = lookupViewController?.text,
+              let window = window else {
+                  NSSound.beep()
+                  return
+              }
+        let data = text.data(using: .utf8)
+        let fileName = "\(backForwardController.currentSearchQuery?.searchText ?? "results").txt"
+        let savePanel = NSSavePanel()
+        savePanel.nameFieldStringValue = fileName
+        savePanel.beginSheetModal(for: window) { [savePanel] modalResponse in
+            guard modalResponse == .OK else {
+                return
+            }
+            guard let url = savePanel.url else {
+                NSSound.beep()
+                return
+            }
+            do {
+                try data?.write(to: url)
+            } catch {
+                self.presentError(error)
+            }
+        }
+    }
+
+    #if DEBUG
+    private func canExportJSONResult() -> Bool {
+        lookupViewController?.results != nil
+    }
+
+    @IBAction
+    private func exportJSONResult(_ sender: Any?) {
+        guard let results = lookupViewController?.results,
+              let window = window else {
+            NSSound.beep()
+            return
+        }
+        let fileName = "\(backForwardController.currentSearchQuery?.searchText ?? "results").json"
+        let savePanel = NSSavePanel()
+        savePanel.nameFieldStringValue = fileName
+        savePanel.beginSheetModal(for: window) { [savePanel] modalResponse in
+            guard modalResponse == .OK else {
+                return
+            }
+            guard let url = savePanel.url else {
+                NSSound.beep()
+                return
+            }
+            do {
+                try JSONEncoder().encode(results).write(to: url)
+            } catch {
+                self.presentError(error)
+            }
+        }
+    }
+    #endif
 
     // The core of the logic for actually performing a query and updating the UI.
     private func _setSearchQuery(_ searchQuery : SearchQuery,
@@ -254,8 +294,7 @@ class LookupWindowController: NSWindowController {
                 direction: query.direction,
                 options: UserDefaults.standard.dictionaryOptions
             )
-            lookupViewController.setResultText(results ?? "No results found")
-            print("Query entered: \"\(query.debugDescription)\"")
+            lookupViewController.text = results ?? ""
         } catch {
             self.presentError(error)
         }
@@ -289,6 +328,8 @@ extension LookupWindowController {
             return backForwardController.canGoBack
         case #selector(goForward(_:)):
             return backForwardController.canGoForward
+        case #selector(exportJSONResult(_:)):
+            return canExportJSONResult()
         default:
             return super.responds(to: aSelector)
         }
@@ -326,15 +367,5 @@ extension LookupWindowController: BackForwardDelegate {
         _setSearchQuery(searchQuery,
                         updateHistoryLists: false,
                         updateBackForward: false)
-    }
-}
-
-// Handling for menu form representation of direction control
-extension LookupWindowController: NSMenuDelegate {
-    func menuNeedsUpdate(_ menu: NSMenu) {
-        assert(menu.identifier == directionMenu.identifier)
-
-        menu.items[0].state = _direction == 0 ? .on : .off
-        menu.items[1].state = _direction == 1 ? .on : .off
     }
 }

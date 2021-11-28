@@ -6,6 +6,11 @@
 //
 
 import Cocoa
+import SwiftUI
+
+enum ResultDisplayMode: Int {
+    case pretty, raw
+}
 
 class LookupViewController: NSViewController {
 
@@ -15,8 +20,30 @@ class LookupViewController: NSViewController {
     @IBOutlet
     var fontSizeController: FontSizeController!
 
+    @objc
+    dynamic var text: String? {
+        didSet {
+            updateForResultText(text ?? "")
+        }
+    }
+
+    var results: [ResultItem]?
+
+    @IBOutlet weak var displayModeControl: NSSegmentedControl!
+
+    var mode: ResultDisplayMode {
+        get {
+            ResultDisplayMode(rawValue: displayModeControl.selectedSegment)!
+        }
+        set {
+            displayModeControl.selectedSegment = newValue.rawValue
+        }
+    }
+
+    private var definitionHostingView: NSView?
+
     override class var restorableStateKeyPaths: [String] {
-        ["textView.string"]
+        ["text"]
     }
 
     override func viewDidLoad() {
@@ -34,19 +61,103 @@ class LookupViewController: NSViewController {
         return textWidth + textView.textContainerInset.width * 2 + 24
     }
 
-    func setResultText(_ text: String) {
+    private func updateForResultText(_ text: String) {
         textView.string = text
+
+        definitionHostingView?.isHidden = true
+        definitionHostingView?.removeFromSuperview()
+        definitionHostingView = nil
+        if #available(macOS 11.0, *),
+           let (results, isTruncated) = parse(text) {
+            let definitions = results.compactMap(\.definition)
+            self.results = results
+            displayModeControl.setEnabled(true, forSegment: 0)
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results, isTruncated))
+                                        .environmentObject(fontSizeController))
+            hostingView.translatesAutoresizingMaskIntoConstraints = false
+            self.view.addSubview(hostingView)
+            NSLayoutConstraint.activate([
+                hostingView.topAnchor.constraint(equalToSystemSpacingBelow: displayModeControl.bottomAnchor, multiplier: 1),
+                hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+            definitionHostingView = hostingView
+        } else {
+            self.results = nil
+            mode = .raw
+            displayModeControl.setEnabled(false, forSegment: 0)
+        }
+
+        updateForMode()
+    }
+
+    private func updateForMode() {
+        switch mode {
+        case .raw:
+            textView.isHidden = false
+            definitionHostingView?.isHidden = true
+        case .pretty:
+            textView.isHidden = true
+            definitionHostingView?.isHidden = false
+        }
     }
 
     private func setFontSize(_ fontSize: CGFloat) {
         textView.font = NSFont(name: "Monaco", size: fontSize)
     }
 
-    @IBAction func didPressHelp(_ sender: Any) {
-        guard let bookName = Bundle.main.object(forInfoDictionaryKey: "CFBundleHelpBookName") as? String else {
-            return
+    @IBAction func didChangeMode(_ sender: Any) {
+        updateForMode()
+    }
+
+    @objc
+    func printDocument(_ sender: Any) {
+        let printInfo = NSPrintInfo.shared
+        printInfo.verticalPagination = .automatic
+        printInfo.horizontalPagination = .fit
+        printInfo.isHorizontallyCentered = false
+        printInfo.isVerticallyCentered = false
+
+        let printView: NSView
+        let width = printInfo.imageablePageBounds.width
+        switch mode {
+        case .pretty:
+            guard #available(macOS 11.0, *) else {
+                fallthrough
+            }
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results ?? [], false))
+                                                .environmentObject(fontSizeController))
+            hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
+            printView = hostingView
+        case .raw:
+            let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
+            textView.string = text ?? "(nil)"
+            textView.font = self.textView.font
+            textView.frame.size.height = textView.intrinsicContentSize.height
+            printView = textView
         }
-        NSHelpManager.shared.openHelpAnchor("feedback", inBook: bookName)
+
+        let op = NSPrintOperation(view: printView, printInfo: printInfo)
+        op.canSpawnSeparateThread = true
+        op.run()
+    }
+
+    @objc
+    func runPageLayout(_ sender: Any) {
+        NSPageLayout().runModal()
+    }
+
+    override func responds(to aSelector: Selector!) -> Bool {
+        switch aSelector {
+        case #selector(printDocument(_:)):
+            switch mode {
+            case .pretty: return results?.isEmpty == false
+            case .raw: return text != nil
+            }
+        default:
+            return super.responds(to: aSelector)
+        }
     }
 }
 

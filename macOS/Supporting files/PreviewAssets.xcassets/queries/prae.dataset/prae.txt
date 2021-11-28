@@ -1,0 +1,7 @@
+prae                 ADV    POS                         
+prae  ADV  
+before, in front of; forward [prae sequor => go on before];
+prae                 PREP   ABL                         
+prae  PREP  ABL  
+before, in front; in view of, because of;
+

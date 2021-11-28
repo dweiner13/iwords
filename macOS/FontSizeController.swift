@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import Combine
 
 private let kFontSizeKey = "FontSize"
 
@@ -19,7 +20,7 @@ private extension NSUserInterfaceItemIdentifier {
     static let fontSizeMenuFormIncrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormIncrease")
 }
 
-class FontSizeController: NSObject {
+class FontSizeController: NSObject, ObservableObject {
 
     @IBOutlet
     weak var delegate: FontSizeControllerDelegate?
@@ -63,6 +64,9 @@ class FontSizeController: NSObject {
             let size = UserDefaults.standard.integer(forKey: kFontSizeKey)
             return size > 0 ? size : defaultSize
         } set {
+            if #available(macOS 10.15, *) {
+                objectWillChange.send()
+            }
             UserDefaults.standard.set(newValue, forKey: kFontSizeKey)
             delegate?.fontSizeController(self, fontSizeChangedTo: CGFloat(newValue))
             updateSegmentedControl()
@@ -84,7 +88,11 @@ class FontSizeController: NSObject {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
             return
         }
+        if #available(macOS 10.15, *) {
+            objectWillChange.send()
+        }
         delegate?.fontSizeController(self, fontSizeChangedTo: fontSize)
+        updateSegmentedControl()
     }
 
     deinit {

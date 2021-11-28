@@ -47,13 +47,17 @@ class BackForwardController: NSObject {
 
     private var backList: [SearchQuery] = [] {
         didSet {
+            #if DEBUG
             print("backList: \(backList)")
+            #endif
         }
     }
 
     private var forwardList: [SearchQuery] = [] {
         didSet {
+            #if DEBUG
             print("forwardList: \(forwardList)")
+            #endif
         }
     }
 

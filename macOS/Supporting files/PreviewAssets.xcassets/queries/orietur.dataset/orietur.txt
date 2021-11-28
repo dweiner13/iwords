@@ -1,0 +1,9 @@
+ori.etur             V      3 1 FUT          IND 3 S    
+orior, ori, oritus sum  V (3rd) DEP  
+rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;
+be born/created; be born of, descend/spring from; proceed/be derived (from);
+ori.etur             V      4 1 FUT          IND 3 S    
+orior, oriri, ortus sum  V (4th) DEP  
+rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;
+be born/created; be born of, descend/spring from; proceed/be derived (from);
+

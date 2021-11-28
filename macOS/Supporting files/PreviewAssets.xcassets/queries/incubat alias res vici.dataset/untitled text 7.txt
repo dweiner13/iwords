@@ -1,0 +1,39 @@
+incub.at             V      1 1 PRES ACTIVE  IND 3 S    
+incubo, incubare, incubavi, incubatus  V (1st) INTRANS    veryrare
+brood; (rare alt. perf/vpar for incubo);
+incubo, incubare, incubui, incubitus  V (1st)  
+lie in or on (w/DAT); sit upon; brood over; keep a jealous watch (over);
+
+ali.as               ADJ    1 5 ACC P F POS             
+alius, alia, aliud  ADJ  
+other, another; different, changed; [alii...alii => some...others]; (A+G);
+alias                ADV    POS                         
+alias  ADV  
+at/in another time/place; previously, subsequently; elsewhere; otherwise;
+
+r.es                 N      5 1 NOM S F                 
+r.es                 N      5 1 VOC S F                 
+r.es                 N      5 1 NOM P F                 
+r.es                 N      5 1 VOC P F                 
+r.es                 N      5 1 ACC P F                 
+res, rei  N (5th) F  
+thing; event/affair/business; fact; cause; property; [~ familiaris => property]
+res                  N      9 9 X   X N                 
+res, undeclined  N N    Late  uncommon
+res; (20th letter of Hebrew alphabet); (transliterate as R);
+*
+vic.i                N      2 1 GEN S M                 
+vic.i                N      2 1 LOC S M                 
+vic.i                N      2 1 NOM P M                 
+vic.i                N      2 1 VOC P M                 
+vicus, vici  N (2nd) M  
+village; hamlet; street, row of houses;
+vic.i                N      3 3 LOC S F                   Early   
+vic.i                N      3 3 DAT S F                 
+vic.i                N      3 3 ABL S F                 
+vicis, vicis  N (3rd) F  
+turn, change, succession; exchange, interchange, repayment; plight, lot;
+vic.i                V      3 1 PERF ACTIVE  IND 1 S    
+vinco, vincere, vici, victus  V (3rd)  
+conquer, defeat, excel; outlast; succeed;
+
