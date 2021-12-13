@@ -98,7 +98,8 @@ class LookupViewController: NSViewController {
         definitionHostingView = nil
         
         if #available(macOS 11.0, *),
-           let (results, isTruncated) = parse(text) {
+           let (results, isTruncated) = parse(text),
+           mode == .pretty {
             _ = results.compactMap(\.definition)
             self.results = results
             let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results, isTruncated))

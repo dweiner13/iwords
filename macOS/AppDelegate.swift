@@ -123,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    /// only "iwords:feedback" is valid, not "iwords://feedback"
+    /// - note: only "iwords:feedback" is valid, not "iwords://feedback"
     func application(_ application: NSApplication, open urls: [URL]) {
         guard let url = urls.first else { return }
 
