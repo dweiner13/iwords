@@ -140,7 +140,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     fileprivate func showFeedbackErrorModal() {
         let alert = NSAlert()
         alert.messageText = "Error"
-        alert.informativeText = "Unable to compose feedback automatically. Please send an email to support@danielweiner.org with your feedback."
+        alert.informativeText = "Unable to compose an email automatically. Please send an email to support@danielweiner.org with your feedback."
         alert.addButton(withTitle: "OK")
         alert.runModal()
     }

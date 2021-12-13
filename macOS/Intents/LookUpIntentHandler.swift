@@ -32,9 +32,15 @@ class LookUpIntentHandler: NSObject, LookUpIntentHandling {
         }
 
         do {
-            let definition = try Dictionary.shared.getDefinition(query, direction: direction, options: [])
+            let definition = try Dictionary.shared.getDefinition(query,
+                                                                 direction: direction,
+                                                                 options: [])
             let response = LookUpIntentResponse(code: .success, userActivity: nil)
             response.definition = definition
+            return response
+        } catch let error as DWError {
+            let response = LookUpIntentResponse(code: .success, userActivity: nil)
+            response.definition = error.localizedDescription
             return response
         } catch {
             return LookUpIntentResponse(code: .failure, userActivity: nil)

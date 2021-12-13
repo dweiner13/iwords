@@ -69,6 +69,7 @@ class Dictionary {
         return url.deletingLastPathComponent()
     }()
 
+    /// - Throws:
     func getDefinition(_ search: String, direction: Direction, options: Options) throws -> String? {
         var arguments: [String] = []
         // Add language control argument
