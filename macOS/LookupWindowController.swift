@@ -93,7 +93,7 @@ class SearchQuery: NSObject, NSSecureCoding {
 }
 
 private extension NSStoryboard.SceneIdentifier {
-    static let lookupWindowController = NSStoryboard.SceneIdentifier("LookupWindowController")
+    static let lookupWindowController =  NSStoryboard.SceneIdentifier("LookupWindowController")
 }
 
 let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish

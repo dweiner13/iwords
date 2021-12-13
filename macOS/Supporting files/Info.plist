@@ -20,6 +20,19 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>iwords</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>INIntentsSupported</key>
@@ -32,14 +45,6 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>SUFeedURL</key>
-	<string>https://iwords-distribution.s3.amazonaws.com/changelog.xml</string>
-	<key>SUPublicEDKey</key>
-	<string>VTvuJdHhneRvlybG0Uc+Q6DAwGLlUB5lShK0JwJ3T8k=</string>
-	<key>CFBundleHelpBookFolder</key>
-	<string>iWords.help</string>
-	<key>CFBundleHelpBookName</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER).help</string>
 	<key>NSServices</key>
 	<array>
 		<dict>
@@ -85,5 +90,9 @@
 	<array>
 		<string>LookUpIntent</string>
 	</array>
+	<key>SUFeedURL</key>
+	<string>https://iwords-distribution.s3.amazonaws.com/changelog.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>VTvuJdHhneRvlybG0Uc+Q6DAwGLlUB5lShK0JwJ3T8k=</string>
 </dict>
 </plist>

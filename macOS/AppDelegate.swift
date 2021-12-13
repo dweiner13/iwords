@@ -122,6 +122,54 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         default: return nil
         }
     }
+
+    /// only "iwords:feedback" is valid, not "iwords://feedback"
+    func application(_ application: NSApplication, open urls: [URL]) {
+        guard let url = urls.first else { return }
+
+        switch URLComponents(url: url, resolvingAgainstBaseURL: false)?.path {
+        case "feedback":
+            sendFeedback(application)
+        case "help":
+            openHelp()
+        default:
+            return
+        }
+    }
+
+    fileprivate func showFeedbackErrorModal() {
+        let alert = NSAlert()
+        alert.messageText = "Error"
+        alert.informativeText = "Unable to compose feedback automatically. Please send an email to support@danielweiner.org with your feedback."
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+    }
+
+    private func openHelp() {
+        NSApp.showHelp(nil)
+    }
+
+    @IBAction
+    private func sendFeedback(_ sender: Any?) {
+        guard let service = NSSharingService(named: .composeEmail) else {
+            showFeedbackErrorModal()
+            return
+        }
+        service.recipients = ["support@danielweiner.org"]
+        service.subject = "Feedback for iWords"
+        let message = """
+
+
+            ---- Version information ----
+            iWords: Version \(Bundle.main.infoDictionary?["CFBundleVersion"] ?? "Unknown")
+            macOS: \(ProcessInfo.processInfo.operatingSystemVersionString)
+            """
+        guard service.canPerform(withItems: [message]) else {
+            showFeedbackErrorModal()
+            return
+        }
+        service.perform(withItems: [message])
+    }
 }
 
 extension NSWindow {

@@ -50,7 +50,35 @@ class LookupViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.textContainerInset = NSSize(width: 24, height: 12)
-        textView.string = "Welcome to iWords, a Latin dictionary. Search a word to get started."
+        textView.string = """
+            Welcome to iWords, a Latin dictionary. Search a word to get started.
+
+            *
+            """ + " "
+        textView.textStorage?.append(NSAttributedString(string: "View help",
+                                                        attributes: [
+                                                            .link: URL(string: "iwords:help")!,
+                                                            .font: textView.font!,
+                                                            .foregroundColor: textView.textColor!]))
+        textView.textStorage?.append(NSAttributedString(string: """
+
+            *
+            """ + " ",
+                                                        attributes: [
+                                                            .font: textView.font!,
+                                                            .foregroundColor: textView.textColor!]))
+        textView.textStorage?.append(NSAttributedString(string: "Send feedback",
+                                                        attributes: [
+                                                            .link: URL(string: "iwords:feedback")!,
+                                                            .font: textView.font!,
+                                                            .foregroundColor: textView.textColor!]))
+        textView.textStorage?.append(NSAttributedString(string: """
+
+            * Use the Help menu to access these options at any time.
+            """ + " ",
+                                                        attributes: [
+                                                            .font: textView.font!,
+                                                            .foregroundColor: textView.textColor!]))
 
         setFontSize(fontSizeController.fontSize)
     }
@@ -71,7 +99,7 @@ class LookupViewController: NSViewController {
         
         if #available(macOS 11.0, *),
            let (results, isTruncated) = parse(text) {
-            let definitions = results.compactMap(\.definition)
+            _ = results.compactMap(\.definition)
             self.results = results
             let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results, isTruncated))
                                         .environmentObject(fontSizeController))
