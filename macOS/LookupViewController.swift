@@ -33,8 +33,9 @@ class LookupViewController: NSViewController {
         get {
             #if DEBUG
             return ResultDisplayMode(rawValue: UserDefaults.standard.integer(forKey: "resultDisplayMode"))!
-            #endif
+            #else
             return .raw
+            #endif
         }
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: "resultDisplayMode")
@@ -62,21 +63,14 @@ class LookupViewController: NSViewController {
                                                             .foregroundColor: textView.textColor!]))
         textView.textStorage?.append(NSAttributedString(string: """
 
-            *
-            """ + " ",
+                                                            *
+                                                            """ + " ",
                                                         attributes: [
                                                             .font: textView.font!,
                                                             .foregroundColor: textView.textColor!]))
         textView.textStorage?.append(NSAttributedString(string: "Send feedback",
                                                         attributes: [
                                                             .link: URL(string: "iwords:feedback")!,
-                                                            .font: textView.font!,
-                                                            .foregroundColor: textView.textColor!]))
-        textView.textStorage?.append(NSAttributedString(string: """
-
-            * Use the Help menu to access these options at any time.
-            """ + " ",
-                                                        attributes: [
                                                             .font: textView.font!,
                                                             .foregroundColor: textView.textColor!]))
 

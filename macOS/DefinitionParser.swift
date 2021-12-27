@@ -7,6 +7,7 @@
 
 import Foundation
 import Parsing
+import DWUtils
 
 enum PartOfSpeech: String, CustomStringConvertible, Codable {
     case noun = "N",
@@ -795,9 +796,9 @@ let variety = Parsing.Prefix<Substring>(1).map(String.init(_:)).compactMap(Int.i
 
 func getNotes(_ str: Substring) -> [String] {
     str
-        .ifNotEmptyAfterTrimmingCharactersIn(.whitespacesAndNewlines)?
+        .nonEmptyString(afterTrimmingCharactersIn: .whitespacesAndNewlines)?
         .components(separatedBy: "  ")
-        .compactMap { $0.ifNotEmptyAfterTrimmingCharactersIn(.whitespacesAndNewlines) }
+        .compactMap { $0.nonEmptyString(afterTrimmingCharactersIn: .whitespacesAndNewlines) }
         .map(prettifyNote)
     ?? []
 }

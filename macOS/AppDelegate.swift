@@ -8,6 +8,7 @@
 import Cocoa
 import Combine
 import Intents
+import DWUtils
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
@@ -37,6 +38,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        DebugDefaults.check()
+
         registerDefaults()
 
         #if DEBUG
@@ -169,12 +172,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             return
         }
         service.perform(withItems: [message])
-    }
-}
-
-extension NSWindow {
-    var topLeft: NSPoint {
-        convertPoint(toScreen: NSPoint(x: 0, y: frame.height))
     }
 }
 

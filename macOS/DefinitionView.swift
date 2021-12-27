@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DWUtils
 
 // MARK: DefinitionsView
 
@@ -66,26 +67,6 @@ struct DefinitionsView: View {
     }
 }
 
-@available(macOS 11.0, *)
-struct SelectableText: View {
-    let content: () -> Text
-
-    var body: some View {
-        if #available(macOS 12.0, *) {
-            content().textSelection(.enabled)
-        } else {
-            content()
-        }
-    }
-}
-
-@available(macOS 11.0, *)
-extension Text {
-    func safeSelectable() -> some View {
-        SelectableText { self }
-    }
-}
-
 // MARK: DefinitionView
 @available(macOS 11.0, *)
 struct DefinitionView: View {
@@ -130,7 +111,7 @@ struct DefinitionView: View {
             if !definition.possibilities.isEmpty {
                 VStack(alignment: .leading) {
                     ForEach(definition.possibilities, id: \.debugDescription) { possibility in
-                        SelectableText {
+                        SafeSelectableText {
                             Text(possibility.word)
                                 .foregroundColor(Color.primary)
                                 .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
@@ -150,7 +131,7 @@ struct DefinitionView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     if let expansion = word.expansion {
                         HStack(alignment: .firstTextBaseline) {
-                            SelectableText {
+                            SafeSelectableText {
                                 Text(verbatim: expansion.principleParts ?? "")
                                     .font(.system(size: fontSizeController.fontSize * 1, weight: .bold, design: .serif))
                                 + Text("  ") + Text(verbatim: expansionDescription(expansion))
