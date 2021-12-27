@@ -108,9 +108,7 @@ class LookupWindowController: NSWindowController {
     private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue {
         didSet {
             AppDelegate.shared?.updateDirectionItemsState()
-            if #available(macOS 11.0, *) {
-                window?.subtitle = Dictionary.Direction(rawValue: _direction)!.description
-            }
+            updateTitle(forDirection: Dictionary.Direction(rawValue: _direction)!)
         }
     }
 
@@ -161,9 +159,7 @@ class LookupWindowController: NSWindowController {
 
         window?.restorationClass = WindowRestoration.self
 
-        if #available(macOS 11.0, *) {
-            window?.subtitle = Dictionary.Direction(rawValue: _direction)!.description
-        }
+        updateTitle(forDirection: Dictionary.Direction(rawValue: _direction)!)
     }
 
     @objc
@@ -320,6 +316,15 @@ class LookupWindowController: NSWindowController {
         let controller = storyboard.instantiateController(withIdentifier: .lookupWindowController)
             as! LookupWindowController
         return controller.window!
+    }
+
+    private func updateTitle(forDirection direction: Dictionary.Direction) {
+        if #available(macOS 11.0, *) {
+            window?.title = "iWords"
+            window?.subtitle = direction.description
+        } else {
+            window?.title = "iWords (\(direction.description))"
+        }
     }
 }
 
