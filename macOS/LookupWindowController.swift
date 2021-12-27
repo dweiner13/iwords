@@ -160,6 +160,10 @@ class LookupWindowController: NSWindowController {
         window?.setContentSize(NSSize(width: 700, height: 500))
 
         window?.restorationClass = WindowRestoration.self
+
+        if #available(macOS 11.0, *) {
+            window?.subtitle = Dictionary.Direction(rawValue: _direction)!.description
+        }
     }
 
     @objc
