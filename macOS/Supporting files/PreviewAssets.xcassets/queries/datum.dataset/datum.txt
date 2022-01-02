@@ -1,0 +1,22 @@
+dat.um               VPAR   1 1 NOM S N PERF PASSIVE PPL
+dat.um               VPAR   1 1 VOC S N PERF PASSIVE PPL
+dat.um               VPAR   1 1 ACC S M PERF PASSIVE PPL
+dat.um               VPAR   1 1 ACC S N PERF PASSIVE PPL
+do, dare, dedi, datus  V (1st) TRANS  
+dat.um               SUPINE 1 1 ACC S N                 
+give; dedicate; sell; pay; grant/bestow/impart/offer/lend; devote; allow; make;
+dat.um               VPAR   1 1 NOM S N PERF PASSIVE PPL
+dat.um               VPAR   1 1 VOC S N PERF PASSIVE PPL
+dat.um               VPAR   1 1 ACC S M PERF PASSIVE PPL
+dat.um               VPAR   1 1 ACC S N PERF PASSIVE PPL
+dat.um               SUPINE 1 1 ACC S N                 
+surrender/give over; send to die; ascribe/attribute; give birth/produce; utter;
+dat.um               N      2 2 NOM S N                 
+dat.um               N      2 2 VOC S N                 
+dat.um               N      2 2 ACC S N                 
+datum, dati  N (2nd) N  
+present/gift; that which is given; debit; [~ dandis => w/all supplied];
+dat.um               N      4 1 ACC S M                 
+datus, datus  N (4th) M    Early  veryrare
+act of giving;
+*

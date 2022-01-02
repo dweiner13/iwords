@@ -96,6 +96,10 @@ struct DefinitionView: View {
             if let `case` = `case` {
                 descr += ", \(`case`.description)"
             }
+        case .vpar(_, let conj, _):
+            if let conj = conj {
+                descr += ", \(conj.description)"
+            }
         }
         if !exp.notes.isEmpty {
             descr += " ("

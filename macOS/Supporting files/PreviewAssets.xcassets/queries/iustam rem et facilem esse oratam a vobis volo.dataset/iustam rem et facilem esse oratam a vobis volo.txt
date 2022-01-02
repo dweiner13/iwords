@@ -1,0 +1,59 @@
+iust.am              ADJ    1 1 ACC S F POS             
+justus, justa -um, justior -or -us, justissimus -a -um  ADJ  
+just, fair, equitable; right, lawful, justified; regular, proper;
+
+r.em                 N      5 1 ACC S F                 
+res, rei  N (5th) F  
+thing; event/affair/business; fact; cause; property; [~ familiaris => property]
+
+et                   CONJ                               
+et  CONJ  
+and, and even; also, even;  (et ... et = both ... and);
+
+facil.em             ADJ    3 2 ACC S C POS             
+facilis, facile, facilior -or -us, facillimus -a -um  ADJ  
+easy, easy to do, without difficulty, ready, quick, good natured, courteous;
+
+ess.e                VPAR   3 1 VOC S M PERF PASSIVE PPL
+edo, edere, edi, essus  V (3rd) TRANS  
+es.se                V      7 3 PRES ACTIVE  INF 0 X      Early   
+edo, esse, -, -  V TRANS  
+eat/consume/devour; eat away (fire/water/disease); destroy; spend money on food
+.esse                V      5 1 PRES ACTIVE  INF 0 X    
+sum, esse, fui, futurus  V  
+be; exist; (also used to form verb perfect passive tenses) with NOM PERF PPL
+
+orat.am              VPAR   1 1 ACC S F PERF PASSIVE PPL
+oro, orare, oravi, oratus  V (1st)  
+beg, ask for, pray; beseech, plead, entreat; worship, adore;
+
+a                    N      9 8 X   X M                 
+A., abb.  N M  
+Aulus (Roman praenomen); (abb. A./Au.); [Absolvo, Antiquo => free, reject];
+a., abb.  N M    lesser
+year; abb. ann./a.; [regnavit a(nnis). XLIIII => he reigned for 44 years];
+a                    PREP   ABL                         
+a  PREP  ABL  
+by (agent), from (departure, cause, remote origin/time); after (reference);
+a                    PREP   ACC                         
+a  PREP  ACC  
+ante, abb. a.; [in calendar expression a. d. = ante diem => before the day];
+a                    INTERJ                             
+a  INTERJ  
+Ah!; (distress/regret/pity, appeal/entreaty, surprise/joy, objection/contempt);
+
+v.obis               PRON   5 3 DAT P C                 
+v.obis               PRON   5 3 ABL P C                 
+you (pl.), ye;
+
+vol.o                V      6 2 PRES ACTIVE  IND 1 S    
+volo, velle, volui, -  V  
+wish, want, prefer; be willing, will;
+vol.o                V      1 1 PRES ACTIVE  IND 1 S    
+volo, volare, volavi, volatus  V (1st)  
+fly;
+volo                 N      3 1 NOM S M                 
+volo                 N      3 1 VOC S M                 
+volo, volonis  N (3rd) M    uncommon
+volunteers (pl.); (in the Second Punic War);
+

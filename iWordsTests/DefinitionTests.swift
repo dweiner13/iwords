@@ -105,7 +105,7 @@ class DefinitionTests: XCTestCase {
         example = "alias                ADV    POS                         \n" +
         "alias  ADV  \n" +
         "at/in another time/place; previously, subsequently; elsewhere; otherwise;\n"
-        var expected = iWords.Definition(
+        let expected = iWords.Definition(
             possibilities: [.adverb(Adverb(text: "alias", degree: .positive))],
             words: [Word(expansion: .adv("alias", []),
             meaning: "at/in another time/place; previously, subsequently; elsewhere; otherwise;")])
@@ -213,8 +213,8 @@ class DefinitionTests: XCTestCase {
     }
 
     func testPrepositions() {
-        var example = String(data: NSDataAsset(name: "queries/ab")!.data, encoding: .utf8)!
-        var expected = [
+        let example = String(data: NSDataAsset(name: "queries/ab")!.data, encoding: .utf8)!
+        let expected = [
             iWords.Definition(possibilities: [.preposition(Preposition(text: "ab", case: .ablative))],
                               words: [Word(expansion: .prep("ab", .ablative, []),
                                            meaning: "by (agent), from (departure, cause, remote origin/time); after (reference);")])
@@ -233,6 +233,11 @@ class DefinitionTests: XCTestCase {
 
     func testPrefixesAndTackons() {
         testQueryExpectedAssetPair(asset: "exabimusque")
+    }
+
+    func testSupineAndParticiples() {
+        testQueryExpectedAssetPair(asset: "datum")
+        testQueryExpectedAssetPair(asset: "iustam rem et facilem esse oratam a vobis volo")
     }
 
     private func assert(query: String, parsesIntoResults results: [ResultItem]) {
