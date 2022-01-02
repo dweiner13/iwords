@@ -229,10 +229,12 @@ class DefinitionTests: XCTestCase {
 
     func testNotes() {
         testQueryExpectedAssetPair(asset: "virimus")
+        testQueryExpectedAssetPair(asset: "abo virimus")
     }
 
-    func testPrefixesAndTackons() {
+    func testPrefixesSuffixesAndTackons() {
         testQueryExpectedAssetPair(asset: "exabimusque")
+        testQueryExpectedAssetPair(asset: "perfidiose")
     }
 
     func testSupineAndParticiples() {

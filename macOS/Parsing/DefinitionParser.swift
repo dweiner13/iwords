@@ -625,6 +625,7 @@ enum Parse: Equatable, CustomDebugStringConvertible, Codable {
     case pronoun(Pronoun)
     case preposition(Preposition)
     case prefix(String)
+    case suffix(String)
     case tackon(String)
     case conjunction(String)
     case verbParticiple(VerbParticiple)
@@ -646,6 +647,8 @@ enum Parse: Equatable, CustomDebugStringConvertible, Codable {
             return preposition.debugDescription
         case .prefix(let text):
             return "Prefix: \(text)"
+        case .suffix(let text):
+            return "Suffix: \(text)"
         case .tackon(let text):
             return "Tackon: \(text)"
         case .conjunction(let text):
@@ -672,6 +675,8 @@ enum Parse: Equatable, CustomDebugStringConvertible, Codable {
         case .preposition(let preposition):
             return preposition.text
         case .prefix(let text):
+            return text
+        case .suffix(let text):
             return text
         case .tackon(let text):
             return text
@@ -700,6 +705,8 @@ enum Parse: Equatable, CustomDebugStringConvertible, Codable {
             return preposition.description
         case .prefix(_):
             return "prefix"
+        case .suffix(_):
+            return "suffix"
         case .tackon(_):
             return "tackon"
         case .conjunction(_):
@@ -843,6 +850,18 @@ enum Parse: Equatable, CustomDebugStringConvertible, Codable {
             .map(Parse.prefix)
             .eraseToAnyParser()
 
+        let suffixPossibility: AnyParser<Substring, Parse> = Parsing.Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("SUFFIX "))
+            .skip(Rest())
+            .map {
+                $0
+            }
+            .map(Parse.suffix)
+            .eraseToAnyParser()
+
         let tackonPossibility: AnyParser<Substring, Parse> = Parsing.Prefix<Substring>(21)
             .map {
                 $0.trimmingCharacters(in: .whitespaces)
@@ -937,6 +956,7 @@ enum Parse: Equatable, CustomDebugStringConvertible, Codable {
             pronounPossibility,
             prepositionPossibility,
             prefixPossibility,
+            suffixPossibility,
             tackonPossibility,
             conjunctionPossibility,
             vparPossibility,
@@ -1051,19 +1071,22 @@ func parse(_ str: String) -> ([ResultItem], Bool)? {
             appendNewWord()
             exp = e
             print("Found new expansion", e)
-        } else if exp != nil || (meaning == nil && !possibilities.isEmpty) {
+        } else if exp != nil || !possibilities.isEmpty {
             if line == "*" {
                 truncated = true
+                appendNewWord()
+                appendNewDefinition()
                 print("Line indicates truncation")
+            } else if line.reversed().starts(with: "========   UNKNOWN    ".reversed()) {
+                appendNewWord()
+                appendNewDefinition()
+                results.append(.text(String(line)))
             } else if meaning == nil {
                 meaning = String(line)
                 print("Line is first line of meaning")
             } else {
                 meaning! += "\n\(line)"
                 print("Line is second+ line of meaning")
-            }
-            if line.last == "\r" {
-                appendNewWord()
             }
         } else {
             print("🚨 Parsing failed at line:")

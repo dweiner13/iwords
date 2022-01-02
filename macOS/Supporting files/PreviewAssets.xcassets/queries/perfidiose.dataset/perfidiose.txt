@@ -1,0 +1,9 @@
+perfidios.e          ADJ    1 1 VOC S M POS             
+perfidiosus, perfidiosa, perfidiosum  ADJ    lesser
+treacherous;
+e                    SUFFIX                             
+-ly; -ily;  Converting ADJ to ADV
+perfidios.e          ADV    POS                         
+perfidiosus, perfidiosa, perfidiosum  ADJ    lesser
+treacherous;
+

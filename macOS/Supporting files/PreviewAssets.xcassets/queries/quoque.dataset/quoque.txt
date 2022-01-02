@@ -1,0 +1,33 @@
+que                  TACKON                             
+PACKON w/qui => whoever it be; whatever; each, each one; everyone, everything;
+qu.o                 PRON   1 0 ABL S M                 
+qu.o                 PRON   1 0 ABL S N                 
+qu  PACK  
+(w/-que) each, each one; every, everybody, everything (more than 2); whatever;
+(w/-que) any; each;
+quoque               ADV    POS                         
+quoque  ADV  
+likewise/besides/also/too; not only; even/actually; (after word emphasized);
+que                  TACKON                             
+-que = and (enclitic, translated before attached word); completes plerus/uter;
+qu.o                 PRON   1 0 ABL S M                 
+qu.o                 PRON   1 0 ABL S N                 
+who; that; which, what; of which kind/degree; person/thing/time/point that;
+who/what/which?, what/which one/man/person/thing? what kind/type of?;
+who/whatever, everyone who, all that, anything that;
+any; anyone/anything, any such; unspecified some; (after si/sin/sive/ne);
+who?, which?, what?; what kind of?;
+quo                  ADV    POS                         
+quo  ADV    lesser
+where, to what place; to what purpose; for which reason, therefore;
+quo                  CONJ                               
+quo  CONJ    lesser
+whither, in what place, where;
+que                  TACKON                             
+PACKON w/qui => whoever it be; whatever; each, each one; everyone, everything;
+qu.o                 PRON   1 0 ABL S M                 
+qu.o                 PRON   1 0 ABL S N                 
+qu  PACK  
+(w/-que) each, each one; every, everybody, everything (more than 2); whatever;
+(w/-que) any; each;
+

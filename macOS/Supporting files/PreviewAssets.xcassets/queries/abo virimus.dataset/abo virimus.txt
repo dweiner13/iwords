@@ -1,0 +1,16 @@
+a                    PREFIX                             
+- away, off; - aside;
+*
+Two words            
+May be 2 words combined (vir+imus) If not obvious, probably incorrect
+i.mus                V      6 1 PRES ACTIVE  IND 1 P    
+eo, ire, ivi(ii), itus  V  
+go, walk; march, advance; pass; flow; pass (time); ride; sail;
+i.mus                ADJ    0 0 NOM S M SUPER           
+imus, ima, imum  ADJ    lesser
+inmost, deepest, bottommost, last; (inferus); [~ vox => highest treble];
+vir                  N      2 3 NOM S M                 
+vir                  N      2 3 VOC S M                 
+vir, viri  N (2nd) M  
+man; husband; hero; person of courage, honor, and nobility;
+*
