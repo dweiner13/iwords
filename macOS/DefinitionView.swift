@@ -90,7 +90,7 @@ struct DefinitionView: View {
             if let conjugation = conjugation {
                 descr += ", \(conjugation)"
             }
-        case .adj, .adv, .pron:
+        case .adj, .adv, .pron, .conj:
             break
         case .prep(_, let `case`, _):
             if let `case` = `case` {

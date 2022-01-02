@@ -15,8 +15,8 @@ enum PartOfSpeech: String, CustomStringConvertible, Codable {
          adjective = "ADJ",
          adverb = "ADV",
          pronoun = "PRON",
-         preposition = "PREP"
-
+         preposition = "PREP",
+         conjunction = "CONJ"
     
     var description: String {
         switch self {
@@ -26,6 +26,7 @@ enum PartOfSpeech: String, CustomStringConvertible, Codable {
         case .adverb: return "adv."
         case .pronoun: return "pron."
         case .preposition: return "prep."
+        case .conjunction: return "conj."
         }
     }
 }
@@ -164,10 +165,11 @@ enum Expansion: Equatable, Codable {
     case verb(String, Conjugation?, [String])
     case pron(String, [String])
     case prep(String, Case?, [String])
+    case conj(String, [String])
     
     var principleParts: String {
         switch self {
-        case .noun(let pp, _, _, _), .verb(let pp, _, _), .adj(let pp, _), .adv(let pp, _), .pron(let pp, _), .prep(let pp, _, _): return pp
+        case .noun(let pp, _, _, _), .verb(let pp, _, _), .adj(let pp, _), .adv(let pp, _), .pron(let pp, _), .prep(let pp, _, _), .conj(let pp, _): return pp
         }
     }
     
@@ -179,6 +181,7 @@ enum Expansion: Equatable, Codable {
         case .adv: return .adverb
         case .pron: return .pronoun
         case .prep: return .preposition
+        case .conj: return .conjunction
         }
     }
 
@@ -195,6 +198,8 @@ enum Expansion: Equatable, Codable {
         case .pron(_, let notes):
             return notes
         case .prep(_, _, let notes):
+            return notes
+        case .conj(_, let notes):
             return notes
         }
     }
@@ -269,7 +274,16 @@ enum Expansion: Equatable, Codable {
             }
             .eraseToAnyParser()
 
-        return OneOfMany([nounExpansion, adjExpansion, advExpansion, verbExpansion, pronExpansion, prepExpansion]).eraseToAnyParser()
+        let conjExpansion = principleParts
+            .skip(StartsWith("  "))
+            .skip(StartsWith(PartOfSpeech.conjunction.rawValue))
+            .take(Rest())
+            .map {
+                Expansion.conj($0.0, getNotes($0.1))
+            }
+            .eraseToAnyParser()
+
+        return OneOfMany([nounExpansion, adjExpansion, advExpansion, verbExpansion, pronExpansion, prepExpansion, conjExpansion]).eraseToAnyParser()
     }()
 }
 
@@ -547,6 +561,7 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
     case preposition(Preposition)
     case prefix(String)
     case tackon(String)
+    case conjunction(String)
 
     var debugDescription: String {
         switch self {
@@ -566,6 +581,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             return "Prefix: \(text)"
         case .tackon(let text):
             return "Tackon: \(text)"
+        case .conjunction(let text):
+            return "Conjunction: \(text)"
         }
     }
 
@@ -586,6 +603,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
         case .prefix(let text):
             return text
         case .tackon(let text):
+            return text
+        case .conjunction(let text):
             return text
         }
     }
@@ -608,6 +627,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             return "prefix"
         case .tackon(let text):
             return "tackon"
+        case .conjunction(let text):
+            return "conjunction"
         }
     }
 
@@ -755,6 +776,18 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             .map(Possibility.tackon)
             .eraseToAnyParser()
 
+        let conjunctionPossibility: AnyParser<Substring, Possibility> = Parsing.Prefix<Substring>(21)
+            .map {
+                $0.trimmingCharacters(in: .whitespaces)
+            }
+            .skip(StartsWith("CONJ "))
+            .skip(Rest())
+            .map {
+                $0
+            }
+            .map(Possibility.conjunction)
+            .eraseToAnyParser()
+
         return OneOfMany([
             nounPossibility,
             adjPossibility,
@@ -763,7 +796,8 @@ enum Possibility: Equatable, CustomDebugStringConvertible, Codable {
             pronounPossibility,
             prepositionPossibility,
             prefixPossibility,
-            tackonPossibility
+            tackonPossibility,
+            conjunctionPossibility
         ])
             .eraseToAnyParser()
     }()
@@ -874,6 +908,9 @@ func parse(_ str: String) -> ([ResultItem], Bool)? {
                 meaning = String(line)
             } else {
                 meaning! += "\n\(line)"
+            }
+            if line.last == "\r" {
+                appendNewWord()
             }
         } else {
             print("🚨 Parsing failed at line:")

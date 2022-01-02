@@ -23,6 +23,7 @@
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="eVQ-bF-YY4"/>
                                         <menuItem title="Diagnostic Mode" id="zjB-TO-LRE">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -32,6 +33,16 @@
                                                     </dictionary>
                                                 </binding>
                                                 <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Pretty Results" keyEquivalent="P" id="5Tp-V2-055">
+                                            <connections>
+                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="3sv-bK-3jM">
+                                                    <dictionary key="options">
+                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="AnR-hL-FcP" name="value" keyPath="values.prettyResults" id="LEt-CM-1wo"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="fbp-5F-nwt"/>

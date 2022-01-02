@@ -76,7 +76,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-resultDisplayMode 1"
+            argument = "-prettyResults 1"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

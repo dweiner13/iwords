@@ -32,13 +32,18 @@ class LookupViewController: NSViewController {
     var mode: ResultDisplayMode {
         get {
             #if DEBUG
-            return ResultDisplayMode(rawValue: UserDefaults.standard.integer(forKey: "resultDisplayMode"))!
+            return UserDefaults.standard.bool(forKey: "prettyResults") ? .pretty : .raw
             #else
             return .raw
             #endif
         }
         set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: "resultDisplayMode")
+            switch newValue {
+            case .pretty:
+                UserDefaults.standard.set(true, forKey: "prettyResults")
+            case .raw:
+                UserDefaults.standard.removeObject(forKey: "prettyResults")
+            }
         }
     }
 
@@ -54,7 +59,23 @@ class LookupViewController: NSViewController {
         textView.string = "Welcome to iWords, a Latin dictionary. Search a word to get started.\n"
         appendHelpText()
         setFontSize(fontSizeController.fontSize)
+
+        startListeningToUserDefaults()
     }
+
+    #if DEBUG
+    private func startListeningToUserDefaults() {
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard keyPath == "values.prettyResults" else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+            return
+        }
+        text.map(updateForResultText)
+    }
+    #endif
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
         let font = textView.font

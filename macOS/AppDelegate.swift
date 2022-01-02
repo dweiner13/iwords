@@ -82,7 +82,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         UserDefaults.standard.register(defaults: [
             "diagnosticMode": false,
             "history": [],
-            "resultDisplayMode": ResultDisplayMode.raw.rawValue
+            "prettyResults": false
         ])
     }
 
