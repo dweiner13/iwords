@@ -186,11 +186,33 @@ class LookupWindowController: NSWindowController {
 
     @IBAction
     func lookUpInPerseus(_ sender: Any?) {
-        guard let searchText = backForwardController.currentSearchQuery?.searchText,
-            let url = PerseusUtils.urlForLookUpInPerseus(searchText: searchText) else {
+        guard let searchText = backForwardController.currentSearchQuery?.searchText else {
             return
         }
-        NSWorkspace.shared.open(url)
+
+        let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: searchText)
+
+        if !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
+            let alert = NSAlert()
+            alert.messageText = "Are you sure you want to open \(urls.count) new tabs in your web browser?"
+            alert.addButton(withTitle: "Open \(urls.count) Tabs")
+            alert.addButton(withTitle: "Cancel")
+            alert.showsSuppressionButton = true
+            let clicked = alert.runModal()
+
+            if let suppressionButton = alert.suppressionButton,
+               suppressionButton.state == .on {
+                UserDefaults.standard.set(true, forKey: "suppressMultipleTabsAlert")
+            }
+
+            guard clicked == .alertFirstButtonReturn else {
+                return
+            }
+        }
+
+        urls.forEach {
+            NSWorkspace.shared.open($0)
+        }
     }
 
     @IBAction

@@ -8,22 +8,18 @@
 import Foundation
 
 enum PerseusUtils {
-    static func urlForLookUpInPerseus(searchText text: String) -> URL? {
-        wordForPerseusLookUp(inSearchText: text).flatMap(PerseusUtils.url(for:))
+    static func urlsForLookUpInPerseus(searchText text: String) -> [URL] {
+        text.split(whereSeparator: \.isWhitespace).compactMap(PerseusUtils.url(for:))
     }
 
     static func canLookUpInPerseus(searchText text: String) -> Bool {
-        wordForPerseusLookUp(inSearchText: text) != nil
-    }
-
-    private static func wordForPerseusLookUp(inSearchText text: String) -> String? {
-        return text.split(whereSeparator: \.isNewline).first.map(String.init(_:))
+        text.split(whereSeparator: \.isWhitespace).count > 0
     }
 
     // http://www.perseus.tufts.edu/hopper/morph?l=viribus&la=la
-    private static func url(for word: String) -> URL? {
+    private static func url<S: StringProtocol>(for word: S) -> URL? {
         var components = URLComponents(string: "https://www.perseus.tufts.edu/hopper/morph?la=la")!
-        components.queryItems!.append(.init(name: "l", value: word))
+        components.queryItems!.append(.init(name: "l", value: String(word)))
         return components.url
     }
 }

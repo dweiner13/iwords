@@ -284,7 +284,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="NCi-r5-ysW"/>
-                                        <menuItem title="Look Up in Perseus..." keyEquivalent="p" id="dEI-ff-LEF" userLabel="Toggle">
+                                        <menuItem title="Look Up in Perseus" keyEquivalent="p" id="dEI-ff-LEF" userLabel="Toggle">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="lookUpInPerseus:" target="Ady-hI-5gd" id="Aoa-qy-HaN"/>
@@ -401,7 +401,7 @@
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Send Feedback via Email..." id="h3V-DY-8nw">
+                                        <menuItem title="Send Feedback via Email" id="h3V-DY-8nw">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="sendFeedback:" target="Ady-hI-5gd" id="rvj-CR-My3"/>
