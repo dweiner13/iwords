@@ -355,6 +355,13 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
+                                        <menuItem title="Show Warnings" id="iLZ-ZJ-eP8">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="showWarnings:" target="Ady-hI-5gd" id="72V-gR-g8O"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="exH-bs-QKn"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
@@ -513,6 +520,20 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="52E67CFE-A32C-4250-BFC7-591F810ACB9C" label="Perseus" paletteLabel="Perseus" image="p.circle" catalog="system" bordered="YES" sizingBehavior="auto" id="pR4-E5-Ef0">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="qpa-VS-4lI">
+                                        <rect key="frame" x="0.0" y="14" width="127" height="25"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="p.circle" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f6n-DK-oM9">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="lookUpInPerseus:" target="Oky-zY-oP4" id="eAM-yJ-7c7"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
@@ -614,6 +635,7 @@
         <image name="NSGoBackTemplate" width="10" height="14"/>
         <image name="NSGoForwardTemplate" width="10" height="14"/>
         <image name="arrow.left.arrow.right" catalog="system" width="16" height="17"/>
+        <image name="p.circle" catalog="system" width="15" height="15"/>
         <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
         <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>

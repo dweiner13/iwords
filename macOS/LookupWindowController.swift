@@ -372,6 +372,11 @@ extension LookupWindowController {
         case #selector(exportJSONResult(_:)):
             return canExportJSONResult()
             #endif
+        case #selector(lookUpInPerseus(_:)):
+            guard let searchText = backForwardController.currentSearchQuery?.searchText else {
+                return false
+            }
+            return PerseusUtils.canLookUpInPerseus(searchText: searchText)
         default:
             return super.responds(to: aSelector)
         }

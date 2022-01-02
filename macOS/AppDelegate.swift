@@ -148,6 +148,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         alert.runModal()
     }
 
+    @IBAction
+    func showWarnings(_ sender: Any?) {
+        UserDefaults.standard.removeObject(forKey: "suppressMultipleTabsAlert")
+    }
+
     private func openHelp() {
         NSApp.showHelp(nil)
     }
@@ -172,6 +177,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             return
         }
         service.perform(withItems: [message])
+    }
+
+    override func responds(to aSelector: Selector!) -> Bool {
+        switch aSelector {
+        case #selector(showWarnings(_:)):
+            return UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert")
+        default:
+            return super.responds(to: aSelector)
+        }
     }
 }
 
