@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		371052902724604C0077CE3D /* FontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710528F2724604C0077CE3D /* FontSizeController.swift */; };
 		3710529227247B790077CE3D /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710529127247B790077CE3D /* ServiceProvider.swift */; };
+		37126CE2278244B2009BB010 /* PerseusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37126CE1278244B2009BB010 /* PerseusService.swift */; };
 		372E2E0D27821A1D005C9C8A /* PartOfSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372E2E0C27821A1D005C9C8A /* PartOfSpeech.swift */; };
 		373AECBD272E22CB0021A393 /* Difference in Frameworks */ = {isa = PBXBuildFile; productRef = 373AECBC272E22CB0021A393 /* Difference */; };
 		373AECBF272E22D90021A393 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECBE272E22D90021A393 /* Utils.swift */; };
@@ -80,6 +81,7 @@
 /* Begin PBXFileReference section */
 		3710528F2724604C0077CE3D /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
 		3710529127247B790077CE3D /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
+		37126CE1278244B2009BB010 /* PerseusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerseusService.swift; sourceTree = "<group>"; };
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
 		372E2E0C27821A1D005C9C8A /* PartOfSpeech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartOfSpeech.swift; sourceTree = "<group>"; };
 		373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "words (macOS)Debug.entitlements"; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				37CC43692634D81900E60CE9 /* DefinitionView.swift */,
 				3710528F2724604C0077CE3D /* FontSizeController.swift */,
 				3710529127247B790077CE3D /* ServiceProvider.swift */,
+				37126CE1278244B2009BB010 /* PerseusService.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				372E2E0D27821A1D005C9C8A /* PartOfSpeech.swift in Sources */,
 				37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */,
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
+				37126CE2278244B2009BB010 /* PerseusService.swift in Sources */,
 				3710529227247B790077CE3D /* ServiceProvider.swift in Sources */,
 				37B089FB272F237400932567 /* Intents.intentdefinition in Sources */,
 				37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */,

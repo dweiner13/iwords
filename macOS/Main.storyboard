@@ -263,9 +263,9 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Dictionary" id="q8z-NN-qtj">
+                            <menuItem title="Dictionaries" id="q8z-NN-qtj">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Dictionary" id="fza-HI-WC1">
+                                <menu key="submenu" title="Dictionaries" id="fza-HI-WC1">
                                     <items>
                                         <menuItem title="Latin → English" state="on" keyEquivalent="L" id="5iD-gI-CXi" userLabel="Latin to English">
                                             <connections>
@@ -281,6 +281,13 @@
                                         <menuItem title="Toggle Direction" keyEquivalent="d" id="s2W-Ty-fmT" userLabel="Toggle">
                                             <connections>
                                                 <action selector="toggleDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="NCi-r5-ysW"/>
+                                        <menuItem title="Look Up in Perseus..." keyEquivalent="p" id="dEI-ff-LEF" userLabel="Toggle">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="lookUpInPerseus:" target="Ady-hI-5gd" id="Aoa-qy-HaN"/>
                                             </connections>
                                         </menuItem>
                                     </items>

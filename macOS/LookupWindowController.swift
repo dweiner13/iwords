@@ -185,6 +185,15 @@ class LookupWindowController: NSWindowController {
     }
 
     @IBAction
+    func lookUpInPerseus(_ sender: Any?) {
+        guard let searchText = backForwardController.currentSearchQuery?.searchText,
+            let url = PerseusUtils.urlForLookUpInPerseus(searchText: searchText) else {
+            return
+        }
+        NSWorkspace.shared.open(url)
+    }
+
+    @IBAction
     private func exportRawResult(_ sender: Any?) {
         guard let text = lookupViewController?.text,
               let window = window else {
