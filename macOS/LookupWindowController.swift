@@ -192,7 +192,7 @@ class LookupWindowController: NSWindowController {
 
         let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: searchText)
 
-        if !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
+        if urls.count > 1 && !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
             let alert = NSAlert()
             alert.messageText = "Are you sure you want to open \(urls.count) new tabs in your web browser?"
             alert.addButton(withTitle: "Open \(urls.count) Tabs")
