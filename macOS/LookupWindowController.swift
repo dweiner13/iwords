@@ -314,9 +314,17 @@ class LookupWindowController: NSWindowController {
     }
 
     override func newWindowForTab(_ sender: Any?) {
-        let window = Self.newWindow(copying: self)
-        self.window?.addTabbedWindow(window, ordered: .above)
-        window.makeKeyAndOrderFront(sender)
+        let newWindow = Self.newWindow(copying: self)
+        var windowToAddTabAfter: NSWindow?
+
+        if sender is NSWindow {
+            windowToAddTabAfter = self.window?.tabbedWindows?.last ?? self.window
+        } else {
+            windowToAddTabAfter = self.window
+        }
+
+        windowToAddTabAfter?.addTabbedWindow(newWindow, ordered: .above)
+        newWindow.makeKeyAndOrderFront(sender)
     }
 
     func copyState(from otherController: LookupWindowController) {
