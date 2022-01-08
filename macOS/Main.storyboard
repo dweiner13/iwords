@@ -523,7 +523,7 @@
                                 <toolbarItem implicitItemIdentifier="52E67CFE-A32C-4250-BFC7-591F810ACB9C" label="Perseus" paletteLabel="Perseus" image="p.circle" catalog="system" bordered="YES" sizingBehavior="auto" id="pR4-E5-Ef0">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="qpa-VS-4lI">
-                                        <rect key="frame" x="0.0" y="14" width="127" height="25"/>
+                                        <rect key="frame" x="11" y="14" width="27" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="p.circle" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f6n-DK-oM9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -549,6 +549,7 @@
                     <connections>
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
+                        <outlet property="dictionaryController" destination="lRh-Yv-s9e" id="pGe-gU-yxR"/>
                         <outlet property="directionItem" destination="FaB-SV-uQT" id="ypv-c0-ecm"/>
                         <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="C4R-Rb-OST"/>
                         <outlet property="fontSizeController" destination="hdv-M0-3Yq" id="N0X-PG-W0S"/>
@@ -570,13 +571,14 @@
                         <outlet property="segmentedControl" destination="1z5-4S-FWj" id="nK1-im-8xK"/>
                     </connections>
                 </customObject>
+                <customObject id="lRh-Yv-s9e" customClass="DictionaryController" customModule="iWords" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="60" y="67.5"/>
         </scene>
         <!--Lookup View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="LookupViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController identifier="LookupViewController" storyboardIdentifier="LookupViewController" id="XfG-lQ-9wD" customClass="LookupViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -584,15 +586,15 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="420" height="404"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="420" height="404"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="435" height="404"/>
+                                            <size key="minSize" width="420" height="404"/>
                                             <size key="maxSize" width="435" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -603,7 +605,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="419" y="0.0" width="16" height="404"/>
+                                    <rect key="frame" x="420" y="0.0" width="15" height="404"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

@@ -101,28 +101,14 @@ let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
 class LookupWindowController: NSWindowController {
 
     override class var restorableStateKeyPaths: [String] {
-        ["_direction", "window.tab.title", "searchField.stringValue"]
-    }
-
-    @objc dynamic
-    private var _direction: Dictionary.Direction.RawValue = DEFAULT_DIRECTION.rawValue {
-        didSet {
-            AppDelegate.shared?.updateDirectionItemsState()
-            updateTitle(forDirection: Dictionary.Direction(rawValue: _direction)!)
-        }
-    }
-
-    var direction: Dictionary.Direction {
-        get {
-            .init(rawValue: _direction)!
-        }
-        set {
-            _direction = newValue.rawValue
-        }
+        ["_direction", "window.tab.title", "searchField.stringValue", "dictionaryController"]
     }
 
     @IBOutlet @objc
     dynamic var backForwardController: BackForwardController!
+
+    @IBOutlet @objc
+    var dictionaryController: DictionaryController!
 
     @IBOutlet @objc
     var fontSizeController: FontSizeController!
@@ -159,13 +145,15 @@ class LookupWindowController: NSWindowController {
 
         window?.restorationClass = WindowRestoration.self
 
-        updateTitle(forDirection: Dictionary.Direction(rawValue: _direction)!)
+        dictionaryController.delegate = self
+
+        updateTitle(forDirection: dictionaryController.direction)
     }
 
     @objc
     override func encodeRestorableState(with coder: NSCoder) {
         backForwardController.encode(with: coder)
-        super.restoreState(with: coder)
+        super.encodeRestorableState(with: coder)
     }
 
     @objc
@@ -217,11 +205,12 @@ class LookupWindowController: NSWindowController {
 
     @IBAction
     private func exportRawResult(_ sender: Any?) {
-        guard let text = lookupViewController?.text,
+        guard let results = lookupViewController?.results,
               let window = window else {
-                  NSSound.beep()
-                  return
-              }
+            NSSound.beep()
+            return
+        }
+        let text = DictionaryController.Result.allRaw(results)
         let data = text.data(using: .utf8)
         let fileName = "\(backForwardController.currentSearchQuery?.searchText ?? "results").txt"
         let savePanel = NSSavePanel()
@@ -266,7 +255,10 @@ class LookupWindowController: NSWindowController {
                 return
             }
             do {
-                try JSONEncoder().encode(results).write(to: url)
+                let parsedResults = results.compactMap(\.parsed).flatMap { $0 }
+                try JSONEncoder()
+                    .encode(parsedResults)
+                    .write(to: url)
             } catch {
                 self.presentError(error)
             }
@@ -286,7 +278,7 @@ class LookupWindowController: NSWindowController {
 
         self.window?.tab.title = searchQuery.searchText
 
-        direction = searchQuery.direction
+        dictionaryController.direction = searchQuery.direction
         search(searchQuery)
         if updateHistoryLists {
             HistoryController.shared.recordVisit(to: searchQuery)
@@ -299,33 +291,18 @@ class LookupWindowController: NSWindowController {
 
     @IBAction
     private func toggleDirection(_ sender: Any?) {
-        direction.toggle()
-    }
-
-    @IBAction
-    private func setLatinToEnglish(_ sender: Any?) {
-        direction = .latinToEnglish
-    }
-
-    @IBAction
-    private func setEnglishToLatin(_ sender: Any?) {
-        direction = .englishToLatin
+        dictionaryController.direction.toggle()
     }
 
     @IBAction
     private func searchFieldAction(_ field: NSSearchField) {
-        setSearchQuery(SearchQuery(field.stringValue, direction))
+        setSearchQuery(SearchQuery(field.stringValue, dictionaryController.direction))
     }
-    
-    /// - Returns: whether or not a result was found
+
     private func search(_ query: SearchQuery) {
         do {
-            let results = try Dictionary.shared.getDefinition(
-                query.searchText,
-                direction: query.direction,
-                options: UserDefaults.standard.dictionaryOptions
-            )
-            lookupViewController.text = results ?? ""
+            let results = try dictionaryController.search(text: query.searchText)
+            lookupViewController.results = results
         } catch {
             self.presentError(error)
         }
@@ -414,5 +391,14 @@ extension LookupWindowController: BackForwardDelegate {
         _setSearchQuery(searchQuery,
                         updateHistoryLists: false,
                         updateBackForward: false)
+    }
+}
+
+extension LookupWindowController: DictionaryControllerDelegate {
+    func dictionaryController(_ controller: DictionaryController,
+                              didChangeDirectionTo direction: Dictionary.Direction) {
+        AppDelegate.shared?.updateDirectionItemsState()
+        updateTitle(forDirection: direction)
+        invalidateRestorableState()
     }
 }

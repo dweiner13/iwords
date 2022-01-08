@@ -69,6 +69,13 @@ class Dictionary {
         return url.deletingLastPathComponent()
     }()
 
+    func getDefinitions(_ search: [String], direction: Direction, options: Options) throws -> [(String, String?)] {
+        try search
+            .map {
+                try ($0, getDefinition($0, direction: direction, options: options))
+            }
+    }
+
     /// - Throws: `DWError`
     func getDefinition(_ search: String, direction: Direction, options: Options) throws -> String? {
         var arguments: [String] = []

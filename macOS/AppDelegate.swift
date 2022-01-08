@@ -17,9 +17,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @IBOutlet weak var latinToEnglishItem: NSMenuItem!
     @IBOutlet weak var englishToLatinItem: NSMenuItem!
 
-    private var direction: Dictionary.Direction {
+    private var keyWindowDirection: Dictionary.Direction {
         get {
-            keyWindowController()?.direction ?? DEFAULT_DIRECTION
+            keyWindowController()?.dictionaryController.direction ?? DEFAULT_DIRECTION
         }
     }
 
@@ -60,8 +60,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func updateDirectionItemsState() {
-        latinToEnglishItem.state = direction == .latinToEnglish ? .on  : .off
-        englishToLatinItem.state = direction == .englishToLatin ? .on :  .off
+        latinToEnglishItem.state = keyWindowDirection == .latinToEnglish ? .on  : .off
+        englishToLatinItem.state = keyWindowDirection == .englishToLatin ? .on :  .off
     }
 
     #if DEBUG

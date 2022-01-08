@@ -1073,6 +1073,7 @@ func parse(_ str: String) -> ([ResultItem], Bool)? {
             print("Found new expansion", e)
         } else if exp != nil || !possibilities.isEmpty {
             if line == "*" {
+                // TODO: this is incorrect, truncation asterisk appears per-word, not for an entire query
                 truncated = true
                 appendNewWord()
                 appendNewDefinition()
