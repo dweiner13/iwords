@@ -101,8 +101,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction
     func newWindow(_ sender: Any?) {
-        let newWindow = LookupWindowController.newWindow()
+        let newWindow = LookupWindowController.newWindow(copying: keyWindowController())
+        showNewWindow(newWindow)
+    }
 
+    func showNewWindow(_ newWindow: NSWindow) {
         if let keyWindow = NSApp.keyWindow {
             let newPoint = newWindow.cascadeTopLeft(from: keyWindow.topLeft)
             newWindow.setFrameTopLeftPoint(newPoint)
@@ -110,7 +113,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             newWindow.center()
         }
 
-        newWindow.makeKeyAndOrderFront(sender)
+        newWindow.makeKeyAndOrderFront(self)
     }
 
     func application(_ application: NSApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {

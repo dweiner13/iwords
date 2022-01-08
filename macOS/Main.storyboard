@@ -90,7 +90,7 @@
                                     <items>
                                         <menuItem title="New Window" keyEquivalent="n" id="vlf-zo-wEf">
                                             <connections>
-                                                <action selector="newWindow:" target="Voe-Tx-rLC" id="8iR-a3-eqL"/>
+                                                <action selector="newWindow:" target="Ady-hI-5gd" id="b0g-ov-u6S"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New Tab" keyEquivalent="t" id="dan-2o-CEK">
@@ -442,7 +442,7 @@
                 <customObject id="Ep3-Cg-0Is" customClass="FontSizeController" customModule="iWords" customModuleProvider="target"/>
                 <userDefaultsController id="ZZt-xK-ds5"/>
             </objects>
-            <point key="canvasLocation" x="55" y="-578"/>
+            <point key="canvasLocation" x="50" y="-689"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">

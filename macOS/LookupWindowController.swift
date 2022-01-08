@@ -314,16 +314,30 @@ class LookupWindowController: NSWindowController {
     }
 
     override func newWindowForTab(_ sender: Any?) {
-        let window = Self.newWindow()
+        let window = Self.newWindow(copying: self)
         self.window?.addTabbedWindow(window, ordered: .above)
         window.makeKeyAndOrderFront(sender)
     }
 
-    static func newWindow() -> NSWindow {
+    func copyState(from otherController: LookupWindowController) {
+        if let currentSearchQuery = otherController.backForwardController.currentSearchQuery {
+            _setSearchQuery(currentSearchQuery,
+                            updateHistoryLists: false,
+                            updateBackForward: true)
+        } else {
+            // If we don't have a query, just update direction
+            dictionaryController.direction = otherController.dictionaryController.direction
+        }
+    }
+
+    static func newWindow(copying original: LookupWindowController? = nil) -> NSWindow {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateController(withIdentifier: .lookupWindowController)
+        let newController = storyboard.instantiateController(withIdentifier: .lookupWindowController)
             as! LookupWindowController
-        return controller.window!
+        if let original = original {
+            newController.copyState(from: original)
+        }
+        return newController.window!
     }
 
     private func updateTitle(forDirection direction: Dictionary.Direction) {
