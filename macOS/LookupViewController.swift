@@ -75,7 +75,7 @@ class LookupViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.textContainerInset = NSSize(width: 24, height: 12)
+        textView.textContainerInset = NSSize(width: 12, height: 12)
         textView.string = "Welcome to iWords, a Latin dictionary. Search a word to get started.\n"
         appendHelpText()
         setFontSize(fontSizeController.fontSize)
