@@ -108,10 +108,10 @@ class LookupWindowController: NSWindowController {
     dynamic var backForwardController: BackForwardController!
 
     @IBOutlet @objc
-    var dictionaryController: DictionaryController!
+    var fontManager: NSFontManager!
 
     @IBOutlet @objc
-    var fontSizeController: FontSizeController!
+    var dictionaryController: DictionaryController!
 
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
     @IBOutlet weak var directionItem: NSToolbarItem!
@@ -119,12 +119,14 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var directionToggleButton: NSButton!
     @IBOutlet weak var searchField: NSSearchField!
 
-    private var lookupViewController: LookupViewController! {
+    var lookupViewController: LookupViewController! {
         contentViewController as? LookupViewController
     }
 
     override func windowDidLoad() {
         super.windowDidLoad()
+
+        print("fontManager", fontManager)
 
         // Set up menu form equivalents for toolbar items
         let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
@@ -136,9 +138,9 @@ class LookupWindowController: NSWindowController {
                                            keyEquivalent: "")
         directionItem.menuFormRepresentation = directionMenuItem
 
-        let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
-        fontSizeMenuItem.submenu = fontSizeController.menu()
-        fontSizeItem.menuFormRepresentation = fontSizeMenuItem
+//        let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
+//        fontSizeMenuItem.submenu = fontSizeController.menu()
+//        fontSizeItem.menuFormRepresentation = fontSizeMenuItem
 
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))

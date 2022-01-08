@@ -16,9 +16,6 @@ struct DefinitionsView: View {
     
     @State
     var showingTruncationInfo = false
-
-    @EnvironmentObject
-    var fontSizeController: FontSizeController
     
     var body: some View {
         ScrollView {
@@ -30,7 +27,7 @@ struct DefinitionsView: View {
                     case .text(let text):
                         Text(verbatim: text)
                             .safeSelectable()
-                            .font(.system(size: fontSizeController.fontSize,
+                            .font(.system(size: 16,
                                           weight: .regular,
                                           design: .serif))
                             .padding(.leading, 16)
@@ -75,9 +72,6 @@ struct DefinitionView: View {
     @State
     var showDeclensions = false
 
-    @EnvironmentObject
-    var fontSizeController: FontSizeController
-
     func expansionDescription(_ exp: Expansion) -> String {
         var descr = exp.pos.description
         switch exp {
@@ -118,11 +112,11 @@ struct DefinitionView: View {
                         SafeSelectableText {
                             Text(possibility.word)
                                 .foregroundColor(Color.primary)
-                                .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
+                                .font(.system(size: 16, weight: .regular, design: .serif))
                             + Text("  ")
                             + Text(verbatim: possibility.description)
                                 .foregroundColor(.secondary)
-                                .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
+                                .font(.system(size: 16, weight: .regular, design: .serif))
                         }
                     }
                     .multilineTextAlignment(.leading)
@@ -137,10 +131,10 @@ struct DefinitionView: View {
                         HStack(alignment: .firstTextBaseline) {
                             SafeSelectableText {
                                 Text(verbatim: expansion.principleParts ?? "")
-                                    .font(.system(size: fontSizeController.fontSize * 1, weight: .bold, design: .serif))
+                                    .font(.system(size: 16, weight: .bold, design: .serif))
                                 + Text("  ") + Text(verbatim: expansionDescription(expansion))
                                     .foregroundColor(.secondary)
-                                    .font(.system(size: fontSizeController.fontSize * 1, weight: .regular, design: .serif))
+                                    .font(.system(size: 16, weight: .regular, design: .serif))
                             }
                         }
                         .padding(.leading, 16)
@@ -148,7 +142,7 @@ struct DefinitionView: View {
 
                     Text(verbatim: word.meaning)
                         .safeSelectable()
-                        .font(.system(size: fontSizeController.fontSize, weight: .regular, design: .serif))
+                        .font(.system(size: 16, weight: .regular, design: .serif))
                         .padding(.leading, 32)
                 }
             }
@@ -170,7 +164,6 @@ struct DefinitionView_Previews: PreviewProvider {
         Group {
             DefinitionsView(definitions: (result.0, result.1))
 //            DWBridgedDefinitionView(definitions: [noun, verb])
-                .environmentObject(FontSizeController())
                 .padding(.vertical)
                 .frame(width: 500, height: 900, alignment: .center)
         }

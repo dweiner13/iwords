@@ -9,6 +9,11 @@ import Cocoa
 import Combine
 import Intents
 import DWUtils
+import Flow
+
+extension NSFont {
+    static let `default` = NSFont(name: "Monaco", size: 16)!
+}
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
@@ -42,6 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         registerDefaults()
 
+        setUpFont()
+
         #if DEBUG
         startListeningToUserDefaults()
         #endif
@@ -57,6 +64,65 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
 
         NSApp.servicesProvider = ServiceProvider()
+    }
+
+    var font = NSFont.default
+
+    func setUpFont() {
+        NSFontManager.shared.target = self
+
+        if let data = UserDefaults.standard.data(forKey: "font") {
+            do {
+                try NSKeyedUnarchiver(forReadingFrom: data)
+                    .then {
+                        $0.requiresSecureCoding = true
+                    }
+                    .decodeObject(of: NSFont.self, forKey: "font")
+                    .map {
+                        font = $0
+                    }
+            } catch {
+                print("Unable to decode font", error, error.localizedDescription)
+            }
+        }
+
+        NSFontManager.shared.setSelectedFont(font, isMultiple: false)
+        applyFont(font)
+        saveFont(font)
+    }
+
+    @objc
+    func changeFont(_ sender: NSFontManager) {
+        let currentFont = font
+        font = sender.convert(currentFont)
+        applyFont(font)
+        saveFont(font)
+    }
+
+    func applyFont(_ font: NSFont) {
+        NSApp.windows
+            .compactMap { $0.windowController as? LookupWindowController }
+            .map { $0.lookupViewController! }
+            .forEach { $0.setFont(font) }
+    }
+
+    func saveFont(_ font: NSFont) {
+        NSKeyedArchiver(requiringSecureCoding: true)
+            .then {
+                $0.encode(font, forKey: "font")
+            }
+            .encodedData
+            .do {
+                UserDefaults.standard.set($0, forKey: "font")
+            }
+    }
+
+    @IBAction @objc
+    func resetFont(_ sender: Any?) {
+        font = font.withSize(16)
+        NSFontManager.shared.setSelectedFont(font, isMultiple: false)
+        applyFont(font)
+        saveFont(font)
     }
 
     func updateDirectionItemsState() {

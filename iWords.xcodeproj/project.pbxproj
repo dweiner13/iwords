@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		371052902724604C0077CE3D /* FontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710528F2724604C0077CE3D /* FontSizeController.swift */; };
 		3710529227247B790077CE3D /* ServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710529127247B790077CE3D /* ServiceProvider.swift */; };
 		37126CE2278244B2009BB010 /* PerseusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37126CE1278244B2009BB010 /* PerseusService.swift */; };
 		37126CF2278A0030009BB010 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 37126CF1278A0030009BB010 /* OrderedCollections */; };
 		37126CF4278A035B009BB010 /* DictionaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37126CF3278A035B009BB010 /* DictionaryController.swift */; };
-		37126CF7278A0B7E009BB010 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = 37126CF6278A0B7E009BB010 /* Flow */; };
 		372E2E0D27821A1D005C9C8A /* PartOfSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372E2E0C27821A1D005C9C8A /* PartOfSpeech.swift */; };
 		373AECBD272E22CB0021A393 /* Difference in Frameworks */ = {isa = PBXBuildFile; productRef = 373AECBC272E22CB0021A393 /* Difference */; };
 		373AECBF272E22D90021A393 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECBE272E22D90021A393 /* Utils.swift */; };
@@ -22,6 +20,7 @@
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
+		37852ACE278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */; };
 		37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
 		37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1FD26222A8300A9E9EC /* Dictionary.swift */; };
@@ -82,7 +81,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3710528F2724604C0077CE3D /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
 		3710529127247B790077CE3D /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		37126CE1278244B2009BB010 /* PerseusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerseusService.swift; sourceTree = "<group>"; };
 		37126CF3278A035B009BB010 /* DictionaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryController.swift; sourceTree = "<group>"; };
@@ -95,6 +93,7 @@
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
 		37679DFF262CC87C003D15E1 /* WindowRestoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestoration.swift; sourceTree = "<group>"; };
+		37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeSegmentedControl.swift; sourceTree = "<group>"; };
 		37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookUpIntentHandler.swift; sourceTree = "<group>"; };
 		37A4D1A8262227E400A9E9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A4D1AD262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,7 +148,6 @@
 				37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */,
 				37126CF2278A0030009BB010 /* OrderedCollections in Frameworks */,
 				37AF82B82630EAC200931F2C /* Sparkle.framework in Frameworks */,
-				37126CF7278A0B7E009BB010 /* Flow in Frameworks */,
 				37CC43662634AB8100E60CE9 /* Parsing in Frameworks */,
 				373AECBD272E22CB0021A393 /* Difference in Frameworks */,
 			);
@@ -238,6 +236,7 @@
 		37A4D1B6262227E400A9E9EC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */,
 				372E2E0A278219E2005C9C8A /* Parsing */,
 				37CC436B2635CA3B00E60CE9 /* VisualEffectBackground.swift */,
 				37988D4F2724949200FFBB97 /* Intents */,
@@ -252,7 +251,6 @@
 				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
 				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,
 				37CC43692634D81900E60CE9 /* DefinitionView.swift */,
-				3710528F2724604C0077CE3D /* FontSizeController.swift */,
 				3710529127247B790077CE3D /* ServiceProvider.swift */,
 				37126CE1278244B2009BB010 /* PerseusService.swift */,
 				37126CF3278A035B009BB010 /* DictionaryController.swift */,
@@ -341,7 +339,6 @@
 				373AECBC272E22CB0021A393 /* Difference */,
 				3766E40F277A3CC700A9D064 /* DWUtils */,
 				37126CF1278A0030009BB010 /* OrderedCollections */,
-				37126CF6278A0B7E009BB010 /* Flow */,
 			);
 			productName = "words (macOS)";
 			productReference = 37A4D1B5262227E400A9E9EC /* iWords.app */;
@@ -400,7 +397,6 @@
 				37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */,
 				373AECBB272E22CA0021A393 /* XCRemoteSwiftPackageReference "Difference" */,
 				37126CF0278A0030009BB010 /* XCRemoteSwiftPackageReference "swift-collections" */,
-				37126CF5278A0B7D009BB010 /* XCRemoteSwiftPackageReference "Flow" */,
 			);
 			productRefGroup = 37A4D1AE262227E400A9E9EC /* Products */;
 			projectDirPath = "";
@@ -517,10 +513,10 @@
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
 				37126CE2278244B2009BB010 /* PerseusService.swift in Sources */,
 				3710529227247B790077CE3D /* ServiceProvider.swift in Sources */,
+				37852ACE278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift in Sources */,
 				37B089FB272F237400932567 /* Intents.intentdefinition in Sources */,
 				37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */,
 				37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */,
-				371052902724604C0077CE3D /* FontSizeController.swift in Sources */,
 				37A4D24D26223D7A00A9E9EC /* LookupViewController.swift in Sources */,
 				37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */,
 				37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */,
@@ -749,7 +745,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.5.1;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
@@ -781,7 +777,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.5.1;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
@@ -885,14 +881,6 @@
 				minimumVersion = 0.0.3;
 			};
 		};
-		37126CF5278A0B7D009BB010 /* XCRemoteSwiftPackageReference "Flow" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/alexito4/Flow.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		373AECBB272E22CA0021A393 /* XCRemoteSwiftPackageReference "Difference" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/krzysztofzablocki/Difference.git";
@@ -916,11 +904,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 37126CF0278A0030009BB010 /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
-		};
-		37126CF6278A0B7E009BB010 /* Flow */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 37126CF5278A0B7D009BB010 /* XCRemoteSwiftPackageReference "Flow" */;
-			productName = Flow;
 		};
 		373AECBC272E22CB0021A393 /* Difference */ = {
 			isa = XCSwiftPackageProductDependency;

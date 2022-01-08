@@ -329,22 +329,26 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DY9-CG-zxi"/>
-                                        <menuItem title="Increase Text Size" keyEquivalent="+" id="LY5-Jr-UWd">
+                                        <menuItem title="Increase Text Size" tag="3" keyEquivalent="+" id="LY5-Jr-UWd">
                                             <connections>
-                                                <action selector="increase:" target="Ep3-Cg-0Is" id="iAC-sb-38u"/>
-                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canIncrease" id="Air-um-zFu"/>
+                                                <action selector="modifyFont:" target="46f-Bv-BCE" id="riH-hm-7tZ"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Decrease Text Size" keyEquivalent="-" id="ZDb-lj-Vk8">
+                                        <menuItem title="Decrease Text Size" tag="4" keyEquivalent="-" id="ZDb-lj-Vk8">
                                             <connections>
-                                                <action selector="decrease:" target="Ep3-Cg-0Is" id="Gi9-as-y26"/>
-                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canDecrease" id="dW0-26-RIO"/>
+                                                <action selector="modifyFont:" target="46f-Bv-BCE" id="fzI-6x-9HA"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Reset Text Size" keyEquivalent="0" id="3u8-kf-UKB">
                                             <connections>
-                                                <action selector="reset:" target="Ep3-Cg-0Is" id="GNt-Ep-Z48"/>
-                                                <binding destination="Ep3-Cg-0Is" name="enabled" keyPath="canReset" id="LVz-uR-IEh"/>
+                                                <action selector="resetFont:" target="Ady-hI-5gd" id="ir5-5V-dOL"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="TsX-cJ-xkP"/>
+                                        <menuItem title="Show Fonts" id="Zf8-3B-kgh">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="orderFrontFontPanel:" target="46f-Bv-BCE" id="uTA-ns-asM"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="RnI-8p-IH7"/>
@@ -439,8 +443,8 @@
                     </connections>
                 </customObject>
                 <customObject id="OSl-4T-ebG" customClass="SUUpdater"/>
-                <customObject id="Ep3-Cg-0Is" customClass="FontSizeController" customModule="iWords" customModuleProvider="target"/>
                 <userDefaultsController id="ZZt-xK-ds5"/>
+                <customObject id="46f-Bv-BCE" customClass="NSFontManager"/>
             </objects>
             <point key="canvasLocation" x="50" y="-689"/>
         </scene>
@@ -492,18 +496,18 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Font Size" paletteLabel="Font Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
                                     <nil key="toolTip"/>
-                                    <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj">
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj" customClass="FontSizeSegmentedControl" customModule="iWords" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="14" width="71" height="24"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="gxG-KH-nnH">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment toolTip="Decrease font size" image="textformat.size.smaller" catalog="system" width="32"/>
-                                                <segment toolTip="Increase Text Size" image="textformat.size.larger" width="32" tag="1"/>
+                                                <segment toolTip="Decrease font size" image="textformat.size.smaller" catalog="system" width="32" tag="3"/>
+                                                <segment toolTip="Increase Text Size" image="textformat.size.larger" width="32" tag="4"/>
                                             </segments>
                                         </segmentedCell>
                                         <connections>
-                                            <action selector="segmentedControlPressed:" target="hdv-M0-3Yq" id="dXl-Dw-lal"/>
+                                            <action selector="modifyFont:" target="9Wc-xw-fDc" id="Csx-f2-mV6"/>
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
@@ -534,6 +538,7 @@
                                         <action selector="lookUpInPerseus:" target="Oky-zY-oP4" id="eAM-yJ-7c7"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="iSF-BX-dZM"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
@@ -552,7 +557,7 @@
                         <outlet property="dictionaryController" destination="lRh-Yv-s9e" id="pGe-gU-yxR"/>
                         <outlet property="directionItem" destination="FaB-SV-uQT" id="ypv-c0-ecm"/>
                         <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="C4R-Rb-OST"/>
-                        <outlet property="fontSizeController" destination="hdv-M0-3Yq" id="N0X-PG-W0S"/>
+                        <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>
                         <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
                         <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -566,12 +571,8 @@
                         <outlet property="segmentedControl" destination="62q-qB-wIS" id="TEJ-1E-TUb"/>
                     </connections>
                 </customObject>
-                <customObject id="hdv-M0-3Yq" customClass="FontSizeController" customModule="iWords" customModuleProvider="target">
-                    <connections>
-                        <outlet property="segmentedControl" destination="1z5-4S-FWj" id="nK1-im-8xK"/>
-                    </connections>
-                </customObject>
                 <customObject id="lRh-Yv-s9e" customClass="DictionaryController" customModule="iWords" customModuleProvider="target"/>
+                <customObject id="9Wc-xw-fDc" customClass="NSFontManager"/>
             </objects>
             <point key="canvasLocation" x="60" y="67.5"/>
         </scene>
@@ -618,16 +619,10 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="fontSizeController" destination="MSZ-V0-exo" id="9ws-XK-tDk"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <customObject id="MSZ-V0-exo" customClass="FontSizeController" customModule="iWords" customModuleProvider="target">
-                    <connections>
-                        <outlet property="delegate" destination="XfG-lQ-9wD" id="LlZ-Qa-ADx"/>
-                    </connections>
-                </customObject>
                 <userDefaultsController id="jkl-w9-pOM"/>
             </objects>
             <point key="canvasLocation" x="60.5" y="696"/>

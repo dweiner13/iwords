@@ -17,9 +17,6 @@ class LookupViewController: NSViewController {
     @IBOutlet
     var textView: NSTextView!
 
-    @IBOutlet
-    var fontSizeController: FontSizeController!
-
     var results: [DictionaryController.Result]? {
         didSet {
             results.map(updateForResults)
@@ -77,14 +74,12 @@ class LookupViewController: NSViewController {
         super.viewDidLoad()
         textView.textContainerInset = NSSize(width: 12, height: 12)
         textView.string = "Welcome to iWords, a Latin dictionary. Search a word to get started.\n"
+        textView.font = AppDelegate.shared.font
         appendHelpText()
-        setFontSize(fontSizeController.fontSize)
 
         #if DEBUG
         startListeningToUserDefaults()
         #endif
-
-        invalidateRestorableState()
     }
 
     #if DEBUG
@@ -118,8 +113,7 @@ class LookupViewController: NSViewController {
         if #available(macOS 11.0, *),
            mode == .pretty {
             let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results.compactMap(\.parsed).flatMap { $0 },
-                                                                                    false))
-                                                .environmentObject(fontSizeController))
+                                                                                    false)))
             hostingView.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(hostingView)
             NSLayoutConstraint.activate([
@@ -145,9 +139,8 @@ class LookupViewController: NSViewController {
         invalidateRestorableState()
     }
 
-    private func setFontSize(_ fontSize: CGFloat) {
-        textView.font = NSFont(name: "Monaco", size: fontSize)
-        invalidateRestorableState()
+    func setFont(_ font: NSFont) {
+        textView.font = font
     }
 
     @IBAction func didChangeMode(_ sender: Any) {
@@ -170,8 +163,7 @@ class LookupViewController: NSViewController {
                 fallthrough
             }
             let parsedResults = results?.compactMap(\.parsed).flatMap { $0 }
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (parsedResults ?? [], false))
-                                                .environmentObject(fontSizeController))
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (parsedResults ?? [], false)))
             hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
             printView = hostingView
         case .raw:
@@ -232,11 +224,5 @@ class LookupViewController: NSViewController {
         }
 
         textView.textStorage?.append(helpText())
-    }
-}
-
-extension LookupViewController: FontSizeControllerDelegate {
-    func fontSizeController(_ controller: FontSizeController, fontSizeChangedTo fontSize: CGFloat) {
-        setFontSize(fontSize)
     }
 }
