@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "Flow",
+        "repositoryURL": "https://github.com/alexito4/Flow.git",
+        "state": {
+          "branch": null,
+          "revision": "af6ef9e25ea9b1734743fa26e14fd4589a92633a",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "swift-argument-parser",
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
@@ -26,6 +35,15 @@
           "branch": null,
           "revision": "8e0ef8bb7482ab97dcd2cd1d6855bd38921c345d",
           "version": "0.1.0"
+        }
+      },
+      {
+        "package": "swift-collections",
+        "repositoryURL": "https://github.com/apple/swift-collections.git",
+        "state": {
+          "branch": null,
+          "revision": "9d8719c8bebdc79740b6969c912ac706eb721d7a",
+          "version": "0.0.7"
         }
       },
       {

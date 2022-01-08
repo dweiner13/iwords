@@ -20,14 +20,11 @@ class LookupViewController: NSViewController {
     @IBOutlet
     var fontSizeController: FontSizeController!
 
-    @objc
-    dynamic var text: String? {
+    var results: [DictionaryController.Result]? {
         didSet {
-            updateForResultText(text ?? "")
+            results.map(updateForResults)
         }
     }
-
-    var results: [ResultItem]?
 
     var mode: ResultDisplayMode {
         get {
@@ -49,8 +46,31 @@ class LookupViewController: NSViewController {
 
     private var definitionHostingView: NSView?
 
-    override class var restorableStateKeyPaths: [String] {
-        ["text"]
+    @objc
+    override func encodeRestorableState(with coder: NSCoder) {
+        if let results = results,
+           let encoded = try? JSONEncoder().encode(results) {
+            coder.encode(encoded, forKey: "resultsJSON")
+            print("Successfully encoded results")
+        }
+        super.encodeRestorableState(with: coder)
+    }
+
+    @objc
+    override func restoreState(with coder: NSCoder) {
+        if let data = coder.decodeObject(of: NSData.self, forKey: "resultsJSON") {
+            results = try? JSONDecoder().decode([DictionaryController.Result].self,
+                                                from: data as Data)
+            print("Successfully decoded results")
+        }
+    }
+
+    override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 
     override func viewDidLoad() {
@@ -60,7 +80,11 @@ class LookupViewController: NSViewController {
         appendHelpText()
         setFontSize(fontSizeController.fontSize)
 
+        #if DEBUG
         startListeningToUserDefaults()
+        #endif
+
+        invalidateRestorableState()
     }
 
     #if DEBUG
@@ -73,7 +97,7 @@ class LookupViewController: NSViewController {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
             return
         }
-        text.map(updateForResultText)
+        results.map(updateForResults)
     }
     #endif
 
@@ -84,20 +108,18 @@ class LookupViewController: NSViewController {
         return textWidth + textView.textContainerInset.width * 2 + 24
     }
 
-    private func updateForResultText(_ text: String) {
-        textView.string = text
+    func updateForResults(_ results: [DictionaryController.Result]) {
+        textView.string = DictionaryController.Result.allRaw(results)
 
         definitionHostingView?.isHidden = true
         definitionHostingView?.removeFromSuperview()
         definitionHostingView = nil
-        
+
         if #available(macOS 11.0, *),
-           let (results, isTruncated) = parse(text),
            mode == .pretty {
-            _ = results.compactMap(\.definition)
-            self.results = results
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results, isTruncated))
-                                        .environmentObject(fontSizeController))
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results.compactMap(\.parsed).flatMap { $0 },
+                                                                                    false))
+                                                .environmentObject(fontSizeController))
             hostingView.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(hostingView)
             NSLayoutConstraint.activate([
@@ -107,12 +129,8 @@ class LookupViewController: NSViewController {
                 hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
             definitionHostingView = hostingView
-        } else {
-            self.results = nil
-            mode = .raw
         }
-
-        updateForMode()
+        invalidateRestorableState()
     }
 
     private func updateForMode() {
@@ -124,10 +142,12 @@ class LookupViewController: NSViewController {
             textView.isHidden = true
             definitionHostingView?.isHidden = false
         }
+        invalidateRestorableState()
     }
 
     private func setFontSize(_ fontSize: CGFloat) {
         textView.font = NSFont(name: "Monaco", size: fontSize)
+        invalidateRestorableState()
     }
 
     @IBAction func didChangeMode(_ sender: Any) {
@@ -149,13 +169,14 @@ class LookupViewController: NSViewController {
             guard #available(macOS 11.0, *) else {
                 fallthrough
             }
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results ?? [], false))
+            let parsedResults = results?.compactMap(\.parsed).flatMap { $0 }
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (parsedResults ?? [], false))
                                                 .environmentObject(fontSizeController))
             hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
             printView = hostingView
         case .raw:
             let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
-            textView.string = text ?? "(nil)"
+            textView.string = results.map(DictionaryController.Result.allRaw(_:)) ?? "(nil)"
             textView.font = self.textView.font
             textView.frame.size.height = textView.intrinsicContentSize.height
             printView = textView
@@ -174,10 +195,7 @@ class LookupViewController: NSViewController {
     override func responds(to aSelector: Selector!) -> Bool {
         switch aSelector {
         case #selector(printDocument(_:)):
-            switch mode {
-            case .pretty: return results?.isEmpty == false
-            case .raw: return text != nil
-            }
+            return results?.isEmpty == false
         default:
             return super.responds(to: aSelector)
         }
