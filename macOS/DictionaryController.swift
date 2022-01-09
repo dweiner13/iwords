@@ -32,9 +32,9 @@ class DictionaryController: NSObject, NSSecureCoding {
         }
 
         static func allRawStyled(_ results: [Result], font: NSFont) -> NSAttributedString {
-            results
+            let attrString = results
                 .map { result in
-                    NSMutableAttributedString(string: result.input, attributes: [.font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask)]).then {
+                    NSMutableAttributedString(string: result.input, attributes: [.font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask), .underlineStyle: NSUnderlineStyle.single.rawValue]).then {
                         $0.append(.init(string: "\n", attributes: [.font: font]))
                         $0.append(.init(string: result.raw ?? "No result", attributes: [.font: font]))
                     }
@@ -43,6 +43,11 @@ class DictionaryController: NSObject, NSSecureCoding {
                     partialResult.append(styledDefinition)
                     partialResult.append(.init(string: "\n\n"))
                 }
+            if attrString.length == 0 {
+                return NSAttributedString(string: "No results.", attributes: [.font: font])
+            } else {
+                return attrString
+            }
         }
     }
 

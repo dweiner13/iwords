@@ -103,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApp.windows
             .compactMap { $0.windowController as? LookupWindowController }
             .map { $0.lookupViewController! }
-            .forEach { $0.setFont(font) }
+            .forEach { $0.fontChanged() }
     }
 
     func saveFont(_ font: NSFont) {

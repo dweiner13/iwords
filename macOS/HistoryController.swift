@@ -91,7 +91,7 @@ extension HistoryController: NSMenuDelegate, NSMenuItemValidation {
                 let item = NSMenuItem(title: query.description,
                                       action: #selector(historyMenuItemSelected(_:)),
                                       keyEquivalent: "")
-                let attrString = NSMutableAttributedString(string: query.searchText)
+                let attrString = NSMutableAttributedString(string: query.displaySearchText())
                 attrString.append(NSAttributedString(string: " (\(query.direction.description))", attributes: [.foregroundColor: NSColor.secondaryLabelColor]))
                 item.attributedTitle = attrString
                 item.target = self

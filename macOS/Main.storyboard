@@ -554,7 +554,7 @@
                     <connections>
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
-                        <outlet property="dictionaryController" destination="lRh-Yv-s9e" id="pGe-gU-yxR"/>
+                        <outlet property="dictionaryController" destination="lRh-Yv-s9e" id="5lQ-38-jFh"/>
                         <outlet property="directionItem" destination="FaB-SV-uQT" id="ypv-c0-ecm"/>
                         <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="C4R-Rb-OST"/>
                         <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>

@@ -46,6 +46,10 @@ class SearchQuery: NSObject, NSSecureCoding {
         ["searchText": searchText, "direction": direction.rawValue]
     }
 
+    func displaySearchText() -> String {
+        String(searchText.prefix(100))
+    }
+
     init?(fromPropertyListRepresentation obj: Any) {
         guard let obj = obj as? [String: Any] else {
             fatalError("Could not decode from obj \(obj)")
@@ -110,7 +114,7 @@ class LookupWindowController: NSWindowController {
     @IBOutlet @objc
     var fontManager: NSFontManager!
 
-    @IBOutlet @objc
+    @IBOutlet
     var dictionaryController: DictionaryController!
 
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
@@ -138,6 +142,7 @@ class LookupWindowController: NSWindowController {
                                            keyEquivalent: "")
         directionItem.menuFormRepresentation = directionMenuItem
 
+        // TODO: restore this
 //        let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
 //        fontSizeMenuItem.submenu = fontSizeController.menu()
 //        fontSizeItem.menuFormRepresentation = fontSizeMenuItem
@@ -172,6 +177,12 @@ class LookupWindowController: NSWindowController {
         self._setSearchQuery(searchQuery,
                              updateHistoryLists: true,
                              updateBackForward: true)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        backForwardController = nil
+        fontManager = nil
+        dictionaryController = nil
     }
 
     @IBAction
@@ -278,7 +289,7 @@ class LookupWindowController: NSWindowController {
 
         searchField.stringValue = searchQuery.searchText
 
-        self.window?.tab.title = searchQuery.searchText
+        self.window?.tab.title = searchQuery.displaySearchText()
 
         dictionaryController.direction = searchQuery.direction
         search(searchQuery)

@@ -73,17 +73,16 @@ class LookupViewController: NSViewController {
         if let results = results,
            let encoded = try? JSONEncoder().encode(results) {
             coder.encode(encoded, forKey: "resultsJSON")
-            print("Successfully encoded results")
         }
         super.encodeRestorableState(with: coder)
     }
 
     @objc
     override func restoreState(with coder: NSCoder) {
+        super.restoreState(with: coder)
         if let data = coder.decodeObject(of: NSData.self, forKey: "resultsJSON") {
             results = try? JSONDecoder().decode([DictionaryController.Result].self,
                                                 from: data as Data)
-            print("Successfully decoded results")
         }
     }
 
@@ -98,9 +97,7 @@ class LookupViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.textContainerInset = NSSize(width: 12, height: 12)
-        textView.string = "Welcome to iWords, a Latin dictionary. Search a word to get started.\n"
-        textView.font = AppDelegate.shared.font
-        appendHelpText()
+        setHelpText()
 
         #if DEBUG
         startListeningToUserDefaults()
@@ -122,7 +119,7 @@ class LookupViewController: NSViewController {
     #endif
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
-        let font = textView.font
+        let font = AppDelegate.shared.font
         let string = String(repeating: "a", count: 80)
         let textWidth = (string as NSString).size(withAttributes: [.font: font as Any]).width
         return textWidth + textView.textContainerInset.width * 2 + 24
@@ -167,8 +164,12 @@ class LookupViewController: NSViewController {
         invalidateRestorableState()
     }
 
-    func setFont(_ font: NSFont) {
-        textView.font = font
+    func fontChanged() {
+        if let results = results {
+            updateForResults(results)
+        } else {
+            setHelpText()
+        }
     }
 
     @IBAction func didChangeMode(_ sender: Any) {
@@ -196,8 +197,14 @@ class LookupViewController: NSViewController {
             printView = hostingView
         case .raw:
             let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
-            textView.string = results.map(DictionaryController.Result.allRaw(_:)) ?? "(nil)"
-            textView.font = self.textView.font
+            results 
+                .map {
+                    DictionaryController.Result.allRawStyled($0, font: AppDelegate.shared.font)
+                }
+                .map {
+                    textView.textStorage?.append($0)
+                }
+
             textView.frame.size.height = textView.intrinsicContentSize.height
             printView = textView
         }
@@ -221,36 +228,38 @@ class LookupViewController: NSViewController {
         }
     }
 
-    private func appendHelpText() {
+    private func setHelpText() {
         func helpText() -> NSAttributedString {
-            let str = NSMutableAttributedString()
+            let str = NSMutableAttributedString(string: "Welcome to iWords, a Latin dictionary. Search a word to get started.\n", attributes: [.font: AppDelegate.shared.font])
             str.append(NSAttributedString(string: """
 
                                                  *
                                                  """ + " ",
                                           attributes: [
-                                            .font: textView.font!,
-                                            .foregroundColor: textView.textColor!]))
+                                            .font: AppDelegate.shared.font,
+                                            .foregroundColor: NSColor.black]))
             str.append(NSAttributedString(string: "View help",
                                           attributes: [
                                             .link: URL(string: "iwords:help")!,
-                                            .font: textView.font!,
-                                            .foregroundColor: textView.textColor!]))
+                                            .font: AppDelegate.shared.font,
+                                            .foregroundColor: NSColor.black]))
             str.append(NSAttributedString(string: """
 
                                                  *
                                                  """ + " ",
                                           attributes: [
-                                            .font: textView.font!,
-                                            .foregroundColor: textView.textColor!]))
+                                            .font: AppDelegate.shared.font,
+                                            .foregroundColor: NSColor.black]))
             str.append(NSAttributedString(string: "Send feedback",
                                           attributes: [
                                             .link: URL(string: "iwords:feedback")!,
-                                            .font: textView.font!,
-                                            .foregroundColor: textView.textColor!]))
+                                            .font: AppDelegate.shared.font,
+                                            .foregroundColor: NSColor.black]))
             return str
         }
 
-        textView.textStorage?.append(helpText())
+        if let textStorage = textView.textStorage {
+            textStorage.replaceCharacters(in: NSRange(location: 0, length: textStorage.length), with: helpText())
+        }
     }
 }

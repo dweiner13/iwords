@@ -26,7 +26,7 @@ class BackForwardController: NSObject {
     internal private(set) var currentSearchQuery: SearchQuery?
 
     @IBOutlet
-    var delegate: BackForwardDelegate?
+    weak var delegate: BackForwardDelegate?
 
     /// Attach a pre-configured 2-segment Segmented Control to this controller to have the
     /// controller manage the enabled/disabled states of the segments.

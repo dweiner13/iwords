@@ -88,13 +88,13 @@ class Dictionary {
         let outputFileHandle = outputPipe!.fileHandleForReading
 
         var tempData = Data()
-        outputFileHandle.readabilityHandler = { [unowned self] fileHandle in
+        outputFileHandle.readabilityHandler = { [weak self] fileHandle in
             let newData = fileHandle.availableData
             tempData += newData
             print("Process: \(newData.count) new bytes", String(data: newData, encoding: .utf8))
             if String(data: tempData.dropFirst(41).suffix(2), encoding: .utf8) == "=>" {
                 DispatchQueue.main.async {
-                    self.didGetResult(data: tempData.dropFirst(41))
+                    self?.didGetResult(data: tempData.dropFirst(41))
                     tempData.removeAll()
                 }
             }
@@ -178,8 +178,12 @@ class Dictionary {
 
     private var queue: [(String, Direction, Options, CheckedContinuation<String?, Never>)] = []
 
+    deinit {
+        process?.terminate()
+    }
+
     func getDefinition(_ input: String, direction: Direction, options: Options) async throws -> String? {
-        guard input.count > 1 else {
+        guard input.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 else {
             return nil
         }
         guard activeContinuation == nil else {
