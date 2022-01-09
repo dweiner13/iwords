@@ -19,7 +19,7 @@ struct DWError: LocalizedError, Identifiable {
 }
 
 // Provides a Swift API around the `words` executable.
-class Dictionary {
+class DictionaryOld {
 
     enum Direction: Int, CustomStringConvertible, CustomDebugStringConvertible, Codable {
         // Do not change. Reflected in tags in interface builder.

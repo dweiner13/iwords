@@ -28,7 +28,7 @@ class DictionaryController: NSObject, NSSecureCoding {
         let parsed: [ResultItem]?
 
         static func allRaw(_ results: [Result]) -> String {
-            results.compactMap(\.raw).joined()
+            results.compactMap(\.raw).joined(separator: "\n\n")
         }
     }
 
