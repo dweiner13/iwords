@@ -287,6 +287,11 @@ class LookupWindowController: NSWindowController {
             return
         }
 
+        guard !isLoading else {
+            NSSound.beep()
+            return
+        }
+
         searchField.stringValue = searchQuery.searchText
 
         self.window?.tab.title = searchQuery.displaySearchText()
@@ -309,16 +314,33 @@ class LookupWindowController: NSWindowController {
 
     @IBAction
     private func searchFieldAction(_ field: NSSearchField) {
-        setSearchQuery(SearchQuery(field.stringValue, dictionaryController.direction))
+        if let sanitized = sanitize(searchFieldValue: field.stringValue) {
+            setSearchQuery(SearchQuery(sanitized, dictionaryController.direction))
+        }
+    }
+
+    private func sanitize(searchFieldValue: String) -> String? {
+        let trimmed = searchFieldValue
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet(["#", "!", "@", "~"]))
+        return trimmed.count > 1 ? trimmed : nil
+    }
+
+    private var isLoading = false {
+        didSet {
+            backForwardController.updateSegmentedControl()
+        }
     }
 
     private func search(_ query: SearchQuery) {
         Task(priority: .userInitiated) {
             do {
+                isLoading = true
                 lookupViewController.setLoading(true)
                 let results = try await dictionaryController.search(text: query.searchText)
                 lookupViewController.results = results
                 lookupViewController.setLoading(false)
+                isLoading = false
             } catch {
                 self.presentError(error)
             }
@@ -430,6 +452,10 @@ extension LookupWindowController: BackForwardDelegate {
         _setSearchQuery(searchQuery,
                         updateHistoryLists: false,
                         updateBackForward: false)
+    }
+
+    func backForwardControllerShouldChangeCurrentQuery(_ controller: BackForwardController) -> Bool {
+        !isLoading
     }
 }
 

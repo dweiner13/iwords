@@ -10,6 +10,7 @@ import Cocoa
 @objc
 protocol BackForwardDelegate: AnyObject {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController)
+    func backForwardControllerShouldChangeCurrentQuery(_ controller: BackForwardController) -> Bool
 }
 
 private extension NSUserInterfaceItemIdentifier {
@@ -38,11 +39,11 @@ class BackForwardController: NSObject {
     }
 
     var canGoBack: Bool {
-        !backList.isEmpty
+        !backList.isEmpty && (delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true)
     }
 
     var canGoForward: Bool {
-        !forwardList.isEmpty
+        !forwardList.isEmpty && (delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true)
     }
 
     private var backList: [SearchQuery] = [] {
@@ -91,11 +92,14 @@ class BackForwardController: NSObject {
 
     @IBAction
     func goBack(_ sender: Any?) {
-        if let currentSearchQuery = currentSearchQuery {
-            forwardList.append(currentSearchQuery)
+        guard delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true else {
+            return
         }
         guard let back = backList.popLast() else {
             return
+        }
+        if let currentSearchQuery = currentSearchQuery {
+            forwardList.append(currentSearchQuery)
         }
         currentSearchQuery = back
         delegate?.backForwardControllerCurrentQueryChanged(self)
@@ -104,11 +108,14 @@ class BackForwardController: NSObject {
 
     @IBAction
     func goForward(_ sender: Any?) {
-        if let lastSearchTerm = currentSearchQuery {
-            backList.append(lastSearchTerm)
+        guard delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true else {
+            return
         }
         guard let forward = forwardList.popLast() else {
             return
+        }
+        if let lastSearchTerm = currentSearchQuery {
+            backList.append(lastSearchTerm)
         }
         currentSearchQuery = forward
         delegate?.backForwardControllerCurrentQueryChanged(self)
@@ -133,7 +140,7 @@ class BackForwardController: NSObject {
         }
     }
 
-    private func updateSegmentedControl() {
+    func updateSegmentedControl() {
         segmentedControl?.setEnabled(canGoBack,    forSegment: 0)
         segmentedControl?.setEnabled(canGoForward, forSegment: 1)
     }
