@@ -30,6 +30,20 @@ class DictionaryController: NSObject, NSSecureCoding {
         static func allRaw(_ results: [Result]) -> String {
             results.compactMap(\.raw).joined(separator: "\n\n")
         }
+
+        static func allRawStyled(_ results: [Result], font: NSFont) -> NSAttributedString {
+            results
+                .map { result in
+                    NSMutableAttributedString(string: result.input, attributes: [.font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask)]).then {
+                        $0.append(.init(string: "\n", attributes: [.font: font]))
+                        $0.append(.init(string: result.raw ?? "No result", attributes: [.font: font]))
+                    }
+                }
+                .reduce(into: NSMutableAttributedString()) { partialResult, styledDefinition in
+                    partialResult.append(styledDefinition)
+                    partialResult.append(.init(string: "\n\n"))
+                }
+        }
     }
 
     static let supportsSecureCoding = true
@@ -44,20 +58,20 @@ class DictionaryController: NSObject, NSSecureCoding {
 
     private var dictionary: Dictionary
 
-    internal init(dictionary: Dictionary = .shared,
+    internal init(dictionary: Dictionary = .init(),
                   direction: Dictionary.Direction) {
         self.dictionary = dictionary
         self.direction = direction
     }
 
     required init?(coder: NSCoder) {
-        dictionary = .shared
+        dictionary = .init()
         direction = Dictionary.Direction(rawValue: coder.decodeInteger(forKey: "direction")) ?? .latinToEnglish
     }
 
     // Required for storyboard initialization
     override init() {
-        dictionary = .shared
+        dictionary = .init()
         direction = .latinToEnglish
         super.init()
     }

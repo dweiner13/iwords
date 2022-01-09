@@ -87,16 +87,16 @@ class Dictionary {
 
         let outputFileHandle = outputPipe!.fileHandleForReading
 
-        var allData = Data()
         var tempData = Data()
         outputFileHandle.readabilityHandler = { [unowned self] fileHandle in
             let newData = fileHandle.availableData
-            allData += newData
             tempData += newData
             print("Process: \(newData.count) new bytes", String(data: newData, encoding: .utf8))
-            if String(data: allData.suffix(3), encoding: .utf8) == "\n=>" {
-                self.didGetResult(data: tempData)
-                tempData.removeAll()
+            if String(data: tempData.dropFirst(41).suffix(2), encoding: .utf8) == "=>" {
+                DispatchQueue.main.async {
+                    self.didGetResult(data: tempData.dropFirst(41))
+                    tempData.removeAll()
+                }
             }
         }
 //        outputFileHandle.waitForDataInBackgroundAndNotify()
@@ -150,6 +150,7 @@ class Dictionary {
 
         var str = String(data: data, encoding: .utf8)
 
+        str = str?.trimmingCharacters(in: .whitespacesAndNewlines)
         if str?.suffix(2) == "=>" {
             str = str.map { $0.dropLast(2) }.map(String.init(_:))
         }
@@ -157,47 +158,47 @@ class Dictionary {
 
         print("Process did get result data", str)
 
-        guard str != "Language changed to LATIN_TO_ENGLISH" &&
-              str != "Language changed to ENGLISH_TO_LATIN" &&
-              str != "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )" else {
-            print("Process ignoring because it's just langauge change")
-            return
-        }
-
         print("Process returning with result data")
 
-        continuation?.resume(returning: str)
-        continuation = nil
+        activeContinuation?.resume(returning: str)
+        activeContinuation = nil
     }
 
-    private var continuation: CheckedContinuation<String?, Never>?
+    private var activeContinuation: CheckedContinuation<String?, Never>?
 
-    func getDefinitions(_ inputs: [String], direction: Direction, options: Options) async -> [(String, String?)] {
+    func getDefinitions(_ inputs: [String], direction: Direction, options: Options) async throws -> [(String, String?)] {
         var results: [(String, String?)] = []
         for input in inputs {
             print("Process: getting results for \(input)")
-            results.append((input, await getDefinition(input, direction: direction, options: options)))
+            results.append((input, try await getDefinition(input, direction: direction, options: options)))
             print("Process: GOT RESULTS FOR \(input)")
         }
         return results
     }
 
-    func getDefinition(_ input: String, direction: Direction, options: Options) async -> String? {
-        func write(_ str: String) {
-            inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
-        }
+    private var queue: [(String, Direction, Options, CheckedContinuation<String?, Never>)] = []
 
-        switch direction {
-        case .latinToEnglish:
-            write("~L\n")
-        case .englishToLatin:
-            write("~E\n")
+    func getDefinition(_ input: String, direction: Direction, options: Options) async throws -> String? {
+        guard input.count > 1 else {
+            return nil
         }
-        write(input)
-        write("\n")
-
+        guard activeContinuation == nil else {
+            throw DWError(description: "Lookup already in progress")
+        }
         return await withCheckedContinuation { checkedContinuation in
-            self.continuation = checkedContinuation
+            func write(_ str: String) {
+                inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
+            }
+            switch direction {
+            case .latinToEnglish:
+                write("~L\n")
+            case .englishToLatin:
+                write("~E\n")
+            }
+            write(input)
+            write("\n")
+
+            self.activeContinuation = checkedContinuation
         }
     }
 }

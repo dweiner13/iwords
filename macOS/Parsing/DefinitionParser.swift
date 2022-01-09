@@ -1031,6 +1031,10 @@ enum ResultItem: Equatable, Codable, Identifiable {
 }
 
 func parse(_ str: String) -> ([ResultItem], Bool)? {
+    #if !DEBUG
+    return nil // Don't waste time parsing in release
+    #endif
+
     var results: [ResultItem] = []
     var lines = str
         .split(whereSeparator: \.isNewline)

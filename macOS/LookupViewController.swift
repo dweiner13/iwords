@@ -129,7 +129,10 @@ class LookupViewController: NSViewController {
     }
 
     func updateForResults(_ results: [DictionaryController.Result]) {
-        textView.string = DictionaryController.Result.allRaw(results)
+        if let textStorage = textView.textStorage {
+            textStorage.replaceCharacters(in: NSRange(location: 0, length: textStorage.length),
+                                          with: DictionaryController.Result.allRawStyled(results, font: AppDelegate.shared.font))
+        }
 
         definitionHostingView?.isHidden = true
         definitionHostingView?.removeFromSuperview()
