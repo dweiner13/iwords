@@ -24,7 +24,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eVQ-bF-YY4"/>
-                                        <menuItem title="Diagnostic Mode" id="zjB-TO-LRE">
+                                        <menuItem title="Diagnostic Mode (Debug)" id="zjB-TO-LRE">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="Kwj-Wj-vux">
@@ -35,7 +35,7 @@
                                                 <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Pretty Results" keyEquivalent="P" id="5Tp-V2-055">
+                                        <menuItem title="Pretty Results (Debug)" keyEquivalent="P" id="5Tp-V2-055">
                                             <connections>
                                                 <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="3sv-bK-3jM">
                                                     <dictionary key="options">
@@ -111,12 +111,12 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="EdA-Bx-xcI"/>
-                                        <menuItem title="Export Raw Results..." keyEquivalent="S" id="bYf-fa-jBW">
+                                        <menuItem title="Save As..." keyEquivalent="s" id="bYf-fa-jBW">
                                             <connections>
                                                 <action selector="exportRawResult:" target="Ady-hI-5gd" id="XHt-KT-0ta"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Export Results as JSON..." keyEquivalent="J" id="L9E-xW-M2L">
+                                        <menuItem title="Export Results as JSON...  (Debug)" keyEquivalent="J" id="L9E-xW-M2L">
                                             <connections>
                                                 <action selector="exportJSONResult:" target="Ady-hI-5gd" id="aZp-oe-5U3"/>
                                                 <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="WNC-8h-mJy">
