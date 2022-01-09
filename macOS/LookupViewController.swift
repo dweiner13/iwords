@@ -37,13 +37,14 @@ class LookupViewController: NSViewController {
                 context.duration = 0.2
                 loadingView.animator().isHidden = false
             }
-            textView.isEditable = false
+            textView.isSelectable = false
             progressIndicator.startAnimation(self)
         } else {
             NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.2
                 loadingView.animator().isHidden = true
             }
+            textView.isSelectable = true
             progressIndicator.stopAnimation(self)
         }
     }

@@ -22,10 +22,9 @@
 		37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFF262CC87C003D15E1 /* WindowRestoration.swift */; };
 		37852ACE278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */; };
 		37852AD0278B3EC500ACFFE6 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852ACF278B3EC500ACFFE6 /* LoadingView.swift */; };
-		37852AD2278B45ED00ACFFE6 /* Dictionary2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852AD1278B45ED00ACFFE6 /* Dictionary2.swift */; };
+		37852AD2278B45ED00ACFFE6 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852AD1278B45ED00ACFFE6 /* Dictionary.swift */; };
 		37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
-		37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1FD26222A8300A9E9EC /* Dictionary.swift */; };
 		37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D24626223BC100A9E9EC /* Main.storyboard */; };
 		37A4D24D26223D7A00A9E9EC /* LookupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */; };
 		37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D2512622401900A9E9EC /* AppDelegate.swift */; };
@@ -97,14 +96,13 @@
 		37679DFF262CC87C003D15E1 /* WindowRestoration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestoration.swift; sourceTree = "<group>"; };
 		37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeSegmentedControl.swift; sourceTree = "<group>"; };
 		37852ACF278B3EC500ACFFE6 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		37852AD1278B45ED00ACFFE6 /* Dictionary2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary2.swift; sourceTree = "<group>"; };
+		37852AD1278B45ED00ACFFE6 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookUpIntentHandler.swift; sourceTree = "<group>"; };
 		37A4D1A8262227E400A9E9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A4D1AD262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1B5262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A4D1B7262227E400A9E9EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37A4D1B8262227E400A9E9EC /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		37A4D1FD26222A8300A9E9EC /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		37A4D24626223BC100A9E9EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupViewController.swift; sourceTree = "<group>"; };
 		37A4D2512622401900A9E9EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -249,7 +247,6 @@
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
 				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
 				37A4D256262240D000A9E9EC /* LookupWindowController.swift */,
-				37A4D1FD26222A8300A9E9EC /* Dictionary.swift */,
 				37A4D1FC26222A7000A9E9EC /* WORDS */,
 				37679DFB262C779E003D15E1 /* HistoryController.swift */,
 				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
@@ -259,7 +256,7 @@
 				37126CE1278244B2009BB010 /* PerseusService.swift */,
 				37126CF3278A035B009BB010 /* DictionaryController.swift */,
 				37852ACF278B3EC500ACFFE6 /* LoadingView.swift */,
-				37852AD1278B45ED00ACFFE6 /* Dictionary2.swift */,
+				37852AD1278B45ED00ACFFE6 /* Dictionary.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -525,8 +522,7 @@
 				37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */,
 				37A4D24D26223D7A00A9E9EC /* LookupViewController.swift in Sources */,
 				37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */,
-				37852AD2278B45ED00ACFFE6 /* Dictionary2.swift in Sources */,
-				37A4D1FF26222B0700A9E9EC /* Dictionary.swift in Sources */,
+				37852AD2278B45ED00ACFFE6 /* Dictionary.swift in Sources */,
 				37126CF4278A035B009BB010 /* DictionaryController.swift in Sources */,
 				37852AD0278B3EC500ACFFE6 /* LoadingView.swift in Sources */,
 			);
