@@ -21,6 +21,8 @@ extension Dictionary.Direction {
 
 @available(macOS 12.0, *)
 class LookUpIntentHandler: NSObject, LookUpIntentHandling {
+    lazy var dictionaryController = DictionaryController(direction: .latinToEnglish)
+
     func handle(intent: LookUpIntent) async -> LookUpIntentResponse {
         guard let query = intent.query?.trimmingCharacters(in: .whitespacesAndNewlines),
               !query.isEmpty else {
@@ -32,11 +34,10 @@ class LookUpIntentHandler: NSObject, LookUpIntentHandling {
         }
 
         do {
-            let definition = try await Dictionary.shared.getDefinition(query,
-                                                                       direction: direction,
-                                                                       options: [])
+            dictionaryController.direction = direction
+            let results = try await dictionaryController.search(text: query)
             let response = LookUpIntentResponse(code: .success, userActivity: nil)
-            response.definition = definition
+            response.definition = DictionaryController.Result.allRaw(results)
             return response
         } catch let error as DWError {
             let response = LookUpIntentResponse(code: .success, userActivity: nil)

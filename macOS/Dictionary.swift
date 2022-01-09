@@ -55,10 +55,6 @@ class Dictionary {
         static let diagnosticMode = Options(rawValue: 1 << 0)
     }
 
-    // MARK: - Static vars
-
-    public static let shared = Dictionary()
-
     // MARK: - Private vars
 
     private lazy var executableURL: URL = {

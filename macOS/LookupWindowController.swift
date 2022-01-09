@@ -196,6 +196,7 @@ class LookupWindowController: NSWindowController {
         if urls.count > 1 && !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
             let alert = NSAlert()
             alert.messageText = "Are you sure you want to open \(urls.count) new tabs in your web browser?"
+            alert.informativeText = "\(urls.count) tabs to www.perseus.tufts.edu will be opened."
             alert.addButton(withTitle: "Open \(urls.count) Tabs")
             alert.addButton(withTitle: "Cancel")
             alert.showsSuppressionButton = true
