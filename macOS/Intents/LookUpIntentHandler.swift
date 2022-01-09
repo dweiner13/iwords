@@ -32,9 +32,9 @@ class LookUpIntentHandler: NSObject, LookUpIntentHandling {
         }
 
         do {
-            let definition = try Dictionary.shared.getDefinition(query,
-                                                                 direction: direction,
-                                                                 options: [])
+            let definition = try await Dictionary.shared.getDefinition(query,
+                                                                       direction: direction,
+                                                                       options: [])
             let response = LookUpIntentResponse(code: .success, userActivity: nil)
             response.definition = definition
             return response

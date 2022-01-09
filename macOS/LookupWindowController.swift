@@ -302,11 +302,15 @@ class LookupWindowController: NSWindowController {
     }
 
     private func search(_ query: SearchQuery) {
-        do {
-            let results = try dictionaryController.search(text: query.searchText)
-            lookupViewController.results = results
-        } catch {
-            self.presentError(error)
+        Task(priority: .userInitiated) {
+            do {
+                lookupViewController.setLoading(true)
+                let results = try await dictionaryController.search(text: query.searchText)
+                lookupViewController.results = results
+                lookupViewController.setLoading(false)
+            } catch {
+                self.presentError(error)
+            }
         }
     }
 

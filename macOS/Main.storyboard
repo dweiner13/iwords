@@ -610,15 +610,30 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-3S-c0A" customClass="LoadingView" customModule="iWords" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
+                            </customView>
+                            <progressIndicator maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="J4T-Fr-Sd5">
+                                <rect key="frame" x="202" y="186" width="32" height="32"/>
+                            </progressIndicator>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="aeF-3S-c0A" secondAttribute="trailing" id="8MV-wU-gwa"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="9vM-Xs-u3T"/>
+                            <constraint firstItem="aeF-3S-c0A" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="KCn-iG-8Iw"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="SfU-VI-8sz"/>
+                            <constraint firstItem="J4T-Fr-Sd5" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="Yqz-hg-OGS"/>
+                            <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="aju-ed-dYN"/>
                             <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="eOu-Yp-T3G"/>
                             <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="v0J-go-CBZ"/>
+                            <constraint firstItem="J4T-Fr-Sd5" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="yA1-gT-gbQ"/>
+                            <constraint firstAttribute="bottom" secondItem="aeF-3S-c0A" secondAttribute="bottom" id="z0p-AZ-Pkc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loadingView" destination="aeF-3S-c0A" id="ShM-qs-hsd"/>
+                        <outlet property="progressIndicator" destination="J4T-Fr-Sd5" id="3bC-c9-yia"/>
+                        <outlet property="scrollView" destination="Czz-wX-hvt" id="bFk-Ow-tpL"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                     </connections>
                 </viewController>

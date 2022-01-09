@@ -67,11 +67,13 @@ class DictionaryController: NSObject, NSSecureCoding {
     }
 
     /// - throws: DWError
-    func search(text: String) throws -> [Result] {
+    func search(text: String) async throws -> [Result] {
         let split = text
             .split(whereSeparator: \.isWhitespace)
             .map(String.init(_:))
-        let dictionaryResults = try dictionary.getDefinitions(split, direction: direction, options: UserDefaults.standard.dictionaryOptions)
+        let dictionaryResults = try await dictionary.getDefinitions(split,
+                                                                    direction: direction,
+                                                                    options: UserDefaults.standard.dictionaryOptions)
 
         let parsedResults: [[ResultItem]?] = dictionaryResults
             .map(\.1)

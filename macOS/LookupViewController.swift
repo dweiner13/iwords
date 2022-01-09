@@ -15,11 +15,36 @@ enum ResultDisplayMode: Int {
 class LookupViewController: NSViewController {
 
     @IBOutlet
-    var textView: NSTextView!
+    weak var textView: NSTextView!
+
+    @IBOutlet
+    weak var scrollView: NSScrollView!
+
+    @IBOutlet weak var loadingView: LoadingView!
 
     var results: [DictionaryController.Result]? {
         didSet {
             results.map(updateForResults)
+        }
+    }
+
+    @IBOutlet
+    weak var progressIndicator: NSProgressIndicator!
+
+    func setLoading(_ loading: Bool) {
+        if loading {
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.2
+                loadingView.animator().isHidden = false
+            }
+            textView.isEditable = false
+            progressIndicator.startAnimation(self)
+        } else {
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.2
+                loadingView.animator().isHidden = true
+            }
+            progressIndicator.stopAnimation(self)
         }
     }
 

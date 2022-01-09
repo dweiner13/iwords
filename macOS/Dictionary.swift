@@ -69,15 +69,23 @@ class Dictionary {
         return url.deletingLastPathComponent()
     }()
 
-    func getDefinitions(_ search: [String], direction: Direction, options: Options) throws -> [(String, String?)] {
-        try search
-            .map {
-                try ($0, getDefinition($0, direction: direction, options: options))
-            }
+    func getDefinitions(_ terms: [String], direction: Direction, options: Options) async throws -> [(String, String?)] {
+        var result: [(String, String?)] = []
+        #if DEBUG
+        let start = CFAbsoluteTimeGetCurrent()
+        #endif
+        for term in terms {
+            result.append(try await (term, getDefinition(term, direction: direction, options: options)))
+        }
+        #if DEBUG
+        let durationMS = (CFAbsoluteTimeGetCurrent() - start) * 1000
+        print("Query took \(durationMS) ms")
+        #endif
+        return result
     }
 
     /// - Throws: `DWError`
-    func getDefinition(_ search: String, direction: Direction, options: Options) throws -> String? {
+    func getDefinition(_ search: String, direction: Direction, options: Options) async throws -> String? {
         var arguments: [String] = []
         // Add language control argument
         if direction == .englishToLatin {
@@ -93,7 +101,7 @@ class Dictionary {
 
         if .diagnosticMode ~= options {
             let start = CFAbsoluteTimeGetCurrent()
-            let output = try runProcess(executablePath, arguments: arguments)
+            let output = try await runProcess(executablePath, arguments: arguments)
             let durationMS = (CFAbsoluteTimeGetCurrent() - start) * 1000
             return output + """
             \n\n\n\n
@@ -103,7 +111,7 @@ class Dictionary {
             \(output)
             """
         } else {
-            return try runProcess(executablePath, arguments: arguments)
+            return try await runProcess(executablePath, arguments: arguments)
         }
     }
 
@@ -117,40 +125,42 @@ class Dictionary {
         _ launchPath: String,
         arguments: [String] = [],
         stdin: String? = nil
-    ) throws -> String {
-        let p = Process()
-        p.currentDirectoryURL = workingDir
-        p.launchPath = launchPath
-        p.arguments = arguments
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        p.standardOutput = outputPipe
-        p.standardError = errorPipe
+    ) async throws -> String {
+        try await withCheckedThrowingContinuation { continuation in
+            let p = Process()
+            p.currentDirectoryURL = workingDir
+            p.launchPath = launchPath
+            p.arguments = arguments
+            let outputPipe = Pipe()
+            let errorPipe = Pipe()
+            p.standardOutput = outputPipe
+            p.standardError = errorPipe
 
-        if let stdin = stdin {
-            let pipe = Pipe()
-            pipe.fileHandleForWriting.write(stdin.data(using: .utf8) ?? Data())
-            p.standardInput = pipe
-        }
+            if let stdin = stdin {
+                let pipe = Pipe()
+                pipe.fileHandleForWriting.write(stdin.data(using: .utf8) ?? Data())
+                p.standardInput = pipe
+            }
 
-        p.launch()
+            p.terminationHandler = { process in
+                let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+                let output = String(decoding: outputData, as: UTF8.self)
 
-        p.waitUntilExit()
+                let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+                let error = String(decoding: errorData, as: UTF8.self)
 
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(decoding: outputData, as: UTF8.self)
+                if p.terminationStatus != 0 {
+                    continuation.resume(with: .failure(DWError(description: "Program failed with exit code \(p.terminationStatus)")))
+                }
 
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-        let error = String(decoding: errorData, as: UTF8.self)
+                if error.count > 0 {
+                    continuation.resume(with: .failure(DWError(description: error)))
+                } else {
+                    continuation.resume(with: .success(output))
+                }
+            }
 
-        if p.terminationStatus != 0 {
-            throw DWError(description: "Program failed with exit code \(p.terminationStatus)")
-        }
-
-        if error.count > 0 {
-            throw DWError(description: error)
-        } else {
-            return output
+            p.launch()
         }
     }
 }
