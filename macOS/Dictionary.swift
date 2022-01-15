@@ -104,12 +104,14 @@ class Dictionary {
         let totalCount = Double(inputs.count)
         var completedCount: Double = 0
         for input in inputs {
+            print("Looking up \"\(input)\"")
             results.append((input, try await getDefinition(input, direction: direction, options: options)))
             completedCount += 1
             let progress = completedCount / totalCount
             DispatchQueue.main.async {
                 self.delegate?.dictionary(self, progressChangedTo: progress)
             }
+            print("Got result for \"\(input)\"")
         }
         return results
     }
@@ -146,6 +148,10 @@ class Dictionary {
         let newData = fileHandle.availableData
         tempData += newData
 
+        #if DEBUG
+        print("New data available:", String(data: tempData, encoding: .utf8))
+        #endif
+
         // Always prefix of an English-to-Latin result
         let englishToLatinPrefix = "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )\n\n=>"
         // Always prefix of a Latin-to-English result
@@ -157,14 +163,14 @@ class Dictionary {
 
         if string.hasPrefix(englishToLatinPrefix),
            case let trimmed = string.dropFirst(englishToLatinPrefix.count),
-           trimmed.hasSuffix("\n\n=>") {
+           trimmed.hasSuffix("\n=>") {
             DispatchQueue.main.async {
                 self.handleDefinitionResult(String(trimmed))
                 self.tempData.removeAll()
             }
         } else if string.hasPrefix(latinToEnglishPrefix),
                   case let trimmed = string.dropFirst(latinToEnglishPrefix.count),
-                  trimmed.hasSuffix("\n\n=>") {
+                  trimmed.hasSuffix("\n=>") {
             DispatchQueue.main.async {
                 self.handleDefinitionResult(String(trimmed))
                 self.tempData.removeAll()
@@ -178,6 +184,10 @@ class Dictionary {
     }
 
     private func handleDefinitionResult(_ str: String) {
+        #if DEBUG
+        print("handleDefinitionResult(\"\(str)\")")
+        #endif
+
         var str = str
         str = str.trimmingCharacters(in: .whitespacesAndNewlines)
         if str.suffix(2) == "=>" {
