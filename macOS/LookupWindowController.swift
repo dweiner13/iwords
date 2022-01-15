@@ -202,9 +202,15 @@ class LookupWindowController: NSWindowController {
 
     @IBAction
     func lookUpInPerseus(_ sender: Any?) {
-        guard let searchText = backForwardController.currentSearchQuery?.searchText else {
-            return
-        }
+        let searchText: String? = {
+            if let menuItemSender = sender as? NSMenuItem {
+                return menuItemSender.representedObject as? String
+            } else {
+                return backForwardController.currentSearchQuery?.searchText
+            }
+        }()
+
+        guard let searchText = searchText else { return }
 
         let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: searchText)
 
@@ -336,7 +342,7 @@ class LookupWindowController: NSWindowController {
         self.window?.tab.title = searchQuery.displaySearchText()
 
         dictionaryController.direction = searchQuery.direction
-        search(searchQuery)
+        _search(searchQuery)
         if updateHistoryLists {
             HistoryController.shared.recordVisit(to: searchQuery)
         }
@@ -352,14 +358,31 @@ class LookupWindowController: NSWindowController {
     }
 
     @IBAction
-    private func searchFieldAction(_ field: NSSearchField) {
-        guard let sanitized = sanitize(searchFieldValue: field.stringValue) else {
+    func search(_ sender: Any?) {
+        let searchText: String? = {
+            if let sender = sender as? NSSearchField {
+                return sender.stringValue
+            } else if let sender = sender as? NSMenuItem {
+                return sender.representedObject as? String
+            } else { return nil }
+        }()
+
+        let direction: Dictionary.Direction? = {
+            if let sender = sender as? NSMenuItem {
+                return Dictionary.Direction(rawValue: sender.tag)
+            } else { return nil }
+        }()
+
+        let isAlternateNavigation = sender is NSMenuItem && NSApp.currentEventModifierFlags.contains(.shift)
+
+        guard let searchText = searchText,
+              let sanitized = sanitize(searchFieldValue: searchText) else {
             return
         }
 
-        let query = SearchQuery(sanitized, dictionaryController.direction)
+        let query = SearchQuery(sanitized, direction ?? dictionaryController.direction)
 
-        setSearchQuery(query, withAlternativeNavigation: false)
+        setSearchQuery(query, withAlternativeNavigation: isAlternateNavigation)
     }
 
     private func sanitize(searchFieldValue: String) -> String? {
@@ -382,7 +405,7 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    private func search(_ query: SearchQuery) {
+    private func _search(_ query: SearchQuery) {
         Task(priority: .userInitiated) { [weak self] in
             guard let self = self else {
                 return

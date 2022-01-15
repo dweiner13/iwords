@@ -117,7 +117,7 @@ extension HistoryController: NSMenuDelegate, NSMenuItemValidation {
         let historyItem = history.reversed()[historyItemIndex]
         delegate?.historyController(self,
                                     didSelectHistoryItem: historyItem,
-                                    withAlternativeNavigation: NSApp.currentEvent?.modifierFlags.contains(.shift) ?? false)
+                                    withAlternativeNavigation: NSApp.currentEventModifierFlags.contains(.shift) ?? false)
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {

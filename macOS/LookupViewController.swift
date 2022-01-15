@@ -98,6 +98,7 @@ class LookupViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.textContainerInset = NSSize(width: 8, height: 12)
+        textView.delegate = self
         setHelpText()
 
         #if DEBUG
@@ -180,58 +181,6 @@ class LookupViewController: NSViewController {
         updateForMode()
     }
 
-    @objc
-    func printDocument(_ sender: Any) {
-        let printInfo = NSPrintInfo.shared
-        printInfo.verticalPagination = .automatic
-        printInfo.horizontalPagination = .fit
-        printInfo.isHorizontallyCentered = false
-        printInfo.isVerticallyCentered = false
-
-        let printView: NSView
-        let width = printInfo.imageablePageBounds.width
-        switch mode {
-        case .pretty:
-            guard #available(macOS 11.0, *) else {
-                fallthrough
-            }
-            let parsedResults = results?.compactMap(\.parsed).flatMap { $0 }
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (parsedResults ?? [], false)))
-            hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
-            printView = hostingView
-        case .raw:
-            let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
-            results 
-                .map {
-                    DictionaryController.Result.allRawStyled($0, font: AppDelegate.shared.font)
-                }
-                .map {
-                    textView.textStorage?.append($0)
-                }
-
-            textView.frame.size.height = textView.intrinsicContentSize.height
-            printView = textView
-        }
-
-        let op = NSPrintOperation(view: printView, printInfo: printInfo)
-        op.canSpawnSeparateThread = true
-        op.run()
-    }
-
-    @objc
-    func runPageLayout(_ sender: Any) {
-        NSPageLayout().runModal()
-    }
-
-    override func responds(to aSelector: Selector!) -> Bool {
-        switch aSelector {
-        case #selector(printDocument(_:)):
-            return results?.isEmpty == false
-        default:
-            return super.responds(to: aSelector)
-        }
-    }
-
     private func setHelpText() {
         func helpText() -> NSAttributedString {
             let str = NSMutableAttributedString(string: "Welcome to iWords, a Latin dictionary. Search a word to get started.\n", attributes: [.font: AppDelegate.shared.font])
@@ -265,5 +214,95 @@ class LookupViewController: NSViewController {
         if let textStorage = textView.textStorage {
             textStorage.setAttributedString(helpText())
         }
+    }
+}
+
+// MARK: - Printing
+
+extension LookupViewController {
+    @objc
+    func printDocument(_ sender: Any) {
+        let printInfo = NSPrintInfo.shared
+        printInfo.verticalPagination = .automatic
+        printInfo.horizontalPagination = .fit
+        printInfo.isHorizontallyCentered = false
+        printInfo.isVerticallyCentered = false
+
+        let printView: NSView
+        let width = printInfo.imageablePageBounds.width
+        switch mode {
+        case .pretty:
+            guard #available(macOS 11.0, *) else {
+                fallthrough
+            }
+            let parsedResults = results?.compactMap(\.parsed).flatMap { $0 }
+            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (parsedResults ?? [], false)))
+            hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
+            printView = hostingView
+        case .raw:
+            let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
+            results
+                .map {
+                    DictionaryController.Result.allRawStyled($0, font: AppDelegate.shared.font)
+                }
+                .map {
+                    textView.textStorage?.append($0)
+                }
+
+            textView.frame.size.height = textView.intrinsicContentSize.height
+            printView = textView
+        }
+
+        let op = NSPrintOperation(view: printView, printInfo: printInfo)
+        op.canSpawnSeparateThread = true
+        op.run()
+    }
+
+    @objc
+    func runPageLayout(_ sender: Any) {
+        NSPageLayout().runModal()
+    }
+
+    override func responds(to aSelector: Selector!) -> Bool {
+        switch aSelector {
+        case #selector(printDocument(_:)):
+            return results?.isEmpty == false
+        default:
+            return super.responds(to: aSelector)
+        }
+    }
+}
+
+// MARK: - NSTextViewDelegate
+
+extension LookupViewController: NSTextViewDelegate {
+    func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
+        guard !selectedText().trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return menu
+        }
+        menu.insertItem(NSMenuItem(title: "Look Up (Latin → English)",
+                                   action: #selector(LookupWindowController.search(_:)),
+                                   keyEquivalent: "").then { $0.tag = Dictionary.Direction.latinToEnglish.rawValue; $0.representedObject = selectedText() },
+                        at: 0)
+        menu.insertItem(NSMenuItem(title: "Look Up (English → Latin)",
+                                   action: #selector(LookupWindowController.search(_:)),
+                                   keyEquivalent: "").then { $0.tag = Dictionary.Direction.englishToLatin.rawValue; $0.representedObject = selectedText() },
+                        at: 1)
+        menu.insertItem(NSMenuItem(title: "Look Up in Perseus",
+                                   action: #selector(LookupWindowController.lookUpInPerseus(_:)),
+                                   keyEquivalent: "").then { $0.representedObject = selectedText() },
+                        at: 2)
+        menu.insertItem(NSMenuItem.separator(),
+                        at: 3)
+        return menu
+    }
+
+    private func selectedText() -> String {
+        let range = textView.selectedRange()
+        guard let substring = textView.textStorage?.attributedSubstring(from: range),
+              substring.length > 0 else {
+            return ""
+        }
+        return substring.string
     }
 }

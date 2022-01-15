@@ -471,7 +471,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </searchFieldCell>
                                         <connections>
-                                            <action selector="searchFieldAction:" target="B8D-0N-5wS" id="35O-Zl-k1m"/>
+                                            <action selector="search:" target="B8D-0N-5wS" id="reL-Gf-yw4"/>
                                         </connections>
                                     </searchField>
                                 </searchToolbarItem>
