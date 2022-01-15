@@ -19,6 +19,11 @@ struct DWError: LocalizedError, Identifiable {
     }
 }
 
+protocol DictionaryDelegate: AnyObject {
+    /// - note: 0 <= progress <= 1
+    func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double)
+}
+
 class Dictionary {
 
     // MARK: - Types
@@ -54,6 +59,8 @@ class Dictionary {
         let rawValue: Int
         static let diagnosticMode = Options(rawValue: 1 << 0)
     }
+
+    weak var delegate: DictionaryDelegate?
 
     // MARK: - Private vars
 
@@ -94,8 +101,15 @@ class Dictionary {
 
     func getDefinitions(_ inputs: [String], direction: Direction, options: Options) async throws -> [(String, String?)] {
         var results: [(String, String?)] = []
+        let totalCount = Double(inputs.count)
+        var completedCount: Double = 0
         for input in inputs {
             results.append((input, try await getDefinition(input, direction: direction, options: options)))
+            completedCount += 1
+            let progress = completedCount / totalCount
+            DispatchQueue.main.async {
+                self.delegate?.dictionary(self, progressChangedTo: progress)
+            }
         }
         return results
     }

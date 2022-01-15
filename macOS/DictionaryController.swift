@@ -7,7 +7,7 @@
 
 import Cocoa
 
-protocol DictionaryControllerDelegate: AnyObject {
+protocol DictionaryControllerDelegate: DictionaryDelegate {
     func dictionaryController(_ controller: DictionaryController,
                               didChangeDirectionTo direction: Dictionary.Direction)
 }
@@ -67,11 +67,15 @@ class DictionaryController: NSObject, NSSecureCoding {
                   direction: Dictionary.Direction) {
         self.dictionary = dictionary
         self.direction = direction
+        super.init()
+        dictionary.delegate = self
     }
 
     required init?(coder: NSCoder) {
         dictionary = Dictionary()
         direction = Dictionary.Direction(rawValue: coder.decodeInteger(forKey: "direction")) ?? .latinToEnglish
+        super.init()
+        dictionary.delegate = self
     }
 
     // Required for storyboard initialization
@@ -79,6 +83,7 @@ class DictionaryController: NSObject, NSSecureCoding {
         dictionary = Dictionary()
         direction = .latinToEnglish
         super.init()
+        dictionary.delegate = self
     }
 
     func encode(with coder: NSCoder) {
@@ -109,5 +114,11 @@ class DictionaryController: NSObject, NSSecureCoding {
             .map { (dictionaryResult, parsedResult) -> Result in
                 Result(input: dictionaryResult.0, raw: dictionaryResult.1, parsed: parsedResult)
             }
+    }
+}
+
+extension DictionaryController: DictionaryDelegate {
+    func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
+        delegate?.dictionary(dictionary, progressChangedTo: progress)
     }
 }

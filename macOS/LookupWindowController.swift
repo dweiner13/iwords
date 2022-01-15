@@ -500,6 +500,10 @@ extension LookupWindowController: BackForwardDelegate {
 }
 
 extension LookupWindowController: DictionaryControllerDelegate {
+    func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
+        lookupViewController.progressIndicator.doubleValue = progress * 100
+    }
+
     func dictionaryController(_ controller: DictionaryController,
                               didChangeDirectionTo direction: Dictionary.Direction) {
         AppDelegate.shared?.updateDirectionItemsState()
