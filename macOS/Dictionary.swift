@@ -217,7 +217,9 @@ class Dictionary {
 
         let outputFileHandle = outputPipe!.fileHandleForReading
 
-        outputFileHandle.readabilityHandler = handleNewData(from:)
+        outputFileHandle.readabilityHandler = { [weak self] fh in
+            self?.handleNewData(from: fh)
+        }
 
         process = p
 

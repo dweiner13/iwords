@@ -367,8 +367,8 @@ class LookupWindowController: NSWindowController {
 
     private var isLoading = false {
         didSet {
-            backForwardController.updateSegmentedControl()
-            lookupViewController.setLoading(isLoading)
+            backForwardController?.updateSegmentedControl()
+            lookupViewController?.setLoading(isLoading)
             window?.tab.accessoryView = isLoading ? NSProgressIndicator().then {
                 $0.controlSize = .small
                 $0.isIndeterminate = true
@@ -379,12 +379,15 @@ class LookupWindowController: NSWindowController {
     }
 
     private func search(_ query: SearchQuery) {
-        Task(priority: .userInitiated) {
+        Task(priority: .userInitiated) { [weak self] in
+            guard let self = self else {
+                return
+            }
             do {
-                isLoading = true
-                let results = try await dictionaryController.search(text: query.searchText)
-                lookupViewController.results = results
-                isLoading = false
+                self.isLoading = true
+                let results = try await self.dictionaryController.search(text: query.searchText)
+                self.lookupViewController.results = results
+                self.isLoading = false
             } catch {
                 self.presentError(error)
             }
