@@ -171,15 +171,23 @@ class LookupWindowController: NSWindowController {
         super.restoreState(with: coder)
     }
 
-    public func setSearchQuery(_ searchQuery: SearchQuery) {
-        guard searchQuery != backForwardController.currentSearchQuery else {
-            print("Ignoring redundant search query \(searchQuery)")
-            return
-        }
+    public func setSearchQuery(_ searchQuery: SearchQuery, withAlternativeNavigation alt: Bool) {
+        if alt {
+            let controller = Self.newController()
+            controller._setSearchQuery(searchQuery,
+                                       updateHistoryLists: true,
+                                       updateBackForward: true)
+            controller.window?.makeKeyAndOrderFront(self)
+        } else {
+            guard searchQuery != backForwardController.currentSearchQuery else {
+                print("Ignoring redundant search query \(searchQuery)")
+                return
+            }
 
-        self._setSearchQuery(searchQuery,
-                             updateHistoryLists: true,
-                             updateBackForward: true)
+            self._setSearchQuery(searchQuery,
+                                 updateHistoryLists: true,
+                                 updateBackForward: true)
+        }
     }
 
     func windowWillClose(_ notification: Notification) {
@@ -347,7 +355,7 @@ class LookupWindowController: NSWindowController {
 
         let query = SearchQuery(sanitized, dictionaryController.direction)
 
-        setSearchQuery(query)
+        setSearchQuery(query, withAlternativeNavigation: false)
     }
 
     private func sanitize(searchFieldValue: String) -> String? {
@@ -490,7 +498,7 @@ extension LookupWindowController: BackForwardDelegate {
     }
 
     func backForwardController(_ controller: BackForwardController,
-                               alernateNavigationToDisplayQuery query: SearchQuery) {
+                               performAlternateNavigationToDisplayQuery query: SearchQuery) {
         let controller = Self.newController()
         controller._setSearchQuery(query,
                                    updateHistoryLists: false,

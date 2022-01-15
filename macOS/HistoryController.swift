@@ -17,7 +17,8 @@ extension NSUserInterfaceItemIdentifier {
 protocol HistoryDelegate {
     func historyController(
         _ historyController: HistoryController,
-        didSelectHistoryItem query: SearchQuery
+        didSelectHistoryItem query: SearchQuery,
+        withAlternativeNavigation alt: Bool
     )
 }
 
@@ -114,7 +115,9 @@ extension HistoryController: NSMenuDelegate, NSMenuItemValidation {
     private func historyMenuItemSelected(_ sender: NSMenuItem) {
         let historyItemIndex = sender.tag
         let historyItem = history.reversed()[historyItemIndex]
-        delegate?.historyController(self, didSelectHistoryItem: historyItem)
+        delegate?.historyController(self,
+                                    didSelectHistoryItem: historyItem,
+                                    withAlternativeNavigation: NSApp.currentEvent?.modifierFlags.contains(.shift) ?? false)
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {

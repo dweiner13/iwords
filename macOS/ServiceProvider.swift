@@ -29,7 +29,7 @@ class ServiceProvider: NSObject {
         }
 
         let query = SearchQuery(sanitized(query: text), direction)
-        windowController.setSearchQuery(query)
+        windowController.setSearchQuery(query, withAlternativeNavigation: false)
     }
 
     @objc

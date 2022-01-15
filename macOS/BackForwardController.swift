@@ -11,7 +11,7 @@ import Cocoa
 protocol BackForwardDelegate: AnyObject {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController)
     func backForwardControllerShouldChangeCurrentQuery(_ controller: BackForwardController) -> Bool
-    func backForwardController(_ controller: BackForwardController, alernateNavigationToDisplayQuery query: SearchQuery)
+    func backForwardController(_ controller: BackForwardController, performAlternateNavigationToDisplayQuery query: SearchQuery)
 }
 
 private extension NSUserInterfaceItemIdentifier {
@@ -109,7 +109,7 @@ class BackForwardController: NSObject {
            currentEvent.modifierFlags.contains(.shift),
             let delegate = delegate,
             let backItem = backItem {
-            delegate.backForwardController(self, alernateNavigationToDisplayQuery: backItem)
+            delegate.backForwardController(self, performAlternateNavigationToDisplayQuery: backItem)
             return
         }
         guard let back = backList.popLast() else {
@@ -133,7 +133,7 @@ class BackForwardController: NSObject {
            currentEvent.modifierFlags.contains(.shift),
             let delegate = delegate,
             let forwardItem = forwardItem {
-            delegate.backForwardController(self, alernateNavigationToDisplayQuery: forwardItem)
+            delegate.backForwardController(self, performAlternateNavigationToDisplayQuery: forwardItem)
             return
         }
         guard let forward = forwardList.popLast() else {

@@ -261,7 +261,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
 extension AppDelegate: HistoryDelegate {
     func historyController(_ historyController: HistoryController,
-                           didSelectHistoryItem query: SearchQuery) {
-        keyWindowController()?.setSearchQuery(query)
+                           didSelectHistoryItem query: SearchQuery,
+                           withAlternativeNavigation alt: Bool) {
+        if alt {
+            keyWindowController()?.setSearchQuery(query, withAlternativeNavigation: true)
+        } else {
+            keyWindowController()?.setSearchQuery(query, withAlternativeNavigation: false)
+        }
     }
 }
