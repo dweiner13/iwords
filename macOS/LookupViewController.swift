@@ -22,30 +22,44 @@ class LookupViewController: NSViewController {
 
     @IBOutlet weak var loadingView: LoadingView!
 
+    @IBOutlet weak var welcomeView: NSView!
+
     var results: [DictionaryController.Result]? {
         didSet {
             results.map(updateForResults)
+            updateWelcomeViewVisibility()
         }
+    }
+
+    var isLoading = false {
+        didSet {
+            updateWelcomeViewVisibility()
+            textView.isSelectable = !isLoading
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.2
+                loadingView.animator().isHidden = !isLoading
+            }
+        }
+    }
+
+    func updateWelcomeViewVisibility() {
+        welcomeView.isHidden = results != nil || isLoading
     }
 
     @IBOutlet
     weak var progressIndicator: NSProgressIndicator!
 
-    func setLoading(_ loading: Bool) {
-        if loading {
-            NSAnimationContext.runAnimationGroup { context in
-                context.duration = 0.2
-                loadingView.animator().isHidden = false
-            }
-            textView.isSelectable = false
-            progressIndicator.startAnimation(self)
-        } else {
-            NSAnimationContext.runAnimationGroup { context in
-                context.duration = 0.2
-                loadingView.animator().isHidden = true
-            }
-            textView.isSelectable = true
-            progressIndicator.stopAnimation(self)
+    weak var searchBar: SearchBarViewController?
+
+    var backForwardController: BackForwardController! {
+        didSet {
+            searchBar?.backForwardController = backForwardController
+        }
+    }
+
+    @IBSegueAction func searchBar(_ coder: NSCoder, sender: Any?) -> SearchBarViewController? {
+        SearchBarViewController(coder: coder)?.then {
+            self.searchBar = $0
         }
     }
 
@@ -95,11 +109,15 @@ class LookupViewController: NSViewController {
         super.init(coder: coder)
     }
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // do nothing
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.textContainerInset = NSSize(width: 8, height: 12)
         textView.delegate = self
-        setHelpText()
 
         #if DEBUG
         startListeningToUserDefaults()
@@ -154,6 +172,11 @@ class LookupViewController: NSViewController {
             ])
             definitionHostingView = hostingView
         }
+
+        DispatchQueue.main.async {
+            self.scrollView.flashScrollers()
+        }
+
         invalidateRestorableState()
     }
 
@@ -172,8 +195,6 @@ class LookupViewController: NSViewController {
     func fontChanged() {
         if let results = results {
             updateForResults(results)
-        } else {
-            setHelpText()
         }
     }
 
@@ -181,38 +202,16 @@ class LookupViewController: NSViewController {
         updateForMode()
     }
 
-    private func setHelpText() {
-        func helpText() -> NSAttributedString {
-            let str = NSMutableAttributedString(string: "Welcome to iWords, a Latin dictionary. Search a word to get started.\n", attributes: [.font: AppDelegate.shared.font])
-            str.append(NSAttributedString(string: """
+    override func viewDidLayout() {
+        super.viewDidLayout()
 
-                                                 *
-                                                 """ + " ",
-                                          attributes: [
-                                            .font: AppDelegate.shared.font,
-                                            .foregroundColor: NSColor.labelColor]))
-            str.append(NSAttributedString(string: "View help",
-                                          attributes: [
-                                            .link: URL(string: "iwords:help")!,
-                                            .font: AppDelegate.shared.font,
-                                            .foregroundColor: NSColor.labelColor]))
-            str.append(NSAttributedString(string: """
-
-                                                 *
-                                                 """ + " ",
-                                          attributes: [
-                                            .font: AppDelegate.shared.font,
-                                            .foregroundColor: NSColor.labelColor]))
-            str.append(NSAttributedString(string: "Send feedback",
-                                          attributes: [
-                                            .link: URL(string: "iwords:feedback")!,
-                                            .font: AppDelegate.shared.font,
-                                            .foregroundColor: NSColor.labelColor]))
-            return str
+        guard let searchBar = searchBar else {
+            return
         }
 
-        if let textStorage = textView.textStorage {
-            textStorage.setAttributedString(helpText())
+        let searchBarHeight = searchBar.view.frame.height
+        if #available(macOS 11.0, *) {
+            scrollView.additionalSafeAreaInsets = NSEdgeInsets(top: searchBarHeight, left: 0, bottom: 0, right: 0)
         }
     }
 }
@@ -304,5 +303,26 @@ extension LookupViewController: NSTextViewDelegate {
             return ""
         }
         return substring.string
+    }
+}
+
+// MARK: - NSSplitViewDelegate
+
+extension LookupViewController: NSSplitViewDelegate {
+    func splitView(_ splitView: NSSplitView,
+                   constrainMinCoordinate proposedMinimumPosition: CGFloat,
+                   ofSubviewAt dividerIndex: Int) -> CGFloat {
+        38
+    }
+
+    func splitView(_ splitView: NSSplitView,
+                   constrainSplitPosition proposedPosition: CGFloat,
+                   ofSubviewAt dividerIndex: Int) -> CGFloat {
+        let allowedPositions = (0..<6).map {
+            CGFloat($0) * 17 + 38
+        }
+        return allowedPositions.min { lhs, rhs in
+            abs(lhs - proposedPosition) < abs(rhs - proposedPosition)
+        } ?? proposedPosition
     }
 }

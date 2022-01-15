@@ -22,10 +22,11 @@ private extension NSUserInterfaceItemIdentifier {
 }
 
 
-class BackForwardController: NSObject {
+class BackForwardController: NSObject, ObservableObject {
 
     /// Current search query
-    internal private(set) var currentSearchQuery: SearchQuery?
+    @Published
+    private(set) var currentSearchQuery: SearchQuery?
 
     @IBOutlet
     weak var delegate: BackForwardDelegate?

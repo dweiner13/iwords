@@ -28,7 +28,7 @@ class Dictionary {
 
     // MARK: - Types
 
-    enum Direction: Int, CustomStringConvertible, CustomDebugStringConvertible, Codable {
+    enum Direction: Int, CustomStringConvertible, CustomDebugStringConvertible, Codable, CaseIterable {
         // Do not change. Reflected in tags in interface builder.
         case latinToEnglish = 0
         case englishToLatin = 1

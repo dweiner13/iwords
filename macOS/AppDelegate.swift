@@ -148,7 +148,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         UserDefaults.standard.register(defaults: [
             "diagnosticMode": false,
             "history": [],
-            "prettyResults": false
+            "prettyResults": false,
+            "searchBarGrowsToFitContent": true,
+            "copySearchToNewWindows": false
         ])
     }
 
@@ -167,7 +169,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction
     func newWindow(_ sender: Any?) {
-        LookupWindowController.newController(copying: keyWindowController())
+        LookupWindowController.newController(copying: UserDefaults.standard.bool(forKey: "copySearchToNewWindows") ? keyWindowController() : nil)
             .window
             .map(showNewWindow(_:))
     }

@@ -76,6 +76,10 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-NSAnimationSlowMotionOnShift YES"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-prettyResults 1"
             isEnabled = "NO">
          </CommandLineArgument>

@@ -7,14 +7,11 @@
 
 import Cocoa
 
-protocol DictionaryControllerDelegate: DictionaryDelegate {
-    func dictionaryController(_ controller: DictionaryController,
-                              didChangeDirectionTo direction: Dictionary.Direction)
-}
+protocol DictionaryControllerDelegate: DictionaryDelegate {}
 
 /// This should:
 /// provide a higher-level wrapper around Dictionary to do parsing etc.
-class DictionaryController: NSObject, NSSecureCoding {
+class DictionaryController: NSObject, NSSecureCoding, ObservableObject {
 
     class Result: Codable {
         internal init(input: String, raw: String?, parsed: [ResultItem]?) {
@@ -33,13 +30,19 @@ class DictionaryController: NSObject, NSSecureCoding {
 
         static func allRawStyled(_ results: [Result], font: NSFont) -> NSAttributedString {
             let attrString = results
-                .map { result in
-                    NSMutableAttributedString(string: result.input,
-                                              attributes: [
-                                                .font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask),
-                                                .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4; $0.paragraphSpacingBefore = 20 }]).then {
-                        $0.append(.init(string: "\n", attributes: [.font: font]))
-                                                    $0.append(.init(string: result.raw ?? "No result", attributes: [.font: font, .paragraphStyle: NSMutableParagraphStyle().then { $0.firstLineHeadIndent = 16; $0.headIndent = 32 }]))
+                .map { result -> NSMutableAttributedString in
+                    if results.count > 1 {
+                        let str = NSMutableAttributedString(string: result.input,
+                                                  attributes: [.font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask),
+                                                               .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4; $0.paragraphSpacingBefore = 20 }])
+                        str.append(.init(string: "\n",
+                                        attributes: [.font: font]))
+                        str.append(.init(string: result.raw ?? "No result",
+                                        attributes: [.font: font,
+                                                     .paragraphStyle: NSMutableParagraphStyle().then { $0.firstLineHeadIndent = 16; $0.headIndent = 32 }]))
+                        return str
+                    } else {
+                        return NSMutableAttributedString(string: result.raw ?? "No result", attributes: [.font: font])
                     }
                 }
                 .reduce(into: NSMutableAttributedString(string: "", attributes: [.font: font])) { partialResult, styledDefinition in
@@ -57,12 +60,9 @@ class DictionaryController: NSObject, NSSecureCoding {
     static let supportsSecureCoding = true
 
     var delegate: DictionaryControllerDelegate?
-    var direction: Dictionary.Direction {
-        didSet {
-            delegate?.dictionaryController(self,
-                                           didChangeDirectionTo: direction)
-        }
-    }
+
+    @Published
+    var direction: Dictionary.Direction
 
     private var dictionary: Dictionary
 
