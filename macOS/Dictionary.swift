@@ -92,23 +92,19 @@ class Dictionary {
 
     // MARK: - Methods
 
-    func didGetResult(data: Data) {
-        print("Process did get result data")
-        guard wordsDidFinishLoading else {
-            print("Process ignoring because this is just words loading...")
-            wordsDidFinishLoading = true
-            return
+    func didGetResult(_ str: String) {
+        print("Process did get result: ", str)
+//        guard wordsDidFinishLoading else {
+//            print("Process ignoring because this is just words loading...")
+//            wordsDidFinishLoading = true
+//            return
+//        }
+        var str = str
+        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
+        if str.suffix(2) == "=>" {
+            str = String(str.dropLast(2))
         }
-
-        var str = String(data: data, encoding: .utf8)
-
-        str = str?.trimmingCharacters(in: .whitespacesAndNewlines)
-        if str?.suffix(2) == "=>" {
-            str = str.map { $0.dropLast(2) }.map(String.init(_:))
-        }
-        str = str?.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        print("Process did get result data", str)
+        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
 
         print("Process returning with result data")
 
@@ -173,15 +169,35 @@ class Dictionary {
             let newData = fileHandle.availableData
             tempData += newData
             print("Process: \(newData.count) new bytes", String(data: newData, encoding: .utf8))
-            if String(data: tempData.dropFirst(41).suffix(2), encoding: .utf8) == "=>" {
+
+            let englishToLatinPrefix = "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )\n\n=>"
+            let latinToEnglishPrefix = "Language changed to LATIN_TO_ENGLISH\n\n=>"
+
+            guard let string = String(data: tempData, encoding: .utf8) else {
+                return
+            }
+
+            if string.hasPrefix(englishToLatinPrefix),
+               case let trimmed = string.dropFirst(englishToLatinPrefix.count),
+               trimmed.hasSuffix("\n\n=>") {
                 DispatchQueue.main.async {
-                    self?.didGetResult(data: tempData.dropFirst(41))
+                    self?.didGetResult(String(trimmed))
+                    tempData.removeAll()
+                }
+            } else if string.hasPrefix(latinToEnglishPrefix),
+                      case let trimmed = string.dropFirst(latinToEnglishPrefix.count),
+                      trimmed.hasSuffix("\n\n=>") {
+                DispatchQueue.main.async {
+                    self?.didGetResult(String(trimmed))
+                    tempData.removeAll()
+                }
+            } else if string.hasSuffix("[tilde E]\n\n=>") {
+                // Ignore loading message
+                DispatchQueue.main.async {
                     tempData.removeAll()
                 }
             }
         }
-
-        // TODO: fix Latin to English output
 
         process = p
 
