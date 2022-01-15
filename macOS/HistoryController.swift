@@ -17,7 +17,8 @@ extension NSUserInterfaceItemIdentifier {
 protocol HistoryDelegate {
     func historyController(
         _ historyController: HistoryController,
-        didSelectHistoryItem query: SearchQuery
+        didSelectHistoryItem query: SearchQuery,
+        withAlternativeNavigation alt: Bool
     )
 }
 
@@ -91,7 +92,7 @@ extension HistoryController: NSMenuDelegate, NSMenuItemValidation {
                 let item = NSMenuItem(title: query.description,
                                       action: #selector(historyMenuItemSelected(_:)),
                                       keyEquivalent: "")
-                let attrString = NSMutableAttributedString(string: query.searchText)
+                let attrString = NSMutableAttributedString(string: query.displaySearchText())
                 attrString.append(NSAttributedString(string: " (\(query.direction.description))", attributes: [.foregroundColor: NSColor.secondaryLabelColor]))
                 item.attributedTitle = attrString
                 item.target = self
@@ -114,7 +115,9 @@ extension HistoryController: NSMenuDelegate, NSMenuItemValidation {
     private func historyMenuItemSelected(_ sender: NSMenuItem) {
         let historyItemIndex = sender.tag
         let historyItem = history.reversed()[historyItemIndex]
-        delegate?.historyController(self, didSelectHistoryItem: historyItem)
+        delegate?.historyController(self,
+                                    didSelectHistoryItem: historyItem,
+                                    withAlternativeNavigation: NSApp.currentEventModifierFlags.contains(.shift) ?? false)
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {

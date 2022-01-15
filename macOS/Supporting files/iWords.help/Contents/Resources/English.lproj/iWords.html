@@ -89,19 +89,20 @@ and parsing program for Latin.</p>
 
 <p>The main window for iWords consists of the <b>toolbar</b> and the <b>results area</b> below it.</p>
 
-<p>By default, the toolbar includes, from left to right:
+<p>By default, the toolbar includes the following items:
 
 <ul>
-<li><b>Back</b> and <b>Forward</b> buttons. These navigate through your search history.</li>
-<li>The <b>Direction</b> button, which lets you toggle between Latin-to-English and English-to-Latin.</li>
-<li>The <b>Search</b> field. You can enter a single term if translating from English to Latin, or multiple
-    terms (separated by spaces) if translating from Latin to English. Press Return to search.</li>
+<li><b>Back/Forward</b>: navigates through your search history.</li>
+<li><b>Direction</b>: toggles between Latin-to-English and English-to-Latin.</li>
+<li><b>Search field</b>: enter one or more terms (separated by spaces). Press Return to search.</li>
 </ul>
 
 <p>Right-clicking on the toolbar will let you customize it. Selecting "Customize Toolbar..." will let you re-arrange or add additional items to the toolbar. Additional toolbar items include:</p>
 
 <ul>
-    <li>The <b>Font Size</b> buttons which change the font size of text in the results area.</li>
+    <li><b>Font Size</b>: increases or decreases the font size of text in the results area.</li>
+    <li><b>Fonts</b>: displays the Fonts panel, allowing you to customize the display font.</li>
+    <li><b>Perseus</b>: look up the current query in <a href="https://www.perseus.tufts.edu/hopper/">Perseus</a>.</li>
 </ul>
 
 <h4>The Menu Bar</h4>
@@ -116,14 +117,15 @@ macOS menu bar, and many have keyboard shortcuts.</p>
         <ul>
             <li><b>New Search</b>: focus and select text in the Search field.</li>
             <li><b>Print...</b>: print the current results.</li>
-            <li><b>Export Raw Results...</b>: save the current results as a file.</li>
+            <li><b>Save...</b>: save the current results as a file.</li>
         </ul>
     </li>
-    <li><b>Dictionary</b>:
+    <li><b>Dictionaries</b>:
         <ul>
             <li><b>Latin → English</b>: set the dictionary to look up definitions for Latin terms.</li>
             <li><b>English → Latin</b>: set the dictionary to look up Latin equivalents for an English term.</li>
             <li><b>Toggle Direction</b>: toggle the dictionary between Latin → English and English → Latin.</li>
+            <li><b>Look up in Perseus</b>: look up the current query in <a href="https://www.perseus.tufts.edu/hopper/">Perseus</a>.</li>
         </ul>
     </li>
     <li><b>History</b>:
@@ -139,7 +141,8 @@ macOS menu bar, and many have keyboard shortcuts.</p>
             <li><b>Increase Text Size</b>: increase the font size of the text shown in the results area.</li>
             <li><b>Decrease Text Size</b>: decrease the font size of the text shown in the results area.</li>
             <li><b>Reset Text Size</b>: set the font size of the text shown in the results area to its default.</li>
-            <li>This menu then lists the last 50 queries you entered. Selecting one will show it in the main window.</li>
+            <li><b>Show Fonts</b>: show the macOS Font panel, allowing you to customize the display font.</li>
+            <li><b>Show Warnings</b>: go back to showing any "Are you sure?" dialogs that were silenced.</li>
         </ul>
     </li>
     <li><b>Help</b>:
@@ -151,14 +154,15 @@ macOS menu bar, and many have keyboard shortcuts.</p>
 
 <h4>Services Integration</h4>
 
-<p>iWords integrates with macOS system services, allowing you to perform a query from anywhere
-on your computer:</p>
+<p>iWords provides macOS services, allowing you to perform a query from anywhere on your computer. As an example:</p>
 
 <ol>
-<li>Select text in an application (for example, Chrome or Mail)</li>
+<li>Select text in an application</li>
 <li>Go to the application menu in the menu bar, then select Services, then select either "Look up in iWords (English to Latin)" or "Look up in iWords (Latin to English)"</li>
-<li>iWords will open and show the results for your query in the frontmost window.</li>
+<li>iWords will open and show the results for your query in the frontmost window</li>
 </ol>
+
+<p>You can also assign a keyboard shortcut to services. For more information, see <a href="https://support.apple.com/guide/mac-help/use-services-in-apps-mchlp1012/mac">Apple Support</a>.</p>
 
 <h4>Shortcuts Integration</h4>
 
@@ -169,11 +173,10 @@ on your computer:</p>
 <li>In the righthand sidebar in the shortcut editor, search for iWords</li>
 <li>Add the "Look Up" action to your shortcut</li>
 <li>The action lets you specify a query and a direction. It returns the result as text.
-    <ol>
-        <li>Note that for English-to-Latin, as in the iWords app, you can only enter one word at a time. Entering more than one word will return an error message.</li>
-    </ol>
 </li>
 </ol>
+
+<p>Shortcuts can be made available from the Services menu, and many other places across macOS. For more information, see <a href="https://support.apple.com/guide/shortcuts-mac/welcome/mac">Apple Support</a>.</p>
 
 <hr>
 

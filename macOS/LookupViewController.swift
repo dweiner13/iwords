@@ -37,13 +37,14 @@ class LookupViewController: NSViewController {
                 context.duration = 0.2
                 loadingView.animator().isHidden = false
             }
-            textView.isEditable = false
+            textView.isSelectable = false
             progressIndicator.startAnimation(self)
         } else {
             NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.2
                 loadingView.animator().isHidden = true
             }
+            textView.isSelectable = true
             progressIndicator.stopAnimation(self)
         }
     }
@@ -73,17 +74,16 @@ class LookupViewController: NSViewController {
         if let results = results,
            let encoded = try? JSONEncoder().encode(results) {
             coder.encode(encoded, forKey: "resultsJSON")
-            print("Successfully encoded results")
         }
         super.encodeRestorableState(with: coder)
     }
 
     @objc
     override func restoreState(with coder: NSCoder) {
+        super.restoreState(with: coder)
         if let data = coder.decodeObject(of: NSData.self, forKey: "resultsJSON") {
             results = try? JSONDecoder().decode([DictionaryController.Result].self,
                                                 from: data as Data)
-            print("Successfully decoded results")
         }
     }
 
@@ -97,10 +97,9 @@ class LookupViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.textContainerInset = NSSize(width: 12, height: 12)
-        textView.string = "Welcome to iWords, a Latin dictionary. Search a word to get started.\n"
-        textView.font = AppDelegate.shared.font
-        appendHelpText()
+        textView.textContainerInset = NSSize(width: 8, height: 12)
+        textView.delegate = self
+        setHelpText()
 
         #if DEBUG
         startListeningToUserDefaults()
@@ -122,14 +121,20 @@ class LookupViewController: NSViewController {
     #endif
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
-        let font = textView.font
+        let font = AppDelegate.shared.font
         let string = String(repeating: "a", count: 80)
         let textWidth = (string as NSString).size(withAttributes: [.font: font as Any]).width
         return textWidth + textView.textContainerInset.width * 2 + 24
     }
 
     func updateForResults(_ results: [DictionaryController.Result]) {
-        textView.string = DictionaryController.Result.allRaw(results)
+        if let textStorage = textView.textStorage {
+            let attrString = DictionaryController.Result.allRawStyled(results, font: AppDelegate.shared.font)
+                .let { NSMutableAttributedString(attributedString: $0) }
+                .then { $0.addAttributes([.foregroundColor: NSColor.labelColor], range: NSRange(location: 0, length: $0.length)) }
+            textStorage.replaceCharacters(in: NSRange(location: 0, length: textStorage.length),
+                                          with: attrString)
+        }
 
         definitionHostingView?.isHidden = true
         definitionHostingView?.removeFromSuperview()
@@ -164,14 +169,57 @@ class LookupViewController: NSViewController {
         invalidateRestorableState()
     }
 
-    func setFont(_ font: NSFont) {
-        textView.font = font
+    func fontChanged() {
+        if let results = results {
+            updateForResults(results)
+        } else {
+            setHelpText()
+        }
     }
 
     @IBAction func didChangeMode(_ sender: Any) {
         updateForMode()
     }
 
+    private func setHelpText() {
+        func helpText() -> NSAttributedString {
+            let str = NSMutableAttributedString(string: "Welcome to iWords, a Latin dictionary. Search a word to get started.\n", attributes: [.font: AppDelegate.shared.font])
+            str.append(NSAttributedString(string: """
+
+                                                 *
+                                                 """ + " ",
+                                          attributes: [
+                                            .font: AppDelegate.shared.font,
+                                            .foregroundColor: NSColor.labelColor]))
+            str.append(NSAttributedString(string: "View help",
+                                          attributes: [
+                                            .link: URL(string: "iwords:help")!,
+                                            .font: AppDelegate.shared.font,
+                                            .foregroundColor: NSColor.labelColor]))
+            str.append(NSAttributedString(string: """
+
+                                                 *
+                                                 """ + " ",
+                                          attributes: [
+                                            .font: AppDelegate.shared.font,
+                                            .foregroundColor: NSColor.labelColor]))
+            str.append(NSAttributedString(string: "Send feedback",
+                                          attributes: [
+                                            .link: URL(string: "iwords:feedback")!,
+                                            .font: AppDelegate.shared.font,
+                                            .foregroundColor: NSColor.labelColor]))
+            return str
+        }
+
+        if let textStorage = textView.textStorage {
+            textStorage.setAttributedString(helpText())
+        }
+    }
+}
+
+// MARK: - Printing
+
+extension LookupViewController {
     @objc
     func printDocument(_ sender: Any) {
         let printInfo = NSPrintInfo.shared
@@ -193,8 +241,14 @@ class LookupViewController: NSViewController {
             printView = hostingView
         case .raw:
             let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
-            textView.string = results.map(DictionaryController.Result.allRaw(_:)) ?? "(nil)"
-            textView.font = self.textView.font
+            results
+                .map {
+                    DictionaryController.Result.allRawStyled($0, font: AppDelegate.shared.font)
+                }
+                .map {
+                    textView.textStorage?.append($0)
+                }
+
             textView.frame.size.height = textView.intrinsicContentSize.height
             printView = textView
         }
@@ -217,37 +271,38 @@ class LookupViewController: NSViewController {
             return super.responds(to: aSelector)
         }
     }
+}
 
-    private func appendHelpText() {
-        func helpText() -> NSAttributedString {
-            let str = NSMutableAttributedString()
-            str.append(NSAttributedString(string: """
+// MARK: - NSTextViewDelegate
 
-                                                 *
-                                                 """ + " ",
-                                          attributes: [
-                                            .font: textView.font!,
-                                            .foregroundColor: textView.textColor!]))
-            str.append(NSAttributedString(string: "View help",
-                                          attributes: [
-                                            .link: URL(string: "iwords:help")!,
-                                            .font: textView.font!,
-                                            .foregroundColor: textView.textColor!]))
-            str.append(NSAttributedString(string: """
-
-                                                 *
-                                                 """ + " ",
-                                          attributes: [
-                                            .font: textView.font!,
-                                            .foregroundColor: textView.textColor!]))
-            str.append(NSAttributedString(string: "Send feedback",
-                                          attributes: [
-                                            .link: URL(string: "iwords:feedback")!,
-                                            .font: textView.font!,
-                                            .foregroundColor: textView.textColor!]))
-            return str
+extension LookupViewController: NSTextViewDelegate {
+    func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
+        guard !selectedText().trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return menu
         }
+        menu.insertItem(NSMenuItem(title: "Look Up (Latin → English)",
+                                   action: #selector(LookupWindowController.search(_:)),
+                                   keyEquivalent: "").then { $0.tag = Dictionary.Direction.latinToEnglish.rawValue; $0.representedObject = selectedText() },
+                        at: 0)
+        menu.insertItem(NSMenuItem(title: "Look Up (English → Latin)",
+                                   action: #selector(LookupWindowController.search(_:)),
+                                   keyEquivalent: "").then { $0.tag = Dictionary.Direction.englishToLatin.rawValue; $0.representedObject = selectedText() },
+                        at: 1)
+        menu.insertItem(NSMenuItem(title: "Look Up in Perseus",
+                                   action: #selector(LookupWindowController.lookUpInPerseus(_:)),
+                                   keyEquivalent: "").then { $0.representedObject = selectedText() },
+                        at: 2)
+        menu.insertItem(NSMenuItem.separator(),
+                        at: 3)
+        return menu
+    }
 
-        textView.textStorage?.append(helpText())
+    private func selectedText() -> String {
+        let range = textView.selectedRange()
+        guard let substring = textView.textStorage?.attributedSubstring(from: range),
+              substring.length > 0 else {
+            return ""
+        }
+        return substring.string
     }
 }

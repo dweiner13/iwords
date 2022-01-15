@@ -8,6 +8,7 @@
 import Cocoa
 import Combine
 import SwiftUI
+import Flow
 
 extension NSUserInterfaceItemIdentifier {
     static let backMenuItem = NSUserInterfaceItemIdentifier("back")
@@ -44,6 +45,14 @@ class SearchQuery: NSObject, NSSecureCoding {
 
     func propertyListRepresentation() -> Any {
         ["searchText": searchText, "direction": direction.rawValue]
+    }
+
+    func displaySearchText() -> String {
+        if searchText.count > 100 {
+            return searchText.prefix(100).appending("…")
+        } else {
+            return searchText
+        }
     }
 
     init?(fromPropertyListRepresentation obj: Any) {
@@ -98,6 +107,12 @@ private extension NSStoryboard.SceneIdentifier {
 
 let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
 
+private extension NSUserInterfaceItemIdentifier {
+    static let fontSizeMenuFormDecrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormDecrease")
+    static let fontSizeMenuFormIncrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormIncrease")
+}
+
+
 class LookupWindowController: NSWindowController {
 
     override class var restorableStateKeyPaths: [String] {
@@ -110,7 +125,7 @@ class LookupWindowController: NSWindowController {
     @IBOutlet @objc
     var fontManager: NSFontManager!
 
-    @IBOutlet @objc
+    @IBOutlet
     var dictionaryController: DictionaryController!
 
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
@@ -126,8 +141,6 @@ class LookupWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        print("fontManager", fontManager)
-
         // Set up menu form equivalents for toolbar items
         let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
         backForwardMenuItem.submenu = backForwardController.menu()
@@ -138,9 +151,7 @@ class LookupWindowController: NSWindowController {
                                            keyEquivalent: "")
         directionItem.menuFormRepresentation = directionMenuItem
 
-//        let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
-//        fontSizeMenuItem.submenu = fontSizeController.menu()
-//        fontSizeItem.menuFormRepresentation = fontSizeMenuItem
+        fontSizeItem.menuFormRepresentation = fontMenuFormRepresentation()
 
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
@@ -164,27 +175,49 @@ class LookupWindowController: NSWindowController {
         super.restoreState(with: coder)
     }
 
-    public func setSearchQuery(_ searchQuery: SearchQuery) {
-        guard searchQuery != backForwardController.currentSearchQuery else {
-            print("Ignoring redundant search query \(searchQuery)")
-            return
+    public func setSearchQuery(_ searchQuery: SearchQuery, withAlternativeNavigation alt: Bool) {
+        if alt {
+            let controller = Self.newController()
+            controller._setSearchQuery(searchQuery,
+                                       updateHistoryLists: true,
+                                       updateBackForward: true)
+            controller.window?.makeKeyAndOrderFront(self)
+        } else {
+            guard searchQuery != backForwardController.currentSearchQuery else {
+                print("Ignoring redundant search query \(searchQuery)")
+                return
+            }
+
+            self._setSearchQuery(searchQuery,
+                                 updateHistoryLists: true,
+                                 updateBackForward: true)
         }
-        self._setSearchQuery(searchQuery,
-                             updateHistoryLists: true,
-                             updateBackForward: true)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        backForwardController = nil
+        fontManager = nil
+        dictionaryController = nil
     }
 
     @IBAction
     func lookUpInPerseus(_ sender: Any?) {
-        guard let searchText = backForwardController.currentSearchQuery?.searchText else {
-            return
-        }
+        let searchText: String? = {
+            if let menuItemSender = sender as? NSMenuItem {
+                return menuItemSender.representedObject as? String
+            } else {
+                return backForwardController.currentSearchQuery?.searchText
+            }
+        }()
+
+        guard let searchText = searchText else { return }
 
         let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: searchText)
 
         if urls.count > 1 && !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
             let alert = NSAlert()
             alert.messageText = "Are you sure you want to open \(urls.count) new tabs in your web browser?"
+            alert.informativeText = "\(urls.count) tabs to www.perseus.tufts.edu will be opened."
             alert.addButton(withTitle: "Open \(urls.count) Tabs")
             alert.addButton(withTitle: "Cancel")
             alert.showsSuppressionButton = true
@@ -268,6 +301,29 @@ class LookupWindowController: NSWindowController {
     }
     #endif
 
+    private func fontMenuFormRepresentation() -> NSMenuItem {
+        NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "").then {
+            $0.submenu = NSMenu().then { m in
+                let decrease = NSMenuItem(title: "Decrease Text Size",
+                                          action: #selector(NSFontManager.modifyFont(_:)),
+                                          keyEquivalent: "").then {
+                    $0.target = NSFontManager.shared
+                    $0.identifier = .fontSizeMenuFormDecrease
+                    $0.tag = Int(NSFontAction.sizeDownFontAction.rawValue)
+                }
+                m.addItem(decrease)
+                let increase = NSMenuItem(title: "Increase Text Size",
+                                          action: #selector(NSFontManager.modifyFont(_:)),
+                                          keyEquivalent: "").then {
+                    $0.target = NSFontManager.shared
+                    $0.identifier = .fontSizeMenuFormIncrease
+                    $0.tag = Int(NSFontAction.sizeUpFontAction.rawValue)
+                }
+                m.addItem(increase)
+            }
+        }
+    }
+
     // The core of the logic for actually performing a query and updating the UI.
     private func _setSearchQuery(_ searchQuery : SearchQuery,
                                  updateHistoryLists: Bool,
@@ -276,12 +332,17 @@ class LookupWindowController: NSWindowController {
             return
         }
 
+        guard !isLoading else {
+            NSSound.beep()
+            return
+        }
+
         searchField.stringValue = searchQuery.searchText
 
-        self.window?.tab.title = searchQuery.searchText
+        self.window?.tab.title = searchQuery.displaySearchText()
 
         dictionaryController.direction = searchQuery.direction
-        search(searchQuery)
+        _search(searchQuery)
         if updateHistoryLists {
             HistoryController.shared.recordVisit(to: searchQuery)
         }
@@ -297,17 +358,63 @@ class LookupWindowController: NSWindowController {
     }
 
     @IBAction
-    private func searchFieldAction(_ field: NSSearchField) {
-        setSearchQuery(SearchQuery(field.stringValue, dictionaryController.direction))
+    func search(_ sender: Any?) {
+        let searchText: String? = {
+            if let sender = sender as? NSSearchField {
+                return sender.stringValue
+            } else if let sender = sender as? NSMenuItem {
+                return sender.representedObject as? String
+            } else { return nil }
+        }()
+
+        let direction: Dictionary.Direction? = {
+            if let sender = sender as? NSMenuItem {
+                return Dictionary.Direction(rawValue: sender.tag)
+            } else { return nil }
+        }()
+
+        let isAlternateNavigation = sender is NSMenuItem && NSApp.currentEventModifierFlags.contains(.shift)
+
+        guard let searchText = searchText,
+              let sanitized = sanitize(searchFieldValue: searchText) else {
+            return
+        }
+
+        let query = SearchQuery(sanitized, direction ?? dictionaryController.direction)
+
+        setSearchQuery(query, withAlternativeNavigation: isAlternateNavigation)
     }
 
-    private func search(_ query: SearchQuery) {
-        Task(priority: .userInitiated) {
+    private func sanitize(searchFieldValue: String) -> String? {
+        let trimmed = searchFieldValue
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet(["#", "!", "@", "~"]))
+        return trimmed.count > 1 ? trimmed : nil
+    }
+
+    private var isLoading = false {
+        didSet {
+            backForwardController?.updateSegmentedControl()
+            lookupViewController?.setLoading(isLoading)
+            window?.tab.accessoryView = isLoading ? NSProgressIndicator().then {
+                $0.controlSize = .small
+                $0.isIndeterminate = true
+                $0.style = .spinning
+                $0.startAnimation(self)
+            } : nil
+        }
+    }
+
+    private func _search(_ query: SearchQuery) {
+        Task(priority: .userInitiated) { [weak self] in
+            guard let self = self else {
+                return
+            }
             do {
-                lookupViewController.setLoading(true)
-                let results = try await dictionaryController.search(text: query.searchText)
-                lookupViewController.results = results
-                lookupViewController.setLoading(false)
+                self.isLoading = true
+                let results = try await self.dictionaryController.search(text: query.searchText)
+                self.lookupViewController.results = results
+                self.isLoading = false
             } catch {
                 self.presentError(error)
             }
@@ -320,7 +427,7 @@ class LookupWindowController: NSWindowController {
     }
 
     override func newWindowForTab(_ sender: Any?) {
-        let newWindow = Self.newWindow(copying: self)
+        let newWindow = Self.newController(copying: self).window!
         var windowToAddTabAfter: NSWindow?
 
         if sender is NSWindow {
@@ -344,14 +451,14 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    static func newWindow(copying original: LookupWindowController? = nil) -> NSWindow {
+    static func newController(copying original: LookupWindowController? = nil) -> LookupWindowController {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         let newController = storyboard.instantiateController(withIdentifier: .lookupWindowController)
             as! LookupWindowController
         if let original = original {
             newController.copyState(from: original)
         }
-        return newController.window!
+        return newController
     }
 
     private func updateTitle(forDirection direction: Dictionary.Direction) {
@@ -420,9 +527,26 @@ extension LookupWindowController: BackForwardDelegate {
                         updateHistoryLists: false,
                         updateBackForward: false)
     }
+
+    func backForwardControllerShouldChangeCurrentQuery(_ controller: BackForwardController) -> Bool {
+        !isLoading
+    }
+
+    func backForwardController(_ controller: BackForwardController,
+                               performAlternateNavigationToDisplayQuery query: SearchQuery) {
+        let controller = Self.newController()
+        controller._setSearchQuery(query,
+                                   updateHistoryLists: false,
+                                   updateBackForward: true)
+        controller.window?.makeKeyAndOrderFront(self)
+    }
 }
 
 extension LookupWindowController: DictionaryControllerDelegate {
+    func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
+        lookupViewController.progressIndicator.doubleValue = progress * 100
+    }
+
     func dictionaryController(_ controller: DictionaryController,
                               didChangeDirectionTo direction: Dictionary.Direction) {
         AppDelegate.shared?.updateDirectionItemsState()

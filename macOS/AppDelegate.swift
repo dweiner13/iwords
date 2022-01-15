@@ -103,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApp.windows
             .compactMap { $0.windowController as? LookupWindowController }
             .map { $0.lookupViewController! }
-            .forEach { $0.setFont(font) }
+            .forEach { $0.fontChanged() }
     }
 
     func saveFont(_ font: NSFont) {
@@ -167,8 +167,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction
     func newWindow(_ sender: Any?) {
-        let newWindow = LookupWindowController.newWindow(copying: keyWindowController())
-        showNewWindow(newWindow)
+        LookupWindowController.newController(copying: keyWindowController())
+            .window
+            .map(showNewWindow(_:))
     }
 
     func showNewWindow(_ newWindow: NSWindow) {
@@ -260,7 +261,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
 extension AppDelegate: HistoryDelegate {
     func historyController(_ historyController: HistoryController,
-                           didSelectHistoryItem query: SearchQuery) {
-        keyWindowController()?.setSearchQuery(query)
+                           didSelectHistoryItem query: SearchQuery,
+                           withAlternativeNavigation alt: Bool) {
+        if alt {
+            keyWindowController()?.setSearchQuery(query, withAlternativeNavigation: true)
+        } else {
+            keyWindowController()?.setSearchQuery(query, withAlternativeNavigation: false)
+        }
     }
 }

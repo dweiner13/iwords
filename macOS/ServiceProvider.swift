@@ -11,7 +11,7 @@ import AppKit
 class ServiceProvider: NSObject {
     func lookUp(_ text: String, direction: Dictionary.Direction) {
         let frontmostWindow = NSApp.orderedWindows.first ?? {
-            let newWindow = LookupWindowController.newWindow()
+            let newWindow = LookupWindowController.newController().window!
 
             if let keyWindow = NSApp.keyWindow {
                 let newPoint = newWindow.cascadeTopLeft(from: keyWindow.topLeft)
@@ -29,7 +29,7 @@ class ServiceProvider: NSObject {
         }
 
         let query = SearchQuery(sanitized(query: text), direction)
-        windowController.setSearchQuery(query)
+        windowController.setSearchQuery(query, withAlternativeNavigation: false)
     }
 
     @objc

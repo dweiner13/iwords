@@ -1,12 +1,13 @@
 //
 //  Dictionary.swift
-//  words (iOS)
+//  iWords (macOS)
 //
-//  Created by Dan Weiner on 4/10/21.
+//  Created by Dan Weiner on 1/9/22.
 //
 
 import Foundation
 import Combine
+import Flow
 
 struct DWError: LocalizedError, Identifiable {
     let id = UUID()
@@ -18,8 +19,14 @@ struct DWError: LocalizedError, Identifiable {
     }
 }
 
-// Provides a Swift API around the `words` executable.
+protocol DictionaryDelegate: AnyObject {
+    /// - note: 0 <= progress <= 1
+    func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double)
+}
+
 class Dictionary {
+
+    // MARK: - Types
 
     enum Direction: Int, CustomStringConvertible, CustomDebugStringConvertible, Codable {
         // Do not change. Reflected in tags in interface builder.
@@ -53,7 +60,9 @@ class Dictionary {
         static let diagnosticMode = Options(rawValue: 1 << 0)
     }
 
-    public static let shared = Dictionary()
+    weak var delegate: DictionaryDelegate?
+
+    // MARK: - Private vars
 
     private lazy var executableURL: URL = {
         guard let url = Bundle.main.url(forAuxiliaryExecutable: "words") else {
@@ -69,98 +78,160 @@ class Dictionary {
         return url.deletingLastPathComponent()
     }()
 
-    func getDefinitions(_ terms: [String], direction: Direction, options: Options) async throws -> [(String, String?)] {
-        var result: [(String, String?)] = []
-        #if DEBUG
-        let start = CFAbsoluteTimeGetCurrent()
-        #endif
-        for term in terms {
-            result.append(try await (term, getDefinition(term, direction: direction, options: options)))
-        }
-        #if DEBUG
-        let durationMS = (CFAbsoluteTimeGetCurrent() - start) * 1000
-        print("Query took \(durationMS) ms")
-        #endif
-        return result
+    private var wordsDidFinishLoading = false
+    private var activeContinuation: CheckedContinuation<String?, Error>?
+    private var queue: [(String, Direction, Options, CheckedContinuation<String?, Never>)] = []
+    private var cancellables: [AnyCancellable] = []
+    private var process: Process?
+    private var outputPipe: Pipe?
+    private var errorPipe: Pipe?
+    private var inputPipe: Pipe?
+
+    // MARK: - Init
+
+    init() {
+        startProcess()
     }
 
-    /// - Throws: `DWError`
-    func getDefinition(_ search: String, direction: Direction, options: Options) async throws -> String? {
-        var arguments: [String] = []
-        // Add language control argument
-        if direction == .englishToLatin {
-            arguments.append("~e")
-        }
-        let search = trim(input: search)
-        let words = Array(search.split(separator: " ")).map(String.init(_:))
-        // English to latin only supports up to 2 words in query like "house n" or "travel v"
-        if direction == .englishToLatin && words.count > 2 {
-            throw DWError(description: "Query too long. For English-to-Latin, you can only enter 1 English word, or 1 English word and a part of speech (such as: \"attack verb\").")
-        }
-        arguments.append(contentsOf: words)
-
-        if .diagnosticMode ~= options {
-            let start = CFAbsoluteTimeGetCurrent()
-            let output = try await runProcess(executablePath, arguments: arguments)
-            let durationMS = (CFAbsoluteTimeGetCurrent() - start) * 1000
-            return output + """
-            \n\n\n\n
-            time: \(String(format: "%.2f", durationMS))ms
-
-            % words \(arguments.joined(separator: " "))
-            \(output)
-            """
-        } else {
-            return try await runProcess(executablePath, arguments: arguments)
-        }
+    deinit {
+        process?.terminate()
     }
 
-    private func trim(input: String) -> String {
-        let commandCharacters = CharacterSet(["#", "!", "@"])
-        return input.trimmingCharacters(in: commandCharacters)
+    // MARK: - Methods
+
+    func getDefinitions(_ inputs: [String], direction: Direction, options: Options) async throws -> [(String, String?)] {
+        var results: [(String, String?)] = []
+        let totalCount = Double(inputs.count)
+        var completedCount: Double = 0
+        for input in inputs {
+            print("Looking up \"\(input)\"")
+            results.append((input, try await getDefinition(input, direction: direction, options: options)))
+            completedCount += 1
+            let progress = completedCount / totalCount
+            DispatchQueue.main.async {
+                self.delegate?.dictionary(self, progressChangedTo: progress)
+            }
+            print("Got result for \"\(input)\"")
+        }
+        return results
     }
 
-    @discardableResult
-    private func runProcess(
-        _ launchPath: String,
-        arguments: [String] = [],
-        stdin: String? = nil
-    ) async throws -> String {
-        try await withCheckedThrowingContinuation { continuation in
-            let p = Process()
-            p.currentDirectoryURL = workingDir
-            p.launchPath = launchPath
-            p.arguments = arguments
-            let outputPipe = Pipe()
-            let errorPipe = Pipe()
-            p.standardOutput = outputPipe
-            p.standardError = errorPipe
-
-            if let stdin = stdin {
-                let pipe = Pipe()
-                pipe.fileHandleForWriting.write(stdin.data(using: .utf8) ?? Data())
-                p.standardInput = pipe
+    func getDefinition(_ input: String, direction: Direction, options: Options) async throws -> String? {
+        guard input.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 else {
+            return nil
+        }
+        guard activeContinuation == nil else {
+            throw DWError(description: "Lookup already in progress")
+        }
+        return try await withCheckedThrowingContinuation { checkedContinuation in
+            func write(_ str: String) {
+                inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
             }
 
-            p.terminationHandler = { process in
-                let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-                let output = String(decoding: outputData, as: UTF8.self)
-
-                let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-                let error = String(decoding: errorData, as: UTF8.self)
-
-                if p.terminationStatus != 0 {
-                    continuation.resume(with: .failure(DWError(description: "Program failed with exit code \(p.terminationStatus)")))
-                }
-
-                if error.count > 0 {
-                    continuation.resume(with: .failure(DWError(description: error)))
-                } else {
-                    continuation.resume(with: .success(output))
-                }
+            switch direction {
+            case .latinToEnglish:
+                write("~L\n")
+            case .englishToLatin:
+                write("~E\n")
             }
+            write(input)
+            write("\n")
 
-            p.launch()
+            self.activeContinuation = checkedContinuation
         }
+    }
+
+    // MARK: - Private methods
+
+    private var tempData = Data()
+    private func handleNewData(from fileHandle: FileHandle) {
+        let newData = fileHandle.availableData
+        tempData += newData
+
+        #if DEBUG
+        print("New data available:", String(data: tempData, encoding: .utf8))
+        #endif
+
+        // Always prefix of an English-to-Latin result
+        let englishToLatinPrefix = "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )\n\n=>"
+        // Always prefix of a Latin-to-English result
+        let latinToEnglishPrefix = "Language changed to LATIN_TO_ENGLISH\n\n=>"
+
+        guard let string = String(data: tempData, encoding: .utf8) else {
+            return
+        }
+
+        if string.hasPrefix(englishToLatinPrefix),
+           case let trimmed = string.dropFirst(englishToLatinPrefix.count),
+           trimmed.hasSuffix("\n=>") {
+            DispatchQueue.main.async {
+                self.handleDefinitionResult(String(trimmed))
+                self.tempData.removeAll()
+            }
+        } else if string.hasPrefix(latinToEnglishPrefix),
+                  case let trimmed = string.dropFirst(latinToEnglishPrefix.count),
+                  trimmed.hasSuffix("\n=>") {
+            DispatchQueue.main.async {
+                self.handleDefinitionResult(String(trimmed))
+                self.tempData.removeAll()
+            }
+        } else if string.hasSuffix("[tilde E]\n\n=>") {
+            // This is the end of the initialization message, just ignore it
+            DispatchQueue.main.async {
+                self.tempData.removeAll()
+            }
+        }
+    }
+
+    private func handleDefinitionResult(_ str: String) {
+        #if DEBUG
+        print("handleDefinitionResult(\"\(str)\")")
+        #endif
+
+        var str = str
+        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
+        if str.suffix(2) == "=>" {
+            str = String(str.dropLast(2))
+        }
+        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        activeContinuation?.resume(returning: str)
+        activeContinuation = nil
+    }
+
+    private func startProcess() {
+        guard process == nil else {
+            fatalError("Process already exists")
+        }
+
+        let p = Process()
+        p.currentDirectoryURL = workingDir
+        p.launchPath = executablePath
+        p.arguments = []
+        outputPipe = Pipe()
+        errorPipe = Pipe()
+        inputPipe = Pipe()
+        p.standardOutput = outputPipe
+        p.standardError = errorPipe
+        p.standardInput = inputPipe
+
+        let outputFileHandle = outputPipe!.fileHandleForReading
+
+        outputFileHandle.readabilityHandler = { [weak self] fh in
+            self?.handleNewData(from: fh)
+        }
+
+        process = p
+
+        p.terminationHandler = { [weak self] process in
+            guard let self = self else { return }
+
+            if process.terminationStatus != 0 {
+                self.activeContinuation!.resume(throwing: DWError(description: "Process failed with exit code \(process.terminationStatus)"))
+                return
+            }
+        }
+
+        p.launch()
     }
 }

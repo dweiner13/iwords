@@ -7,7 +7,7 @@
 
 import Cocoa
 
-protocol DictionaryControllerDelegate: AnyObject {
+protocol DictionaryControllerDelegate: DictionaryDelegate {
     func dictionaryController(_ controller: DictionaryController,
                               didChangeDirectionTo direction: Dictionary.Direction)
 }
@@ -28,7 +28,29 @@ class DictionaryController: NSObject, NSSecureCoding {
         let parsed: [ResultItem]?
 
         static func allRaw(_ results: [Result]) -> String {
-            results.compactMap(\.raw).joined()
+            results.compactMap(\.raw).joined(separator: "\n\n")
+        }
+
+        static func allRawStyled(_ results: [Result], font: NSFont) -> NSAttributedString {
+            let attrString = results
+                .map { result in
+                    NSMutableAttributedString(string: result.input,
+                                              attributes: [
+                                                .font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask),
+                                                .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4; $0.paragraphSpacingBefore = 20 }]).then {
+                        $0.append(.init(string: "\n", attributes: [.font: font]))
+                                                    $0.append(.init(string: result.raw ?? "No result", attributes: [.font: font, .paragraphStyle: NSMutableParagraphStyle().then { $0.firstLineHeadIndent = 16; $0.headIndent = 32 }]))
+                    }
+                }
+                .reduce(into: NSMutableAttributedString(string: "", attributes: [.font: font])) { partialResult, styledDefinition in
+                    partialResult.append(styledDefinition)
+                    partialResult.append(.init(string: "\n", attributes: [.font: font]))
+                }
+            if attrString.length == 0 {
+                return NSAttributedString(string: "No results.", attributes: [.font: font])
+            } else {
+                return attrString
+            }
         }
     }
 
@@ -44,22 +66,27 @@ class DictionaryController: NSObject, NSSecureCoding {
 
     private var dictionary: Dictionary
 
-    internal init(dictionary: Dictionary = .shared,
+    internal init(dictionary: Dictionary = Dictionary(),
                   direction: Dictionary.Direction) {
         self.dictionary = dictionary
         self.direction = direction
+        super.init()
+        dictionary.delegate = self
     }
 
     required init?(coder: NSCoder) {
-        dictionary = .shared
+        dictionary = Dictionary()
         direction = Dictionary.Direction(rawValue: coder.decodeInteger(forKey: "direction")) ?? .latinToEnglish
+        super.init()
+        dictionary.delegate = self
     }
 
     // Required for storyboard initialization
     override init() {
-        dictionary = .shared
+        dictionary = Dictionary()
         direction = .latinToEnglish
         super.init()
+        dictionary.delegate = self
     }
 
     func encode(with coder: NSCoder) {
@@ -90,5 +117,11 @@ class DictionaryController: NSObject, NSSecureCoding {
             .map { (dictionaryResult, parsedResult) -> Result in
                 Result(input: dictionaryResult.0, raw: dictionaryResult.1, parsed: parsedResult)
             }
+    }
+}
+
+extension DictionaryController: DictionaryDelegate {
+    func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
+        delegate?.dictionary(dictionary, progressChangedTo: progress)
     }
 }

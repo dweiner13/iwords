@@ -10,6 +10,8 @@ import Cocoa
 @objc
 protocol BackForwardDelegate: AnyObject {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController)
+    func backForwardControllerShouldChangeCurrentQuery(_ controller: BackForwardController) -> Bool
+    func backForwardController(_ controller: BackForwardController, performAlternateNavigationToDisplayQuery query: SearchQuery)
 }
 
 private extension NSUserInterfaceItemIdentifier {
@@ -26,7 +28,7 @@ class BackForwardController: NSObject {
     internal private(set) var currentSearchQuery: SearchQuery?
 
     @IBOutlet
-    var delegate: BackForwardDelegate?
+    weak var delegate: BackForwardDelegate?
 
     /// Attach a pre-configured 2-segment Segmented Control to this controller to have the
     /// controller manage the enabled/disabled states of the segments.
@@ -38,11 +40,19 @@ class BackForwardController: NSObject {
     }
 
     var canGoBack: Bool {
-        !backList.isEmpty
+        !backList.isEmpty && (delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true)
     }
 
     var canGoForward: Bool {
-        !forwardList.isEmpty
+        !forwardList.isEmpty && (delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true)
+    }
+
+    var backItem: SearchQuery? {
+        backList.last
+    }
+
+    var forwardItem: SearchQuery? {
+        forwardList.last
     }
 
     private var backList: [SearchQuery] = [] {
@@ -91,11 +101,21 @@ class BackForwardController: NSObject {
 
     @IBAction
     func goBack(_ sender: Any?) {
-        if let currentSearchQuery = currentSearchQuery {
-            forwardList.append(currentSearchQuery)
+        guard delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true else {
+            return
+        }
+        // If user holds shift, go back in new window
+        if NSApp.currentEventModifierFlags.contains(.shift),
+            let delegate = delegate,
+            let backItem = backItem {
+            delegate.backForwardController(self, performAlternateNavigationToDisplayQuery: backItem)
+            return
         }
         guard let back = backList.popLast() else {
             return
+        }
+        if let currentSearchQuery = currentSearchQuery {
+            forwardList.append(currentSearchQuery)
         }
         currentSearchQuery = back
         delegate?.backForwardControllerCurrentQueryChanged(self)
@@ -104,11 +124,21 @@ class BackForwardController: NSObject {
 
     @IBAction
     func goForward(_ sender: Any?) {
-        if let lastSearchTerm = currentSearchQuery {
-            backList.append(lastSearchTerm)
+        guard delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true else {
+            return
+        }
+        // If user holds shift, go back in new window
+        if NSApp.currentEventModifierFlags.contains(.shift),
+            let delegate = delegate,
+            let forwardItem = forwardItem {
+            delegate.backForwardController(self, performAlternateNavigationToDisplayQuery: forwardItem)
+            return
         }
         guard let forward = forwardList.popLast() else {
             return
+        }
+        if let lastSearchTerm = currentSearchQuery {
+            backList.append(lastSearchTerm)
         }
         currentSearchQuery = forward
         delegate?.backForwardControllerCurrentQueryChanged(self)
@@ -133,7 +163,7 @@ class BackForwardController: NSObject {
         }
     }
 
-    private func updateSegmentedControl() {
+    func updateSegmentedControl() {
         segmentedControl?.setEnabled(canGoBack,    forSegment: 0)
         segmentedControl?.setEnabled(canGoForward, forSegment: 1)
     }

@@ -24,7 +24,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eVQ-bF-YY4"/>
-                                        <menuItem title="Diagnostic Mode" id="zjB-TO-LRE">
+                                        <menuItem title="Diagnostic Mode (Debug)" id="zjB-TO-LRE">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="Kwj-Wj-vux">
@@ -35,7 +35,7 @@
                                                 <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Pretty Results" keyEquivalent="P" id="5Tp-V2-055">
+                                        <menuItem title="Pretty Results (Debug)" keyEquivalent="P" id="5Tp-V2-055">
                                             <connections>
                                                 <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="3sv-bK-3jM">
                                                     <dictionary key="options">
@@ -111,12 +111,12 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="EdA-Bx-xcI"/>
-                                        <menuItem title="Export Raw Results..." keyEquivalent="S" id="bYf-fa-jBW">
+                                        <menuItem title="Save As..." keyEquivalent="s" id="bYf-fa-jBW">
                                             <connections>
                                                 <action selector="exportRawResult:" target="Ady-hI-5gd" id="XHt-KT-0ta"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Export Results as JSON..." keyEquivalent="J" id="L9E-xW-M2L">
+                                        <menuItem title="Export Results as JSON...  (Debug)" keyEquivalent="J" id="L9E-xW-M2L">
                                             <connections>
                                                 <action selector="exportJSONResult:" target="Ady-hI-5gd" id="aZp-oe-5U3"/>
                                                 <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="WNC-8h-mJy">
@@ -471,7 +471,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </searchFieldCell>
                                         <connections>
-                                            <action selector="searchFieldAction:" target="B8D-0N-5wS" id="35O-Zl-k1m"/>
+                                            <action selector="search:" target="B8D-0N-5wS" id="reL-Gf-yw4"/>
                                         </connections>
                                     </searchField>
                                 </searchToolbarItem>
@@ -554,7 +554,7 @@
                     <connections>
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
-                        <outlet property="dictionaryController" destination="lRh-Yv-s9e" id="pGe-gU-yxR"/>
+                        <outlet property="dictionaryController" destination="lRh-Yv-s9e" id="5lQ-38-jFh"/>
                         <outlet property="directionItem" destination="FaB-SV-uQT" id="ypv-c0-ecm"/>
                         <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="C4R-Rb-OST"/>
                         <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>
@@ -590,7 +590,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="420" height="404"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
+                                        <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
                                             <rect key="frame" x="0.0" y="0.0" width="420" height="404"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -612,27 +612,32 @@
                             </scrollView>
                             <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-3S-c0A" customClass="LoadingView" customModule="iWords" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
+                                <subviews>
+                                    <progressIndicator maxValue="100" doubleValue="50" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-Ja-397">
+                                        <rect key="frame" x="0.0" y="397" width="435" height="12"/>
+                                    </progressIndicator>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Lnw-Ja-397" secondAttribute="trailing" id="10g-j6-efr"/>
+                                    <constraint firstItem="Lnw-Ja-397" firstAttribute="leading" secondItem="aeF-3S-c0A" secondAttribute="leading" id="1YS-kG-mNv"/>
+                                    <constraint firstItem="Lnw-Ja-397" firstAttribute="top" secondItem="aeF-3S-c0A" secondAttribute="top" constant="-5" id="eyH-4x-oj4"/>
+                                </constraints>
                             </customView>
-                            <progressIndicator maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="J4T-Fr-Sd5">
-                                <rect key="frame" x="202" y="186" width="32" height="32"/>
-                            </progressIndicator>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="aeF-3S-c0A" secondAttribute="trailing" id="8MV-wU-gwa"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="9vM-Xs-u3T"/>
                             <constraint firstItem="aeF-3S-c0A" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="KCn-iG-8Iw"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="SfU-VI-8sz"/>
-                            <constraint firstItem="J4T-Fr-Sd5" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="Yqz-hg-OGS"/>
                             <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="aju-ed-dYN"/>
                             <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="eOu-Yp-T3G"/>
                             <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="v0J-go-CBZ"/>
-                            <constraint firstItem="J4T-Fr-Sd5" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="yA1-gT-gbQ"/>
                             <constraint firstAttribute="bottom" secondItem="aeF-3S-c0A" secondAttribute="bottom" id="z0p-AZ-Pkc"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="loadingView" destination="aeF-3S-c0A" id="ShM-qs-hsd"/>
-                        <outlet property="progressIndicator" destination="J4T-Fr-Sd5" id="3bC-c9-yia"/>
+                        <outlet property="progressIndicator" destination="Lnw-Ja-397" id="og0-uM-bz0"/>
                         <outlet property="scrollView" destination="Czz-wX-hvt" id="bFk-Ow-tpL"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                     </connections>
