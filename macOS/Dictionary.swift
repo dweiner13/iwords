@@ -72,7 +72,7 @@ class Dictionary {
     }()
 
     private var wordsDidFinishLoading = false
-    private var activeContinuation: CheckedContinuation<String?, Never>?
+    private var activeContinuation: CheckedContinuation<String?, Error>?
     private var queue: [(String, Direction, Options, CheckedContinuation<String?, Never>)] = []
     private var cancellables: [AnyCancellable] = []
     private var process: Process?
@@ -92,32 +92,10 @@ class Dictionary {
 
     // MARK: - Methods
 
-    func didGetResult(_ str: String) {
-        print("Process did get result: ", str)
-//        guard wordsDidFinishLoading else {
-//            print("Process ignoring because this is just words loading...")
-//            wordsDidFinishLoading = true
-//            return
-//        }
-        var str = str
-        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
-        if str.suffix(2) == "=>" {
-            str = String(str.dropLast(2))
-        }
-        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        print("Process returning with result data")
-
-        activeContinuation?.resume(returning: str)
-        activeContinuation = nil
-    }
-
     func getDefinitions(_ inputs: [String], direction: Direction, options: Options) async throws -> [(String, String?)] {
         var results: [(String, String?)] = []
         for input in inputs {
-            print("Process: getting results for \(input)")
             results.append((input, try await getDefinition(input, direction: direction, options: options)))
-            print("Process: GOT RESULTS FOR \(input)")
         }
         return results
     }
@@ -129,10 +107,11 @@ class Dictionary {
         guard activeContinuation == nil else {
             throw DWError(description: "Lookup already in progress")
         }
-        return await withCheckedContinuation { checkedContinuation in
+        return try await withCheckedThrowingContinuation { checkedContinuation in
             func write(_ str: String) {
                 inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
             }
+
             switch direction {
             case .latinToEnglish:
                 write("~L\n")
@@ -144,6 +123,56 @@ class Dictionary {
 
             self.activeContinuation = checkedContinuation
         }
+    }
+
+    // MARK: - Private methods
+
+    private var tempData = Data()
+    private func handleNewData(from fileHandle: FileHandle) {
+        let newData = fileHandle.availableData
+        tempData += newData
+
+        // Always prefix of an English-to-Latin result
+        let englishToLatinPrefix = "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )\n\n=>"
+        // Always prefix of a Latin-to-English result
+        let latinToEnglishPrefix = "Language changed to LATIN_TO_ENGLISH\n\n=>"
+
+        guard let string = String(data: tempData, encoding: .utf8) else {
+            return
+        }
+
+        if string.hasPrefix(englishToLatinPrefix),
+           case let trimmed = string.dropFirst(englishToLatinPrefix.count),
+           trimmed.hasSuffix("\n\n=>") {
+            DispatchQueue.main.async {
+                self.handleDefinitionResult(String(trimmed))
+                self.tempData.removeAll()
+            }
+        } else if string.hasPrefix(latinToEnglishPrefix),
+                  case let trimmed = string.dropFirst(latinToEnglishPrefix.count),
+                  trimmed.hasSuffix("\n\n=>") {
+            DispatchQueue.main.async {
+                self.handleDefinitionResult(String(trimmed))
+                self.tempData.removeAll()
+            }
+        } else if string.hasSuffix("[tilde E]\n\n=>") {
+            // This is the end of the initialization message, just ignore it
+            DispatchQueue.main.async {
+                self.tempData.removeAll()
+            }
+        }
+    }
+
+    private func handleDefinitionResult(_ str: String) {
+        var str = str
+        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
+        if str.suffix(2) == "=>" {
+            str = String(str.dropLast(2))
+        }
+        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        activeContinuation?.resume(returning: str)
+        activeContinuation = nil
     }
 
     private func startProcess() {
@@ -164,66 +193,18 @@ class Dictionary {
 
         let outputFileHandle = outputPipe!.fileHandleForReading
 
-        var tempData = Data()
-        outputFileHandle.readabilityHandler = { [weak self] fileHandle in
-            let newData = fileHandle.availableData
-            tempData += newData
-            print("Process: \(newData.count) new bytes", String(data: newData, encoding: .utf8))
-
-            let englishToLatinPrefix = "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )\n\n=>"
-            let latinToEnglishPrefix = "Language changed to LATIN_TO_ENGLISH\n\n=>"
-
-            guard let string = String(data: tempData, encoding: .utf8) else {
-                return
-            }
-
-            if string.hasPrefix(englishToLatinPrefix),
-               case let trimmed = string.dropFirst(englishToLatinPrefix.count),
-               trimmed.hasSuffix("\n\n=>") {
-                DispatchQueue.main.async {
-                    self?.didGetResult(String(trimmed))
-                    tempData.removeAll()
-                }
-            } else if string.hasPrefix(latinToEnglishPrefix),
-                      case let trimmed = string.dropFirst(latinToEnglishPrefix.count),
-                      trimmed.hasSuffix("\n\n=>") {
-                DispatchQueue.main.async {
-                    self?.didGetResult(String(trimmed))
-                    tempData.removeAll()
-                }
-            } else if string.hasSuffix("[tilde E]\n\n=>") {
-                // Ignore loading message
-                DispatchQueue.main.async {
-                    tempData.removeAll()
-                }
-            }
-        }
+        outputFileHandle.readabilityHandler = handleNewData(from:)
 
         process = p
 
-        p.terminationHandler = { [weak self] p in
+        p.terminationHandler = { [weak self] process in
             guard let self = self else { return }
 
-            print("PROCESS KILLED")
-
-            let outputData = self.outputPipe!.fileHandleForReading.readDataToEndOfFile()
-            let output = String(decoding: outputData, as: UTF8.self)
-
-            let errorData = self.errorPipe!.fileHandleForReading.readDataToEndOfFile()
-            let error = String(decoding: errorData, as: UTF8.self)
-
-            if p.terminationStatus != 0 {
-                print(DWError(description: "Process failed with exit code \(p.terminationStatus)"))
-            }
-
-            if error.count > 0 {
-                print(DWError(description: error))
-            } else {
-                print(output)
+            if process.terminationStatus != 0 {
+                self.activeContinuation!.resume(throwing: DWError(description: "Process failed with exit code \(process.terminationStatus)"))
+                return
             }
         }
-
-        print("LAUNCHING PROCESS")
 
         p.launch()
     }
