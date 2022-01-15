@@ -368,6 +368,13 @@ class LookupWindowController: NSWindowController {
     private var isLoading = false {
         didSet {
             backForwardController.updateSegmentedControl()
+            lookupViewController.setLoading(isLoading)
+            window?.tab.accessoryView = isLoading ? NSProgressIndicator().then {
+                $0.controlSize = .small
+                $0.isIndeterminate = true
+                $0.style = .spinning
+                $0.startAnimation(self)
+            } : nil
         }
     }
 
@@ -375,10 +382,8 @@ class LookupWindowController: NSWindowController {
         Task(priority: .userInitiated) {
             do {
                 isLoading = true
-                lookupViewController.setLoading(true)
                 let results = try await dictionaryController.search(text: query.searchText)
                 lookupViewController.results = results
-                lookupViewController.setLoading(false)
                 isLoading = false
             } catch {
                 self.presentError(error)
