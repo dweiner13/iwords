@@ -34,14 +34,17 @@ class DictionaryController: NSObject, NSSecureCoding {
         static func allRawStyled(_ results: [Result], font: NSFont) -> NSAttributedString {
             let attrString = results
                 .map { result in
-                    NSMutableAttributedString(string: result.input, attributes: [.font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask), .underlineStyle: NSUnderlineStyle.single.rawValue]).then {
+                    NSMutableAttributedString(string: result.input,
+                                              attributes: [
+                                                .font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask),
+                                                .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4; $0.paragraphSpacingBefore = 20 }]).then {
                         $0.append(.init(string: "\n", attributes: [.font: font]))
-                        $0.append(.init(string: result.raw ?? "No result", attributes: [.font: font]))
+                                                    $0.append(.init(string: result.raw ?? "No result", attributes: [.font: font, .paragraphStyle: NSMutableParagraphStyle().then { $0.firstLineHeadIndent = 16; $0.headIndent = 32 }]))
                     }
                 }
-                .reduce(into: NSMutableAttributedString()) { partialResult, styledDefinition in
+                .reduce(into: NSMutableAttributedString(string: "", attributes: [.font: font])) { partialResult, styledDefinition in
                     partialResult.append(styledDefinition)
-                    partialResult.append(.init(string: "\n\n"))
+                    partialResult.append(.init(string: "\n", attributes: [.font: font]))
                 }
             if attrString.length == 0 {
                 return NSAttributedString(string: "No results.", attributes: [.font: font])
