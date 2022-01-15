@@ -48,7 +48,11 @@ class SearchQuery: NSObject, NSSecureCoding {
     }
 
     func displaySearchText() -> String {
-        String(searchText.prefix(100))
+        if searchText.count > 100 {
+            return searchText.prefix(100).appending("…")
+        } else {
+            return searchText
+        }
     }
 
     init?(fromPropertyListRepresentation obj: Any) {
