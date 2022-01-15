@@ -8,6 +8,7 @@
 import Cocoa
 import Combine
 import SwiftUI
+import Flow
 
 extension NSUserInterfaceItemIdentifier {
     static let backMenuItem = NSUserInterfaceItemIdentifier("back")
@@ -102,6 +103,12 @@ private extension NSStoryboard.SceneIdentifier {
 
 let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
 
+private extension NSUserInterfaceItemIdentifier {
+    static let fontSizeMenuFormDecrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormDecrease")
+    static let fontSizeMenuFormIncrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormIncrease")
+}
+
+
 class LookupWindowController: NSWindowController {
 
     override class var restorableStateKeyPaths: [String] {
@@ -140,10 +147,7 @@ class LookupWindowController: NSWindowController {
                                            keyEquivalent: "")
         directionItem.menuFormRepresentation = directionMenuItem
 
-        // TODO: restore this
-//        let fontSizeMenuItem = NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "")
-//        fontSizeMenuItem.submenu = fontSizeController.menu()
-//        fontSizeItem.menuFormRepresentation = fontSizeMenuItem
+        fontSizeItem.menuFormRepresentation = fontMenuFormRepresentation()
 
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
@@ -278,6 +282,29 @@ class LookupWindowController: NSWindowController {
         }
     }
     #endif
+
+    private func fontMenuFormRepresentation() -> NSMenuItem {
+        NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "").then {
+            $0.submenu = NSMenu().then { m in
+                let decrease = NSMenuItem(title: "Decrease Text Size",
+                                          action: #selector(NSFontManager.modifyFont(_:)),
+                                          keyEquivalent: "").then {
+                    $0.target = NSFontManager.shared
+                    $0.identifier = .fontSizeMenuFormDecrease
+                    $0.tag = Int(NSFontAction.sizeDownFontAction.rawValue)
+                }
+                m.addItem(decrease)
+                let increase = NSMenuItem(title: "Increase Text Size",
+                                          action: #selector(NSFontManager.modifyFont(_:)),
+                                          keyEquivalent: "").then {
+                    $0.target = NSFontManager.shared
+                    $0.identifier = .fontSizeMenuFormIncrease
+                    $0.tag = Int(NSFontAction.sizeUpFontAction.rawValue)
+                }
+                m.addItem(increase)
+            }
+        }
+    }
 
     // The core of the logic for actually performing a query and updating the UI.
     private func _setSearchQuery(_ searchQuery : SearchQuery,

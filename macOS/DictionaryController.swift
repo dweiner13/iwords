@@ -63,20 +63,20 @@ class DictionaryController: NSObject, NSSecureCoding {
 
     private var dictionary: Dictionary
 
-    internal init(dictionary: Dictionary = .init(),
+    internal init(dictionary: Dictionary = Dictionary(),
                   direction: Dictionary.Direction) {
         self.dictionary = dictionary
         self.direction = direction
     }
 
     required init?(coder: NSCoder) {
-        dictionary = .init()
+        dictionary = Dictionary()
         direction = Dictionary.Direction(rawValue: coder.decodeInteger(forKey: "direction")) ?? .latinToEnglish
     }
 
     // Required for storyboard initialization
     override init() {
-        dictionary = .init()
+        dictionary = Dictionary()
         direction = .latinToEnglish
         super.init()
     }
