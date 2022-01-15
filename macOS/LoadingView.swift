@@ -23,7 +23,7 @@ class LoadingView: NSView {
     }
 
     override func updateLayer() {
-        layer!.backgroundColor = NSColor.white.withAlphaComponent(0.5).cgColor
+        layer!.backgroundColor = NSColor.windowBackgroundColor.withAlphaComponent(0.5).cgColor
         super.updateLayer()
     }
 }

@@ -11,6 +11,7 @@ import Cocoa
 protocol BackForwardDelegate: AnyObject {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController)
     func backForwardControllerShouldChangeCurrentQuery(_ controller: BackForwardController) -> Bool
+    func backForwardController(_ controller: BackForwardController, alernateNavigationToDisplayQuery query: SearchQuery)
 }
 
 private extension NSUserInterfaceItemIdentifier {
@@ -44,6 +45,14 @@ class BackForwardController: NSObject {
 
     var canGoForward: Bool {
         !forwardList.isEmpty && (delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true)
+    }
+
+    var backItem: SearchQuery? {
+        backList.last
+    }
+
+    var forwardItem: SearchQuery? {
+        forwardList.last
     }
 
     private var backList: [SearchQuery] = [] {
@@ -95,6 +104,14 @@ class BackForwardController: NSObject {
         guard delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true else {
             return
         }
+        // If user holds shift, go back in new window
+        if let currentEvent = NSApp.currentEvent,
+           currentEvent.modifierFlags.contains(.shift),
+            let delegate = delegate,
+            let backItem = backItem {
+            delegate.backForwardController(self, alernateNavigationToDisplayQuery: backItem)
+            return
+        }
         guard let back = backList.popLast() else {
             return
         }
@@ -109,6 +126,14 @@ class BackForwardController: NSObject {
     @IBAction
     func goForward(_ sender: Any?) {
         guard delegate?.backForwardControllerShouldChangeCurrentQuery(self) ?? true else {
+            return
+        }
+        // If user holds shift, go back in new window
+        if let currentEvent = NSApp.currentEvent,
+           currentEvent.modifierFlags.contains(.shift),
+            let delegate = delegate,
+            let forwardItem = forwardItem {
+            delegate.backForwardController(self, alernateNavigationToDisplayQuery: forwardItem)
             return
         }
         guard let forward = forwardList.popLast() else {

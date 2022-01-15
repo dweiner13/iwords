@@ -167,8 +167,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction
     func newWindow(_ sender: Any?) {
-        let newWindow = LookupWindowController.newWindow(copying: keyWindowController())
-        showNewWindow(newWindow)
+        LookupWindowController.newController(copying: keyWindowController())
+            .window
+            .map(showNewWindow(_:))
     }
 
     func showNewWindow(_ newWindow: NSWindow) {

@@ -130,8 +130,6 @@ class LookupWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        print("fontManager", fontManager)
-
         // Set up menu form equivalents for toolbar items
         let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
         backForwardMenuItem.submenu = backForwardController.menu()
@@ -174,6 +172,7 @@ class LookupWindowController: NSWindowController {
             print("Ignoring redundant search query \(searchQuery)")
             return
         }
+
         self._setSearchQuery(searchQuery,
                              updateHistoryLists: true,
                              updateBackForward: true)
@@ -315,9 +314,13 @@ class LookupWindowController: NSWindowController {
 
     @IBAction
     private func searchFieldAction(_ field: NSSearchField) {
-        if let sanitized = sanitize(searchFieldValue: field.stringValue) {
-            setSearchQuery(SearchQuery(sanitized, dictionaryController.direction))
+        guard let sanitized = sanitize(searchFieldValue: field.stringValue) else {
+            return
         }
+
+        let query = SearchQuery(sanitized, dictionaryController.direction)
+
+        setSearchQuery(query)
     }
 
     private func sanitize(searchFieldValue: String) -> String? {
@@ -354,7 +357,7 @@ class LookupWindowController: NSWindowController {
     }
 
     override func newWindowForTab(_ sender: Any?) {
-        let newWindow = Self.newWindow(copying: self)
+        let newWindow = Self.newController(copying: self).window!
         var windowToAddTabAfter: NSWindow?
 
         if sender is NSWindow {
@@ -378,14 +381,14 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    static func newWindow(copying original: LookupWindowController? = nil) -> NSWindow {
+    static func newController(copying original: LookupWindowController? = nil) -> LookupWindowController {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         let newController = storyboard.instantiateController(withIdentifier: .lookupWindowController)
             as! LookupWindowController
         if let original = original {
             newController.copyState(from: original)
         }
-        return newController.window!
+        return newController
     }
 
     private func updateTitle(forDirection direction: Dictionary.Direction) {
@@ -457,6 +460,15 @@ extension LookupWindowController: BackForwardDelegate {
 
     func backForwardControllerShouldChangeCurrentQuery(_ controller: BackForwardController) -> Bool {
         !isLoading
+    }
+
+    func backForwardController(_ controller: BackForwardController,
+                               alernateNavigationToDisplayQuery query: SearchQuery) {
+        let controller = Self.newController()
+        controller._setSearchQuery(query,
+                                   updateHistoryLists: false,
+                                   updateBackForward: true)
+        controller.window?.makeKeyAndOrderFront(self)
     }
 }
 

@@ -128,8 +128,11 @@ class LookupViewController: NSViewController {
 
     func updateForResults(_ results: [DictionaryController.Result]) {
         if let textStorage = textView.textStorage {
+            let attrString = DictionaryController.Result.allRawStyled(results, font: AppDelegate.shared.font)
+                .let { NSMutableAttributedString(attributedString: $0) }
+                .then { $0.addAttributes([.foregroundColor: NSColor.labelColor], range: NSRange(location: 0, length: $0.length)) }
             textStorage.replaceCharacters(in: NSRange(location: 0, length: textStorage.length),
-                                          with: DictionaryController.Result.allRawStyled(results, font: AppDelegate.shared.font))
+                                          with: attrString)
         }
 
         definitionHostingView?.isHidden = true
@@ -238,29 +241,29 @@ class LookupViewController: NSViewController {
                                                  """ + " ",
                                           attributes: [
                                             .font: AppDelegate.shared.font,
-                                            .foregroundColor: NSColor.black]))
+                                            .foregroundColor: NSColor.labelColor]))
             str.append(NSAttributedString(string: "View help",
                                           attributes: [
                                             .link: URL(string: "iwords:help")!,
                                             .font: AppDelegate.shared.font,
-                                            .foregroundColor: NSColor.black]))
+                                            .foregroundColor: NSColor.labelColor]))
             str.append(NSAttributedString(string: """
 
                                                  *
                                                  """ + " ",
                                           attributes: [
                                             .font: AppDelegate.shared.font,
-                                            .foregroundColor: NSColor.black]))
+                                            .foregroundColor: NSColor.labelColor]))
             str.append(NSAttributedString(string: "Send feedback",
                                           attributes: [
                                             .link: URL(string: "iwords:feedback")!,
                                             .font: AppDelegate.shared.font,
-                                            .foregroundColor: NSColor.black]))
+                                            .foregroundColor: NSColor.labelColor]))
             return str
         }
 
         if let textStorage = textView.textStorage {
-            textStorage.replaceCharacters(in: NSRange(location: 0, length: textStorage.length), with: helpText())
+            textStorage.setAttributedString(helpText())
         }
     }
 }

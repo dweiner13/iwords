@@ -181,6 +181,8 @@ class Dictionary {
             }
         }
 
+        // TODO: fix Latin to English output
+
         process = p
 
         p.terminationHandler = { [weak self] p in
