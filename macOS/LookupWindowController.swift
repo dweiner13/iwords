@@ -248,8 +248,11 @@ class LookupWindowController: NSWindowController {
     @IBAction
     func lookUpInPerseus(_ sender: Any?) {
         let searchText: String? = {
-            if let menuItemSender = sender as? NSMenuItem {
-                return menuItemSender.representedObject as? String
+            if let menuItemSender = sender as? NSMenuItem,
+               let representedObject = menuItemSender.representedObject as? String {
+                // If sender is menu item in context menu in the results text view,
+                // representedObject will be the selected text
+                return representedObject
             } else {
                 return backForwardController.currentSearchQuery?.searchText
             }
