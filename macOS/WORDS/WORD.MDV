@@ -16,9 +16,9 @@ DO_SYNCOPE                        Y
 DO_TWO_WORDS                      Y
 INCLUDE_UNKNOWN_CONTEXT           Y
 NO_MEANINGS                       N
-OMIT_ARCHAIC                      Y
+OMIT_ARCHAIC                      N
 OMIT_MEDIEVAL                     N
-OMIT_UNCOMMON                     Y
+OMIT_UNCOMMON                     N
 DO_I_FOR_J                        N
 DO_U_FOR_V                        N
 PAUSE_IN_SCREEN_OUTPUT            N
