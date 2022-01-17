@@ -58,8 +58,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
 
         observation = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
-                                               object: nil,
-                                               queue: nil) { [weak self] notification in
+                                                             object: nil,
+                                                             queue: nil) { [weak self] notification in
             self?.updateDirectionItemsState()
         }
 
@@ -125,9 +125,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         saveFont(font)
     }
 
-    func updateDirectionItemsState() {
-        latinToEnglishItem.state = keyWindowDirection == .latinToEnglish ? .on  : .off
-        englishToLatinItem.state = keyWindowDirection == .englishToLatin ? .on :  .off
+    func updateDirectionItemsState(_ newDirection: Dictionary.Direction? = nil) {
+        latinToEnglishItem.state = newDirection ?? keyWindowDirection == .latinToEnglish ? .on  : .off
+        englishToLatinItem.state = newDirection ?? keyWindowDirection == .englishToLatin ? .on :  .off
     }
 
     #if DEBUG
@@ -148,7 +148,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         UserDefaults.standard.register(defaults: [
             "diagnosticMode": false,
             "history": [],
-            "prettyResults": false
+            "prettyResults": false,
+            "searchBarGrowsToFitContent": true,
+            "copySearchToNewWindows": false
         ])
     }
 
@@ -167,7 +169,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction
     func newWindow(_ sender: Any?) {
-        LookupWindowController.newController(copying: keyWindowController())
+        LookupWindowController.newController(copying: UserDefaults.standard.bool(forKey: "copySearchToNewWindows") ? keyWindowController() : nil)
             .window
             .map(showNewWindow(_:))
     }

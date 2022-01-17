@@ -116,7 +116,7 @@ private extension NSUserInterfaceItemIdentifier {
 class LookupWindowController: NSWindowController {
 
     override class var restorableStateKeyPaths: [String] {
-        ["_direction", "window.tab.title", "searchField.stringValue", "dictionaryController"]
+        ["_direction", "window.tab.title", "dictionaryController"]
     }
 
     @IBOutlet @objc
@@ -129,14 +129,31 @@ class LookupWindowController: NSWindowController {
     var dictionaryController: DictionaryController!
 
     @IBOutlet weak var backForwardToolbarItem: NSToolbarItem!
-    @IBOutlet weak var directionItem: NSToolbarItem!
+    @IBOutlet weak var directionToggleItem: NSToolbarItem!
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
     @IBOutlet weak var directionToggleButton: NSButton!
-    @IBOutlet weak var searchField: NSSearchField!
+
+    private var searchBar: SearchBarViewController!
 
     var lookupViewController: LookupViewController! {
         contentViewController as? LookupViewController
     }
+
+    private var cancellables: [AnyCancellable] = []
+
+    private lazy var directionMenuFormRepresentation: NSMenu = {
+        NSMenu().then { menu in
+            Dictionary.Direction.allCases
+                .map {
+                    let item = NSMenuItem(title: $0.description, action: #selector(setDirection(_:)), keyEquivalent: "")
+                    item.tag = $0.rawValue
+                    return item
+                }
+                .forEach {
+                    menu.addItem($0)
+                }
+        }
+    }()
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -146,10 +163,10 @@ class LookupWindowController: NSWindowController {
         backForwardMenuItem.submenu = backForwardController.menu()
         backForwardToolbarItem.menuFormRepresentation = backForwardMenuItem
 
-        let directionMenuItem = NSMenuItem(title: "Toggle Direction",
-                                           action: #selector(toggleDirection(_:)),
-                                           keyEquivalent: "")
-        directionItem.menuFormRepresentation = directionMenuItem
+        directionToggleItem?.menuFormRepresentation = NSMenuItem(title: "Direction", action: nil, keyEquivalent: "")
+            .then {
+                $0.submenu = directionMenuFormRepresentation
+            }
 
         fontSizeItem.menuFormRepresentation = fontMenuFormRepresentation()
 
@@ -158,9 +175,37 @@ class LookupWindowController: NSWindowController {
 
         window?.restorationClass = WindowRestoration.self
 
+        dictionaryController.$direction
+            .sink { direction in
+                AppDelegate.shared?.updateDirectionItemsState(direction)
+                self.updateTitle(forDirection: direction)
+                self.invalidateRestorableState()
+                self.directionToggleButton.title = direction.description
+
+                self.directionMenuFormRepresentation.items[direction.rawValue].state = .on
+                self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
+            }
+            .store(in: &cancellables)
+
         dictionaryController.delegate = self
 
         updateTitle(forDirection: dictionaryController.direction)
+
+        lookupViewController.backForwardController = backForwardController
+
+        searchBar = NSStoryboard.main!.instantiateController(withIdentifier: .init("SearchBarViewController")) as? SearchBarViewController
+        window?.addTitlebarAccessoryViewController(searchBar)
+        searchBar.delegate = self
+        searchBar.backForwardController = backForwardController
+    }
+
+    @objc
+    func setDirection(_ sender: NSMenuItem) {
+        guard let direction = Dictionary.Direction(rawValue: sender.tag) else {
+            return
+        }
+
+        dictionaryController.direction = direction
     }
 
     @objc
@@ -203,8 +248,11 @@ class LookupWindowController: NSWindowController {
     @IBAction
     func lookUpInPerseus(_ sender: Any?) {
         let searchText: String? = {
-            if let menuItemSender = sender as? NSMenuItem {
-                return menuItemSender.representedObject as? String
+            if let menuItemSender = sender as? NSMenuItem,
+               let representedObject = menuItemSender.representedObject as? String {
+                // If sender is menu item in context menu in the results text view,
+                // representedObject will be the selected text
+                return representedObject
             } else {
                 return backForwardController.currentSearchQuery?.searchText
             }
@@ -337,8 +385,6 @@ class LookupWindowController: NSWindowController {
             return
         }
 
-        searchField.stringValue = searchQuery.searchText
-
         self.window?.tab.title = searchQuery.displaySearchText()
 
         dictionaryController.direction = searchQuery.direction
@@ -353,8 +399,13 @@ class LookupWindowController: NSWindowController {
     }
 
     @IBAction
-    private func toggleDirection(_ sender: Any?) {
-        dictionaryController.direction.toggle()
+    private func changeDirection(_ sender: Any?) {
+        if let senderMenuItem = sender as? NSMenuItem,
+           let newDirection = Dictionary.Direction(rawValue: senderMenuItem.tag) {
+            dictionaryController.direction = newDirection
+        } else {
+            dictionaryController.direction.toggle()
+        }
     }
 
     @IBAction
@@ -364,6 +415,8 @@ class LookupWindowController: NSWindowController {
                 return sender.stringValue
             } else if let sender = sender as? NSMenuItem {
                 return sender.representedObject as? String
+            } else if let sender = sender as? String {
+                return sender
             } else { return nil }
         }()
 
@@ -373,10 +426,11 @@ class LookupWindowController: NSWindowController {
             } else { return nil }
         }()
 
-        let isAlternateNavigation = sender is NSMenuItem && NSApp.currentEventModifierFlags.contains(.shift)
+        let isAlternateNavigation = NSApp.currentEventModifierFlags.contains(.shift)
 
         guard let searchText = searchText,
-              let sanitized = sanitize(searchFieldValue: searchText) else {
+              let sanitized = Dictionary.sanitize(input: searchText) else {
+            NSSound.beep()
             return
         }
 
@@ -385,17 +439,10 @@ class LookupWindowController: NSWindowController {
         setSearchQuery(query, withAlternativeNavigation: isAlternateNavigation)
     }
 
-    private func sanitize(searchFieldValue: String) -> String? {
-        let trimmed = searchFieldValue
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .trimmingCharacters(in: CharacterSet(["#", "!", "@", "~"]))
-        return trimmed.count > 1 ? trimmed : nil
-    }
-
     private var isLoading = false {
         didSet {
             backForwardController?.updateSegmentedControl()
-            lookupViewController?.setLoading(isLoading)
+            lookupViewController?.isLoading = isLoading
             window?.tab.accessoryView = isLoading ? NSProgressIndicator().then {
                 $0.controlSize = .small
                 $0.isIndeterminate = true
@@ -421,13 +468,8 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    @objc
-    private func focusSearch(_ sender: Any?) {
-        searchField?.becomeFirstResponder()
-    }
-
     override func newWindowForTab(_ sender: Any?) {
-        let newWindow = Self.newController(copying: self).window!
+        let newWindow = Self.newController(copying: UserDefaults.standard.bool(forKey: "copySearchToNewWindows") ? self : nil).window!
         var windowToAddTabAfter: NSWindow?
 
         if sender is NSWindow {
@@ -438,6 +480,11 @@ class LookupWindowController: NSWindowController {
 
         windowToAddTabAfter?.addTabbedWindow(newWindow, ordered: .above)
         newWindow.makeKeyAndOrderFront(sender)
+    }
+
+    @objc
+    func focusSearch(_ sender: Any?) {
+        searchBar?.focusSearch(sender)
     }
 
     func copyState(from otherController: LookupWindowController) {
@@ -464,9 +511,8 @@ class LookupWindowController: NSWindowController {
     private func updateTitle(forDirection direction: Dictionary.Direction) {
         if #available(macOS 11.0, *) {
             window?.title = "iWords"
-            window?.subtitle = direction.description
         } else {
-            window?.title = "iWords (\(direction.description))"
+            window?.title = "iWords"
         }
     }
 }
@@ -505,7 +551,7 @@ extension LookupWindowController {
 
 extension LookupWindowController: NSWindowDelegate {
     func windowDidBecomeKey(_ notification: Notification) {
-        searchField.becomeFirstResponder()
+        searchBar?.focusSearch(self)
     }
 
     func windowWillUseStandardFrame(_ window: NSWindow, defaultFrame newFrame: NSRect) -> NSRect {
@@ -546,11 +592,10 @@ extension LookupWindowController: DictionaryControllerDelegate {
     func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
         lookupViewController.progressIndicator.doubleValue = progress * 100
     }
+}
 
-    func dictionaryController(_ controller: DictionaryController,
-                              didChangeDirectionTo direction: Dictionary.Direction) {
-        AppDelegate.shared?.updateDirectionItemsState()
-        updateTitle(forDirection: direction)
-        invalidateRestorableState()
+extension LookupWindowController: SearchBarDelegate {
+    func searchBar(_ searchBar: SearchBarViewController, didSearchText text: String) {
+        search(text)
     }
 }

@@ -3,7 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
-        <capability name="Search Toolbar Item" minToolsVersion="12.0" minSystemVersion="11.0"/>
+        <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -269,18 +269,18 @@
                                     <items>
                                         <menuItem title="Latin → English" state="on" keyEquivalent="L" id="5iD-gI-CXi" userLabel="Latin to English">
                                             <connections>
-                                                <action selector="setLatinToEnglish:" target="Ady-hI-5gd" id="W9L-AX-aK5"/>
+                                                <action selector="changeDirection:" target="Ady-hI-5gd" id="4Dd-su-E5Y"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="English → Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
                                             <connections>
-                                                <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="LSS-QM-c8U"/>
+                                                <action selector="changeDirection:" target="Ady-hI-5gd" id="0aK-FT-CKz"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="ocP-aJ-jrt"/>
-                                        <menuItem title="Toggle Direction" keyEquivalent="d" id="s2W-Ty-fmT" userLabel="Toggle">
+                                        <menuItem title="Toggle Direction" tag="-1" keyEquivalent="d" id="s2W-Ty-fmT" userLabel="Toggle">
                                             <connections>
-                                                <action selector="toggleDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
+                                                <action selector="changeDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="NCi-r5-ysW"/>
@@ -328,6 +328,13 @@
                                                 <action selector="toggleTabOverview:" target="Ady-hI-5gd" id="1Db-xo-Oow"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="rXq-SZ-7jx"/>
+                                        <menuItem title="Search Bar Grows to Fit Content" state="on" id="DMa-NV-CR1">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <binding destination="S2P-p1-PcK" name="value" keyPath="values.searchBarGrowsToFitContent" id="UN2-Wr-09c"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DY9-CG-zxi"/>
                                         <menuItem title="Increase Text Size" tag="3" keyEquivalent="+" id="LY5-Jr-UWd">
                                             <connections>
@@ -359,7 +366,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
-                                        <menuItem title="Show Warnings" id="iLZ-ZJ-eP8">
+                                        <menuItem title="Reset Warnings" id="iLZ-ZJ-eP8">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showWarnings:" target="Ady-hI-5gd" id="72V-gR-g8O"/>
@@ -394,6 +401,13 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
+                                        <menuItem title="New Windows/Tabs Use Current Search" id="bJT-WS-5FU">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <binding destination="S2P-p1-PcK" name="value" keyPath="values.copySearchToNewWindows" id="TK7-cf-Rvj"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="gUz-oH-Zo8"/>
                                         <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -445,55 +459,24 @@
                 <customObject id="OSl-4T-ebG" customClass="SUUpdater"/>
                 <userDefaultsController id="ZZt-xK-ds5"/>
                 <customObject id="46f-Bv-BCE" customClass="NSFontManager"/>
+                <userDefaultsController id="S2P-p1-PcK"/>
             </objects>
-            <point key="canvasLocation" x="50" y="-689"/>
+            <point key="canvasLocation" x="61" y="-679"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="LookupWindowController" id="B8D-0N-5wS" customClass="LookupWindowController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="iWords" allowsToolTipsWhenApplicationIsInactive="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                    <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" toolbarStyle="compact" id="IQv-IB-iLA">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="185" y="304" width="700" height="599"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="480" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">
                             <allowedToolbarItems>
-                                <searchToolbarItem implicitItemIdentifier="EF0806E5-27AE-4915-907E-2A592693BD2A" label="Search" paletteLabel="Search" visibilityPriority="1001" id="rsD-Xn-hWC">
-                                    <nil key="toolTip"/>
-                                    <searchField key="view" verticalHuggingPriority="750" preferredMaxLayoutWidth="100" textCompletion="NO" id="2zr-1E-WhB">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="22"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" sendsWholeSearchString="YES" recentsAutosaveName="iWordsRecentSearches" id="ynZ-SL-icV">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </searchFieldCell>
-                                        <connections>
-                                            <action selector="search:" target="B8D-0N-5wS" id="reL-Gf-yw4"/>
-                                        </connections>
-                                    </searchField>
-                                </searchToolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mfa-ju-wND"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
-                                <toolbarItem implicitItemIdentifier="6AC416F3-CFB1-43E6-AD16-62FD92158C30" label="Back/Forward" paletteLabel="Back/Forward" title="Back/Forward" sizingBehavior="auto" navigational="YES" id="5fT-cZ-IJv" userLabel="Back/Forward">
-                                    <nil key="toolTip"/>
-                                    <segmentedControl key="view" verticalHuggingPriority="750" id="62q-qB-wIS">
-                                        <rect key="frame" x="4" y="14" width="71" height="24"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
-                                            <font key="font" metaFont="system"/>
-                                            <segments>
-                                                <segment toolTip="Go back" image="NSGoBackTemplate" width="32"/>
-                                                <segment toolTip="Go forward" image="NSGoForwardTemplate" width="32" tag="1"/>
-                                            </segments>
-                                        </segmentedCell>
-                                        <connections>
-                                            <action selector="backForwardControlPressed:" target="Aj2-OM-btO" id="jUy-Ar-pig"/>
-                                        </connections>
-                                    </segmentedControl>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Font Size" paletteLabel="Font Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj" customClass="FontSizeSegmentedControl" customModule="iWords" customModuleProvider="target">
@@ -511,27 +494,48 @@
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="4C14CD93-0495-4F30-A917-FD7CD19B66A4" label="Toggle" paletteLabel="Toggle Direction" toolTip="Toggle the translation direction" image="arrow.left.arrow.right" catalog="system" bordered="YES" sizingBehavior="auto" navigational="YES" id="FaB-SV-uQT">
-                                    <button key="view" verticalHuggingPriority="750" id="jHl-f1-qFJ">
-                                        <rect key="frame" x="33" y="14" width="28" height="23"/>
+                                <toolbarItem implicitItemIdentifier="6AC416F3-CFB1-43E6-AD16-62FD92158C30" label="Back/Forward" paletteLabel="Back/Forward" title="Back/Forward" sizingBehavior="auto" navigational="YES" id="5fT-cZ-IJv" userLabel="Back/Forward">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="62q-qB-wIS">
+                                        <rect key="frame" x="4" y="14" width="71" height="24"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="arrow.left.arrow.right" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RmB-so-059">
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment toolTip="Go back" image="NSGoBackTemplate" width="32"/>
+                                                <segment toolTip="Go forward" image="NSGoForwardTemplate" width="32" tag="1"/>
+                                            </segments>
+                                        </segmentedCell>
+                                        <connections>
+                                            <action selector="backForwardControlPressed:" target="Aj2-OM-btO" id="jUy-Ar-pig"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="4C14CD93-0495-4F30-A917-FD7CD19B66A4" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin → English" sizingBehavior="auto" id="FaB-SV-uQT">
+                                    <button key="view" toolTip="Toggle the translation direction" verticalHuggingPriority="750" id="jHl-f1-qFJ">
+                                        <rect key="frame" x="0.0" y="14" width="109" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <buttonCell key="cell" type="roundTextured" title="Latin → English" bezelStyle="texturedRounded" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RmB-so-059">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">d</string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="toggleDirection:" target="B8D-0N-5wS" id="xXv-Dt-dQ5"/>
+                                            <action selector="changeDirection:" target="B8D-0N-5wS" id="xXv-Dt-dQ5"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="52E67CFE-A32C-4250-BFC7-591F810ACB9C" label="Perseus" paletteLabel="Perseus" image="p.circle" catalog="system" bordered="YES" sizingBehavior="auto" id="pR4-E5-Ef0">
+                                <toolbarItem implicitItemIdentifier="52E67CFE-A32C-4250-BFC7-591F810ACB9C" label="Look Up in Perseus" paletteLabel="Look Up in Perseus" image="arrow.up.right.square" catalog="system" bordered="YES" title="Perseus" sizingBehavior="auto" id="pR4-E5-Ef0">
                                     <nil key="toolTip"/>
-                                    <button key="view" verticalHuggingPriority="750" id="qpa-VS-4lI">
-                                        <rect key="frame" x="11" y="14" width="27" height="23"/>
+                                    <button key="view" toolTip="Look up in Perseus Digital Library" verticalHuggingPriority="750" id="qpa-VS-4lI">
+                                        <rect key="frame" x="13" y="14" width="82" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="p.circle" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f6n-DK-oM9">
+                                        <buttonCell key="cell" type="roundTextured" title="Perseus" bezelStyle="texturedRounded" image="arrow.up.right.square" catalog="system" imagePosition="leading" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f6n-DK-oM9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">p</string>
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                         </buttonCell>
                                     </button>
                                     <connections>
@@ -542,9 +546,8 @@
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
-                                <toolbarItem reference="FaB-SV-uQT"/>
                                 <toolbarItem reference="ocg-9b-k2f"/>
-                                <searchToolbarItem reference="rsD-Xn-hWC"/>
+                                <toolbarItem reference="FaB-SV-uQT"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -555,11 +558,10 @@
                         <outlet property="backForwardController" destination="Aj2-OM-btO" id="Sy8-uX-0Hq"/>
                         <outlet property="backForwardToolbarItem" destination="5fT-cZ-IJv" id="r2r-Cr-QM9"/>
                         <outlet property="dictionaryController" destination="lRh-Yv-s9e" id="5lQ-38-jFh"/>
-                        <outlet property="directionItem" destination="FaB-SV-uQT" id="ypv-c0-ecm"/>
-                        <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="C4R-Rb-OST"/>
+                        <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="2zm-Mt-Vve"/>
+                        <outlet property="directionToggleItem" destination="FaB-SV-uQT" id="sUm-JV-S3o"/>
                         <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>
                         <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
-                        <outlet property="searchField" destination="2zr-1E-WhB" id="HV2-vS-WxE"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
                 </windowController>
@@ -581,21 +583,21 @@
             <objects>
                 <viewController identifier="LookupViewController" storyboardIdentifier="LookupViewController" id="XfG-lQ-9wD" customClass="LookupViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
+                        <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="420" height="404"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="420" height="404"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="420" height="404"/>
+                                            <size key="minSize" width="435" height="444"/>
                                             <size key="maxSize" width="435" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -606,15 +608,15 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="420" y="0.0" width="15" height="404"/>
+                                    <rect key="frame" x="419" y="0.0" width="16" height="444"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-3S-c0A" customClass="LoadingView" customModule="iWords" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="404"/>
+                            <customView hidden="YES" verifyAmbiguity="ignoreSizes" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-3S-c0A" customClass="LoadingView" customModule="iWords" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
                                 <subviews>
-                                    <progressIndicator maxValue="100" doubleValue="50" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-Ja-397">
-                                        <rect key="frame" x="0.0" y="397" width="435" height="12"/>
+                                    <progressIndicator verifyAmbiguity="off" maxValue="100" doubleValue="50" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-Ja-397">
+                                        <rect key="frame" x="0.0" y="385" width="435" height="12"/>
                                     </progressIndicator>
                                 </subviews>
                                 <constraints>
@@ -623,36 +625,171 @@
                                     <constraint firstItem="Lnw-Ja-397" firstAttribute="top" secondItem="aeF-3S-c0A" secondAttribute="top" constant="-5" id="eyH-4x-oj4"/>
                                 </constraints>
                             </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="vJw-zo-fvh">
+                                <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
+                                <subviews>
+                                    <visualEffectView blendingMode="withinWindow" material="windowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="S06-90-KvY">
+                                        <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="juw-G7-c97">
+                                                <rect key="frame" x="177" y="341" width="82" height="31"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="iWords" id="bIr-8q-XQs">
+                                                    <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lNt-p7-nhz">
+                                                <rect key="frame" x="129" y="317" width="177" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Search a word to get started" id="NZv-Iy-D8q">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1zV-kK-sq6">
+                                                <rect key="frame" x="163" y="20" width="110" height="50"/>
+                                                <subviews>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XKC-bN-Znl">
+                                                        <rect key="frame" x="-1" y="28" width="111" height="23"/>
+                                                        <buttonCell key="cell" type="roundTextured" title="View Help Book" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="J7n-g8-5cD">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="showHelp:" target="rPt-NT-nkU" id="odd-P8-q3e"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jsj-Jx-Sd8">
+                                                        <rect key="frame" x="-1" y="-2" width="112" height="23"/>
+                                                        <buttonCell key="cell" type="roundTextured" title="Email Feedback" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HVg-cp-gQr">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="sendFeedback:" target="rPt-NT-nkU" id="HTY-Me-15N"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="1zV-kK-sq6" firstAttribute="centerX" secondItem="juw-G7-c97" secondAttribute="centerX" id="1KJ-QF-h7b"/>
+                                            <constraint firstAttribute="bottom" secondItem="1zV-kK-sq6" secondAttribute="bottom" constant="20" symbolic="YES" id="Szw-Gg-Kt8"/>
+                                            <constraint firstItem="lNt-p7-nhz" firstAttribute="centerX" secondItem="juw-G7-c97" secondAttribute="centerX" id="Tof-Pc-me7"/>
+                                            <constraint firstItem="juw-G7-c97" firstAttribute="top" secondItem="S06-90-KvY" secondAttribute="top" constant="20" symbolic="YES" id="X7w-2Y-mrY"/>
+                                            <constraint firstItem="lNt-p7-nhz" firstAttribute="top" secondItem="juw-G7-c97" secondAttribute="bottom" constant="8" symbolic="YES" id="ZqQ-dw-grE"/>
+                                            <constraint firstItem="juw-G7-c97" firstAttribute="centerX" secondItem="S06-90-KvY" secondAttribute="centerX" id="aSn-Fg-ZON"/>
+                                        </constraints>
+                                    </visualEffectView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="S06-90-KvY" firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" id="SMF-MI-lQU"/>
+                                    <constraint firstAttribute="trailing" secondItem="S06-90-KvY" secondAttribute="trailing" id="c9t-om-Ow9"/>
+                                    <constraint firstAttribute="bottom" secondItem="S06-90-KvY" secondAttribute="bottom" id="f8j-oy-6Qg"/>
+                                    <constraint firstItem="S06-90-KvY" firstAttribute="leading" secondItem="vJw-zo-fvh" secondAttribute="leading" id="pir-ar-Xtf"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="aeF-3S-c0A" secondAttribute="trailing" id="8MV-wU-gwa"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="9vM-Xs-u3T"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="KCn-iG-8Iw"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="SfU-VI-8sz"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="aju-ed-dYN"/>
-                            <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="eOu-Yp-T3G"/>
-                            <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="v0J-go-CBZ"/>
-                            <constraint firstAttribute="bottom" secondItem="aeF-3S-c0A" secondAttribute="bottom" id="z0p-AZ-Pkc"/>
+                            <constraint firstItem="aeF-3S-c0A" firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="7Pm-iP-BOf"/>
+                            <constraint firstItem="ZiB-z0-Agz" firstAttribute="top" secondItem="aeF-3S-c0A" secondAttribute="top" id="9fU-I4-DVt"/>
+                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Ahy-qu-R1U"/>
+                            <constraint firstAttribute="trailing" secondItem="vJw-zo-fvh" secondAttribute="trailing" id="DNu-gO-hB1"/>
+                            <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="EBz-JL-sZC"/>
+                            <constraint firstItem="aeF-3S-c0A" firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="Uic-o1-tow"/>
+                            <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="Czz-wX-hvt" secondAttribute="leading" id="VjF-mw-YAg"/>
+                            <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="XAJ-CS-kOL"/>
+                            <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="Y5E-wS-i7o"/>
+                            <constraint firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="dnd-x3-4Mb"/>
+                            <constraint firstItem="ZiB-z0-Agz" firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" id="esW-qf-JTf"/>
+                            <constraint firstAttribute="bottom" secondItem="vJw-zo-fvh" secondAttribute="bottom" id="f9c-Hg-ejJ"/>
+                            <constraint firstAttribute="top" secondItem="Czz-wX-hvt" secondAttribute="top" id="g4v-W9-fwG"/>
+                            <constraint firstItem="vJw-zo-fvh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="mxg-4r-YiC"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="ZiB-z0-Agz"/>
+                        <viewLayoutGuide key="layoutMargins" id="ieB-cA-Vdm"/>
                     </view>
                     <connections>
                         <outlet property="loadingView" destination="aeF-3S-c0A" id="ShM-qs-hsd"/>
                         <outlet property="progressIndicator" destination="Lnw-Ja-397" id="og0-uM-bz0"/>
                         <outlet property="scrollView" destination="Czz-wX-hvt" id="bFk-Ow-tpL"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
+                        <outlet property="welcomeView" destination="vJw-zo-fvh" id="fvP-dN-YBh"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="jkl-w9-pOM"/>
             </objects>
-            <point key="canvasLocation" x="60.5" y="696"/>
+            <point key="canvasLocation" x="66" y="760"/>
+        </scene>
+        <!--Search Bar View Controller-->
+        <scene sceneID="UbV-vl-mpN">
+            <objects>
+                <viewController storyboardIdentifier="SearchBarViewController" id="A9c-dO-LmW" customClass="SearchBarViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" wantsLayer="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpV-Pf-6an">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="39"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mN3-cV-eKv" customClass="AutoGrowingTextField" customModule="iWords" customModuleProvider="target">
+                                <rect key="frame" x="8" y="8" width="388" height="21"/>
+                                <textFieldCell key="cell" truncatesLastVisibleLine="YES" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Search" drawsBackground="YES" id="CMG-nc-kg8">
+                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <allowedInputSourceLocales>
+                                        <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                                    </allowedInputSourceLocales>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="goAction:" target="A9c-dO-LmW" id="GpD-EC-6eE"/>
+                                </connections>
+                            </textField>
+                            <button verticalHuggingPriority="750" verticalCompressionResistancePriority="999" translatesAutoresizingMaskIntoConstraints="NO" id="fhZ-nT-qgT">
+                                <rect key="frame" x="397" y="0.0" width="52" height="35"/>
+                                <buttonCell key="cell" type="push" title="Go" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d0L-p9-IlO">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                    <connections>
+                                        <action selector="goAction:" target="A9c-dO-LmW" id="WwA-t5-BfO"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="fhZ-nT-qgT" secondAttribute="trailing" constant="8" id="1Zh-nH-nTo"/>
+                            <constraint firstItem="fhZ-nT-qgT" firstAttribute="leading" secondItem="mN3-cV-eKv" secondAttribute="trailing" constant="8" symbolic="YES" id="3Zt-pm-daS"/>
+                            <constraint firstAttribute="bottom" secondItem="mN3-cV-eKv" secondAttribute="bottom" constant="8" id="3xg-DD-Orm"/>
+                            <constraint firstItem="mN3-cV-eKv" firstAttribute="leading" secondItem="lpV-Pf-6an" secondAttribute="leading" constant="8" id="Lig-Qb-wTZ"/>
+                            <constraint firstItem="fhZ-nT-qgT" firstAttribute="centerY" secondItem="mN3-cV-eKv" secondAttribute="centerY" id="OIn-LJ-1GA"/>
+                            <constraint firstItem="mN3-cV-eKv" firstAttribute="top" secondItem="lpV-Pf-6an" secondAttribute="top" constant="7" id="b5Z-A9-pUA"/>
+                            <constraint firstItem="fhZ-nT-qgT" firstAttribute="top" secondItem="lpV-Pf-6an" secondAttribute="top" constant="6" id="r8B-9Z-k4G"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="goButton" destination="fhZ-nT-qgT" id="6Yu-L3-QNK"/>
+                        <outlet property="searchField" destination="mN3-cV-eKv" id="aAt-mt-cyn"/>
+                    </connections>
+                </viewController>
+                <customObject id="tcF-Pn-eM1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="673" y="-213"/>
         </scene>
     </scenes>
     <resources>
         <image name="NSGoBackTemplate" width="10" height="14"/>
         <image name="NSGoForwardTemplate" width="10" height="14"/>
-        <image name="arrow.left.arrow.right" catalog="system" width="16" height="17"/>
-        <image name="p.circle" catalog="system" width="15" height="15"/>
+        <image name="arrow.up.right.square" catalog="system" width="15" height="14"/>
         <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
         <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>
