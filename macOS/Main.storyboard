@@ -335,6 +335,12 @@
                                                 <binding destination="S2P-p1-PcK" name="value" keyPath="values.searchBarGrowsToFitContent" id="UN2-Wr-09c"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Show Styled Results" state="on" id="oWe-sC-QJu">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <binding destination="a7h-fy-GpN" name="value" keyPath="values.showStyledRawResults" id="9Sp-pg-ZiO"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DY9-CG-zxi"/>
                                         <menuItem title="Increase Text Size" tag="3" keyEquivalent="+" id="LY5-Jr-UWd">
                                             <connections>
@@ -460,6 +466,7 @@
                 <userDefaultsController id="ZZt-xK-ds5"/>
                 <customObject id="46f-Bv-BCE" customClass="NSFontManager"/>
                 <userDefaultsController id="S2P-p1-PcK"/>
+                <userDefaultsController id="a7h-fy-GpN"/>
             </objects>
             <point key="canvasLocation" x="61" y="-679"/>
         </scene>

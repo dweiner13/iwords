@@ -150,7 +150,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             "history": [],
             "prettyResults": false,
             "searchBarGrowsToFitContent": true,
-            "copySearchToNewWindows": false
+            "copySearchToNewWindows": false,
+            "showStyledRawResults": true
         ])
     }
 

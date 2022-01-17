@@ -120,26 +120,30 @@ class LookupViewController: NSViewController {
         textView.textContainerInset = NSSize(width: 8, height: 12)
         textView.delegate = self
 
-        #if DEBUG
         startListeningToUserDefaults()
-        #endif
 
         updateWelcomeViewVisibility()
     }
 
-    #if DEBUG
     private func startListeningToUserDefaults() {
+        #if DEBUG
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
+        #endif
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showStyledRawResults", options: .new, context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard keyPath == "values.prettyResults" else {
+        switch keyPath {
+        #if DEBUG
+        case "values.prettyResults":
+            results.map(updateForResults(_:))
+        #endif
+        case "values.showStyledRawResults":
+            results.map(updateForResults(_:))
+        default:
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-            return
         }
-        results.map(updateForResults)
     }
-    #endif
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
         let font = AppDelegate.shared.font
@@ -149,15 +153,16 @@ class LookupViewController: NSViewController {
     }
 
     func updateForResults(_ results: [DictionaryController.Result]) {
-        if let textStorage = textView.textStorage {
+        if UserDefaults.standard.bool(forKey: "showStyledRawResults"),
+           let textStorage = textView.textStorage {
             let attrString = DictionaryController.Result.allRawStyled(results, font: AppDelegate.shared.font)
                 .let { NSMutableAttributedString(attributedString: $0) }
                 .then { $0.addAttributes([.foregroundColor: NSColor.labelColor], range: NSRange(location: 0, length: $0.length)) }
-            textStorage.replaceCharacters(in: NSRange(location: 0, length: textStorage.length),
-                                          with: attrString)
+            textStorage.setAttributedString(attrString)
+        } else {
+            textView.textStorage?.setAttributedString(NSAttributedString(string: DictionaryController.Result.allRaw(results),
+                                                                         attributes: [.font: AppDelegate.shared.font]))
         }
-
-        // TODO: fix shortcuts
 
         definitionHostingView?.isHidden = true
         definitionHostingView?.removeFromSuperview()
