@@ -78,9 +78,8 @@ class Dictionary {
         return url.deletingLastPathComponent()
     }()
 
-    private var wordsDidFinishLoading = false
+    private var wordsIsLoading = true
     private var activeContinuation: CheckedContinuation<String?, Error>?
-    private var queue: [(String, Direction, Options, CheckedContinuation<String?, Never>)] = []
     private var cancellables: [AnyCancellable] = []
     private var process: Process?
     private var outputPipe: Pipe?
@@ -125,6 +124,9 @@ class Dictionary {
         }
         return try await withCheckedThrowingContinuation { checkedContinuation in
             func write(_ str: String) {
+                #if DEBUG
+                print("Sending to stdin:", str)
+                #endif
                 inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
             }
 
@@ -149,7 +151,7 @@ class Dictionary {
         tempData += newData
 
         #if DEBUG
-        print("New data available:", String(data: tempData, encoding: .utf8))
+        print("New data available:", String(data: newData, encoding: .utf8))
         #endif
 
         // Always prefix of an English-to-Latin result
@@ -157,28 +159,29 @@ class Dictionary {
         // Always prefix of a Latin-to-English result
         let latinToEnglishPrefix = "Language changed to LATIN_TO_ENGLISH\n\n=>"
 
-        guard let string = String(data: tempData, encoding: .utf8) else {
-            return
+        guard let tempDataString = String(data: tempData, encoding: .utf8) else {
+            fatalError()
         }
 
-        if string.hasPrefix(englishToLatinPrefix),
-           case let trimmed = string.dropFirst(englishToLatinPrefix.count),
-           trimmed.hasSuffix("\n=>") {
+        #if DEBUG
+        print("tempDataString", tempDataString)
+        #endif
+
+        if case let cmp = tempDataString.components(separatedBy: englishToLatinPrefix),
+           cmp.count > 1,
+           let lastCmp = cmp.last,
+           lastCmp.hasSuffix("\n=>") {
+            tempData.removeAll()
             DispatchQueue.main.async {
-                self.handleDefinitionResult(String(trimmed))
-                self.tempData.removeAll()
+                self.handleDefinitionResult(lastCmp)
             }
-        } else if string.hasPrefix(latinToEnglishPrefix),
-                  case let trimmed = string.dropFirst(latinToEnglishPrefix.count),
-                  trimmed.hasSuffix("\n=>") {
+        } else if case let cmp = tempDataString.components(separatedBy: latinToEnglishPrefix),
+                  cmp.count > 1,
+                  let lastCmp = cmp.last,
+                  lastCmp.hasSuffix("\n=>") {
+            tempData.removeAll()
             DispatchQueue.main.async {
-                self.handleDefinitionResult(String(trimmed))
-                self.tempData.removeAll()
-            }
-        } else if string.hasSuffix("[tilde E]\n\n=>") {
-            // This is the end of the initialization message, just ignore it
-            DispatchQueue.main.async {
-                self.tempData.removeAll()
+                self.handleDefinitionResult(lastCmp)
             }
         }
     }

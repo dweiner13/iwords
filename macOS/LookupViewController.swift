@@ -157,8 +157,7 @@ class LookupViewController: NSViewController {
                                           with: attrString)
         }
 
-        // TODO: fix: look up in perseus is broken from menu bar or from shortcut if button is hidden
-        // TODO: fix: language direction menu items always disabled
+        // TODO: fix shortcuts
 
         definitionHostingView?.isHidden = true
         definitionHostingView?.removeFromSuperview()
