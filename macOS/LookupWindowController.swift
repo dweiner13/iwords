@@ -426,7 +426,7 @@ class LookupWindowController: NSWindowController {
             } else { return nil }
         }()
 
-        let isAlternateNavigation = sender is NSMenuItem && NSApp.currentEventModifierFlags.contains(.shift)
+        let isAlternateNavigation = NSApp.currentEventModifierFlags.contains(.shift)
 
         guard let searchText = searchText,
               let sanitized = Dictionary.sanitize(input: searchText) else {
