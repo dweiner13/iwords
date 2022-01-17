@@ -269,18 +269,18 @@
                                     <items>
                                         <menuItem title="Latin → English" state="on" keyEquivalent="L" id="5iD-gI-CXi" userLabel="Latin to English">
                                             <connections>
-                                                <action selector="setLatinToEnglish:" target="Ady-hI-5gd" id="W9L-AX-aK5"/>
+                                                <action selector="changeDirection:" target="Ady-hI-5gd" id="4Dd-su-E5Y"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="English → Latin" tag="1" keyEquivalent="E" id="NHV-k5-i8L" userLabel="English to Latin">
                                             <connections>
-                                                <action selector="setEnglishToLatin:" target="Ady-hI-5gd" id="LSS-QM-c8U"/>
+                                                <action selector="changeDirection:" target="Ady-hI-5gd" id="0aK-FT-CKz"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="ocP-aJ-jrt"/>
-                                        <menuItem title="Toggle Direction" keyEquivalent="d" id="s2W-Ty-fmT" userLabel="Toggle">
+                                        <menuItem title="Toggle Direction" tag="-1" keyEquivalent="d" id="s2W-Ty-fmT" userLabel="Toggle">
                                             <connections>
-                                                <action selector="toggleDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
+                                                <action selector="changeDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="NCi-r5-ysW"/>
@@ -476,23 +476,6 @@
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mfa-ju-wND"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
-                                <toolbarItem implicitItemIdentifier="6AC416F3-CFB1-43E6-AD16-62FD92158C30" label="Back/Forward" paletteLabel="Back/Forward" title="Back/Forward" sizingBehavior="auto" navigational="YES" id="5fT-cZ-IJv" userLabel="Back/Forward">
-                                    <nil key="toolTip"/>
-                                    <segmentedControl key="view" verticalHuggingPriority="750" id="62q-qB-wIS">
-                                        <rect key="frame" x="4" y="14" width="71" height="24"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
-                                            <font key="font" metaFont="system"/>
-                                            <segments>
-                                                <segment toolTip="Go back" image="NSGoBackTemplate" width="32"/>
-                                                <segment toolTip="Go forward" image="NSGoForwardTemplate" width="32" tag="1"/>
-                                            </segments>
-                                        </segmentedCell>
-                                        <connections>
-                                            <action selector="backForwardControlPressed:" target="Aj2-OM-btO" id="jUy-Ar-pig"/>
-                                        </connections>
-                                    </segmentedControl>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Font Size" paletteLabel="Font Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj" customClass="FontSizeSegmentedControl" customModule="iWords" customModuleProvider="target">
@@ -510,18 +493,35 @@
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="6AC416F3-CFB1-43E6-AD16-62FD92158C30" label="Back/Forward" paletteLabel="Back/Forward" title="Back/Forward" sizingBehavior="auto" navigational="YES" id="5fT-cZ-IJv" userLabel="Back/Forward">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="62q-qB-wIS">
+                                        <rect key="frame" x="4" y="14" width="71" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="separated" trackingMode="momentary" id="iVD-8J-I5D">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment toolTip="Go back" image="NSGoBackTemplate" width="32"/>
+                                                <segment toolTip="Go forward" image="NSGoForwardTemplate" width="32" tag="1"/>
+                                            </segments>
+                                        </segmentedCell>
+                                        <connections>
+                                            <action selector="backForwardControlPressed:" target="Aj2-OM-btO" id="jUy-Ar-pig"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="4C14CD93-0495-4F30-A917-FD7CD19B66A4" label="Direction" paletteLabel="Direction" bordered="YES" title="Latin → English" sizingBehavior="auto" id="FaB-SV-uQT">
                                     <button key="view" toolTip="Toggle the translation direction" verticalHuggingPriority="750" id="jHl-f1-qFJ">
                                         <rect key="frame" x="0.0" y="14" width="109" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="roundTextured" title="Latin → English" alternateTitle="English → Latin" bezelStyle="texturedRounded" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RmB-so-059">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" title="Latin → English" bezelStyle="texturedRounded" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RmB-so-059">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                             <string key="keyEquivalent">d</string>
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="toggleDirection:" target="B8D-0N-5wS" id="xXv-Dt-dQ5"/>
+                                            <action selector="changeDirection:" target="B8D-0N-5wS" id="xXv-Dt-dQ5"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>

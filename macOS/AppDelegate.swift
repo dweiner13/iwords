@@ -58,8 +58,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
 
         observation = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
-                                               object: nil,
-                                               queue: nil) { [weak self] notification in
+                                                             object: nil,
+                                                             queue: nil) { [weak self] notification in
             self?.updateDirectionItemsState()
         }
 
@@ -125,9 +125,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         saveFont(font)
     }
 
-    func updateDirectionItemsState() {
-        latinToEnglishItem.state = keyWindowDirection == .latinToEnglish ? .on  : .off
-        englishToLatinItem.state = keyWindowDirection == .englishToLatin ? .on :  .off
+    func updateDirectionItemsState(_ newDirection: Dictionary.Direction? = nil) {
+        latinToEnglishItem.state = newDirection ?? keyWindowDirection == .latinToEnglish ? .on  : .off
+        englishToLatinItem.state = newDirection ?? keyWindowDirection == .englishToLatin ? .on :  .off
     }
 
     #if DEBUG

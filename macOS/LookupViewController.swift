@@ -44,6 +44,7 @@ class LookupViewController: NSViewController {
 
     func updateWelcomeViewVisibility() {
         welcomeView.isHidden = results != nil || isLoading
+        scrollView.isHidden = !welcomeView.isHidden
     }
 
     @IBOutlet
@@ -122,6 +123,8 @@ class LookupViewController: NSViewController {
         #if DEBUG
         startListeningToUserDefaults()
         #endif
+
+        updateWelcomeViewVisibility()
     }
 
     #if DEBUG
@@ -153,6 +156,9 @@ class LookupViewController: NSViewController {
             textStorage.replaceCharacters(in: NSRange(location: 0, length: textStorage.length),
                                           with: attrString)
         }
+
+        // TODO: fix: look up in perseus is broken from menu bar or from shortcut if button is hidden
+        // TODO: fix: language direction menu items always disabled
 
         definitionHostingView?.isHidden = true
         definitionHostingView?.removeFromSuperview()

@@ -177,10 +177,10 @@ class LookupWindowController: NSWindowController {
 
         dictionaryController.$direction
             .sink { direction in
-                AppDelegate.shared?.updateDirectionItemsState()
+                AppDelegate.shared?.updateDirectionItemsState(direction)
                 self.updateTitle(forDirection: direction)
                 self.invalidateRestorableState()
-                self.directionToggleButton.state = direction == .latinToEnglish ? .off : .on
+                self.directionToggleButton.title = direction.description
 
                 self.directionMenuFormRepresentation.items[direction.rawValue].state = .on
                 self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
@@ -396,8 +396,13 @@ class LookupWindowController: NSWindowController {
     }
 
     @IBAction
-    private func toggleDirection(_ sender: Any?) {
-        dictionaryController.direction.toggle()
+    private func changeDirection(_ sender: Any?) {
+        if let senderMenuItem = sender as? NSMenuItem,
+           let newDirection = Dictionary.Direction(rawValue: senderMenuItem.tag) {
+            dictionaryController.direction = newDirection
+        } else {
+            dictionaryController.direction.toggle()
+        }
     }
 
     @IBAction

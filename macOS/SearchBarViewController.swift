@@ -58,7 +58,7 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 
         startListeningToUserDefaults()
 
-        searchField.autogrows = UserDefaults.standard.bool(forKey: "searchBarGrowsToFitContent")
+        setAutogrows(UserDefaults.standard.bool(forKey: "searchBarGrowsToFitContent"))
 
         view.menu = NSMenu().then {
             $0.addItem(NSMenuItem(title: "Search Bar Grows to Fit Content",
@@ -90,8 +90,21 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
             return
         }
-        searchField.autogrows = UserDefaults.standard.bool(forKey: "searchBarGrowsToFitContent")
-        self.searchField.invalidateSize()
+        setAutogrows(UserDefaults.standard.bool(forKey: "searchBarGrowsToFitContent"))
+    }
+
+    private func setAutogrows(_ autogrows: Bool) {
+        if view.window?.firstResponder == view.window?.fieldEditor(false, for: searchField) {
+            view.window?.makeFirstResponder(nil)
+        }
+
+        searchField.autogrows = autogrows
+        searchField.lineBreakMode = autogrows ? .byWordWrapping : .byClipping
+        searchField.cell?.wraps = autogrows
+        searchField.cell?.isScrollable = !autogrows
+        searchField.cell?.usesSingleLineMode = !autogrows
+
+        searchField.invalidateSize()
         refreshHeight()
     }
 
