@@ -429,7 +429,7 @@ class LookupWindowController: NSWindowController {
         let isAlternateNavigation = sender is NSMenuItem && NSApp.currentEventModifierFlags.contains(.shift)
 
         guard let searchText = searchText,
-              let sanitized = sanitize(searchFieldValue: searchText) else {
+              let sanitized = Dictionary.sanitize(input: searchText) else {
             NSSound.beep()
             return
         }
@@ -437,13 +437,6 @@ class LookupWindowController: NSWindowController {
         let query = SearchQuery(sanitized, direction ?? dictionaryController.direction)
 
         setSearchQuery(query, withAlternativeNavigation: isAlternateNavigation)
-    }
-
-    private func sanitize(searchFieldValue: String) -> String? {
-        let trimmed = searchFieldValue
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .trimmingCharacters(in: CharacterSet(["#", "!", "@", "~"]))
-        return trimmed.count > 1 ? trimmed : nil
     }
 
     private var isLoading = false {

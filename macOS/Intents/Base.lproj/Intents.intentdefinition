@@ -53,11 +53,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>HS696t</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21A5552a</string>
+	<string>21C52</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>13A1030d</string>
+	<string>13C90</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>13.1</string>
+	<string>13.2</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -74,7 +74,7 @@
 			<key>INIntentKeyParameter</key>
 			<string>query</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>6</integer>
+			<integer>7</integer>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
 				<key>direction,query</key>
@@ -216,10 +216,12 @@
 							<string>Primary</string>
 						</dict>
 					</array>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<true/>
 					<key>INIntentParameterSupportsResolution</key>
 					<true/>
 					<key>INIntentParameterTag</key>
-					<integer>4</integer>
+					<integer>7</integer>
 					<key>INIntentParameterType</key>
 					<string>String</string>
 				</dict>
@@ -240,7 +242,7 @@
 					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
-				<integer>3</integer>
+				<integer>4</integer>
 				<key>INIntentResponseOutput</key>
 				<string>definition</string>
 				<key>INIntentResponseParameters</key>
@@ -254,8 +256,10 @@
 						<integer>1</integer>
 						<key>INIntentResponseParameterName</key>
 						<string>definition</string>
+						<key>INIntentResponseParameterSupportsMultipleValues</key>
+						<true/>
 						<key>INIntentResponseParameterTag</key>
-						<integer>3</integer>
+						<integer>4</integer>
 						<key>INIntentResponseParameterType</key>
 						<string>String</string>
 					</dict>
