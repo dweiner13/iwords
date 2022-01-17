@@ -98,7 +98,12 @@ class DictionaryController: NSObject, NSSecureCoding, ObservableObject {
         let split = text
             .split(whereSeparator: \.isWhitespace)
             .map(String.init(_:))
-        let dictionaryResults = try await dictionary.getDefinitions(split,
+        return try await search(terms: split)
+    }
+
+    /// - throws: DWError
+    func search(terms: [String]) async throws -> [Result] {
+        let dictionaryResults = try await dictionary.getDefinitions(terms,
                                                                     direction: direction,
                                                                     options: UserDefaults.standard.dictionaryOptions)
 

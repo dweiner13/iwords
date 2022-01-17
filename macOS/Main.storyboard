@@ -335,12 +335,6 @@
                                                 <binding destination="S2P-p1-PcK" name="value" keyPath="values.searchBarGrowsToFitContent" id="UN2-Wr-09c"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New Windows/Tabs Use Current Search" id="bJT-WS-5FU">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <binding destination="S2P-p1-PcK" name="value" keyPath="values.copySearchToNewWindows" id="TK7-cf-Rvj"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DY9-CG-zxi"/>
                                         <menuItem title="Increase Text Size" tag="3" keyEquivalent="+" id="LY5-Jr-UWd">
                                             <connections>
@@ -407,6 +401,13 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
+                                        <menuItem title="New Windows/Tabs Use Current Search" id="bJT-WS-5FU">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <binding destination="S2P-p1-PcK" name="value" keyPath="values.copySearchToNewWindows" id="TK7-cf-Rvj"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="gUz-oH-Zo8"/>
                                         <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>

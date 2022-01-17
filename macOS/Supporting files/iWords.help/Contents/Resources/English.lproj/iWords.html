@@ -38,7 +38,7 @@ pre {
 }
 
 hr {
-    margin: 4em -1em;
+    margin: 2em -1em;
     border-color: darkgrey;
     border-style: solid;
 }
@@ -85,16 +85,17 @@ and parsing program for Latin.</p>
 
 <h3 id="userinterface">User Interface</h3>
 
-<h4>The App Window and the Toolbar</h4>
+<h4>Navigation</h4>
+<p>In general, holding down <kbd>Shift</kbd> while performing a search action (e.g. searching from the search field, going forward/back, or selecting an item from the history menu) will perform the search in a new window or tab.</p>
 
-<p>The main window for iWords consists of the <b>toolbar</b> and the <b>results area</b> below it.</p>
+<h4>Toolbar</h4>
 
 <p>By default, the toolbar includes the following items:
 
 <ul>
 <li><b>Back/Forward</b>: navigates through your search history.</li>
 <li><b>Direction</b>: toggles between Latin-to-English and English-to-Latin.</li>
-<li><b>Search field</b>: enter one or more terms (separated by spaces). Press Return to search.</li>
+</li>
 </ul>
 
 <p>Right-clicking on the toolbar will let you customize it. Selecting "Customize Toolbar..." will let you re-arrange or add additional items to the toolbar. Additional toolbar items include:</p>
@@ -102,10 +103,15 @@ and parsing program for Latin.</p>
 <ul>
     <li><b>Font Size</b>: increases or decreases the font size of text in the results area.</li>
     <li><b>Fonts</b>: displays the Fonts panel, allowing you to customize the display font.</li>
-    <li><b>Perseus</b>: look up the current query in <a href="https://www.perseus.tufts.edu/hopper/">Perseus</a>.</li>
+    <li><b>Look Up in Perseus</b>: look up the current query in <a href="https://www.perseus.tufts.edu/hopper/">Perseus</a>.</li>
 </ul>
 
-<h4>The Menu Bar</h4>
+<h4 id="userinterface-searchbar">Search Bar</h4>
+<p>Below the toolbar sits the <b>search bar</b>. Type a single word, or multiple words separated by spaces, into the text field and press <kbd>Enter</kbd> or the "Go" button to search.</p>
+
+<p>If you type more text than can fit in the text field, it will grow vertically to accommodate. You can disable this by control-clicking in the search bar and unselecting "Search Bar Grows to Fit Content", or by unselecting "Search Bar Grows to Fit Content" in the View menu.</p>
+
+<h4>Menu Bar</h4>
 
 <p>All features exposed through the toolbar are also available through the
 macOS menu bar, and many have keyboard shortcuts.</p>
@@ -138,13 +144,18 @@ macOS menu bar, and many have keyboard shortcuts.</p>
     </li>
     <li><b>View</b>:
         <ul>
+            <li><b>Search Bar Grows to Fit Content</b>: if enabled, the search bar will grow vertically to fit multiple lines of text as necessary.</li>
             <li><b>Increase Text Size</b>: increase the font size of the text shown in the results area.</li>
             <li><b>Decrease Text Size</b>: decrease the font size of the text shown in the results area.</li>
             <li><b>Reset Text Size</b>: set the font size of the text shown in the results area to its default.</li>
             <li><b>Show Fonts</b>: show the macOS Font panel, allowing you to customize the display font.</li>
-            <li><b>Show Warnings</b>: go back to showing any "Are you sure?" dialogs that were silenced.</li>
+            <li><b>Reset Warnings</b>: go back to showing any "Are you sure?" dialogs that were silenced.</li>
         </ul>
     </li>
+    <li><b>Window</b>:
+        <ul>
+            <li><b>New Windows/Tabs Use Current Search</b>: if enabled, new windows or tabs will be created with the same search as the foreground window.</li>
+        </ul>
     <li><b>Help</b>:
         <ul>
             <li><b>Send iWords Feedback via Email...</b>: compose a new email with feedback using your default email application.</li>
@@ -154,7 +165,7 @@ macOS menu bar, and many have keyboard shortcuts.</p>
 
 <h4>Services Integration</h4>
 
-<p>iWords provides macOS services, allowing you to perform a query from anywhere on your computer. As an example:</p>
+<p>iWords provides 2 macOS services, one for each lookup direction. These services allow you to search in iWords from anywhere on your computer. As an example:</p>
 
 <ol>
 <li>Select text in an application</li>
@@ -166,17 +177,26 @@ macOS menu bar, and many have keyboard shortcuts.</p>
 
 <h4>Shortcuts Integration</h4>
 
-<p>iWords integrates with the Shortcuts app on macOS 12+, letting you perform a lookup as part of a scripted workflow.</p>
+<p>iWords integrates with the Shortcuts app on macOS 12+ by providing a "Look Up in iWords" action, so you can integrate iWords into powerful automation workflows.</p>
 
-<ol>
-<li>Open the Shortcuts app and create a new workflow, or open an existing one</li>
-<li>In the righthand sidebar in the shortcut editor, search for iWords</li>
-<li>Add the "Look Up" action to your shortcut</li>
-<li>The action lets you specify a query and a direction. It returns the result as text.
-</li>
-</ol>
+<p>For more information on using Shortcuts, see <a href="https://support.apple.com/guide/shortcuts-mac/welcome/mac">the Shortcuts User Guide</a>.</p>
 
-<p>Shortcuts can be made available from the Services menu, and many other places across macOS. For more information, see <a href="https://support.apple.com/guide/shortcuts-mac/welcome/mac">Apple Support</a>.</p>
+<ul>
+    <li>
+        "Look Up in iWords" takes the following inputs:
+        <ul>
+            <li>Search text: one or more text items containing space-separated words to search.</li>
+            <li>Direction: which direction to look up words (Latin to English or English to Latin)</li>
+        </ul>
+    </li>
+    <li>
+        and it returns as output:
+        <ul>
+            <li>One or more text items, each one containing the result of looking up the corresponding input item.</li>
+        </ul>
+    </li>
+</ul>
+
 
 <hr>
 

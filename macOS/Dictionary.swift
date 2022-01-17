@@ -96,6 +96,13 @@ class Dictionary {
         process?.terminate()
     }
 
+    static func sanitize(input: String) -> String? {
+        let trimmed = input
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet(["#", "!", "@", "~"]))
+        return trimmed.count > 1 ? trimmed : nil
+    }
+
     // MARK: - Methods
 
     func getDefinitions(_ inputs: [String], direction: Direction, options: Options) async throws -> [(String, String?)] {
