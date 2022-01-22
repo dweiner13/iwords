@@ -519,12 +519,12 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="52E67CFE-A32C-4250-BFC7-591F810ACB9C" label="Look Up in Perseus" paletteLabel="Look Up in Perseus" image="arrow.up.right.square" catalog="system" bordered="YES" title="Perseus" sizingBehavior="auto" id="pR4-E5-Ef0">
+                                <toolbarItem implicitItemIdentifier="52E67CFE-A32C-4250-BFC7-591F810ACB9C" label="Look Up in Perseus" paletteLabel="Look Up in Perseus" bordered="YES" title="Perseus" sizingBehavior="auto" id="pR4-E5-Ef0">
                                     <nil key="toolTip"/>
                                     <button key="view" toolTip="Look up in Perseus Digital Library" verticalHuggingPriority="750" id="qpa-VS-4lI">
-                                        <rect key="frame" x="13" y="14" width="82" height="23"/>
+                                        <rect key="frame" x="22" y="14" width="65" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="roundTextured" title="Perseus" bezelStyle="texturedRounded" image="arrow.up.right.square" catalog="system" imagePosition="leading" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f6n-DK-oM9">
+                                        <buttonCell key="cell" type="roundTextured" title="Perseus" bezelStyle="texturedRounded" imagePosition="leading" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f6n-DK-oM9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                             <string key="keyEquivalent">p</string>
@@ -778,7 +778,6 @@ DQ
     <resources>
         <image name="NSGoBackTemplate" width="10" height="14"/>
         <image name="NSGoForwardTemplate" width="10" height="14"/>
-        <image name="arrow.up.right.square" catalog="system" width="15" height="14"/>
         <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
         <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>
