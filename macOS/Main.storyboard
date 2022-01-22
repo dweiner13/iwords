@@ -299,7 +299,7 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="History" identifier="history" id="baK-B4-7Qa">
+                            <menuItem title="History" id="baK-B4-7Qa">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="History" identifier="history" id="CtW-Qh-q5x">
                                     <items>
