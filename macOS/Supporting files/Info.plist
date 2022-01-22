@@ -51,7 +51,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Look up in $(PRODUCT_NAME) (Latin to English)</string>
+				<string>Look Up in $(PRODUCT_NAME) (Latin to English)</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>lookUp</string>
@@ -70,7 +70,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Look up in $(PRODUCT_NAME) (English to Latin)</string>
+				<string>Look Up in $(PRODUCT_NAME) (English to Latin)</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>lookUp</string>
