@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Combine
 
 protocol SearchBarDelegate: AnyObject {
     func searchBar(_ searchBar: SearchBarViewController, didSearchText text: String)
@@ -26,23 +25,21 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 
     var backForwardController: BackForwardController? {
         didSet {
-            backForwardControllerCancellable = nil
-            backForwardControllerCancellable = backForwardController?
-                .$currentSearchQuery
-                .sink {
-                    if let searchText = $0?.searchText {
-                        self.searchField.stringValue = searchText
-                        self.searchField.invalidateSize()
-                        DispatchQueue.main.async {
-                            self.refreshHeight()
-                        }
+            backForwardControllerObservation = nil
+            backForwardControllerObservation = backForwardController?.observe(\.currentSearchQuery, changeHandler: { backForwardController, change in
+                if let searchText = backForwardController.currentSearchQuery?.searchText {
+                    self.searchField.stringValue = searchText
+                    self.searchField.invalidateSize()
+                    DispatchQueue.main.async {
+                        self.refreshHeight()
                     }
                 }
+            })
         }
     }
 
     weak var delegate: SearchBarDelegate?
-    var backForwardControllerCancellable: AnyCancellable?
+    var backForwardControllerObservation: Any?
 
     @IBAction func goAction(_ sender: Any?) {
         delegate?.searchBar(self, didSearchText: searchField.stringValue)

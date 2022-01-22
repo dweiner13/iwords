@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import Flow
 
 struct DWError: LocalizedError, Identifiable {
@@ -28,6 +27,7 @@ class Dictionary {
 
     // MARK: - Types
 
+    @objc
     enum Direction: Int, CustomStringConvertible, CustomDebugStringConvertible, Codable, CaseIterable {
         // Do not change. Reflected in tags in interface builder.
         case latinToEnglish = 0
@@ -81,7 +81,6 @@ class Dictionary {
     private var wordsIsLoading = true
 //    private var activeContinuation: CheckedContinuation<String?, Error>?
     private var activeCompletionHandler: ((Result<String?, DWError>) -> Void)?
-    private var cancellables: [AnyCancellable] = []
     private var process: Process?
     private var outputPipe: Pipe?
     private var errorPipe: Pipe?

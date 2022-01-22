@@ -11,7 +11,7 @@ protocol DictionaryControllerDelegate: DictionaryDelegate {}
 
 /// This should:
 /// provide a higher-level wrapper around Dictionary to do parsing etc.
-class DictionaryController: NSObject, NSSecureCoding, ObservableObject {
+class DictionaryController: NSObject, NSSecureCoding {
 
     class Result: Codable {
         internal init(input: String, raw: String?, parsed: [ResultItem]?) {
@@ -61,8 +61,8 @@ class DictionaryController: NSObject, NSSecureCoding, ObservableObject {
 
     var delegate: DictionaryControllerDelegate?
 
-    @Published
-    var direction: Dictionary.Direction
+    @objc
+    dynamic var direction: Dictionary.Direction
 
     private var dictionary: Dictionary
 

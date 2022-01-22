@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Combine
 import SwiftUI
 import Flow
 
@@ -139,7 +138,7 @@ class LookupWindowController: NSWindowController {
         contentViewController as? LookupViewController
     }
 
-    private var cancellables: [AnyCancellable] = []
+    private var observation: Any?
 
     private lazy var directionMenuFormRepresentation: NSMenu = {
         NSMenu().then { menu in
@@ -175,17 +174,16 @@ class LookupWindowController: NSWindowController {
 
         window?.restorationClass = WindowRestoration.self
 
-        dictionaryController.$direction
-            .sink { direction in
-                AppDelegate.shared?.updateDirectionItemsState(direction)
-                self.updateTitle(forDirection: direction)
-                self.invalidateRestorableState()
-                self.directionToggleButton.title = direction.description
+        observation = dictionaryController.observe(\.direction) { dictionaryController, change in
+            let direction = dictionaryController.direction
+            AppDelegate.shared?.updateDirectionItemsState(direction)
+            self.updateTitle(forDirection: direction)
+            self.invalidateRestorableState()
+            self.directionToggleButton.title = direction.description
 
-                self.directionMenuFormRepresentation.items[direction.rawValue].state = .on
-                self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
-            }
-            .store(in: &cancellables)
+            self.directionMenuFormRepresentation.items[direction.rawValue].state = .on
+            self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
+        }
 
         dictionaryController.delegate = self
 

@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Combine
 import Intents
 import DWUtils
 import Flow
