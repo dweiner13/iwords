@@ -124,7 +124,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction @objc
     func resetFont(_ sender: Any?) {
-        font = font.withSize(16)
+        font = font.dwWithSize(16)
         NSFontManager.shared.setSelectedFont(font, isMultiple: false)
         applyFont(font)
         saveFont(font)

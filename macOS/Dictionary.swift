@@ -232,6 +232,8 @@ class Dictionary {
             str = String(str.dropLast(2))
         }
         str = str.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        complete(with: .success(str))
     }
 
     /// - Precondition: is main thread
