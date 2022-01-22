@@ -387,7 +387,10 @@ class LookupWindowController: NSWindowController {
 
         // Perform search
         isLoading = true
-        dictionaryController.search(text: searchQuery.searchText) { result in
+        dictionaryController.search(text: searchQuery.searchText) { [weak self] result in
+            guard let self = self else {
+                return
+            }
             switch result {
             case .failure(let error):
                 self.presentError(error)
