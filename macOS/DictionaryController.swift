@@ -94,34 +94,41 @@ class DictionaryController: NSObject, NSSecureCoding, ObservableObject {
     }
 
     /// - throws: DWError
-    func search(text: String) async throws -> [Result] {
+    func search(text: String, completion: @escaping (Swift.Result<[Result], DWError>) -> Void) {
         let split = text
             .split(whereSeparator: \.isWhitespace)
             .map(String.init(_:))
-        return try await search(terms: split)
+        search(terms: split, completion: completion)
     }
 
     /// - throws: DWError
-    func search(terms: [String]) async throws -> [Result] {
-        let dictionaryResults = try await dictionary.getDefinitions(terms,
-                                                                    direction: direction,
-                                                                    options: UserDefaults.standard.dictionaryOptions)
+    func search(terms: [String], completion: @escaping (Swift.Result<[Result], DWError>) -> Void) {
+        dictionary.getDefinitions(terms,
+                                  direction: direction,
+                                  options: UserDefaults.standard.dictionaryOptions) { result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let dictionaryResults):
+                let parsedResults: [[ResultItem]?] = dictionaryResults
+                    .map(\.1)
+                    .map {
+                        if let rawResult = $0,
+                           let (results, _) = parse(rawResult) {
+                            return results
+                        } else {
+                            return nil
+                        }
+                    }
 
-        let parsedResults: [[ResultItem]?] = dictionaryResults
-            .map(\.1)
-            .map {
-                if let rawResult = $0,
-                   let (results, _) = parse(rawResult) {
-                    return results
-                } else {
-                    return nil
-                }
-            }
+                let finalResults = zip(dictionaryResults, parsedResults)
+                    .map { (dictionaryResult, parsedResult) -> Result in
+                        Result(input: dictionaryResult.0, raw: dictionaryResult.1, parsed: parsedResult)
+                    }
 
-        return zip(dictionaryResults, parsedResults)
-            .map { (dictionaryResult, parsedResult) -> Result in
-                Result(input: dictionaryResult.0, raw: dictionaryResult.1, parsed: parsedResult)
+                completion(.success(finalResults))
             }
+        }
     }
 }
 

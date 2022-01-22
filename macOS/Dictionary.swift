@@ -79,7 +79,8 @@ class Dictionary {
     }()
 
     private var wordsIsLoading = true
-    private var activeContinuation: CheckedContinuation<String?, Error>?
+//    private var activeContinuation: CheckedContinuation<String?, Error>?
+    private var activeCompletionHandler: ((Result<String?, DWError>) -> Void)?
     private var cancellables: [AnyCancellable] = []
     private var process: Process?
     private var outputPipe: Pipe?
@@ -105,49 +106,74 @@ class Dictionary {
 
     // MARK: - Methods
 
-    func getDefinitions(_ inputs: [String], direction: Direction, options: Options) async throws -> [(String, String?)] {
+    func getDefinitions(_ inputs: [String],
+                        direction: Direction,
+                        options: Options,
+                        completion: @escaping (Result<[(String, String?)], DWError>) -> Void) {
+        guard !inputs.isEmpty else {
+            completion(.success([]))
+            return
+        }
+
         var results: [(String, String?)] = []
         let totalCount = Double(inputs.count)
         var completedCount: Double = 0
-        for input in inputs {
-            print("Looking up \"\(input)\"")
-            results.append((input, try await getDefinition(input, direction: direction, options: options)))
-            completedCount += 1
-            let progress = completedCount / totalCount
-            DispatchQueue.main.async {
-                self.delegate?.dictionary(self, progressChangedTo: progress)
+
+        func processInput(at i: Int) {
+            print("Looking up \"\(inputs[i])\"")
+            getDefinition(inputs[i], direction: direction, options: options) { result in
+                switch result {
+                case .failure(let error):
+                    completion(.failure(error))
+                case .success(let result):
+                    print("Got result for \"\(inputs[i])\"")
+                    results.append((inputs[i], result))
+                    completedCount += 1
+                    let progress = completedCount / totalCount
+                    DispatchQueue.main.async {
+                        self.delegate?.dictionary(self, progressChangedTo: progress)
+                    }
+                    if inputs.indices.contains(i + 1) {
+                        processInput(at: i + 1)
+                    } else {
+                        completion(.success(results))
+                    }
+                }
             }
-            print("Got result for \"\(input)\"")
         }
-        return results
+        processInput(at: 0)
     }
 
-    func getDefinition(_ input: String, direction: Direction, options: Options) async throws -> String? {
+    func getDefinition(_ input: String,
+                       direction: Direction,
+                       options: Options,
+                       completion: @escaping (Result<String?, DWError>) -> Void) {
         guard input.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 else {
-            return nil
+            completion(.success(nil))
+            return
         }
-        guard activeContinuation == nil else {
-            throw DWError(description: "Lookup already in progress")
+        guard activeCompletionHandler == nil else {
+            completion(.failure(DWError(description: "Lookup already in progress")))
+            return
         }
-        return try await withCheckedThrowingContinuation { checkedContinuation in
-            func write(_ str: String) {
-                #if DEBUG
-                print("Sending to stdin:", str)
-                #endif
-                inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
-            }
 
-            switch direction {
-            case .latinToEnglish:
-                write("~L\n")
-            case .englishToLatin:
-                write("~E\n")
-            }
-            write(input)
-            write("\n")
-
-            self.activeContinuation = checkedContinuation
+        func write(_ str: String) {
+#if DEBUG
+            print("Sending to stdin:", str)
+#endif
+            inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
         }
+
+        switch direction {
+        case .latinToEnglish:
+            write("~L\n")
+        case .englishToLatin:
+            write("~E\n")
+        }
+        write(input)
+        write("\n")
+
+        self.activeCompletionHandler = completion
     }
 
     // MARK: - Private methods
@@ -194,6 +220,8 @@ class Dictionary {
     }
 
     private func handleDefinitionResult(_ str: String) {
+        assert(Thread.current.isMainThread)
+
         #if DEBUG
         print("handleDefinitionResult(\"\(str)\")")
         #endif
@@ -204,9 +232,15 @@ class Dictionary {
             str = String(str.dropLast(2))
         }
         str = str.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
-        activeContinuation?.resume(returning: str)
-        activeContinuation = nil
+    /// - Precondition: is main thread
+    private func complete(with result: Result<String?, DWError>) {
+        precondition(Thread.isMainThread)
+
+        let handler = activeCompletionHandler
+        activeCompletionHandler = nil
+        handler?(result)
     }
 
     private func startProcess() {
@@ -237,7 +271,7 @@ class Dictionary {
             guard let self = self else { return }
 
             if process.terminationStatus != 0 {
-                self.activeContinuation!.resume(throwing: DWError(description: "Process failed with exit code \(process.terminationStatus)"))
+                self.complete(with: .failure(DWError(description: "Process failed with exit code \(process.terminationStatus)")))
                 return
             }
         }
