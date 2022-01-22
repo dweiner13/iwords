@@ -612,9 +612,6 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="vJw-zo-fvh">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
                                 <subviews>
-                                    <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="windowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="S06-90-KvY">
-                                        <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
-                                    </visualEffectView>
                                     <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1zV-kK-sq6">
                                         <rect key="frame" x="163" y="20" width="110" height="50"/>
                                         <subviews>
@@ -680,12 +677,8 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="1zV-kK-sq6" secondAttribute="bottom" constant="20" symbolic="YES" id="00O-h4-LXb"/>
-                                    <constraint firstItem="S06-90-KvY" firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" id="SMF-MI-lQU"/>
-                                    <constraint firstItem="V66-aw-PbU" firstAttribute="centerY" secondItem="S06-90-KvY" secondAttribute="centerY" id="Wcf-G2-Bqn"/>
-                                    <constraint firstAttribute="trailing" secondItem="S06-90-KvY" secondAttribute="trailing" id="c9t-om-Ow9"/>
-                                    <constraint firstAttribute="bottom" secondItem="S06-90-KvY" secondAttribute="bottom" id="f8j-oy-6Qg"/>
-                                    <constraint firstItem="V66-aw-PbU" firstAttribute="centerX" secondItem="S06-90-KvY" secondAttribute="centerX" id="o5i-aH-Wyo"/>
-                                    <constraint firstItem="S06-90-KvY" firstAttribute="leading" secondItem="vJw-zo-fvh" secondAttribute="leading" id="pir-ar-Xtf"/>
+                                    <constraint firstItem="V66-aw-PbU" firstAttribute="centerY" secondItem="vJw-zo-fvh" secondAttribute="centerY" id="2Tj-Aq-RYO"/>
+                                    <constraint firstItem="V66-aw-PbU" firstAttribute="centerX" secondItem="vJw-zo-fvh" secondAttribute="centerX" id="bRh-0d-DFM"/>
                                     <constraint firstItem="1zV-kK-sq6" firstAttribute="centerX" secondItem="vJw-zo-fvh" secondAttribute="centerX" id="r88-n7-fU0"/>
                                 </constraints>
                             </customView>
@@ -718,7 +711,7 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="jkl-w9-pOM"/>
             </objects>
-            <point key="canvasLocation" x="66" y="760"/>
+            <point key="canvasLocation" x="65.5" y="760"/>
         </scene>
         <!--Search Bar View Controller-->
         <scene sceneID="UbV-vl-mpN">

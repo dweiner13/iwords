@@ -58,14 +58,6 @@ class AutoGrowingTextField: NSTextField {
         // Only update the size if we’re editing the text, or if we’ve not set it yet
         // If we try and update it while another text field is selected, it may shrink back down to only the size of one line (for some reason?)
         if isEditing || lastSize == nil || needsRecalculateSize {
-            // If we’re being edited, get the shared NSTextView field editor, so we can get more info
-
-//            guard let textView = self.window?.fieldEditor(false, for: self) as? NSTextView,
-//                  let container = textView.textContainer,
-//                  let newHeight = container.layoutManager?.usedRect(for: container).height else {
-//                return lastSize ?? minSize
-//            }
-
             let hPadding: CGFloat = 12
 
             let text = stringValue
