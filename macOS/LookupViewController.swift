@@ -123,6 +123,12 @@ class LookupViewController: NSViewController {
         startListeningToUserDefaults()
 
         updateWelcomeViewVisibility()
+
+        NotificationCenter.default.addObserver(forName: .selectedFontDidChange,
+                                               object: AppDelegate.shared,
+                                               queue: nil) { [weak self] notification in
+            self?.fontChanged()
+        }
     }
 
     private func startListeningToUserDefaults() {
@@ -161,7 +167,8 @@ class LookupViewController: NSViewController {
             textStorage.setAttributedString(attrString)
         } else {
             textView.textStorage?.setAttributedString(NSAttributedString(string: DictionaryController.Result.allRaw(results),
-                                                                         attributes: [.font: AppDelegate.shared.font]))
+                                                                         attributes: [.font: AppDelegate.shared.font,
+                                                                                      .foregroundColor: NSColor.labelColor]))
         }
 
         definitionHostingView?.isHidden = true

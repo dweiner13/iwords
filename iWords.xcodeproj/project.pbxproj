@@ -23,6 +23,8 @@
 		37852ACE278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */; };
 		37852AD0278B3EC500ACFFE6 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852ACF278B3EC500ACFFE6 /* LoadingView.swift */; };
 		37852AD2278B45ED00ACFFE6 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852AD1278B45ED00ACFFE6 /* Dictionary.swift */; };
+		378E51FA2795C9FF00730204 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 378E51F92795C9FF00730204 /* Settings.storyboard */; };
+		378E51FC2795D57600730204 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378E51FB2795D57600730204 /* SettingsViewController.swift */; };
 		37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */; };
 		37A4D1D4262227E400A9E9EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D1A8262227E400A9E9EC /* Assets.xcassets */; };
 		37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37A4D24626223BC100A9E9EC /* Main.storyboard */; };
@@ -99,6 +101,8 @@
 		37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeSegmentedControl.swift; sourceTree = "<group>"; };
 		37852ACF278B3EC500ACFFE6 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		37852AD1278B45ED00ACFFE6 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		378E51F92795C9FF00730204 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		378E51FB2795D57600730204 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookUpIntentHandler.swift; sourceTree = "<group>"; };
 		37A4D1A8262227E400A9E9EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37A4D1AD262227E400A9E9EC /* iWords.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWords.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -263,6 +267,8 @@
 				37852AD1278B45ED00ACFFE6 /* Dictionary.swift */,
 				37BE70C1279341D600A041D2 /* SearchBarViewController.swift */,
 				37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */,
+				378E51F92795C9FF00730204 /* Settings.storyboard */,
+				378E51FB2795D57600730204 /* SettingsViewController.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -436,6 +442,7 @@
 				37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */,
 				37AB5A242626733300118674 /* Credits.rtf in Resources */,
 				37AB5A1C2626713500118674 /* INFLECTS.SEC in Resources */,
+				378E51FA2795C9FF00730204 /* Settings.storyboard in Resources */,
 				37AB5A1B2626713500118674 /* DICTLINE.GEN in Resources */,
 				37BF1C0C262B8366003C4A97 /* iWords.help in Resources */,
 				37AB5A182626713500118674 /* UNIQUES.LAT in Resources */,
@@ -515,6 +522,7 @@
 			files = (
 				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
 				37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */,
+				378E51FC2795D57600730204 /* SettingsViewController.swift in Sources */,
 				37CC436C2635CA3B00E60CE9 /* VisualEffectBackground.swift in Sources */,
 				37AA04DA2634485200353747 /* DefinitionParser.swift in Sources */,
 				372E2E0D27821A1D005C9C8A /* PartOfSpeech.swift in Sources */,

@@ -15,6 +15,12 @@ extension NSFont {
     static let `default` = NSFont(name: "Monaco", size: 16)!
 }
 
+extension NSNotification.Name {
+    static let selectedFontDidChange = NSNotification.Name("selectedFontDidChange")
+}
+
+let SelectedFontDidChangeFontKey = "font"
+
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static var shared: AppDelegate!
@@ -100,10 +106,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applyFont(_ font: NSFont) {
-        NSApp.windows
-            .compactMap { $0.windowController as? LookupWindowController }
-            .map { $0.lookupViewController! }
-            .forEach { $0.fontChanged() }
+        NotificationCenter.default.post(name: .selectedFontDidChange,
+                                        object: self,
+                                        userInfo: [SelectedFontDidChangeFontKey: font])
     }
 
     func saveFont(_ font: NSFont) {
@@ -167,6 +172,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }
+
 
     @IBAction
     func newWindow(_ sender: Any?) {
@@ -250,6 +256,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             return
         }
         service.perform(withItems: [message])
+    }
+
+    @IBAction
+    func showPreferences(_ sender: Any?) {
+        let prefWindowController = NSStoryboard(name: .init("Settings"), bundle: nil).instantiateInitialController() as! NSWindowController
+        prefWindowController.window!.makeKeyAndOrderFront(sender)
     }
 
     override func responds(to aSelector: Selector!) -> Bool {

@@ -69,7 +69,7 @@ class AutoGrowingTextField: NSTextField {
             let hPadding: CGFloat = 12
 
             let text = stringValue
-            let attributedText = NSAttributedString(string: text, attributes: [.font: self.font])
+            let attributedText = NSAttributedString(string: text, attributes: [.font: font as Any])
             let boundingRect = attributedText.boundingRect(with: NSSize(width: frame.width - hPadding, height: 99999),
                                                            options: autogrows ? [.usesFontLeading, .usesLineFragmentOrigin] : [])
             let newHeight = boundingRect.height

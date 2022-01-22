@@ -23,6 +23,12 @@
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="rDS-Tw-6Gh"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="9uz-zo-dKW">
+                                            <connections>
+                                                <action selector="showPreferences:" target="Ady-hI-5gd" id="Fe0-mo-hPk"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eVQ-bF-YY4"/>
                                         <menuItem title="Diagnostic Mode (Debug)" id="zjB-TO-LRE">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -329,19 +335,6 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="rXq-SZ-7jx"/>
-                                        <menuItem title="Search Bar Grows to Fit Content" state="on" id="DMa-NV-CR1">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <binding destination="S2P-p1-PcK" name="value" keyPath="values.searchBarGrowsToFitContent" id="UN2-Wr-09c"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Show Styled Results" state="on" id="oWe-sC-QJu">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <binding destination="a7h-fy-GpN" name="value" keyPath="values.showStyledRawResults" id="9Sp-pg-ZiO"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="DY9-CG-zxi"/>
                                         <menuItem title="Increase Text Size" tag="3" keyEquivalent="+" id="LY5-Jr-UWd">
                                             <connections>
                                                 <action selector="modifyFont:" target="46f-Bv-BCE" id="riH-hm-7tZ"/>
@@ -405,13 +398,6 @@
                                         </menuItem>
                                         <menuItem title="Reset window size" id="CpE-fF-g1u">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
-                                        <menuItem title="New Windows/Tabs Use Current Search" id="bJT-WS-5FU">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <binding destination="S2P-p1-PcK" name="value" keyPath="values.copySearchToNewWindows" id="TK7-cf-Rvj"/>
-                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="gUz-oH-Zo8"/>
                                         <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
@@ -549,11 +535,12 @@
                                         <action selector="lookUpInPerseus:" target="Oky-zY-oP4" id="eAM-yJ-7c7"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="iSF-BX-dZM"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
                                 <toolbarItem reference="ocg-9b-k2f"/>
+                                <toolbarItem reference="WMQ-RV-CF9"/>
+                                <toolbarItem reference="pR4-E5-Ef0"/>
                                 <toolbarItem reference="FaB-SV-uQT"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -635,7 +622,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="vJw-zo-fvh">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
                                 <subviews>
-                                    <visualEffectView blendingMode="withinWindow" material="windowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="S06-90-KvY">
+                                    <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="windowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="S06-90-KvY">
                                         <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="juw-G7-c97">
@@ -716,7 +703,6 @@
                             <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="Czz-wX-hvt" secondAttribute="leading" id="VjF-mw-YAg"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="XAJ-CS-kOL"/>
                             <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="Y5E-wS-i7o"/>
-                            <constraint firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="dnd-x3-4Mb"/>
                             <constraint firstItem="ZiB-z0-Agz" firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" id="esW-qf-JTf"/>
                             <constraint firstAttribute="bottom" secondItem="vJw-zo-fvh" secondAttribute="bottom" id="f9c-Hg-ejJ"/>
                             <constraint firstAttribute="top" secondItem="Czz-wX-hvt" secondAttribute="top" id="g4v-W9-fwG"/>
@@ -742,8 +728,8 @@
         <scene sceneID="UbV-vl-mpN">
             <objects>
                 <viewController storyboardIdentifier="SearchBarViewController" id="A9c-dO-LmW" customClass="SearchBarViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpV-Pf-6an">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="39"/>
+                    <view key="view" wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpV-Pf-6an">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="36"/>
                         <subviews>
                             <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mN3-cV-eKv" customClass="AutoGrowingTextField" customModule="iWords" customModuleProvider="target">
                                 <rect key="frame" x="8" y="8" width="388" height="21"/>
