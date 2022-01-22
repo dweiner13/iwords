@@ -82,7 +82,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Look up ${query} in ${direction}</string>
+					<string>Look up ${query}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>wRV2CL</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
@@ -102,7 +102,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Look up ${query} in ${direction}</string>
+					<string>Look up ${query}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>GRApN3</string>
 				</dict>
