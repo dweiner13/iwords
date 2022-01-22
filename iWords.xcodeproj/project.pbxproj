@@ -48,7 +48,6 @@
 		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
 		37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; };
-		37AF82B82630EAC200931F2C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; };
 		37AF82B92630EAC200931F2C /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		37B089FB272F237400932567 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 37B089FD272F237400932567 /* Intents.intentdefinition */; };
 		37BE70C2279341D600A041D2 /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BE70C1279341D600A041D2 /* SearchBarViewController.swift */; };
@@ -157,7 +156,6 @@
 				3766E410277A3CC700A9D064 /* DWUtils in Frameworks */,
 				37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */,
 				37126CF2278A0030009BB010 /* OrderedCollections in Frameworks */,
-				37AF82B82630EAC200931F2C /* Sparkle.framework in Frameworks */,
 				37CC43662634AB8100E60CE9 /* Parsing in Frameworks */,
 				373AECBD272E22CB0021A393 /* Difference in Frameworks */,
 			);
@@ -384,7 +382,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					37A4D1AC262227E400A9E9EC = {
 						CreatedOnToolsVersion = 12.5;
