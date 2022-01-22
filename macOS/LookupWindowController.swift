@@ -191,8 +191,6 @@ class LookupWindowController: NSWindowController {
 
         updateTitle(forDirection: dictionaryController.direction)
 
-        lookupViewController.backForwardController = backForwardController
-
         searchBar = NSStoryboard.main!.instantiateController(withIdentifier: .init("SearchBarViewController")) as? SearchBarViewController
         window?.addTitlebarAccessoryViewController(searchBar)
         searchBar.delegate = self
@@ -443,6 +441,7 @@ class LookupWindowController: NSWindowController {
         didSet {
             backForwardController?.updateSegmentedControl()
             lookupViewController?.isLoading = isLoading
+            searchBar?.isLoading = isLoading
             window?.tab.accessoryView = isLoading ? NSProgressIndicator().then {
                 $0.controlSize = .small
                 $0.isIndeterminate = true
@@ -453,7 +452,7 @@ class LookupWindowController: NSWindowController {
     }
 
     private func _search(_ query: SearchQuery) {
-        self.isLoading = true
+        isLoading = true
         dictionaryController.search(text: query.searchText) { result in
             switch result {
             case .failure(let error): self.presentError(error)
@@ -586,7 +585,7 @@ extension LookupWindowController: BackForwardDelegate {
 
 extension LookupWindowController: DictionaryControllerDelegate {
     func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
-        lookupViewController.progressIndicator.doubleValue = progress * 100
+        searchBar?.setProgress(progress)
     }
 }
 

@@ -12,7 +12,7 @@ import DWUtils
 import Flow
 
 extension NSFont {
-    static let `default` = NSFont(name: "Monaco", size: 16)!
+    static let `default` = NSFont(name: "Menlo", size: 13)!
 }
 
 extension NSNotification.Name {

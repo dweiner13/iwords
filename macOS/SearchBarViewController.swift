@@ -22,6 +22,8 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 //    private let searchFieldHeightAnchor: NSLayoutConstraint!
     @IBOutlet private weak var searchFieldHeightAnchor: NSLayoutConstraint!
 
+    @IBOutlet private weak var progressIndicator: NSProgressIndicator!
+
     var backForwardController: BackForwardController? {
         didSet {
             backForwardControllerCancellable = nil
@@ -44,6 +46,19 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 
     @IBAction func goAction(_ sender: Any?) {
         delegate?.searchBar(self, didSearchText: searchField.stringValue)
+    }
+
+    func setProgress(_ progress: CGFloat) {
+        progressIndicator.doubleValue = progress * 100
+    }
+
+    var isLoading = false {
+        didSet {
+            if isLoading {
+                progressIndicator.doubleValue = 0
+            }
+            progressIndicator.isHidden = !isLoading
+        }
     }
 
     @objc

@@ -608,16 +608,6 @@
                             </scrollView>
                             <customView hidden="YES" verifyAmbiguity="ignoreSizes" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-3S-c0A" customClass="LoadingView" customModule="iWords" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
-                                <subviews>
-                                    <progressIndicator verifyAmbiguity="off" maxValue="100" doubleValue="50" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-Ja-397">
-                                        <rect key="frame" x="0.0" y="385" width="435" height="12"/>
-                                    </progressIndicator>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="Lnw-Ja-397" secondAttribute="trailing" id="10g-j6-efr"/>
-                                    <constraint firstItem="Lnw-Ja-397" firstAttribute="leading" secondItem="aeF-3S-c0A" secondAttribute="leading" id="1YS-kG-mNv"/>
-                                    <constraint firstItem="Lnw-Ja-397" firstAttribute="top" secondItem="aeF-3S-c0A" secondAttribute="top" constant="-5" id="eyH-4x-oj4"/>
-                                </constraints>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="vJw-zo-fvh">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
@@ -720,7 +710,6 @@
                     </view>
                     <connections>
                         <outlet property="loadingView" destination="aeF-3S-c0A" id="ShM-qs-hsd"/>
-                        <outlet property="progressIndicator" destination="Lnw-Ja-397" id="og0-uM-bz0"/>
                         <outlet property="scrollView" destination="Czz-wX-hvt" id="bFk-Ow-tpL"/>
                         <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                         <outlet property="welcomeView" destination="vJw-zo-fvh" id="fvP-dN-YBh"/>
@@ -752,6 +741,9 @@
                                     <action selector="goAction:" target="A9c-dO-LmW" id="GpD-EC-6eE"/>
                                 </connections>
                             </textField>
+                            <progressIndicator hidden="YES" verifyAmbiguity="off" maxValue="100" doubleValue="50" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="DUy-wF-5SB">
+                                <rect key="frame" x="0.0" y="-5" width="450" height="12"/>
+                            </progressIndicator>
                             <button verticalHuggingPriority="750" verticalCompressionResistancePriority="999" translatesAutoresizingMaskIntoConstraints="NO" id="fhZ-nT-qgT">
                                 <rect key="frame" x="397" y="0.0" width="52" height="35"/>
                                 <buttonCell key="cell" type="push" title="Go" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d0L-p9-IlO">
@@ -773,11 +765,15 @@ DQ
                             <constraint firstItem="mN3-cV-eKv" firstAttribute="leading" secondItem="lpV-Pf-6an" secondAttribute="leading" constant="8" id="Lig-Qb-wTZ"/>
                             <constraint firstItem="fhZ-nT-qgT" firstAttribute="centerY" secondItem="mN3-cV-eKv" secondAttribute="centerY" id="OIn-LJ-1GA"/>
                             <constraint firstItem="mN3-cV-eKv" firstAttribute="top" secondItem="lpV-Pf-6an" secondAttribute="top" constant="7" id="b5Z-A9-pUA"/>
+                            <constraint firstAttribute="bottom" secondItem="DUy-wF-5SB" secondAttribute="bottom" constant="-5" id="cuI-E6-aEe"/>
+                            <constraint firstItem="DUy-wF-5SB" firstAttribute="leading" secondItem="lpV-Pf-6an" secondAttribute="leading" id="mbr-QH-YLX"/>
                             <constraint firstItem="fhZ-nT-qgT" firstAttribute="top" secondItem="lpV-Pf-6an" secondAttribute="top" constant="6" id="r8B-9Z-k4G"/>
+                            <constraint firstAttribute="trailing" secondItem="DUy-wF-5SB" secondAttribute="trailing" id="vjx-jW-BcS"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="goButton" destination="fhZ-nT-qgT" id="6Yu-L3-QNK"/>
+                        <outlet property="progressIndicator" destination="DUy-wF-5SB" id="C9z-bI-enW"/>
                         <outlet property="searchField" destination="mN3-cV-eKv" id="aAt-mt-cyn"/>
                     </connections>
                 </viewController>
