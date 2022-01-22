@@ -216,19 +216,11 @@
 			children = (
 				3766E407277A36F700A9D064 /* Packages */,
 				37AA04D7263435C100353747 /* README.md */,
-				37A4D1A5262227E300A9E9EC /* Shared */,
 				37A4D1B6262227E400A9E9EC /* macOS */,
 				37CC4359263476D200E60CE9 /* iWordsTests */,
 				37A4D1AE262227E400A9E9EC /* Products */,
 				37C9FDFB2628DFAD00AE794D /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		37A4D1A5262227E300A9E9EC /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Shared;
 			sourceTree = "<group>";
 		};
 		37A4D1AE262227E400A9E9EC /* Products */ = {
