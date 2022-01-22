@@ -127,7 +127,7 @@
                                     </gridCell>
                                     <gridCell row="gLR-B1-Nzi" column="Q5a-lh-AAV" id="nrU-mN-Jfd">
                                         <box key="contentView" ambiguous="YES" title="Behavior" translatesAutoresizingMaskIntoConstraints="NO" id="J2r-EY-nru">
-                                            <rect key="frame" x="-3" y="28" width="494" height="96"/>
+                                            <rect key="frame" x="-3" y="-4" width="494" height="96"/>
                                             <view key="contentView" id="HM8-xw-sLX">
                                                 <rect key="frame" x="3" y="3" width="488" height="78"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

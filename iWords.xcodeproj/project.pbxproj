@@ -56,7 +56,6 @@
 		37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC4362263476DD00E60CE9 /* DefinitionTests.swift */; };
 		37CC43662634AB8100E60CE9 /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 37CC43652634AB8100E60CE9 /* Parsing */; };
 		37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC43692634D81900E60CE9 /* DefinitionView.swift */; };
-		37CC436C2635CA3B00E60CE9 /* VisualEffectBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC436B2635CA3B00E60CE9 /* VisualEffectBackground.swift */; };
 		37EDB2EA27945A4400911BC6 /* AutosizingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -137,7 +136,6 @@
 		37CC435C263476D200E60CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37CC4362263476DD00E60CE9 /* DefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionTests.swift; sourceTree = "<group>"; };
 		37CC43692634D81900E60CE9 /* DefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
-		37CC436B2635CA3B00E60CE9 /* VisualEffectBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
 		37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizingTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,6 +176,75 @@
 				372E2E0C27821A1D005C9C8A /* PartOfSpeech.swift */,
 			);
 			path = Parsing;
+			sourceTree = "<group>";
+		};
+		374355B2279C9E310052CFBA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				374355B6279C9E8A0052CFBA /* Pretty results (WIP) */,
+				374355B4279C9E3F0052CFBA /* Lookup */,
+				374355B3279C9E360052CFBA /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		374355B3279C9E360052CFBA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				378E51F92795C9FF00730204 /* Settings.storyboard */,
+				378E51FB2795D57600730204 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		374355B4279C9E3F0052CFBA /* Lookup */ = {
+			isa = PBXGroup;
+			children = (
+				374355B5279C9E770052CFBA /* Search Bar */,
+				37852ACF278B3EC500ACFFE6 /* LoadingView.swift */,
+				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
+				37A4D256262240D000A9E9EC /* LookupWindowController.swift */,
+				37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */,
+			);
+			path = Lookup;
+			sourceTree = "<group>";
+		};
+		374355B5279C9E770052CFBA /* Search Bar */ = {
+			isa = PBXGroup;
+			children = (
+				37BE70C1279341D600A041D2 /* SearchBarViewController.swift */,
+				37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */,
+			);
+			path = "Search Bar";
+			sourceTree = "<group>";
+		};
+		374355B6279C9E8A0052CFBA /* Pretty results (WIP) */ = {
+			isa = PBXGroup;
+			children = (
+				37CC43692634D81900E60CE9 /* DefinitionView.swift */,
+			);
+			path = "Pretty results (WIP)";
+			sourceTree = "<group>";
+		};
+		374355B7279C9EBD0052CFBA /* Dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				37A4D1FC26222A7000A9E9EC /* WORDS */,
+				37852AD1278B45ED00ACFFE6 /* Dictionary.swift */,
+				37126CF3278A035B009BB010 /* DictionaryController.swift */,
+			);
+			path = Dictionary;
+			sourceTree = "<group>";
+		};
+		374355B8279C9EC70052CFBA /* Controllers and Services */ = {
+			isa = PBXGroup;
+			children = (
+				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
+				37679DFB262C779E003D15E1 /* HistoryController.swift */,
+				37126CE1278244B2009BB010 /* PerseusService.swift */,
+				372E2E0A278219E2005C9C8A /* Parsing */,
+			);
+			path = "Controllers and Services";
 			sourceTree = "<group>";
 		};
 		3766E407277A36F700A9D064 /* Packages */ = {
@@ -236,29 +303,15 @@
 		37A4D1B6262227E400A9E9EC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
-				37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */,
-				372E2E0A278219E2005C9C8A /* Parsing */,
-				37CC436B2635CA3B00E60CE9 /* VisualEffectBackground.swift */,
-				37988D4F2724949200FFBB97 /* Intents */,
-				37679DFA262C7761003D15E1 /* Supporting files */,
 				37A4D24626223BC100A9E9EC /* Main.storyboard */,
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
-				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
-				37A4D256262240D000A9E9EC /* LookupWindowController.swift */,
-				37A4D1FC26222A7000A9E9EC /* WORDS */,
-				37679DFB262C779E003D15E1 /* HistoryController.swift */,
-				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
-				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,
-				37CC43692634D81900E60CE9 /* DefinitionView.swift */,
 				3710529127247B790077CE3D /* ServiceProvider.swift */,
-				37126CE1278244B2009BB010 /* PerseusService.swift */,
-				37126CF3278A035B009BB010 /* DictionaryController.swift */,
-				37852ACF278B3EC500ACFFE6 /* LoadingView.swift */,
-				37852AD1278B45ED00ACFFE6 /* Dictionary.swift */,
-				37BE70C1279341D600A041D2 /* SearchBarViewController.swift */,
-				37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */,
-				378E51F92795C9FF00730204 /* Settings.storyboard */,
-				378E51FB2795D57600730204 /* SettingsViewController.swift */,
+				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,
+				374355B8279C9EC70052CFBA /* Controllers and Services */,
+				374355B7279C9EBD0052CFBA /* Dictionary */,
+				37988D4F2724949200FFBB97 /* Intents */,
+				37679DFA262C7761003D15E1 /* Supporting files */,
+				374355B2279C9E310052CFBA /* Views */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -513,7 +566,6 @@
 				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
 				37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */,
 				378E51FC2795D57600730204 /* SettingsViewController.swift in Sources */,
-				37CC436C2635CA3B00E60CE9 /* VisualEffectBackground.swift in Sources */,
 				37AA04DA2634485200353747 /* DefinitionParser.swift in Sources */,
 				372E2E0D27821A1D005C9C8A /* PartOfSpeech.swift in Sources */,
 				37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */,
