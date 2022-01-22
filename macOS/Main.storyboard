@@ -624,72 +624,79 @@
                                 <subviews>
                                     <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="windowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="S06-90-KvY">
                                         <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
+                                    </visualEffectView>
+                                    <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1zV-kK-sq6">
+                                        <rect key="frame" x="163" y="20" width="110" height="50"/>
+                                        <subviews>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XKC-bN-Znl">
+                                                <rect key="frame" x="-1" y="28" width="111" height="23"/>
+                                                <buttonCell key="cell" type="roundTextured" title="View Help Book" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="J7n-g8-5cD">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="showHelp:" target="rPt-NT-nkU" id="odd-P8-q3e"/>
+                                                </connections>
+                                            </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jsj-Jx-Sd8">
+                                                <rect key="frame" x="-1" y="-2" width="112" height="23"/>
+                                                <buttonCell key="cell" type="roundTextured" title="Email Feedback" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HVg-cp-gQr">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="sendFeedback:" target="rPt-NT-nkU" id="HTY-Me-15N"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V66-aw-PbU">
+                                        <rect key="frame" x="131" y="171" width="173" height="50"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="juw-G7-c97">
-                                                <rect key="frame" x="177" y="341" width="82" height="31"/>
+                                                <rect key="frame" x="51" y="24" width="71" height="26"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="iWords" id="bIr-8q-XQs">
-                                                    <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
+                                                    <font key="font" metaFont="system" size="22"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lNt-p7-nhz">
-                                                <rect key="frame" x="129" y="317" width="177" height="16"/>
+                                                <rect key="frame" x="-2" y="0.0" width="177" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Search a word to get started" id="NZv-Iy-D8q">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1zV-kK-sq6">
-                                                <rect key="frame" x="163" y="20" width="110" height="50"/>
-                                                <subviews>
-                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XKC-bN-Znl">
-                                                        <rect key="frame" x="-1" y="28" width="111" height="23"/>
-                                                        <buttonCell key="cell" type="roundTextured" title="View Help Book" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="J7n-g8-5cD">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="showHelp:" target="rPt-NT-nkU" id="odd-P8-q3e"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jsj-Jx-Sd8">
-                                                        <rect key="frame" x="-1" y="-2" width="112" height="23"/>
-                                                        <buttonCell key="cell" type="roundTextured" title="Email Feedback" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HVg-cp-gQr">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="sendFeedback:" target="rPt-NT-nkU" id="HTY-Me-15N"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <visibilityPriorities>
-                                                    <integer value="1000"/>
-                                                    <integer value="1000"/>
-                                                </visibilityPriorities>
-                                                <customSpacing>
-                                                    <real value="3.4028234663852886e+38"/>
-                                                    <real value="3.4028234663852886e+38"/>
-                                                </customSpacing>
-                                            </stackView>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstItem="1zV-kK-sq6" firstAttribute="centerX" secondItem="juw-G7-c97" secondAttribute="centerX" id="1KJ-QF-h7b"/>
-                                            <constraint firstAttribute="bottom" secondItem="1zV-kK-sq6" secondAttribute="bottom" constant="20" symbolic="YES" id="Szw-Gg-Kt8"/>
-                                            <constraint firstItem="lNt-p7-nhz" firstAttribute="centerX" secondItem="juw-G7-c97" secondAttribute="centerX" id="Tof-Pc-me7"/>
-                                            <constraint firstItem="juw-G7-c97" firstAttribute="top" secondItem="S06-90-KvY" secondAttribute="top" constant="20" symbolic="YES" id="X7w-2Y-mrY"/>
-                                            <constraint firstItem="lNt-p7-nhz" firstAttribute="top" secondItem="juw-G7-c97" secondAttribute="bottom" constant="8" symbolic="YES" id="ZqQ-dw-grE"/>
-                                            <constraint firstItem="juw-G7-c97" firstAttribute="centerX" secondItem="S06-90-KvY" secondAttribute="centerX" id="aSn-Fg-ZON"/>
-                                        </constraints>
-                                    </visualEffectView>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="1zV-kK-sq6" secondAttribute="bottom" constant="20" symbolic="YES" id="00O-h4-LXb"/>
                                     <constraint firstItem="S06-90-KvY" firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" id="SMF-MI-lQU"/>
+                                    <constraint firstItem="V66-aw-PbU" firstAttribute="centerY" secondItem="S06-90-KvY" secondAttribute="centerY" id="Wcf-G2-Bqn"/>
                                     <constraint firstAttribute="trailing" secondItem="S06-90-KvY" secondAttribute="trailing" id="c9t-om-Ow9"/>
                                     <constraint firstAttribute="bottom" secondItem="S06-90-KvY" secondAttribute="bottom" id="f8j-oy-6Qg"/>
+                                    <constraint firstItem="V66-aw-PbU" firstAttribute="centerX" secondItem="S06-90-KvY" secondAttribute="centerX" id="o5i-aH-Wyo"/>
                                     <constraint firstItem="S06-90-KvY" firstAttribute="leading" secondItem="vJw-zo-fvh" secondAttribute="leading" id="pir-ar-Xtf"/>
+                                    <constraint firstItem="1zV-kK-sq6" firstAttribute="centerX" secondItem="vJw-zo-fvh" secondAttribute="centerX" id="r88-n7-fU0"/>
                                 </constraints>
                             </customView>
                         </subviews>
@@ -703,7 +710,7 @@
                             <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="Czz-wX-hvt" secondAttribute="leading" id="VjF-mw-YAg"/>
                             <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="XAJ-CS-kOL"/>
                             <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="Y5E-wS-i7o"/>
-                            <constraint firstItem="ZiB-z0-Agz" firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" id="esW-qf-JTf"/>
+                            <constraint firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" constant="-52" id="esW-qf-JTf"/>
                             <constraint firstAttribute="bottom" secondItem="vJw-zo-fvh" secondAttribute="bottom" id="f9c-Hg-ejJ"/>
                             <constraint firstAttribute="top" secondItem="Czz-wX-hvt" secondAttribute="top" id="g4v-W9-fwG"/>
                             <constraint firstItem="vJw-zo-fvh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="mxg-4r-YiC"/>
