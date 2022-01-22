@@ -23,37 +23,40 @@ extension Dictionary.Direction {
 class LookUpIntentHandler: NSObject, LookUpIntentHandling {
     lazy var dictionaryController = DictionaryController(direction: .latinToEnglish)
 
-    func handle(intent: LookUpIntent) async -> LookUpIntentResponse {
+    func handle(intent: LookUpIntent, completion: @escaping (LookUpIntentResponse) -> Void) {
         guard let direction = Dictionary.Direction(intent.direction) else {
-            return LookUpIntentResponse(code: .failure, userActivity: nil)
+            completion(LookUpIntentResponse(code: .failure, userActivity: nil))
+            return
         }
 
         let sanitizedTerms = intent.query?.map { Dictionary.sanitize(input: $0) ?? "" } ?? []
-
-        do {
-            dictionaryController.direction = direction
-            let results = try await dictionaryController.search(terms: sanitizedTerms)
-            let response = LookUpIntentResponse(code: .success, userActivity: nil)
-            response.definition = results
-                .map(\.raw)
-                .map { $0 ?? "No result" }
-            return response
-        } catch {
-            return LookUpIntentResponse(code: .failure, userActivity: nil)
+        dictionaryController.direction = direction
+        dictionaryController.search(terms: sanitizedTerms) { result in
+            switch result {
+            case .failure(let error):
+                completion(LookUpIntentResponse(code: .failure, userActivity: nil))
+            case .success(let results):
+                let response = LookUpIntentResponse(code: .success, userActivity: nil)
+                response.definition = results
+                    .map(\.raw)
+                    .map { $0 ?? "No result" }
+                completion(response)
+            }
         }
     }
 
-    func resolveDirection(for intent: LookUpIntent) async -> DirectionResolutionResult {
+    func resolveDirection(for intent: LookUpIntent, with completion: @escaping (DirectionResolutionResult) -> Void) {
         guard Dictionary.Direction(intent.direction) != nil else {
-            return .needsValue()
+            completion(.needsValue())
+            return
         }
 
-        return .success(with: intent.direction)
+        completion(.success(with: intent.direction))
     }
 
-    func resolveQuery(for intent: LookUpIntent) async -> [INStringResolutionResult] {
-        intent.query?.map {
+    func resolveQuery(for intent: LookUpIntent, with completion: @escaping ([INStringResolutionResult]) -> Void) {
+        completion(intent.query?.map {
             .success(with: $0)
-        } ?? []
+        } ?? [])
     }
 }

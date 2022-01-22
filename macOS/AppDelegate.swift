@@ -6,13 +6,12 @@
 //
 
 import Cocoa
-import Combine
 import Intents
 import DWUtils
 import Flow
 
 extension NSFont {
-    static let `default` = NSFont(name: "Monaco", size: 16)!
+    static let `default` = NSFont(name: "Menlo", size: 13)!
 }
 
 extension NSNotification.Name {
@@ -124,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction @objc
     func resetFont(_ sender: Any?) {
-        font = font.withSize(16)
+        font = font.dwWithSize(16)
         NSFontManager.shared.setSelectedFont(font, isMultiple: false)
         applyFont(font)
         saveFont(font)

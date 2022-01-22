@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Combine
 
 protocol SearchBarDelegate: AnyObject {
     func searchBar(_ searchBar: SearchBarViewController, didSearchText text: String)
@@ -22,28 +21,41 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 //    private let searchFieldHeightAnchor: NSLayoutConstraint!
     @IBOutlet private weak var searchFieldHeightAnchor: NSLayoutConstraint!
 
+    @IBOutlet private weak var progressIndicator: NSProgressIndicator!
+
     var backForwardController: BackForwardController? {
         didSet {
-            backForwardControllerCancellable = nil
-            backForwardControllerCancellable = backForwardController?
-                .$currentSearchQuery
-                .sink {
-                    if let searchText = $0?.searchText {
-                        self.searchField.stringValue = searchText
-                        self.searchField.invalidateSize()
-                        DispatchQueue.main.async {
-                            self.refreshHeight()
-                        }
+            backForwardControllerObservation = nil
+            backForwardControllerObservation = backForwardController?.observe(\.currentSearchQuery, changeHandler: { backForwardController, change in
+                if let searchText = backForwardController.currentSearchQuery?.searchText {
+                    self.searchField.stringValue = searchText
+                    self.searchField.invalidateSize()
+                    DispatchQueue.main.async {
+                        self.refreshHeight()
                     }
                 }
+            })
         }
     }
 
     weak var delegate: SearchBarDelegate?
-    var backForwardControllerCancellable: AnyCancellable?
+    var backForwardControllerObservation: Any?
 
     @IBAction func goAction(_ sender: Any?) {
         delegate?.searchBar(self, didSearchText: searchField.stringValue)
+    }
+
+    func setProgress(_ progress: CGFloat) {
+        progressIndicator.doubleValue = progress * 100
+    }
+
+    var isLoading = false {
+        didSet {
+            if isLoading {
+                progressIndicator.doubleValue = 0
+            }
+            progressIndicator.isHidden = !isLoading
+        }
     }
 
     @objc

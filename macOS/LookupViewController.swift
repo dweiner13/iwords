@@ -47,23 +47,6 @@ class LookupViewController: NSViewController {
         scrollView.isHidden = !welcomeView.isHidden
     }
 
-    @IBOutlet
-    weak var progressIndicator: NSProgressIndicator!
-
-    weak var searchBar: SearchBarViewController?
-
-    var backForwardController: BackForwardController! {
-        didSet {
-            searchBar?.backForwardController = backForwardController
-        }
-    }
-
-    @IBSegueAction func searchBar(_ coder: NSCoder, sender: Any?) -> SearchBarViewController? {
-        SearchBarViewController(coder: coder)?.then {
-            self.searchBar = $0
-        }
-    }
-
     var mode: ResultDisplayMode {
         get {
             #if DEBUG
@@ -217,19 +200,6 @@ class LookupViewController: NSViewController {
 
     @IBAction func didChangeMode(_ sender: Any) {
         updateForMode()
-    }
-
-    override func viewDidLayout() {
-        super.viewDidLayout()
-
-        guard let searchBar = searchBar else {
-            return
-        }
-
-        let searchBarHeight = searchBar.view.frame.height
-        if #available(macOS 11.0, *) {
-            scrollView.additionalSafeAreaInsets = NSEdgeInsets(top: searchBarHeight, left: 0, bottom: 0, right: 0)
-        }
     }
 }
 

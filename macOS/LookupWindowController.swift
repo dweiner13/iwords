@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import Combine
 import SwiftUI
 import Flow
 
@@ -139,7 +138,7 @@ class LookupWindowController: NSWindowController {
         contentViewController as? LookupViewController
     }
 
-    private var cancellables: [AnyCancellable] = []
+    private var observation: Any?
 
     private lazy var directionMenuFormRepresentation: NSMenu = {
         NSMenu().then { menu in
@@ -175,23 +174,20 @@ class LookupWindowController: NSWindowController {
 
         window?.restorationClass = WindowRestoration.self
 
-        dictionaryController.$direction
-            .sink { direction in
-                AppDelegate.shared?.updateDirectionItemsState(direction)
-                self.updateTitle(forDirection: direction)
-                self.invalidateRestorableState()
-                self.directionToggleButton.title = direction.description
+        observation = dictionaryController.observe(\.direction) { dictionaryController, change in
+            let direction = dictionaryController.direction
+            AppDelegate.shared?.updateDirectionItemsState(direction)
+            self.updateTitle(forDirection: direction)
+            self.invalidateRestorableState()
+            self.directionToggleButton.title = direction.description
 
-                self.directionMenuFormRepresentation.items[direction.rawValue].state = .on
-                self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
-            }
-            .store(in: &cancellables)
+            self.directionMenuFormRepresentation.items[direction.rawValue].state = .on
+            self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
+        }
 
         dictionaryController.delegate = self
 
         updateTitle(forDirection: dictionaryController.direction)
-
-        lookupViewController.backForwardController = backForwardController
 
         searchBar = NSStoryboard.main!.instantiateController(withIdentifier: .init("SearchBarViewController")) as? SearchBarViewController
         window?.addTitlebarAccessoryViewController(searchBar)
@@ -443,6 +439,7 @@ class LookupWindowController: NSWindowController {
         didSet {
             backForwardController?.updateSegmentedControl()
             lookupViewController?.isLoading = isLoading
+            searchBar?.isLoading = isLoading
             window?.tab.accessoryView = isLoading ? NSProgressIndicator().then {
                 $0.controlSize = .small
                 $0.isIndeterminate = true
@@ -453,17 +450,13 @@ class LookupWindowController: NSWindowController {
     }
 
     private func _search(_ query: SearchQuery) {
-        Task(priority: .userInitiated) { [weak self] in
-            guard let self = self else {
-                return
-            }
-            do {
-                self.isLoading = true
-                let results = try await self.dictionaryController.search(text: query.searchText)
+        isLoading = true
+        dictionaryController.search(text: query.searchText) { result in
+            switch result {
+            case .failure(let error): self.presentError(error)
+            case .success(let results):
                 self.lookupViewController.results = results
                 self.isLoading = false
-            } catch {
-                self.presentError(error)
             }
         }
     }
@@ -590,7 +583,7 @@ extension LookupWindowController: BackForwardDelegate {
 
 extension LookupWindowController: DictionaryControllerDelegate {
     func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
-        lookupViewController.progressIndicator.doubleValue = progress * 100
+        searchBar?.setProgress(progress)
     }
 }
 
