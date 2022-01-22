@@ -78,13 +78,13 @@ class Dictionary {
         return url.deletingLastPathComponent()
     }()
 
-    private var wordsIsLoading = true
-//    private var activeContinuation: CheckedContinuation<String?, Error>?
     private var activeCompletionHandler: ((Result<String?, DWError>) -> Void)?
     private var process: Process?
     private var outputPipe: Pipe?
     private var errorPipe: Pipe?
     private var inputPipe: Pipe?
+
+    private var timer: Timer?
 
     // MARK: - Init
 
@@ -173,6 +173,19 @@ class Dictionary {
         write("\n")
 
         self.activeCompletionHandler = completion
+
+        timer = .scheduledTimer(withTimeInterval: 5, repeats: false, block: { [weak self] timer in
+            guard let self = self else {
+                return
+            }
+            guard self.activeCompletionHandler != nil else {
+                return
+            }
+
+            self.restartProcess()
+
+            self.complete(with: .failure(DWError(description: "The operation timed out. Please try again.")))
+        })
     }
 
     // MARK: - Private methods
@@ -239,9 +252,19 @@ class Dictionary {
     private func complete(with result: Result<String?, DWError>) {
         precondition(Thread.isMainThread)
 
+        timer?.invalidate()
+        timer = nil
+
         let handler = activeCompletionHandler
         activeCompletionHandler = nil
         handler?(result)
+    }
+
+    private func restartProcess() {
+        process?.terminate()
+        process = nil
+
+        startProcess()
     }
 
     private func startProcess() {
@@ -272,7 +295,9 @@ class Dictionary {
             guard let self = self else { return }
 
             if process.terminationStatus != 0 {
-                self.complete(with: .failure(DWError(description: "Process failed with exit code \(process.terminationStatus)")))
+                DispatchQueue.main.async {
+                    self.complete(with: .failure(DWError(description: "Process failed with exit code \(process.terminationStatus)")))
+                }
                 return
             }
         }

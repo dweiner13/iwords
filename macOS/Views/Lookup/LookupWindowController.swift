@@ -369,7 +369,7 @@ class LookupWindowController: NSWindowController {
     }
 
     // The core of the logic for actually performing a query and updating the UI.
-    private func _setSearchQuery(_ searchQuery : SearchQuery,
+    private func _setSearchQuery(_ searchQuery: SearchQuery,
                                  updateHistoryLists: Bool,
                                  updateBackForward: Bool) {
         guard !searchQuery.searchText.isEmpty else {
@@ -384,13 +384,26 @@ class LookupWindowController: NSWindowController {
         self.window?.tab.title = searchQuery.displaySearchText()
 
         dictionaryController.direction = searchQuery.direction
-        _search(searchQuery)
-        if updateHistoryLists {
-            HistoryController.shared.recordVisit(to: searchQuery)
+
+        // Perform search
+        isLoading = true
+        dictionaryController.search(text: searchQuery.searchText) { result in
+            switch result {
+            case .failure(let error):
+                self.presentError(error)
+                self.isLoading = false
+            case .success(let results):
+                if updateHistoryLists {
+                    HistoryController.shared.recordVisit(to: searchQuery)
+                }
+                if updateBackForward {
+                    self.backForwardController.recordVisit(to: searchQuery)
+                }
+                self.lookupViewController.results = results
+                self.isLoading = false
+            }
         }
-        if updateBackForward {
-            backForwardController.recordVisit(to: searchQuery)
-        }
+
         invalidateRestorableState()
     }
 
@@ -446,18 +459,6 @@ class LookupWindowController: NSWindowController {
                 $0.style = .spinning
                 $0.startAnimation(self)
             } : nil
-        }
-    }
-
-    private func _search(_ query: SearchQuery) {
-        isLoading = true
-        dictionaryController.search(text: query.searchText) { result in
-            switch result {
-            case .failure(let error): self.presentError(error)
-            case .success(let results):
-                self.lookupViewController.results = results
-                self.isLoading = false
-            }
         }
     }
 

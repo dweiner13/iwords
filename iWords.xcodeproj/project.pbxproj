@@ -16,6 +16,7 @@
 		373AECBF272E22D90021A393 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECBE272E22D90021A393 /* Utils.swift */; };
 		373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
 		373AECC8272EF26D0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
+		374355BC279CA10C0052CFBA /* VisualEffectBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */; };
 		3766E410277A3CC700A9D064 /* DWUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 3766E40F277A3CC700A9D064 /* DWUtils */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
@@ -92,6 +93,7 @@
 		373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "words (macOS)Debug.entitlements"; sourceTree = "<group>"; };
 		373AECBE272E22D90021A393 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		373AECC0272EB0160021A393 /* PreviewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewAssets.xcassets; sourceTree = "<group>"; };
+		374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
 		3766E408277A36F700A9D064 /* DWUtils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DWUtils; path = ../../DWUtils; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		374355B6279C9E8A0052CFBA /* Pretty results (WIP) */ = {
 			isa = PBXGroup;
 			children = (
+				374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */,
 				37CC43692634D81900E60CE9 /* DefinitionView.swift */,
 			);
 			path = "Pretty results (WIP)";
@@ -529,7 +532,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -x";
-			shellScript = "codesign --force --options=runtime \\\n --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \\\n --entitlements \"${SRCROOT}/macOS/WORDS/WordsEntitlements.plist\" \\\n \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/macOS/words\"\n";
+			shellScript = "codesign --force --options=runtime \\\n --sign \"${EXPANDED_CODE_SIGN_IDENTITY_NAME}\" \\\n --entitlements \"${SRCROOT}/macOS/Dictionary/WORDS/WordsEntitlements.plist\" \\\n \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/macOS/words\"\n";
 		};
 		37C9FDFC2628DFDB00AE794D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -564,6 +567,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
+				374355BC279CA10C0052CFBA /* VisualEffectBackground.swift in Sources */,
 				37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */,
 				378E51FC2795D57600730204 /* SettingsViewController.swift in Sources */,
 				37AA04DA2634485200353747 /* DefinitionParser.swift in Sources */,
