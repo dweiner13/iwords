@@ -174,7 +174,8 @@ class LookupWindowController: NSWindowController {
 
         window?.restorationClass = WindowRestoration.self
 
-        observation = dictionaryController.observe(\.direction) { dictionaryController, change in
+        observation = dictionaryController.observe(\.direction) { [weak self] dictionaryController, change in
+            guard let self = self else { return }
             let direction = dictionaryController.direction
             AppDelegate.shared?.updateDirectionItemsState(direction)
             self.updateTitle(forDirection: direction)

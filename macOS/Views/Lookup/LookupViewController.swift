@@ -134,6 +134,13 @@ class LookupViewController: NSViewController {
         }
     }
 
+    deinit {
+#if DEBUG
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
+#endif
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showStyledRawResults")
+    }
+
     func standardWidthAtCurrentFontSize() -> CGFloat {
         let font = AppDelegate.shared.font
         let string = String(repeating: "a", count: 80)
