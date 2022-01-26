@@ -797,7 +797,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/words (macOS)Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.6.1;
+				CURRENT_PROJECT_VERSION = 0.6.2;
 				DEVELOPMENT_ASSET_PATHS = "macOS/Supporting\\ files/PreviewAssets.xcassets";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -812,7 +812,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.6.2;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
@@ -829,7 +829,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.6.1;
+				CURRENT_PROJECT_VERSION = 0.6.2;
 				DEVELOPMENT_ASSET_PATHS = "macOS/Supporting\\ files/PreviewAssets.xcassets";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -844,7 +844,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.6.2;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
