@@ -100,7 +100,7 @@ class LookupViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.textContainerInset = NSSize(width: 8, height: 12)
+        textView.textContainerInset = NSSize(width: 4, height: 8)
         textView.delegate = self
 
         startListeningToUserDefaults()
