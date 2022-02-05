@@ -91,8 +91,10 @@
 		<string>LookUpIntent</string>
 	</array>
 	<key>SUFeedURL</key>
-	<string>https://iwords-distribution.s3.amazonaws.com/changelog.xml</string>
+	<string>https://iwords.org/iwords-changelog.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>VTvuJdHhneRvlybG0Uc+Q6DAwGLlUB5lShK0JwJ3T8k=</string>
+	<key>SUEnableSystemProfiling</key>
+	<true/>
 </dict>
 </plist>
