@@ -39,7 +39,7 @@ class DictionaryController: NSObject, NSSecureCoding {
                                         attributes: [.font: font]))
                         str.append(.init(string: result.raw ?? "No result",
                                         attributes: [.font: font,
-                                                     .paragraphStyle: NSMutableParagraphStyle().then { $0.firstLineHeadIndent = 16; $0.headIndent = 32 }]))
+                                                     .paragraphStyle: NSMutableParagraphStyle().then { $0.firstLineHeadIndent = 12; $0.headIndent = 24 }]))
                         return str
                     } else {
                         return NSMutableAttributedString(string: result.raw ?? "No result", attributes: [.font: font])

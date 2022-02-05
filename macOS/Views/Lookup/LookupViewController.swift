@@ -85,19 +85,6 @@ class LookupViewController: NSViewController {
         }
     }
 
-    override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // do nothing
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.textContainerInset = NSSize(width: 4, height: 8)
