@@ -115,7 +115,7 @@ private extension NSUserInterfaceItemIdentifier {
 class LookupWindowController: NSWindowController {
 
     override class var restorableStateKeyPaths: [String] {
-        ["_direction", "window.tab.title", "dictionaryController"]
+        ["_direction", "dictionaryController"]
     }
 
     @IBOutlet @objc
@@ -132,7 +132,7 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
     @IBOutlet weak var directionToggleButton: NSButton!
 
-    private var searchBar: SearchBarViewController!
+    private weak var searchBar: SearchBarViewController!
 
     var lookupViewController: LookupViewController! {
         contentViewController as? LookupViewController
@@ -214,7 +214,12 @@ class LookupWindowController: NSWindowController {
     @objc
     override func restoreState(with coder: NSCoder) {
         backForwardController.decode(with: coder)
+        if let currentSearchDisplayText = backForwardController.currentSearchQuery?.displaySearchText() {
+            self.window?.tab.title = currentSearchDisplayText
+        }
         super.restoreState(with: coder)
+
+        invalidateRestorableState()
     }
 
     public func setSearchQuery(_ searchQuery: SearchQuery, withAlternativeNavigation alt: Bool) {
