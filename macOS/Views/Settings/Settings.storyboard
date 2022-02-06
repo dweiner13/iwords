@@ -232,131 +232,232 @@
                 <customObject id="hyf-a8-MvE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Dictionary" id="fkP-gV-HhW" customClass="DictionarySettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="JAp-BO-VSf">
-                        <rect key="frame" x="0.0" y="0.0" width="528" height="192"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="400"/>
                         <subviews>
-                            <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
-                                <rect key="frame" x="20" y="44" width="350" height="128"/>
-                                <rows>
-                                    <gridRow id="RLq-gE-v2S"/>
-                                    <gridRow id="VuE-iz-OSD"/>
-                                </rows>
-                                <columns>
-                                    <gridColumn xPlacement="trailing" id="FHq-7w-FWn"/>
-                                    <gridColumn width="248" id="wUf-yW-zSL"/>
-                                </columns>
-                                <gridCells>
-                                    <gridCell row="RLq-gE-v2S" column="FHq-7w-FWn" id="0r2-gH-xi4">
-                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ojk-fD-3JJ">
-                                            <rect key="frame" x="-2" y="112" width="94" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Attempt tricks:" id="fat-2E-k4Y">
-                                                <font key="font" usesAppearanceFont="YES"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                    </gridCell>
-                                    <gridCell row="RLq-gE-v2S" column="wUf-yW-zSL" id="LAF-qU-5Tv">
-                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ZR-LF-e0G">
-                                            <rect key="frame" x="102" y="88" width="232" height="40"/>
-                                            <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2K-li-KeP">
-                                                    <rect key="frame" x="-2" y="23" width="168" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Medieval spelling tricks" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x7D-dK-Akt">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c0S-5L-fPZ" userLabel="Do two words">
-                                                    <rect key="frame" x="-2" y="-1" width="234" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Splitting unknowns into two words" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vHY-J7-Bm8">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                </button>
-                                            </subviews>
-                                            <visibilityPriorities>
-                                                <integer value="1000"/>
-                                                <integer value="1000"/>
-                                            </visibilityPriorities>
-                                            <customSpacing>
-                                                <real value="3.4028234663852886e+38"/>
-                                                <real value="3.4028234663852886e+38"/>
-                                            </customSpacing>
-                                        </stackView>
-                                    </gridCell>
-                                    <gridCell row="VuE-iz-OSD" column="FHq-7w-FWn" id="iuw-QH-YoJ">
-                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-cn-RO0">
-                                            <rect key="frame" x="40" y="48" width="52" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Include:" id="4o5-rb-UTN">
-                                                <font key="font" usesAppearanceFont="YES"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                    </gridCell>
-                                    <gridCell row="VuE-iz-OSD" column="wUf-yW-zSL" id="lbg-St-Bh8">
-                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfU-g8-0eF">
-                                            <rect key="frame" x="102" y="0.0" width="134" height="64"/>
-                                            <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yle-wc-1WX" userLabel="Omit archaic words">
-                                                    <rect key="frame" x="-2" y="47" width="112" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Archaic words" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Xji-pU-8s9">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jvf-qN-29S" userLabel="Omit medieval words">
-                                                    <rect key="frame" x="-2" y="23" width="121" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Medieval words" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aYL-4i-BJ8">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0w-VZ-z2Y" userLabel="Omit uncommon words">
-                                                    <rect key="frame" x="-2" y="-1" width="136" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Uncommon words" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dde-Ho-too">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                </button>
-                                            </subviews>
-                                            <visibilityPriorities>
-                                                <integer value="1000"/>
-                                                <integer value="1000"/>
-                                                <integer value="1000"/>
-                                            </visibilityPriorities>
-                                            <customSpacing>
-                                                <real value="3.4028234663852886e+38"/>
-                                                <real value="3.4028234663852886e+38"/>
-                                                <real value="3.4028234663852886e+38"/>
-                                            </customSpacing>
-                                        </stackView>
-                                    </gridCell>
-                                </gridCells>
-                            </gridView>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="24" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ge3-eK-OHR">
+                                <rect key="frame" x="20" y="212" width="350" height="168"/>
+                                <subviews>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-HA-1EN">
+                                        <rect key="frame" x="0.0" y="152" width="235" height="16"/>
+                                        <subviews>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TBu-tr-kV8">
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="16" id="qHN-Ii-uMY"/>
+                                                    <constraint firstAttribute="height" constant="16" id="tJf-fM-6ir"/>
+                                                </constraints>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="2Uk-tH-0Qm"/>
+                                            </imageView>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="9wD-I1-qYo">
+                                                <rect key="frame" x="22" y="0.0" width="215" height="16"/>
+                                                <textFieldCell key="cell" selectable="YES" title="Error reading dictionary settings" id="ykI-Tv-pA1">
+                                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="128"/>
+                                        <rows>
+                                            <gridRow id="RLq-gE-v2S"/>
+                                            <gridRow id="VuE-iz-OSD"/>
+                                        </rows>
+                                        <columns>
+                                            <gridColumn xPlacement="trailing" id="FHq-7w-FWn"/>
+                                            <gridColumn width="248" id="wUf-yW-zSL"/>
+                                        </columns>
+                                        <gridCells>
+                                            <gridCell row="RLq-gE-v2S" column="FHq-7w-FWn" id="0r2-gH-xi4">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ojk-fD-3JJ">
+                                                    <rect key="frame" x="-2" y="112" width="94" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Attempt tricks:" id="fat-2E-k4Y">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="RLq-gE-v2S" column="wUf-yW-zSL" id="LAF-qU-5Tv">
+                                                <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ZR-LF-e0G">
+                                                    <rect key="frame" x="102" y="88" width="232" height="40"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2K-li-KeP">
+                                                            <rect key="frame" x="-2" y="23" width="168" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Medieval spelling tricks" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="x7D-dK-Akt">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                                <mutableString key="toolTip">This option instructs the program, when it is unable to find a proper 
+match in the dictionary, and after various prefixes and suffixes, and 
+tring every Classical Latin trick it can think of, to go to a few that
+are usually only found in medieval Latin, replacements of caul -&gt; col,
+st -&gt; est, z -&gt; di, ix -&gt; is, nct -&gt; nt.  It also tries some things   
+like replacing doubled consonants in classical with a single one.     
+Together these tricks are useful, but may give false positives (&gt;20%).
+This option is only available if the general DO_TRICKS is chosen.     
+If the text is late or medieval, this option is much more useful than 
+tricks for classical.  The dictionary can never contain all spelling  
+variations found in medieval Latin, but some constructs are common.</mutableString>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.doMedievalTricks" id="yrg-7a-34i">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c0S-5L-fPZ" userLabel="Do two words">
+                                                            <rect key="frame" x="-2" y="-1" width="234" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Splitting unknowns into two words" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="vHY-J7-Bm8">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.doTwoWords" id="GqQ-jR-nqY">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </gridCell>
+                                            <gridCell row="VuE-iz-OSD" column="FHq-7w-FWn" id="iuw-QH-YoJ">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-cn-RO0">
+                                                    <rect key="frame" x="40" y="48" width="52" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Include:" id="4o5-rb-UTN">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="VuE-iz-OSD" column="wUf-yW-zSL" id="lbg-St-Bh8">
+                                                <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfU-g8-0eF">
+                                                    <rect key="frame" x="102" y="0.0" width="134" height="64"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yle-wc-1WX" userLabel="Omit archaic words">
+                                                            <rect key="frame" x="-2" y="47" width="112" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Archaic words" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="Xji-pU-8s9">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.includeArchaicWords" id="YJc-Ho-NBg">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jvf-qN-29S" userLabel="Omit medieval words">
+                                                            <rect key="frame" x="-2" y="23" width="121" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Medieval words" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="aYL-4i-BJ8">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.includeMedievalWords" id="SUw-qe-a1B">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0w-VZ-z2Y" userLabel="Omit uncommon words">
+                                                            <rect key="frame" x="-2" y="-1" width="136" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Uncommon words" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="dde-Ho-too">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.includeUncommonWords" id="sWU-j4-L1Z">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </gridCell>
+                                        </gridCells>
+                                    </gridView>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                             <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-qY-VpY">
-                                <rect key="frame" x="485" y="16" width="25" height="25"/>
+                                <rect key="frame" x="497" y="16" width="25" height="25"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Hc-06-gfs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="openHelpAnchor" target="fkP-gV-HhW" id="SAW-CR-bbK"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="7eT-vt-UMC" secondAttribute="bottom" constant="20" symbolic="YES" id="a4z-q0-nI3"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ge3-eK-OHR" secondAttribute="bottom" constant="20" symbolic="YES" id="GJl-24-KGN"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ge3-eK-OHR" secondAttribute="trailing" constant="20" symbolic="YES" id="KYE-R8-gsR"/>
+                            <constraint firstItem="ge3-eK-OHR" firstAttribute="leading" secondItem="JAp-BO-VSf" secondAttribute="leading" constant="20" symbolic="YES" id="dEc-Xw-ZCb"/>
                             <constraint firstAttribute="bottom" secondItem="Hp1-qY-VpY" secondAttribute="bottom" constant="20" symbolic="YES" id="gLq-TZ-0MU"/>
-                            <constraint firstItem="7eT-vt-UMC" firstAttribute="top" secondItem="JAp-BO-VSf" secondAttribute="top" constant="20" symbolic="YES" id="lDy-vb-pRx"/>
-                            <constraint firstItem="7eT-vt-UMC" firstAttribute="leading" secondItem="JAp-BO-VSf" secondAttribute="leading" constant="20" symbolic="YES" id="oJ5-wU-JXi"/>
+                            <constraint firstItem="ge3-eK-OHR" firstAttribute="top" secondItem="JAp-BO-VSf" secondAttribute="top" constant="20" symbolic="YES" id="nGF-qY-fm5"/>
                             <constraint firstAttribute="trailing" secondItem="Hp1-qY-VpY" secondAttribute="trailing" constant="20" symbolic="YES" id="ou7-w0-gGj"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7eT-vt-UMC" secondAttribute="trailing" constant="20" symbolic="YES" id="u0D-0n-y2h"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="doMedievalTricksButton" destination="j2K-li-KeP" id="Lbb-fI-Vgc"/>
+                        <outlet property="doTwoWordsButton" destination="c0S-5L-fPZ" id="Gmu-9s-UeQ"/>
+                        <outlet property="errorLabel" destination="9wD-I1-qYo" id="yh3-4m-SpF"/>
+                        <outlet property="errorStackView" destination="Zkn-HA-1EN" id="qe3-r3-hnL"/>
+                        <outlet property="includeArchaicWordsButton" destination="Yle-wc-1WX" id="CoK-FL-URa"/>
+                        <outlet property="includeMedievalWordsButton" destination="Jvf-qN-29S" id="Ih4-Va-GWG"/>
+                        <outlet property="includeUncommonWordsButton" destination="j0w-VZ-z2Y" id="pOy-DB-91N"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="577" y="889"/>
         </scene>
     </scenes>
     <resources>
+        <image name="NSCaution" width="32" height="32"/>
         <image name="hand.point.up.left" catalog="system" width="14" height="15"/>
         <image name="text.book.closed" catalog="system" width="14" height="16"/>
     </resources>

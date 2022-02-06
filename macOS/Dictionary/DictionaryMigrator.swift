@@ -8,6 +8,7 @@
 import Foundation
 
 enum DictionaryMigrator {
+    // This is guaranteed to be populated by the time `applicationWillFinishLaunching` is complete.
     private(set) static var dictionarySupportURL: URL!
 
     // Migrate dictionary to local user storage if necessary.
@@ -19,7 +20,9 @@ enum DictionaryMigrator {
                                                 appropriateFor: nil,
                                                 create: true)
 
-        dictionarySupportURL = appSupportURL.appendingPathComponent("Dictionary Support",
+        dictionarySupportURL = appSupportURL.appendingPathComponent("iWords",
+                                                                    isDirectory: true)
+                                            .appendingPathComponent("Dictionary Support",
                                                                     isDirectory: true)
 
         try fileManager.createDirectory(at: dictionarySupportURL, withIntermediateDirectories: true)
@@ -42,7 +45,7 @@ enum DictionaryMigrator {
 
         for file in filesToMigrate {
             guard let srcURL = Bundle.main.url(forResource: file, withExtension: nil) else {
-                throw DWError(description: "Unable to get URL for dictionary file \(file)")
+                throw DWError("Unable to get URL for dictionary file \(file)")
             }
 
             let dstURL = dictionarySupportURL.appendingPathComponent(file, isDirectory: false)

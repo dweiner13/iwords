@@ -17,7 +17,11 @@ struct DWError: LocalizedError, Identifiable, CustomNSError {
         description
     }
 
-    let recoverySuggestion: String?
+    let _recoverySuggestion: String?
+
+    var recoverySuggestion: String {
+        _recoverySuggestion ?? ""
+    }
 
     static var errorDomain: String {
         "org.danielweiner.iwords.errorDomain"
@@ -31,9 +35,9 @@ struct DWError: LocalizedError, Identifiable, CustomNSError {
         [NSLocalizedRecoverySuggestionErrorKey: recoverySuggestion as Any]
     }
 
-    init(description: String, recoverySuggestion: String? = nil) {
+    init(_ description: String, recoverySuggestion: String? = nil) {
         self.description = description
-        self.recoverySuggestion = recoverySuggestion
+        self._recoverySuggestion = recoverySuggestion
     }
 }
 
@@ -166,7 +170,7 @@ class Dictionary {
             return
         }
         guard activeCompletionHandler == nil else {
-            completion(.failure(DWError(description: "Lookup already in progress")))
+            completion(.failure(DWError("Lookup already in progress")))
             return
         }
 
@@ -198,7 +202,7 @@ class Dictionary {
 
             self.restartProcess()
 
-            self.complete(with: .failure(DWError(description: "The operation timed out. Please try again.")))
+            self.complete(with: .failure(DWError("The operation timed out. Please try again.")))
         })
     }
 
@@ -310,7 +314,7 @@ class Dictionary {
 
             if process.terminationStatus != 0 {
                 DispatchQueue.main.async {
-                    self.complete(with: .failure(DWError(description: "Process failed with exit code \(process.terminationStatus)")))
+                    self.complete(with: .failure(DWError("Process failed with exit code \(process.terminationStatus)")))
                 }
                 return
             }

@@ -52,7 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         do {
             try DictionaryMigrator.relocateDictionaryToApplicationSupport()
         } catch let error as NSError {
-            NSApp.presentError(DWError(description: "Unable to perform first-time setup.",
+            NSApp.presentError(DWError("Unable to perform first-time setup.",
                                        recoverySuggestion: """
                 Encountered \(error.domain) error \(error.code) (\"\(error.localizedDescription)\").
 
