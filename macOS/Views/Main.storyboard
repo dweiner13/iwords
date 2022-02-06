@@ -463,14 +463,14 @@
                     <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" toolbarStyle="compact" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="185" y="304" width="700" height="599"/>
+                        <rect key="contentRect" x="196" y="256" width="700" height="599"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-                        <value key="minSize" type="size" width="480" height="270"/>
+                        <value key="minSize" type="size" width="400" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="mfa-ju-wND"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
-                                <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Font Size" paletteLabel="Font Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
+                                <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Text Size" paletteLabel="Text Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj" customClass="FontSizeSegmentedControl" customModule="iWords" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="14" width="71" height="24"/>
@@ -478,8 +478,8 @@
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="gxG-KH-nnH">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment toolTip="Decrease font size" image="textformat.size.smaller" catalog="system" width="32" tag="3"/>
-                                                <segment toolTip="Increase Text Size" image="textformat.size.larger" width="32" tag="4"/>
+                                                <segment toolTip="Decrease text size" image="textformat.size.smaller" catalog="system" width="32" tag="3"/>
+                                                <segment toolTip="Increase text size" image="textformat.size.larger" width="32" tag="4"/>
                                             </segments>
                                         </segmentedCell>
                                         <connections>
