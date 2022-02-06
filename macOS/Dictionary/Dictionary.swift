@@ -71,12 +71,7 @@ class Dictionary {
         return url
     }()
     private lazy var executablePath = executableURL.path
-    private lazy var workingDir: URL = {
-        guard var url = Bundle.main.url(forResource: "DICTFILE", withExtension: "GEN") else {
-            fatalError("Could not find resource directory.")
-        }
-        return url.deletingLastPathComponent()
-    }()
+    private lazy var workingDir: URL = DictionaryMigrator.dictionarySupportURL
 
     private var activeCompletionHandler: ((Result<String?, DWError>) -> Void)?
     private var process: Process?

@@ -47,6 +47,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApp.keyWindow?.windowController as? LookupWindowController
     }
 
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        // Perform dictionary relocation
+        do {
+            try DictionaryMigrator.relocateDictionaryToApplicationSupport()
+        } catch {
+            NSApp.presentError(error)
+            NSApp.terminate(nil)
+        }
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         DebugDefaults.check()
 
@@ -286,5 +296,12 @@ extension AppDelegate: HistoryDelegate {
         } else {
             keyWindowController()?.setSearchQuery(query, withAlternativeNavigation: false)
         }
+    }
+}
+
+extension AppDelegate {
+    @objc
+    func didPresentErrorWithRecovery(_ didRecover: Bool, contextInfo: UnsafeMutableRawPointer?) {
+        NSApp.terminate(self)
     }
 }
