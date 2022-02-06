@@ -1,19 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "Icon-16.png",
+      "filename" : "icon 16.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "Icon-16@2x.png",
+      "filename" : "icon 32-1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "Icon-32.png",
+      "filename" : "icon 32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
