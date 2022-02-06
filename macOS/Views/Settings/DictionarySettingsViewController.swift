@@ -8,7 +8,7 @@
 import Cocoa
 import OrderedCollections
 
-let SETTINGS_WINDOW_WIDTH: CGFloat = 500
+let SETTINGS_WINDOW_WIDTH: CGFloat = 575
 
 class DictionarySettingsViewController: NSViewController {
 

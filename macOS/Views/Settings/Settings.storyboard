@@ -55,165 +55,128 @@
                 </tabViewController>
                 <customObject id="49Q-8i-euo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-128" y="782"/>
+            <point key="canvasLocation" x="-29" y="697"/>
         </scene>
         <!--Interface-->
         <scene sceneID="hbl-40-pJw">
             <objects>
                 <viewController title="Interface" showSeguePresentationStyle="single" id="p5y-ca-6ro" customClass="InterfaceSettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="DoA-qt-ddp">
-                        <rect key="frame" x="0.0" y="0.0" width="528" height="272"/>
+                    <view key="view" misplaced="YES" id="DoA-qt-ddp">
+                        <rect key="frame" x="0.0" y="0.0" width="566" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <gridView xPlacement="fill" yPlacement="top" rowAlignment="none" rowSpacing="8" columnSpacing="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="2pw-bA-mWg">
-                                <rect key="frame" x="20" y="52" width="488" height="200"/>
+                            <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-qT-ee5">
+                                <rect key="frame" x="20" y="172" width="518" height="108"/>
                                 <rows>
-                                    <gridRow id="Z1f-pg-NKW"/>
-                                    <gridRow id="gLR-B1-Nzi"/>
+                                    <gridRow rowAlignment="firstBaseline" id="OR3-GX-ynP"/>
+                                    <gridRow yPlacement="top" id="nvG-6y-NdJ"/>
                                 </rows>
                                 <columns>
-                                    <gridColumn id="Q5a-lh-AAV"/>
+                                    <gridColumn xPlacement="trailing" id="i4D-yV-vAc"/>
+                                    <gridColumn id="yTN-Lg-EK4"/>
                                 </columns>
                                 <gridCells>
-                                    <gridCell row="Z1f-pg-NKW" column="Q5a-lh-AAV" id="aoe-zx-NOS">
-                                        <box key="contentView" title="Results" translatesAutoresizingMaskIntoConstraints="NO" id="NQP-f2-uyF">
-                                            <rect key="frame" x="-3" y="96" width="494" height="104"/>
-                                            <view key="contentView" id="GWy-d2-vyb">
-                                                <rect key="frame" x="3" y="3" width="488" height="86"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="3Sc-qT-kPe">
-                                                        <rect key="frame" x="20" y="20" width="448" height="46"/>
-                                                        <rows>
-                                                            <gridRow id="LGW-dw-PAg"/>
-                                                            <gridRow topPadding="4" id="8C5-oe-vUf"/>
-                                                        </rows>
-                                                        <columns>
-                                                            <gridColumn width="36" id="jEV-Aa-dkL"/>
-                                                            <gridColumn id="Feb-io-Jlt"/>
-                                                        </columns>
-                                                        <gridCells>
-                                                            <gridCell row="LGW-dw-PAg" column="jEV-Aa-dkL" id="HqI-Ag-gli"/>
-                                                            <gridCell row="LGW-dw-PAg" column="Feb-io-Jlt" yPlacement="bottom" id="YE5-0M-ffI">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bau-Y2-AbD">
-                                                                    <rect key="frame" x="40" y="29" width="199" height="18"/>
-                                                                    <buttonCell key="cell" type="check" title="Group results under headers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="OG5-Yg-wbU">
-                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.showStyledRawResults" id="U3A-1g-YRe"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </gridCell>
-                                                            <gridCell row="8C5-oe-vUf" column="jEV-Aa-dkL" yPlacement="center" id="amP-NQ-RjC">
-                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wkl-pb-isN">
-                                                                    <rect key="frame" x="-2" y="2" width="35" height="16"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Font:" id="LwC-fa-rGC">
-                                                                        <font key="font" usesAppearanceFont="YES"/>
-                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                    </textFieldCell>
-                                                                </textField>
-                                                            </gridCell>
-                                                            <gridCell row="8C5-oe-vUf" column="Feb-io-Jlt" yPlacement="center" id="v7e-HX-S30">
-                                                                <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q22-JO-gcJ">
-                                                                    <rect key="frame" x="42" y="0.0" width="149" height="20"/>
-                                                                    <subviews>
-                                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-C8-h9t">
-                                                                            <rect key="frame" x="-7" y="-7" width="163" height="32"/>
-                                                                            <buttonCell key="cell" type="push" title="Monaco Regular 16pt" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
-                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                <font key="font" metaFont="system"/>
-                                                                            </buttonCell>
-                                                                            <connections>
-                                                                                <action selector="orderFrontFontPanel:" target="ofx-4g-hlq" id="522-21-38m"/>
-                                                                            </connections>
-                                                                        </button>
-                                                                    </subviews>
-                                                                    <visibilityPriorities>
-                                                                        <integer value="1000"/>
-                                                                    </visibilityPriorities>
-                                                                    <customSpacing>
-                                                                        <real value="3.4028234663852886e+38"/>
-                                                                    </customSpacing>
-                                                                </stackView>
-                                                            </gridCell>
-                                                        </gridCells>
-                                                    </gridView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="3Sc-qT-kPe" firstAttribute="leading" secondItem="GWy-d2-vyb" secondAttribute="leading" constant="20" symbolic="YES" id="0PA-rR-cEf"/>
-                                                    <constraint firstAttribute="trailing" secondItem="3Sc-qT-kPe" secondAttribute="trailing" constant="20" symbolic="YES" id="EuP-V2-Jrx"/>
-                                                    <constraint firstAttribute="bottom" secondItem="3Sc-qT-kPe" secondAttribute="bottom" constant="20" symbolic="YES" id="Fhz-K0-qCQ"/>
-                                                    <constraint firstItem="3Sc-qT-kPe" firstAttribute="top" secondItem="GWy-d2-vyb" secondAttribute="top" constant="20" symbolic="YES" id="zAa-Yf-kHq"/>
-                                                </constraints>
-                                            </view>
-                                        </box>
+                                    <gridCell row="OR3-GX-ynP" column="i4D-yV-vAc" id="ZZ5-ml-Bka">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3zq-PG-Qgg" userLabel="Display:">
+                                            <rect key="frame" x="-2" y="91" width="115" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Displaying results:" id="Se8-lw-4jg">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                     </gridCell>
-                                    <gridCell row="gLR-B1-Nzi" column="Q5a-lh-AAV" id="nrU-mN-Jfd">
-                                        <box key="contentView" title="Behavior" translatesAutoresizingMaskIntoConstraints="NO" id="J2r-EY-nru">
-                                            <rect key="frame" x="-3" y="-4" width="494" height="96"/>
-                                            <view key="contentView" id="HM8-xw-sLX">
-                                                <rect key="frame" x="3" y="3" width="488" height="78"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="gfB-Zf-JIU">
-                                                        <rect key="frame" x="20" y="20" width="448" height="38"/>
-                                                        <rows>
-                                                            <gridRow id="80w-Za-hrV"/>
-                                                            <gridRow id="nSN-8y-OqD"/>
-                                                        </rows>
-                                                        <columns>
-                                                            <gridColumn id="Lrf-tS-itr"/>
-                                                        </columns>
-                                                        <gridCells>
-                                                            <gridCell row="80w-Za-hrV" column="Lrf-tS-itr" id="T4m-Kp-AqU">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Pp-zh-SbL">
-                                                                    <rect key="frame" x="-2" y="21" width="272" height="18"/>
-                                                                    <buttonCell key="cell" type="check" title="Search bar grows vertically to fit content" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="GcN-8x-YkZ">
-                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                        <connections>
-                                                                            <binding destination="Tde-pi-nfm" name="value" keyPath="values.searchBarGrowsToFitContent" id="6sq-ts-3FP"/>
-                                                                        </connections>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.searchBarGrowsToFitContent" id="K8t-zP-0cD"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </gridCell>
-                                                            <gridCell row="nSN-8y-OqD" column="Lrf-tS-itr" id="hEh-pA-eOA">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iuo-Ky-Xnp">
-                                                                    <rect key="frame" x="-2" y="-1" width="397" height="18"/>
-                                                                    <buttonCell key="cell" type="check" title="New windows and tabs open with same search as current tab" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nMU-l1-fyh">
-                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.copySearchToNewWindows" id="SbF-Bk-Ddv"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </gridCell>
-                                                        </gridCells>
-                                                    </gridView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="gfB-Zf-JIU" firstAttribute="leading" secondItem="HM8-xw-sLX" secondAttribute="leading" constant="20" symbolic="YES" id="Gta-Ei-YHC"/>
-                                                    <constraint firstAttribute="trailing" secondItem="gfB-Zf-JIU" secondAttribute="trailing" constant="20" symbolic="YES" id="QSg-gz-g0P"/>
-                                                    <constraint firstAttribute="bottom" secondItem="gfB-Zf-JIU" secondAttribute="bottom" constant="20" symbolic="YES" id="Z3w-zJ-2WS"/>
-                                                    <constraint firstItem="gfB-Zf-JIU" firstAttribute="top" secondItem="HM8-xw-sLX" secondAttribute="top" constant="20" symbolic="YES" id="zr5-pu-Czn"/>
-                                                </constraints>
-                                            </view>
-                                        </box>
+                                    <gridCell row="OR3-GX-ynP" column="yTN-Lg-EK4" id="BBj-jd-GSd">
+                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="awF-w2-4ZH">
+                                            <rect key="frame" x="123" y="64" width="254" height="44"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-C8-h9t">
+                                                    <rect key="frame" x="-7" y="17" width="163" height="32"/>
+                                                    <buttonCell key="cell" type="push" title="Monaco Regular 16pt" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="orderFrontFontPanel:" target="ofx-4g-hlq" id="522-21-38m"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bau-Y2-AbD">
+                                                    <rect key="frame" x="-2" y="-1" width="256" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Group results for multi-word searches" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="OG5-Yg-wbU">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.showStyledRawResults" id="U3A-1g-YRe"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
+                                    </gridCell>
+                                    <gridCell row="nvG-6y-NdJ" column="i4D-yV-vAc" id="sEC-sx-kPQ">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E6C-VP-HzI">
+                                            <rect key="frame" x="52" y="24" width="61" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Behavior:" id="YF4-XR-TeI">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="nvG-6y-NdJ" column="yTN-Lg-EK4" id="eKs-OD-65Q">
+                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4r6-83-Tqt">
+                                            <rect key="frame" x="123" y="0.0" width="395" height="40"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iuo-Ky-Xnp">
+                                                    <rect key="frame" x="-2" y="23" width="397" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="New windows and tabs open with same search as current tab" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nMU-l1-fyh">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.copySearchToNewWindows" id="SbF-Bk-Ddv"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Pp-zh-SbL">
+                                                    <rect key="frame" x="-2" y="-1" width="272" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Search bar grows vertically to fit content" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="GcN-8x-YkZ">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                        <connections>
+                                                            <binding destination="Tde-pi-nfm" name="value" keyPath="values.searchBarGrowsToFitContent" id="6sq-ts-3FP"/>
+                                                        </connections>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.searchBarGrowsToFitContent" id="K8t-zP-0cD"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
                                     </gridCell>
                                 </gridCells>
                             </gridView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="2pw-bA-mWg" firstAttribute="leading" secondItem="DoA-qt-ddp" secondAttribute="leading" constant="20" symbolic="YES" id="B6L-Yi-nmJ"/>
-                            <constraint firstAttribute="trailing" secondItem="2pw-bA-mWg" secondAttribute="trailing" constant="20" symbolic="YES" id="BY0-bL-4n8"/>
-                            <constraint firstItem="2pw-bA-mWg" firstAttribute="top" secondItem="DoA-qt-ddp" secondAttribute="top" constant="20" symbolic="YES" id="kSu-Zc-vDb"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2pw-bA-mWg" secondAttribute="bottom" constant="20" symbolic="YES" id="rML-ya-TI2"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Obq-qT-ee5" secondAttribute="trailing" constant="20" symbolic="YES" id="2OK-8A-qks"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Obq-qT-ee5" secondAttribute="bottom" constant="20" symbolic="YES" id="3r4-0D-uQP"/>
+                            <constraint firstItem="Obq-qT-ee5" firstAttribute="leading" secondItem="DoA-qt-ddp" secondAttribute="leading" constant="20" symbolic="YES" id="8O4-2o-91Z"/>
+                            <constraint firstItem="Obq-qT-ee5" firstAttribute="top" secondItem="DoA-qt-ddp" secondAttribute="top" constant="20" symbolic="YES" id="H1p-ez-6bd"/>
                         </constraints>
                     </view>
                     <connections>
@@ -224,7 +187,7 @@
                 <userDefaultsController representsSharedInstance="YES" id="Tde-pi-nfm"/>
                 <customObject id="ofx-4g-hlq" customClass="NSFontManager"/>
             </objects>
-            <point key="canvasLocation" x="577" y="492"/>
+            <point key="canvasLocation" x="590" y="399"/>
         </scene>
         <!--Dictionary-->
         <scene sceneID="z7Q-RM-iPX">
@@ -430,7 +393,7 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                 </buttonCell>
                                 <connections>
                                     <action selector="openHelpAnchor" target="fkP-gV-HhW" id="SAW-CR-bbK"/>
-                                    <segue destination="3rs-7X-TgL" kind="show" destinationCreationSelector="instantiateHelpWindowController:sender:segueIdentifier:" id="QFW-gb-WL7"/>
+                                    <segue destination="3rs-7X-TgL" kind="show" id="QFW-gb-WL7"/>
                                 </connections>
                             </button>
                         </subviews>
