@@ -259,8 +259,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction
     func showPreferences(_ sender: Any?) {
-        let prefWindowController = NSStoryboard(name: .init("Settings"), bundle: nil).instantiateInitialController() as! NSWindowController
-        prefWindowController.window!.makeKeyAndOrderFront(sender)
+        if let window = NSApp.windows.first(where: { $0.identifier == .init("iWordsPreferences") }) {
+            window.makeKeyAndOrderFront(sender)
+        } else {
+            let prefWindowController = NSStoryboard(name: .init("Settings"), bundle: nil).instantiateInitialController() as! NSWindowController
+            prefWindowController.window!.makeKeyAndOrderFront(sender)
+        }
     }
 
     override func responds(to aSelector: Selector!) -> Bool {

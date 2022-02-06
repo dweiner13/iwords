@@ -183,6 +183,7 @@
 		374355B2279C9E310052CFBA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				37A4D24626223BC100A9E9EC /* Main.storyboard */,
 				374355B6279C9E8A0052CFBA /* Pretty results (WIP) */,
 				374355B4279C9E3F0052CFBA /* Lookup */,
 				374355B3279C9E360052CFBA /* Settings */,
@@ -306,7 +307,6 @@
 		37A4D1B6262227E400A9E9EC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
-				37A4D24626223BC100A9E9EC /* Main.storyboard */,
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
 				3710529127247B790077CE3D /* ServiceProvider.swift */,
 				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,

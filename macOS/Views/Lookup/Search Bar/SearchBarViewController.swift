@@ -73,7 +73,7 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
         setAutogrows(UserDefaults.standard.bool(forKey: "searchBarGrowsToFitContent"))
 
         view.menu = NSMenu().then {
-            $0.addItem(NSMenuItem(title: "Search Bar Grows to Fit Content",
+            $0.addItem(NSMenuItem(title: "Search Bar Grows Vertically to Fit Content",
                                   action: nil,
                                   keyEquivalent: "").then {
                 $0.bind(.value,
