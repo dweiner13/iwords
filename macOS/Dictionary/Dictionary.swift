@@ -275,10 +275,26 @@ class Dictionary {
 
         let handler = activeCompletionHandler
         activeCompletionHandler = nil
+
+        if needsRestart {
+            needsRestart = false
+            restartProcess()
+        }
+
         handler?(result)
     }
 
-    func restartProcess() {
+    private var needsRestart = false
+
+    func setNeedsRestart() {
+        if activeCompletionHandler != nil {
+            needsRestart = true
+        } else {
+            restartProcess()
+        }
+    }
+
+    private func restartProcess() {
         complete(with: .failure(DWError("Process restarted")))
 
         process?.terminate()
@@ -314,7 +330,7 @@ class Dictionary {
         p.terminationHandler = { [weak self] process in
             guard let self = self else { return }
 
-            if process.terminationStatus != 0 {
+            if process.terminationStatus != SIGTERM {
                 DispatchQueue.main.async {
                     self.complete(with: .failure(DWError("Process failed with exit code \(process.terminationStatus)")))
                 }

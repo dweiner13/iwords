@@ -81,7 +81,7 @@ class DictionaryController: NSObject, NSSecureCoding {
         observation = NotificationCenter.default.addObserver(forName: .dictionarySettingsDidChange,
                                                              object: nil,
                                                              queue: nil) { [unowned self] _ in
-            self.dictionary.restartProcess()
+            self.dictionary.setNeedsRestart()
         }
     }
 
