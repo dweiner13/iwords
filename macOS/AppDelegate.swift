@@ -51,8 +51,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // Perform dictionary relocation
         do {
             try DictionaryMigrator.relocateDictionaryToApplicationSupport()
-        } catch {
-            NSApp.presentError(error)
+        } catch let error as NSError {
+            NSApp.presentError(DWError(description: "Unable to perform first-time setup.",
+                                       recoverySuggestion: """
+                Encountered \(error.domain) error \(error.code) (\"\(error.localizedDescription)\").
+
+                Please email support@danielweiner.org.
+                """))
             NSApp.terminate(nil)
         }
     }

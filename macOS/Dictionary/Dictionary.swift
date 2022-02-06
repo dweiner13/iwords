@@ -8,13 +8,32 @@
 import Foundation
 import Flow
 
-struct DWError: LocalizedError, Identifiable {
+struct DWError: LocalizedError, Identifiable, CustomNSError {
     let id = UUID()
 
     let description: String
 
     var errorDescription: String? {
         description
+    }
+
+    let recoverySuggestion: String?
+
+    static var errorDomain: String {
+        "org.danielweiner.iwords.errorDomain"
+    }
+
+    var errorCode: Int {
+        return 1
+    }
+
+    var errorUserInfo: [String : Any] {
+        [NSLocalizedRecoverySuggestionErrorKey: recoverySuggestion as Any]
+    }
+
+    init(description: String, recoverySuggestion: String? = nil) {
+        self.description = description
+        self.recoverySuggestion = recoverySuggestion
     }
 }
 
