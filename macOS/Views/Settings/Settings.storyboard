@@ -24,20 +24,45 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="p5y-ca-6ro" kind="relationship" relationship="window.shadowedContentViewController" id="mMi-PJ-DXM"/>
+                        <segue destination="9tY-fk-Ti7" kind="relationship" relationship="window.shadowedContentViewController" id="Bhw-J7-BZT"/>
                     </connections>
                 </windowController>
                 <customObject id="GXk-Nw-Hrg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-160" y="160"/>
+            <point key="canvasLocation" x="-14" y="220"/>
         </scene>
-        <!--iWords Preferences-->
+        <!--Tab View Controller-->
+        <scene sceneID="g9h-RK-DNh">
+            <objects>
+                <tabViewController selectedTabViewItemIndex="0" tabStyle="toolbar" id="9tY-fk-Ti7" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem image="hand.point.up.left" catalog="system" id="SVp-vV-VHC"/>
+                        <tabViewItem image="text.book.closed" catalog="system" id="08H-le-U7A"/>
+                    </tabViewItems>
+                    <tabView key="tabView" type="noTabsNoBorder" id="DKh-Ug-44b">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="system"/>
+                        <connections>
+                            <outlet property="delegate" destination="9tY-fk-Ti7" id="MHn-6x-cLp"/>
+                        </connections>
+                    </tabView>
+                    <connections>
+                        <outlet property="tabView" destination="DKh-Ug-44b" id="jyx-H4-Itm"/>
+                        <segue destination="p5y-ca-6ro" kind="relationship" relationship="tabItems" id="Qgg-44-oM1"/>
+                        <segue destination="fkP-gV-HhW" kind="relationship" relationship="tabItems" id="gFE-LZ-NRv"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="49Q-8i-euo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-128" y="782"/>
+        </scene>
+        <!--Interface-->
         <scene sceneID="hbl-40-pJw">
             <objects>
-                <viewController title="iWords Preferences" showSeguePresentationStyle="single" id="p5y-ca-6ro" customClass="SettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="DoA-qt-ddp">
+                <viewController title="Interface" showSeguePresentationStyle="single" id="p5y-ca-6ro" customClass="InterfaceSettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="DoA-qt-ddp">
                         <rect key="frame" x="0.0" y="0.0" width="528" height="272"/>
-                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="fill" yPlacement="top" rowAlignment="none" rowSpacing="8" columnSpacing="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="2pw-bA-mWg">
                                 <rect key="frame" x="20" y="52" width="488" height="200"/>
@@ -92,11 +117,11 @@
                                                             </gridCell>
                                                             <gridCell row="8C5-oe-vUf" column="Feb-io-Jlt" yPlacement="center" id="v7e-HX-S30">
                                                                 <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q22-JO-gcJ">
-                                                                    <rect key="frame" x="42" y="0.0" width="99" height="20"/>
+                                                                    <rect key="frame" x="42" y="0.0" width="149" height="20"/>
                                                                     <subviews>
                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-C8-h9t">
-                                                                            <rect key="frame" x="-7" y="-7" width="113" height="32"/>
-                                                                            <buttonCell key="cell" type="push" title="Monaco 16pt" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
+                                                                            <rect key="frame" x="-7" y="-7" width="163" height="32"/>
+                                                                            <buttonCell key="cell" type="push" title="Monaco Regular 16pt" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="system"/>
                                                                             </buttonCell>
@@ -199,7 +224,140 @@
                 <userDefaultsController representsSharedInstance="YES" id="Tde-pi-nfm"/>
                 <customObject id="ofx-4g-hlq" customClass="NSFontManager"/>
             </objects>
-            <point key="canvasLocation" x="-160" y="632.5"/>
+            <point key="canvasLocation" x="577" y="492"/>
+        </scene>
+        <!--Dictionary-->
+        <scene sceneID="z7Q-RM-iPX">
+            <objects>
+                <customObject id="hyf-a8-MvE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController title="Dictionary" id="fkP-gV-HhW" customClass="DictionarySettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="JAp-BO-VSf">
+                        <rect key="frame" x="0.0" y="0.0" width="528" height="192"/>
+                        <subviews>
+                            <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
+                                <rect key="frame" x="20" y="44" width="350" height="128"/>
+                                <rows>
+                                    <gridRow id="RLq-gE-v2S"/>
+                                    <gridRow id="VuE-iz-OSD"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn xPlacement="trailing" id="FHq-7w-FWn"/>
+                                    <gridColumn width="248" id="wUf-yW-zSL"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="RLq-gE-v2S" column="FHq-7w-FWn" id="0r2-gH-xi4">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ojk-fD-3JJ">
+                                            <rect key="frame" x="-2" y="112" width="94" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Attempt tricks:" id="fat-2E-k4Y">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="RLq-gE-v2S" column="wUf-yW-zSL" id="LAF-qU-5Tv">
+                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ZR-LF-e0G">
+                                            <rect key="frame" x="102" y="88" width="232" height="40"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2K-li-KeP">
+                                                    <rect key="frame" x="-2" y="23" width="168" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Medieval spelling tricks" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x7D-dK-Akt">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c0S-5L-fPZ" userLabel="Do two words">
+                                                    <rect key="frame" x="-2" y="-1" width="234" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Splitting unknowns into two words" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vHY-J7-Bm8">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
+                                    </gridCell>
+                                    <gridCell row="VuE-iz-OSD" column="FHq-7w-FWn" id="iuw-QH-YoJ">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-cn-RO0">
+                                            <rect key="frame" x="40" y="48" width="52" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Include:" id="4o5-rb-UTN">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="VuE-iz-OSD" column="wUf-yW-zSL" id="lbg-St-Bh8">
+                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfU-g8-0eF">
+                                            <rect key="frame" x="102" y="0.0" width="134" height="64"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yle-wc-1WX" userLabel="Omit archaic words">
+                                                    <rect key="frame" x="-2" y="47" width="112" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Archaic words" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Xji-pU-8s9">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jvf-qN-29S" userLabel="Omit medieval words">
+                                                    <rect key="frame" x="-2" y="23" width="121" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Medieval words" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aYL-4i-BJ8">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0w-VZ-z2Y" userLabel="Omit uncommon words">
+                                                    <rect key="frame" x="-2" y="-1" width="136" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Uncommon words" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dde-Ho-too">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-qY-VpY">
+                                <rect key="frame" x="485" y="16" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Hc-06-gfs">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="7eT-vt-UMC" secondAttribute="bottom" constant="20" symbolic="YES" id="a4z-q0-nI3"/>
+                            <constraint firstAttribute="bottom" secondItem="Hp1-qY-VpY" secondAttribute="bottom" constant="20" symbolic="YES" id="gLq-TZ-0MU"/>
+                            <constraint firstItem="7eT-vt-UMC" firstAttribute="top" secondItem="JAp-BO-VSf" secondAttribute="top" constant="20" symbolic="YES" id="lDy-vb-pRx"/>
+                            <constraint firstItem="7eT-vt-UMC" firstAttribute="leading" secondItem="JAp-BO-VSf" secondAttribute="leading" constant="20" symbolic="YES" id="oJ5-wU-JXi"/>
+                            <constraint firstAttribute="trailing" secondItem="Hp1-qY-VpY" secondAttribute="trailing" constant="20" symbolic="YES" id="ou7-w0-gGj"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7eT-vt-UMC" secondAttribute="trailing" constant="20" symbolic="YES" id="u0D-0n-y2h"/>
+                        </constraints>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="577" y="889"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="hand.point.up.left" catalog="system" width="14" height="15"/>
+        <image name="text.book.closed" catalog="system" width="14" height="16"/>
+    </resources>
 </document>

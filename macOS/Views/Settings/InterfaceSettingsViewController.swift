@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.swift
+//  InterfaceSettingsViewController.swift
 //  iWords (macOS)
 //
 //  Created by Dan Weiner on 1/17/22.
@@ -13,7 +13,7 @@ private extension NSFont {
     }
 }
 
-class SettingsViewController: NSViewController {
+class InterfaceSettingsViewController: NSViewController {
 
     @IBOutlet
     weak var fontButton: NSButton!
@@ -28,6 +28,10 @@ class SettingsViewController: NSViewController {
                                                queue: nil) { [weak self] notification in
             let font = notification.userInfo?[SelectedFontDidChangeFontKey] as? NSFont
             self?.updateForFont(font)
+        }
+
+        preferredContentSize = view.fittingSize.then {
+            $0.width = SETTINGS_WINDOW_WIDTH
         }
     }
 
