@@ -55,7 +55,6 @@ class DictionarySettingsViewController: NSViewController {
         }
     }
 
-    // TODO: DictoinarySettings is firing an event when settings i opened
     var manager: DictionarySettings!
 
     @IBOutlet weak var doMedievalTricksButton: NSButton!
@@ -135,6 +134,8 @@ class DictionarySettings {
 
     private let url: URL
 
+    private var didAlreadyRead = false
+
     /// Always represents current settings in file. Should not be altered except when read from file.
     private var settings: OrderedDictionary<String, String> = [:] {
         didSet {
@@ -197,9 +198,14 @@ class DictionarySettings {
         if newSettings != settings {
             settings = newSettings
 
-            NotificationCenter.default.post(name: .dictionarySettingsDidChange, object: self)
-            delegate?.settingsDidChange(self)
+            // Don't post notifications on initialization
+            if didAlreadyRead {
+                NotificationCenter.default.post(name: .dictionarySettingsDidChange, object: self)
+                delegate?.settingsDidChange(self)
+            }
         }
+
+        didAlreadyRead = true
     }
 
     private func writeSettings(_ settings: OrderedDictionary<String, String>) throws {
