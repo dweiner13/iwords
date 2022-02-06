@@ -33,7 +33,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    var observation: Any?
+    var windowDidBecomeKey: Any?
+    var windowDidCloseObservation: Any?
 
     override init() {
         super.init()
@@ -77,10 +78,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             newWindow(self)
         }
 
-        observation = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
+        windowDidBecomeKey = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
                                                              object: nil,
                                                              queue: nil) { [weak self] notification in
             self?.updateDirectionItemsState()
+        }
+
+        windowDidCloseObservation = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification,
+                                                                           object: nil,
+                                                                           queue: nil) { notification in
+            guard (notification.object as? NSWindow)?.identifier == .init("iWordsPreferences") else {
+                return
+            }
+            // If settings window closes, close associated help window
+            NSApp.windows.first {
+                $0.windowController?.contentViewController is DictionarySettingsHelpViewController
+            }?.close()
         }
 
         NSApp.servicesProvider = ServiceProvider()

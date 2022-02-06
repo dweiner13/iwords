@@ -19,6 +19,8 @@
 		374355BC279CA10C0052CFBA /* VisualEffectBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */; };
 		3760B37727B044AE00F81F38 /* DictionarySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */; };
 		3760B37927B04A4600F81F38 /* DictionaryMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37827B04A4600F81F38 /* DictionaryMigrator.swift */; };
+		3760B37B27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */; };
+		3760B37D27B07C3C00F81F38 /* Dictionary Settings Help.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */; };
 		3766E410277A3CC700A9D064 /* DWUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 3766E40F277A3CC700A9D064 /* DWUtils */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
@@ -98,6 +100,8 @@
 		374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
 		3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySettingsViewController.swift; sourceTree = "<group>"; };
 		3760B37827B04A4600F81F38 /* DictionaryMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryMigrator.swift; sourceTree = "<group>"; };
+		3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySettingsHelpViewController.swift; sourceTree = "<group>"; };
+		3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Dictionary Settings Help.rtf"; sourceTree = "<group>"; };
 		3766E408277A36F700A9D064 /* DWUtils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DWUtils; path = ../../DWUtils; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
@@ -199,8 +203,10 @@
 			isa = PBXGroup;
 			children = (
 				378E51F92795C9FF00730204 /* Settings.storyboard */,
+				3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */,
 				378E51FB2795D57600730204 /* InterfaceSettingsViewController.swift */,
 				3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */,
+				3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -492,6 +498,7 @@
 				37AB5A192626713500118674 /* INDXFILE.GEN in Resources */,
 				373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */,
 				37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */,
+				3760B37D27B07C3C00F81F38 /* Dictionary Settings Help.rtf in Resources */,
 				37AB5A242626733300118674 /* Credits.rtf in Resources */,
 				37AB5A1C2626713500118674 /* INFLECTS.SEC in Resources */,
 				378E51FA2795C9FF00730204 /* Settings.storyboard in Resources */,
@@ -592,6 +599,7 @@
 				37EDB2EA27945A4400911BC6 /* AutosizingTextField.swift in Sources */,
 				37A4D24D26223D7A00A9E9EC /* LookupViewController.swift in Sources */,
 				37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */,
+				3760B37B27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift in Sources */,
 				37852AD2278B45ED00ACFFE6 /* Dictionary.swift in Sources */,
 				37126CF4278A035B009BB010 /* DictionaryController.swift in Sources */,
 				37852AD0278B3EC500ACFFE6 /* LoadingView.swift in Sources */,

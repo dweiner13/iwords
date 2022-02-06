@@ -55,6 +55,7 @@ class DictionarySettingsViewController: NSViewController {
         }
     }
 
+    // TODO: DictoinarySettings is firing an event when settings i opened
     var manager: DictionarySettings!
 
     @IBOutlet weak var doMedievalTricksButton: NSButton!

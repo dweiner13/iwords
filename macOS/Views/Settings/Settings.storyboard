@@ -10,7 +10,7 @@
         <scene sceneID="9yY-hY-JIR">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="upR-4V-vlI" sceneMemberID="viewController">
-                    <window key="window" identifier="iWordsPreferences" title="iWords Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="bGm-bX-4nX">
+                    <window key="window" identifier="iWordsPreferences" title="iWords Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="bGm-bX-4nX">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="268" y="330" width="480" height="270"/>
@@ -20,7 +20,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
                         <connections>
-                            <outlet property="delegate" destination="upR-4V-vlI" id="jny-2a-LIe"/>
+                            <outlet property="delegate" destination="upR-4V-vlI" id="btb-yD-ApT"/>
                         </connections>
                     </window>
                     <connections>
@@ -422,14 +422,15 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-qY-VpY">
-                                <rect key="frame" x="497" y="16" width="25" height="25"/>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-qY-VpY">
+                                <rect key="frame" x="497" y="23" width="25" height="25"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Hc-06-gfs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="openHelpAnchor" target="fkP-gV-HhW" id="SAW-CR-bbK"/>
+                                    <segue destination="3rs-7X-TgL" kind="show" destinationCreationSelector="instantiateHelpWindowController:sender:segueIdentifier:" id="QFW-gb-WL7"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -454,6 +455,84 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                 </viewController>
             </objects>
             <point key="canvasLocation" x="577" y="889"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="bKp-4m-nlp">
+            <objects>
+                <windowController showSeguePresentationStyle="single" id="3rs-7X-TgL" sceneMemberID="viewController">
+                    <window key="window" title="Dictionary Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="peW-xH-ge9" customClass="NSPanel">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES" nonactivatingPanel="YES" fullSizeContentView="YES"/>
+                        <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES" fullScreenDisallowsTiling="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="783" y="461" width="540" height="700"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+                        <value key="minSize" type="size" width="360" height="420"/>
+                        <value key="maxSize" type="size" width="900" height="1300"/>
+                        <view key="contentView" id="weU-4P-RTz">
+                            <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="3rs-7X-TgL" id="NIh-pS-QVf"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="22I-hH-eEk" kind="relationship" relationship="window.shadowedContentViewController" id="U0Z-SW-JFf"/>
+                    </connections>
+                </windowController>
+                <customObject id="JRM-BN-ehK" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1255" y="904.5"/>
+        </scene>
+        <!--Dictionary Settings Help View Controller-->
+        <scene sceneID="qun-sr-EE9">
+            <objects>
+                <viewController id="22I-hH-eEk" customClass="DictionarySettingsHelpViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="I1B-qx-Gd2">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bwc-n9-ZFe">
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                                <clipView key="contentView" drawsBackground="NO" id="abp-iG-rv6">
+                                    <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="0Rf-Lx-24S">
+                                            <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="540" height="700"/>
+                                            <size key="maxSize" width="540" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="fYh-tN-VY1">
+                                    <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1BO-2C-8jm">
+                                    <rect key="frame" x="524" y="0.0" width="16" height="700"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="bwc-n9-ZFe" firstAttribute="leading" secondItem="I1B-qx-Gd2" secondAttribute="leading" id="1KI-e6-PmH"/>
+                            <constraint firstItem="bwc-n9-ZFe" firstAttribute="top" secondItem="I1B-qx-Gd2" secondAttribute="top" id="CFW-PB-Cfk"/>
+                            <constraint firstAttribute="bottom" secondItem="bwc-n9-ZFe" secondAttribute="bottom" id="gru-tY-pqp"/>
+                            <constraint firstAttribute="trailing" secondItem="bwc-n9-ZFe" secondAttribute="trailing" id="y8B-01-1Dt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="0Rf-Lx-24S" id="ehi-fy-Zwa"/>
+                    </connections>
+                </viewController>
+                <customObject id="Iws-81-Sbp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1913" y="897"/>
         </scene>
     </scenes>
     <resources>
