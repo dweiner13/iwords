@@ -235,10 +235,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="540" height="400"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="24" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ge3-eK-OHR">
-                                <rect key="frame" x="20" y="212" width="350" height="168"/>
+                                <rect key="frame" x="20" y="158" width="350" height="222"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-HA-1EN">
-                                        <rect key="frame" x="0.0" y="152" width="235" height="16"/>
+                                        <rect key="frame" x="0.0" y="206" width="235" height="16"/>
                                         <subviews>
                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TBu-tr-kV8">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -267,10 +267,11 @@
                                         </customSpacing>
                                     </stackView>
                                     <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="182"/>
                                         <rows>
                                             <gridRow id="RLq-gE-v2S"/>
                                             <gridRow id="VuE-iz-OSD"/>
+                                            <gridRow id="TKK-vX-pFA"/>
                                         </rows>
                                         <columns>
                                             <gridColumn xPlacement="trailing" id="FHq-7w-FWn"/>
@@ -279,7 +280,7 @@
                                         <gridCells>
                                             <gridCell row="RLq-gE-v2S" column="FHq-7w-FWn" id="0r2-gH-xi4">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ojk-fD-3JJ">
-                                                    <rect key="frame" x="-2" y="112" width="94" height="16"/>
+                                                    <rect key="frame" x="-2" y="166" width="94" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Attempt tricks:" id="fat-2E-k4Y">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -289,7 +290,7 @@
                                             </gridCell>
                                             <gridCell row="RLq-gE-v2S" column="wUf-yW-zSL" id="LAF-qU-5Tv">
                                                 <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ZR-LF-e0G">
-                                                    <rect key="frame" x="102" y="88" width="232" height="40"/>
+                                                    <rect key="frame" x="102" y="142" width="232" height="40"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2K-li-KeP">
                                                             <rect key="frame" x="-2" y="23" width="168" height="18"/>
@@ -343,7 +344,7 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                             </gridCell>
                                             <gridCell row="VuE-iz-OSD" column="FHq-7w-FWn" id="iuw-QH-YoJ">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-cn-RO0">
-                                                    <rect key="frame" x="40" y="48" width="52" height="16"/>
+                                                    <rect key="frame" x="40" y="102" width="52" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Include:" id="4o5-rb-UTN">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -353,7 +354,7 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                             </gridCell>
                                             <gridCell row="VuE-iz-OSD" column="wUf-yW-zSL" id="lbg-St-Bh8">
                                                 <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfU-g8-0eF">
-                                                    <rect key="frame" x="102" y="0.0" width="134" height="64"/>
+                                                    <rect key="frame" x="102" y="54" width="134" height="64"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yle-wc-1WX" userLabel="Omit archaic words">
                                                             <rect key="frame" x="-2" y="47" width="112" height="18"/>
@@ -410,6 +411,8 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                                     </customSpacing>
                                                 </stackView>
                                             </gridCell>
+                                            <gridCell row="TKK-vX-pFA" column="FHq-7w-FWn" id="uZs-pg-T9j"/>
+                                            <gridCell row="TKK-vX-pFA" column="wUf-yW-zSL" id="X6U-Wy-xN5"/>
                                         </gridCells>
                                     </gridView>
                                 </subviews>

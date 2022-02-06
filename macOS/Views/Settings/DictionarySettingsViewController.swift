@@ -112,6 +112,10 @@ extension DictionarySettingsViewController: DictionarySettingsDelegate {
     }
 }
 
+extension NSNotification.Name {
+    static let dictionarySettingsDidChange = NSNotification.Name("dictionarySettingsDidChange")
+}
+
 class DictionarySettings {
     // Only keys for settings managed by iWords are listed here
     struct Key {
@@ -130,6 +134,7 @@ class DictionarySettings {
 
     private let url: URL
 
+    /// Always represents current settings in file. Should not be altered except when read from file.
     private var settings: OrderedDictionary<String, String> = [:] {
         didSet {
             print("settings.count:", settings.count)
@@ -157,12 +162,13 @@ class DictionarySettings {
             return
         }
 
-        settings[key.rawValue] = stringValue
+        var newSettings = settings
+        newSettings[key.rawValue] = stringValue
 
         do {
-            try writeSettings()
+            try writeSettings(newSettings)
         } catch {
-            // If we encounter an error writing, try to read from to keep us in sync.
+            // If we encounter an error writing, try to read from to keep us in sync with whatever is in file
             try readSettings()
             throw error
         }
@@ -170,9 +176,7 @@ class DictionarySettings {
     }
 
     private func readSettings() throws {
-        let oldSettings = settings
-
-        settings = [:]
+        var newSettings: OrderedDictionary<String, String> = [:]
 
         let data = try Data(contentsOf: url)
         guard let string = String(data: data, encoding: .utf8) else {
@@ -186,15 +190,18 @@ class DictionarySettings {
             }
             let key = String(pair[0])
             let value = String(pair[1])
-            settings[key] = value
+            newSettings[key] = value
         }
 
-        if settings != oldSettings {
+        if newSettings != settings {
+            settings = newSettings
+
+            NotificationCenter.default.post(name: .dictionarySettingsDidChange, object: self)
             delegate?.settingsDidChange(self)
         }
     }
 
-    private func writeSettings() throws {
+    private func writeSettings(_ settings: OrderedDictionary<String, String>) throws {
         guard !settings.isEmpty else {
             throw DWError("No settings to write")
         }

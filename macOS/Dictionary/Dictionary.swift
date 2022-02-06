@@ -278,7 +278,9 @@ class Dictionary {
         handler?(result)
     }
 
-    private func restartProcess() {
+    func restartProcess() {
+        complete(with: .failure(DWError("Process restarted")))
+
         process?.terminate()
         process = nil
 

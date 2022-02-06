@@ -9,8 +9,7 @@ import Cocoa
 
 protocol DictionaryControllerDelegate: DictionaryDelegate {}
 
-/// This should:
-/// provide a higher-level wrapper around Dictionary to do parsing etc.
+/// This should provide a higher-level wrapper around Dictionary to do parsing etc.
 class DictionaryController: NSObject, NSSecureCoding {
 
     class Result: Codable {
@@ -66,12 +65,24 @@ class DictionaryController: NSObject, NSSecureCoding {
 
     private var dictionary: Dictionary
 
+    private var observation: Any?
+
     internal init(dictionary: Dictionary = Dictionary(),
                   direction: Dictionary.Direction) {
         self.dictionary = dictionary
         self.direction = direction
         super.init()
         dictionary.delegate = self
+
+        startObserving()
+    }
+
+    private func startObserving() {
+        observation = NotificationCenter.default.addObserver(forName: .dictionarySettingsDidChange,
+                                                             object: nil,
+                                                             queue: nil) { [unowned self] _ in
+            self.dictionary.restartProcess()
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -79,6 +90,7 @@ class DictionaryController: NSObject, NSSecureCoding {
         direction = Dictionary.Direction(rawValue: coder.decodeInteger(forKey: "direction")) ?? .latinToEnglish
         super.init()
         dictionary.delegate = self
+        startObserving()
     }
 
     // Required for storyboard initialization
@@ -87,6 +99,7 @@ class DictionaryController: NSObject, NSSecureCoding {
         direction = .latinToEnglish
         super.init()
         dictionary.delegate = self
+        startObserving()
     }
 
     func encode(with coder: NSCoder) {
