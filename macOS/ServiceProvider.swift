@@ -36,7 +36,7 @@ class ServiceProvider: NSObject {
     func lookUp(_ pasteboard: NSPasteboard, userData: String, error: NSErrorPointer) {
         func setError(localizedDescription: String) {
             let userInfo = [NSLocalizedDescriptionKey: localizedDescription]
-            error?.pointee = NSError(domain: "org.danielweiner.org",
+            error?.pointee = NSError(domain: "org.iwords.iwords",
                                      code: 1,
                                      userInfo: userInfo)
         }

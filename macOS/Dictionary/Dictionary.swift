@@ -24,7 +24,7 @@ struct DWError: LocalizedError, Identifiable, CustomNSError {
     }
 
     static var errorDomain: String {
-        "org.danielweiner.iwords.errorDomain"
+        "org.iwords.iwords.errorDomain"
     }
 
     var errorCode: Int {
