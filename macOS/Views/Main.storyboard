@@ -55,7 +55,7 @@
                                         <menuItem title="Check for Updates" id="ZoS-HG-WAS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="checkForUpdates:" target="Voe-Tx-rLC" id="oAx-cn-4Ke"/>
+                                                <action selector="checkForUpdates:" target="1JM-2h-55k" id="eaY-Hy-oju"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="XUb-bA-Hdu"/>
@@ -449,6 +449,7 @@
                     </connections>
                 </customObject>
                 <userDefaultsController id="ZZt-xK-ds5"/>
+                <customObject id="1JM-2h-55k" customClass="SPUStandardUpdaterController"/>
                 <customObject id="46f-Bv-BCE" customClass="NSFontManager"/>
                 <userDefaultsController id="S2P-p1-PcK"/>
                 <userDefaultsController id="a7h-fy-GpN"/>

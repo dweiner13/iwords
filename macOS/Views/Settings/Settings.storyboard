@@ -286,7 +286,7 @@
                                                             <buttonCell key="cell" type="check" title="Medieval spelling tricks" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="x7D-dK-Akt">
                                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                 <font key="font" metaFont="system"/>
-                                                                <mutableString key="toolTip">This option instructs the program, when it is unable to find a proper 
+                                                                <string key="toolTip">This option instructs the program, when it is unable to find a proper 
 match in the dictionary, and after various prefixes and suffixes, and 
 tring every Classical Latin trick it can think of, to go to a few that
 are usually only found in medieval Latin, replacements of caul -&gt; col,
@@ -296,7 +296,7 @@ Together these tricks are useful, but may give false positives (&gt;20%).
 This option is only available if the general DO_TRICKS is chosen.     
 If the text is late or medieval, this option is much more useful than 
 tricks for classical.  The dictionary can never contain all spelling  
-variations found in medieval Latin, but some constructs are common.</mutableString>
+variations found in medieval Latin, but some constructs are common.</string>
                                                             </buttonCell>
                                                             <connections>
                                                                 <binding destination="fkP-gV-HhW" name="value" keyPath="self.doMedievalTricks" id="yrg-7a-34i">
@@ -478,7 +478,7 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="checkForUpdates:" target="tU5-tj-Wyi" id="JIZ-3s-eUg"/>
+                                                <action selector="checkForUpdates:" target="tU5-tj-Wyi" id="02Y-aA-L2Z"/>
                                             </connections>
                                         </button>
                                     </gridCell>
@@ -491,7 +491,7 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="automaticallyChecksForUpdates" id="el4-S9-t4K"/>
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="updater.automaticallyChecksForUpdates" id="oH4-PQ-cUW"/>
                                             </connections>
                                         </button>
                                     </gridCell>
@@ -504,8 +504,8 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="automaticallyChecksForUpdates" id="dFI-hV-O8r"/>
-                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="sendsSystemProfile" id="TKF-Tw-iqF"/>
+                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="updater.automaticallyChecksForUpdates" id="utM-g7-ePh"/>
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="updater.sendsSystemProfile" id="ori-5x-KgU"/>
                                             </connections>
                                         </button>
                                     </gridCell>
@@ -559,8 +559,8 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                                 </menu>
                                             </popUpButtonCell>
                                             <connections>
-                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="automaticallyChecksForUpdates" id="tcS-NC-T1k"/>
-                                                <binding destination="tU5-tj-Wyi" name="selectedTag" keyPath="updateCheckInterval" id="P5E-U0-KTR"/>
+                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="updater.automaticallyChecksForUpdates" id="vrQ-bI-tmG"/>
+                                                <binding destination="tU5-tj-Wyi" name="selectedTag" keyPath="updater.updateCheckInterval" id="DPV-Ot-pTq"/>
                                             </connections>
                                         </popUpButton>
                                     </gridCell>
@@ -584,7 +584,7 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="lastUpdateCheckDate" id="KX6-Fx-xjH">
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="updater.lastUpdateCheckDate" id="okH-xI-jm4">
                                                     <dictionary key="options">
                                                         <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
                                                         <string key="NSNullPlaceholder">Never</string>
@@ -610,7 +610,7 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                     <font key="font" metaFont="system"/>
                 </buttonCell>
-                <customObject id="tU5-tj-Wyi" customClass="SUUpdater"/>
+                <customObject id="tU5-tj-Wyi" customClass="SPUStandardUpdaterController"/>
                 <userDefaultsController id="1Xf-S9-6Me"/>
             </objects>
             <point key="canvasLocation" x="-29" y="1537"/>

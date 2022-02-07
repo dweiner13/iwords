@@ -150,11 +150,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             }
     }
 
-    @IBAction
-    func checkForUpdates(_ sender: Any?) {
-        SUUpdater.shared().checkForUpdates(sender)
-    }
-
     @IBAction @objc
     func resetFont(_ sender: Any?) {
         font = font.dwWithSize(16)
