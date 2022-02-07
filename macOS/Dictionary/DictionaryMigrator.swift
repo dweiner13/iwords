@@ -50,6 +50,12 @@ enum DictionaryMigrator {
 
             let dstURL = dictionarySupportURL.appendingPathComponent(file, isDirectory: false)
 
+#if DEBUG
+            if file == "WORD.MDV" {
+                try? fileManager.removeItem(at: dstURL)
+            }
+#endif
+
             do {
                 try fileManager.copyItem(at: srcURL, to: dstURL)
             } catch let error as CocoaError where error.code == .fileWriteFileExists {
