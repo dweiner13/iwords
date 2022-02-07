@@ -38,7 +38,7 @@
                     <tabViewItems>
                         <tabViewItem image="hand.point.up.left" catalog="system" id="SVp-vV-VHC"/>
                         <tabViewItem image="text.book.closed" catalog="system" id="08H-le-U7A"/>
-                        <tabViewItem image="gearshape" catalog="system" id="crO-S2-a58"/>
+                        <tabViewItem image="arrow.triangle.2.circlepath" catalog="system" id="crO-S2-a58"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="DKh-Ug-44b">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
@@ -68,9 +68,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-qT-ee5">
-                                <rect key="frame" x="20" y="172" width="484" height="108"/>
+                                <rect key="frame" x="20" y="143" width="484" height="137"/>
                                 <rows>
-                                    <gridRow rowAlignment="firstBaseline" id="OR3-GX-ynP"/>
+                                    <gridRow rowAlignment="none" id="OR3-GX-ynP"/>
                                     <gridRow yPlacement="top" id="nvG-6y-NdJ"/>
                                 </rows>
                                 <columns>
@@ -80,7 +80,7 @@
                                 <gridCells>
                                     <gridCell row="OR3-GX-ynP" column="i4D-yV-vAc" id="ZZ5-ml-Bka">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3zq-PG-Qgg" userLabel="Display:">
-                                            <rect key="frame" x="-2" y="91" width="81" height="16"/>
+                                            <rect key="frame" x="-2" y="121" width="81" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Appearance:" id="Se8-lw-4jg">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -90,21 +90,22 @@
                                     </gridCell>
                                     <gridCell row="OR3-GX-ynP" column="yTN-Lg-EK4" id="BBj-jd-GSd">
                                         <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="awF-w2-4ZH">
-                                            <rect key="frame" x="89" y="64" width="345" height="44"/>
+                                            <rect key="frame" x="89" y="64" width="345" height="73"/>
                                             <subviews>
-                                                <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GE4-9u-5lW">
-                                                    <rect key="frame" x="0.0" y="24" width="149" height="20"/>
+                                                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GE4-9u-5lW">
+                                                    <rect key="frame" x="0.0" y="52" width="125" height="21"/>
                                                     <subviews>
-                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-C8-h9t">
-                                                            <rect key="frame" x="-7" y="-7" width="163" height="32"/>
-                                                            <buttonCell key="cell" type="push" title="Monaco Regular 16pt" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
-                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="S6I-3f-x3A">
+                                                            <rect key="frame" x="0.0" y="0.0" width="125" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="HBX-ug-XvQ"/>
+                                                            </constraints>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Menlo Regular 13pt" drawsBackground="YES" id="KAA-Et-5Ic">
                                                                 <font key="font" metaFont="system"/>
-                                                            </buttonCell>
-                                                            <connections>
-                                                                <action selector="orderFrontFontPanel:" target="ofx-4g-hlq" id="522-21-38m"/>
-                                                            </connections>
-                                                        </button>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
                                                     </subviews>
                                                     <visibilityPriorities>
                                                         <integer value="1000"/>
@@ -113,6 +114,16 @@
                                                         <real value="3.4028234663852886e+38"/>
                                                     </customSpacing>
                                                 </stackView>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-C8-h9t">
+                                                    <rect key="frame" x="-7" y="17" width="103" height="32"/>
+                                                    <buttonCell key="cell" type="push" title="Select Font" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="orderFrontFontPanel:" target="ofx-4g-hlq" id="522-21-38m"/>
+                                                    </connections>
+                                                </button>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bau-Y2-AbD">
                                                     <rect key="frame" x="-2" y="-1" width="347" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Group results under headers for multi-word searches" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="OG5-Yg-wbU">
@@ -127,8 +138,10 @@
                                             <visibilityPriorities>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
+                                                <integer value="1000"/>
                                             </visibilityPriorities>
                                             <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                             </customSpacing>
@@ -194,6 +207,7 @@
                     </view>
                     <connections>
                         <outlet property="fontButton" destination="ACk-C8-h9t" id="H3E-Ja-Mop"/>
+                        <outlet property="fontTextField" destination="S6I-3f-x3A" id="IWU-Si-R5c"/>
                     </connections>
                 </viewController>
                 <customObject id="e8E-9S-Sac" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -617,6 +631,25 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
                             <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
+                        <toolbar key="toolbar" implicitIdentifier="AD583063-950D-4602-BE5B-067BC191DD4F" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="txn-Ej-6c2">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="CFB307DB-58B5-4E6F-9F91-6A8E70EEE24C" label="Text Size" paletteLabel="Text Size" sizingBehavior="auto" id="xRu-o9-IuW">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="Nhn-Cn-qrl" customClass="FontSizeSegmentedControl" customModule="iWords" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="14" width="71" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="Btk-DY-She">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment toolTip="Decrease text size" image="textformat.size.smaller" catalog="system" width="32" tag="3"/>
+                                                <segment toolTip="Increase text size" image="textformat.size.larger" width="32" tag="4"/>
+                                            </segments>
+                                        </segmentedCell>
+                                    </segmentedControl>
+                                </toolbarItem>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems/>
+                        </toolbar>
                         <connections>
                             <outlet property="delegate" destination="3rs-7X-TgL" id="NIh-pS-QVf"/>
                         </connections>
@@ -682,8 +715,10 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
     </scenes>
     <resources>
         <image name="NSCaution" width="32" height="32"/>
-        <image name="gearshape" catalog="system" width="16" height="16"/>
+        <image name="arrow.triangle.2.circlepath" catalog="system" width="18" height="15"/>
         <image name="hand.point.up.left" catalog="system" width="14" height="15"/>
         <image name="text.book.closed" catalog="system" width="14" height="16"/>
+        <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
+        <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>
 </document>

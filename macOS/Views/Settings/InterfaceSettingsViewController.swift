@@ -18,6 +18,9 @@ class InterfaceSettingsViewController: NSViewController {
     @IBOutlet
     weak var fontButton: NSButton!
 
+    @IBOutlet
+    weak var fontTextField: NSTextField!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,9 +40,11 @@ class InterfaceSettingsViewController: NSViewController {
 
     private func updateForFont(_ font: NSFont?) {
         if let font = font {
-            fontButton.title = font.settingsDisplayString()
+            fontTextField.isHidden = false
+            fontTextField.stringValue = font.settingsDisplayString()
+            fontTextField.font = font
         } else {
-            fontButton.title = "Select..."
+            fontTextField.isHidden = true
         }
     }
 }
