@@ -476,6 +476,9 @@ variations found in medieval Latin, but some constructs are common.</string>
                                             <buttonCell key="cell" type="push" title="Check for Updates Now" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2hC-VK-1kQ">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
+                                                <connections>
+                                                    <binding destination="tU5-tj-Wyi" name="enabled" keyPath="updater.canCheckForUpdates" id="AhD-4F-ngO"/>
+                                                </connections>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="checkForUpdates:" target="tU5-tj-Wyi" id="02Y-aA-L2Z"/>
