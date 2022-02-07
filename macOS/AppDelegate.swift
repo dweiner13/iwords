@@ -107,14 +107,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         if let data = UserDefaults.standard.data(forKey: "font") {
             do {
-                try NSKeyedUnarchiver(forReadingFrom: data)
-                    .then {
-                        $0.requiresSecureCoding = true
-                    }
-                    .decodeObject(of: NSFont.self, forKey: "font")
-                    .map {
-                        font = $0
-                    }
+                let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
+                unarchiver.requiresSecureCoding = true
+                if let font = unarchiver.decodeObject(of: NSFont.self, forKey: "font") {
+                    self.font = font
+                }
             } catch {
                 print("Unable to decode font", error, error.localizedDescription)
             }

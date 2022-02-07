@@ -512,8 +512,8 @@ variations found in medieval Latin, but some constructs are common.</string>
                                     <gridCell row="KKf-v3-3R2" column="OxK-oK-dTQ" id="U0M-rF-qoq"/>
                                     <gridCell row="KKf-v3-3R2" column="KWA-K6-mbn" id="I5V-dp-jsb">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-cZ-Qwk" userLabel="Send system profile data">
-                                            <rect key="frame" x="78" y="86" width="159" height="18"/>
-                                            <buttonCell key="cell" type="check" title="Include system profile" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kGv-Jf-qni">
+                                            <rect key="frame" x="78" y="86" width="232" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Include anonymous system profile" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kGv-Jf-qni">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -532,7 +532,7 @@ variations found in medieval Latin, but some constructs are common.</string>
                                                     <rect key="frame" x="19" y="0.0" width="438" height="26"/>
                                                     <textFieldCell key="cell" selectable="YES" id="UjP-uZ-IvD">
                                                         <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
-                                                        <string key="title">When iWords pings for updates, it can include system information like your app version and macOS version to help guide development. No identifying information is included.</string>
+                                                        <string key="title">When iWords pings for updates, it can include system information, like your macOS version, to help guide development. No identifying information is included.</string>
                                                         <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
