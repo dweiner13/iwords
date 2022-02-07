@@ -52,10 +52,10 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="fbp-5F-nwt"/>
-                                        <menuItem title="Check for Updates..." id="ZoS-HG-WAS">
+                                        <menuItem title="Check for Updates" id="ZoS-HG-WAS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="checkForUpdates:" target="OSl-4T-ebG" id="SwH-kz-gWl"/>
+                                                <action selector="checkForUpdates:" target="Voe-Tx-rLC" id="oAx-cn-4Ke"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="XUb-bA-Hdu"/>
@@ -448,7 +448,6 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="FIU-Ed-KB2"/>
                     </connections>
                 </customObject>
-                <customObject id="OSl-4T-ebG" customClass="SUUpdater"/>
                 <userDefaultsController id="ZZt-xK-ds5"/>
                 <customObject id="46f-Bv-BCE" customClass="NSFontManager"/>
                 <userDefaultsController id="S2P-p1-PcK"/>

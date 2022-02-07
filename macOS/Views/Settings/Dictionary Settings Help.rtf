@@ -1,0 +1,68 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2636
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;\f2\fswiss\fcharset0 Helvetica-Bold;
+\f3\fnil\fcharset0 HelveticaNeue;\f4\fnil\fcharset0 HelveticaNeue-Italic;\f5\fnil\fcharset0 HelveticaNeue-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;\red0\green0\blue0;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0\c84706\cname labelColor;\csgray\c0;\cssrgb\c0\c0\c0\c49804\cname secondaryLabelColor;
+}
+\margl1440\margr1440\vieww14560\viewh11660\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 Settings in this tab allow you to modify the behavior of iWords's underlying dictionary program, 
+\f1\i WORDS
+\f0\i0 .\
+\
+
+\f2\b Medieval spelling tricks\
+
+\f3\b0 This option instructs the program, when it is unable to find a proper match in the dictionary, and after various prefixes and suffixes, and trying every Classical Latin trick it can think of, to go to a few that are usually only found in medieval Latin, replacements of 
+\f4\i caul
+\f3\i0  -> 
+\f4\i col
+\f3\i0 , 
+\f4\i st
+\f3\i0  -> 
+\f4\i est
+\f3\i0 , 
+\f4\i z
+\f3\i0  -> 
+\f4\i di
+\f3\i0 , 
+\f4\i ix
+\f3\i0  -> 
+\f4\i is
+\f3\i0 , 
+\f4\i nct
+\f3\i0  -> 
+\f4\i nt
+\f3\i0 .  It also tries some things like replacing doubled consonants in classical with a single one. Together these tricks are useful, but may give false positives (>20%). If the text is late or medieval, this option is much more useful than tricks for classical.  The dictionary can never contain all spelling  variations found in medieval Latin, but some constructs are common.\
+\
+
+\f2\b Splitting unknowns into two words\
+
+\f3\b0 There are some few common Latin expressions that combine two inflected words (e.g. 
+\f4\i respublica
+\f3\i0 , 
+\f4\i paterfamilias
+\f3\i0 ).  There are numerous examples of numbers composed of two words combined together. Sometimes a text or inscription will have words run together. When WORDS is unable to reach a satisfactory solution with all other  tricks, as a last stab it will try to break the input into two words. This most often fails. Even if mechanically successful, the result is usually false and must be examined by the user.  If the result is correct, it is probably clear to the user.  Otherwise,  beware.\
+\
+
+\f2\b Archaic words\
+
+\f3\b0 This option instructs the program to omit inflections and dictionary entries with an AGE code of A (Archaic).  Archaic results are rarely of interest in general use.  If there is no other possible form, then the Archaic (roughly defined) will be reported.\
+\
+
+\f5\b Medieval words\
+
+\f3\b0 This option instructs the program to omit inflections and dictionary entries with AGE codes of E or later, those not in use in Roman times.While later forms and words are a significant application, most users will not want them.  If there is no other possible form, then the Medieval (roughly defined) will be reported.\
+\
+
+\f5\b Uncommon words\
+
+\f3\b0 This option instructs the program to omit inflections and dictionary entries with FREQ codes indicating that the selection is uncommon.While these forms are a significant feature of the program, many users will not want them.  If there is no other possible form, then the uncommon (roughly defined) will be reported.\
+\cf3 \
+
+\f0\fs26 \cf4 The descriptions above are from the original WORDS source code.
+\fs24 \
+}

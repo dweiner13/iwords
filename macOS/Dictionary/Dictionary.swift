@@ -8,13 +8,36 @@
 import Foundation
 import Flow
 
-struct DWError: LocalizedError, Identifiable {
+struct DWError: LocalizedError, Identifiable, CustomNSError {
     let id = UUID()
 
     let description: String
 
     var errorDescription: String? {
         description
+    }
+
+    let _recoverySuggestion: String?
+
+    var recoverySuggestion: String {
+        _recoverySuggestion ?? ""
+    }
+
+    static var errorDomain: String {
+        "org.danielweiner.iwords.errorDomain"
+    }
+
+    var errorCode: Int {
+        return 1
+    }
+
+    var errorUserInfo: [String : Any] {
+        [NSLocalizedRecoverySuggestionErrorKey: recoverySuggestion as Any]
+    }
+
+    init(_ description: String, recoverySuggestion: String? = nil) {
+        self.description = description
+        self._recoverySuggestion = recoverySuggestion
     }
 }
 
@@ -71,12 +94,7 @@ class Dictionary {
         return url
     }()
     private lazy var executablePath = executableURL.path
-    private lazy var workingDir: URL = {
-        guard var url = Bundle.main.url(forResource: "DICTFILE", withExtension: "GEN") else {
-            fatalError("Could not find resource directory.")
-        }
-        return url.deletingLastPathComponent()
-    }()
+    private lazy var workingDir: URL = DictionaryMigrator.dictionarySupportURL
 
     private var activeCompletionHandler: ((Result<String?, DWError>) -> Void)?
     private var process: Process?
@@ -152,7 +170,7 @@ class Dictionary {
             return
         }
         guard activeCompletionHandler == nil else {
-            completion(.failure(DWError(description: "Lookup already in progress")))
+            completion(.failure(DWError("Lookup already in progress")))
             return
         }
 
@@ -184,7 +202,7 @@ class Dictionary {
 
             self.restartProcess()
 
-            self.complete(with: .failure(DWError(description: "The operation timed out. Please try again.")))
+            self.complete(with: .failure(DWError("The operation timed out. Please try again.")))
         })
     }
 
@@ -257,10 +275,28 @@ class Dictionary {
 
         let handler = activeCompletionHandler
         activeCompletionHandler = nil
+
+        if needsRestart {
+            needsRestart = false
+            restartProcess()
+        }
+
         handler?(result)
     }
 
+    private var needsRestart = false
+
+    func setNeedsRestart() {
+        if activeCompletionHandler != nil {
+            needsRestart = true
+        } else {
+            restartProcess()
+        }
+    }
+
     private func restartProcess() {
+        complete(with: .failure(DWError("Process restarted")))
+
         process?.terminate()
         process = nil
 
@@ -294,9 +330,9 @@ class Dictionary {
         p.terminationHandler = { [weak self] process in
             guard let self = self else { return }
 
-            if process.terminationStatus != 0 {
+            if process.terminationStatus != SIGTERM {
                 DispatchQueue.main.async {
-                    self.complete(with: .failure(DWError(description: "Process failed with exit code \(process.terminationStatus)")))
+                    self.complete(with: .failure(DWError("Process failed with exit code \(process.terminationStatus)")))
                 }
                 return
             }

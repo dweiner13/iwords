@@ -10,7 +10,7 @@
         <scene sceneID="9yY-hY-JIR">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="upR-4V-vlI" sceneMemberID="viewController">
-                    <window key="window" identifier="iWordsPreferences" title="iWords Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="bGm-bX-4nX">
+                    <window key="window" identifier="iWordsPreferences" title="iWords Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="bGm-bX-4nX">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="268" y="330" width="480" height="270"/>
@@ -20,186 +20,705 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
                         <connections>
-                            <outlet property="delegate" destination="upR-4V-vlI" id="jny-2a-LIe"/>
+                            <outlet property="delegate" destination="upR-4V-vlI" id="btb-yD-ApT"/>
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="p5y-ca-6ro" kind="relationship" relationship="window.shadowedContentViewController" id="mMi-PJ-DXM"/>
+                        <segue destination="9tY-fk-Ti7" kind="relationship" relationship="window.shadowedContentViewController" id="Bhw-J7-BZT"/>
                     </connections>
                 </windowController>
                 <customObject id="GXk-Nw-Hrg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-160" y="160"/>
+            <point key="canvasLocation" x="-14" y="220"/>
         </scene>
-        <!--iWords Preferences-->
+        <!--Tab View Controller-->
+        <scene sceneID="g9h-RK-DNh">
+            <objects>
+                <tabViewController selectedTabViewItemIndex="0" tabStyle="toolbar" id="9tY-fk-Ti7" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem image="hand.point.up.left" catalog="system" id="SVp-vV-VHC"/>
+                        <tabViewItem image="text.book.closed" catalog="system" id="08H-le-U7A"/>
+                        <tabViewItem image="arrow.triangle.2.circlepath" catalog="system" id="crO-S2-a58"/>
+                    </tabViewItems>
+                    <tabView key="tabView" type="noTabsNoBorder" id="DKh-Ug-44b">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="system"/>
+                        <connections>
+                            <outlet property="delegate" destination="9tY-fk-Ti7" id="MHn-6x-cLp"/>
+                        </connections>
+                    </tabView>
+                    <connections>
+                        <outlet property="tabView" destination="DKh-Ug-44b" id="jyx-H4-Itm"/>
+                        <segue destination="p5y-ca-6ro" kind="relationship" relationship="tabItems" id="Qgg-44-oM1"/>
+                        <segue destination="fkP-gV-HhW" kind="relationship" relationship="tabItems" id="gFE-LZ-NRv"/>
+                        <segue destination="ftk-6b-HIn" kind="relationship" relationship="tabItems" id="CPB-cm-jTB"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="49Q-8i-euo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-29" y="697"/>
+        </scene>
+        <!--Interface-->
         <scene sceneID="hbl-40-pJw">
             <objects>
-                <viewController title="iWords Preferences" showSeguePresentationStyle="single" id="p5y-ca-6ro" customClass="SettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Interface" showSeguePresentationStyle="single" id="p5y-ca-6ro" customClass="InterfaceSettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="DoA-qt-ddp">
-                        <rect key="frame" x="0.0" y="0.0" width="528" height="272"/>
+                        <rect key="frame" x="0.0" y="0.0" width="566" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <gridView xPlacement="fill" yPlacement="top" rowAlignment="none" rowSpacing="8" columnSpacing="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="2pw-bA-mWg">
-                                <rect key="frame" x="20" y="52" width="488" height="200"/>
+                            <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-qT-ee5">
+                                <rect key="frame" x="20" y="143" width="484" height="137"/>
                                 <rows>
-                                    <gridRow id="Z1f-pg-NKW"/>
-                                    <gridRow id="gLR-B1-Nzi"/>
+                                    <gridRow rowAlignment="none" id="OR3-GX-ynP"/>
+                                    <gridRow yPlacement="top" id="nvG-6y-NdJ"/>
                                 </rows>
                                 <columns>
-                                    <gridColumn id="Q5a-lh-AAV"/>
+                                    <gridColumn xPlacement="trailing" id="i4D-yV-vAc"/>
+                                    <gridColumn id="yTN-Lg-EK4"/>
                                 </columns>
                                 <gridCells>
-                                    <gridCell row="Z1f-pg-NKW" column="Q5a-lh-AAV" id="aoe-zx-NOS">
-                                        <box key="contentView" title="Results" translatesAutoresizingMaskIntoConstraints="NO" id="NQP-f2-uyF">
-                                            <rect key="frame" x="-3" y="96" width="494" height="104"/>
-                                            <view key="contentView" id="GWy-d2-vyb">
-                                                <rect key="frame" x="3" y="3" width="488" height="86"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="3Sc-qT-kPe">
-                                                        <rect key="frame" x="20" y="20" width="448" height="46"/>
-                                                        <rows>
-                                                            <gridRow id="LGW-dw-PAg"/>
-                                                            <gridRow topPadding="4" id="8C5-oe-vUf"/>
-                                                        </rows>
-                                                        <columns>
-                                                            <gridColumn width="36" id="jEV-Aa-dkL"/>
-                                                            <gridColumn id="Feb-io-Jlt"/>
-                                                        </columns>
-                                                        <gridCells>
-                                                            <gridCell row="LGW-dw-PAg" column="jEV-Aa-dkL" id="HqI-Ag-gli"/>
-                                                            <gridCell row="LGW-dw-PAg" column="Feb-io-Jlt" yPlacement="bottom" id="YE5-0M-ffI">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bau-Y2-AbD">
-                                                                    <rect key="frame" x="40" y="29" width="199" height="18"/>
-                                                                    <buttonCell key="cell" type="check" title="Group results under headers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="OG5-Yg-wbU">
-                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.showStyledRawResults" id="U3A-1g-YRe"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </gridCell>
-                                                            <gridCell row="8C5-oe-vUf" column="jEV-Aa-dkL" yPlacement="center" id="amP-NQ-RjC">
-                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wkl-pb-isN">
-                                                                    <rect key="frame" x="-2" y="2" width="35" height="16"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Font:" id="LwC-fa-rGC">
-                                                                        <font key="font" usesAppearanceFont="YES"/>
-                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                    </textFieldCell>
-                                                                </textField>
-                                                            </gridCell>
-                                                            <gridCell row="8C5-oe-vUf" column="Feb-io-Jlt" yPlacement="center" id="v7e-HX-S30">
-                                                                <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q22-JO-gcJ">
-                                                                    <rect key="frame" x="42" y="0.0" width="99" height="20"/>
-                                                                    <subviews>
-                                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-C8-h9t">
-                                                                            <rect key="frame" x="-7" y="-7" width="113" height="32"/>
-                                                                            <buttonCell key="cell" type="push" title="Monaco 16pt" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
-                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                <font key="font" metaFont="system"/>
-                                                                            </buttonCell>
-                                                                            <connections>
-                                                                                <action selector="orderFrontFontPanel:" target="ofx-4g-hlq" id="522-21-38m"/>
-                                                                            </connections>
-                                                                        </button>
-                                                                    </subviews>
-                                                                    <visibilityPriorities>
-                                                                        <integer value="1000"/>
-                                                                    </visibilityPriorities>
-                                                                    <customSpacing>
-                                                                        <real value="3.4028234663852886e+38"/>
-                                                                    </customSpacing>
-                                                                </stackView>
-                                                            </gridCell>
-                                                        </gridCells>
-                                                    </gridView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="3Sc-qT-kPe" firstAttribute="leading" secondItem="GWy-d2-vyb" secondAttribute="leading" constant="20" symbolic="YES" id="0PA-rR-cEf"/>
-                                                    <constraint firstAttribute="trailing" secondItem="3Sc-qT-kPe" secondAttribute="trailing" constant="20" symbolic="YES" id="EuP-V2-Jrx"/>
-                                                    <constraint firstAttribute="bottom" secondItem="3Sc-qT-kPe" secondAttribute="bottom" constant="20" symbolic="YES" id="Fhz-K0-qCQ"/>
-                                                    <constraint firstItem="3Sc-qT-kPe" firstAttribute="top" secondItem="GWy-d2-vyb" secondAttribute="top" constant="20" symbolic="YES" id="zAa-Yf-kHq"/>
-                                                </constraints>
-                                            </view>
-                                        </box>
+                                    <gridCell row="OR3-GX-ynP" column="i4D-yV-vAc" id="ZZ5-ml-Bka">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3zq-PG-Qgg" userLabel="Display:">
+                                            <rect key="frame" x="-2" y="121" width="81" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Appearance:" id="Se8-lw-4jg">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                     </gridCell>
-                                    <gridCell row="gLR-B1-Nzi" column="Q5a-lh-AAV" id="nrU-mN-Jfd">
-                                        <box key="contentView" title="Behavior" translatesAutoresizingMaskIntoConstraints="NO" id="J2r-EY-nru">
-                                            <rect key="frame" x="-3" y="-4" width="494" height="96"/>
-                                            <view key="contentView" id="HM8-xw-sLX">
-                                                <rect key="frame" x="3" y="3" width="488" height="78"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="gfB-Zf-JIU">
-                                                        <rect key="frame" x="20" y="20" width="448" height="38"/>
-                                                        <rows>
-                                                            <gridRow id="80w-Za-hrV"/>
-                                                            <gridRow id="nSN-8y-OqD"/>
-                                                        </rows>
-                                                        <columns>
-                                                            <gridColumn id="Lrf-tS-itr"/>
-                                                        </columns>
-                                                        <gridCells>
-                                                            <gridCell row="80w-Za-hrV" column="Lrf-tS-itr" id="T4m-Kp-AqU">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Pp-zh-SbL">
-                                                                    <rect key="frame" x="-2" y="21" width="272" height="18"/>
-                                                                    <buttonCell key="cell" type="check" title="Search bar grows vertically to fit content" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="GcN-8x-YkZ">
-                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                        <connections>
-                                                                            <binding destination="Tde-pi-nfm" name="value" keyPath="values.searchBarGrowsToFitContent" id="6sq-ts-3FP"/>
-                                                                        </connections>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.searchBarGrowsToFitContent" id="K8t-zP-0cD"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </gridCell>
-                                                            <gridCell row="nSN-8y-OqD" column="Lrf-tS-itr" id="hEh-pA-eOA">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iuo-Ky-Xnp">
-                                                                    <rect key="frame" x="-2" y="-1" width="397" height="18"/>
-                                                                    <buttonCell key="cell" type="check" title="New windows and tabs open with same search as current tab" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nMU-l1-fyh">
-                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.copySearchToNewWindows" id="SbF-Bk-Ddv"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </gridCell>
-                                                        </gridCells>
-                                                    </gridView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="gfB-Zf-JIU" firstAttribute="leading" secondItem="HM8-xw-sLX" secondAttribute="leading" constant="20" symbolic="YES" id="Gta-Ei-YHC"/>
-                                                    <constraint firstAttribute="trailing" secondItem="gfB-Zf-JIU" secondAttribute="trailing" constant="20" symbolic="YES" id="QSg-gz-g0P"/>
-                                                    <constraint firstAttribute="bottom" secondItem="gfB-Zf-JIU" secondAttribute="bottom" constant="20" symbolic="YES" id="Z3w-zJ-2WS"/>
-                                                    <constraint firstItem="gfB-Zf-JIU" firstAttribute="top" secondItem="HM8-xw-sLX" secondAttribute="top" constant="20" symbolic="YES" id="zr5-pu-Czn"/>
-                                                </constraints>
-                                            </view>
-                                        </box>
+                                    <gridCell row="OR3-GX-ynP" column="yTN-Lg-EK4" id="BBj-jd-GSd">
+                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="awF-w2-4ZH">
+                                            <rect key="frame" x="89" y="64" width="345" height="73"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GE4-9u-5lW">
+                                                    <rect key="frame" x="0.0" y="52" width="125" height="21"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="S6I-3f-x3A">
+                                                            <rect key="frame" x="0.0" y="0.0" width="125" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="HBX-ug-XvQ"/>
+                                                            </constraints>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Menlo Regular 13pt" drawsBackground="YES" id="KAA-Et-5Ic">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-C8-h9t">
+                                                    <rect key="frame" x="-7" y="17" width="103" height="32"/>
+                                                    <buttonCell key="cell" type="push" title="Select Font" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="orderFrontFontPanel:" target="ofx-4g-hlq" id="522-21-38m"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bau-Y2-AbD">
+                                                    <rect key="frame" x="-2" y="-1" width="347" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Group results under headers for multi-word searches" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="OG5-Yg-wbU">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.showStyledRawResults" id="U3A-1g-YRe"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
+                                    </gridCell>
+                                    <gridCell row="nvG-6y-NdJ" column="i4D-yV-vAc" id="sEC-sx-kPQ">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E6C-VP-HzI">
+                                            <rect key="frame" x="18" y="24" width="61" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Behavior:" id="YF4-XR-TeI">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="nvG-6y-NdJ" column="yTN-Lg-EK4" id="eKs-OD-65Q">
+                                        <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4r6-83-Tqt">
+                                            <rect key="frame" x="89" y="0.0" width="395" height="40"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iuo-Ky-Xnp">
+                                                    <rect key="frame" x="-2" y="23" width="397" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="New windows and tabs open with same search as current tab" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nMU-l1-fyh">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.copySearchToNewWindows" id="SbF-Bk-Ddv"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Pp-zh-SbL">
+                                                    <rect key="frame" x="-2" y="-1" width="303" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Search bar grows vertically to fit multiline text" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="GcN-8x-YkZ">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                        <connections>
+                                                            <binding destination="Tde-pi-nfm" name="value" keyPath="values.searchBarGrowsToFitContent" id="6sq-ts-3FP"/>
+                                                        </connections>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="Tde-pi-nfm" name="value" keyPath="values.searchBarGrowsToFitContent" id="K8t-zP-0cD"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
                                     </gridCell>
                                 </gridCells>
                             </gridView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="2pw-bA-mWg" firstAttribute="leading" secondItem="DoA-qt-ddp" secondAttribute="leading" constant="20" symbolic="YES" id="B6L-Yi-nmJ"/>
-                            <constraint firstAttribute="trailing" secondItem="2pw-bA-mWg" secondAttribute="trailing" constant="20" symbolic="YES" id="BY0-bL-4n8"/>
-                            <constraint firstItem="2pw-bA-mWg" firstAttribute="top" secondItem="DoA-qt-ddp" secondAttribute="top" constant="20" symbolic="YES" id="kSu-Zc-vDb"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2pw-bA-mWg" secondAttribute="bottom" constant="20" symbolic="YES" id="rML-ya-TI2"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Obq-qT-ee5" secondAttribute="trailing" constant="20" symbolic="YES" id="2OK-8A-qks"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Obq-qT-ee5" secondAttribute="bottom" constant="20" symbolic="YES" id="3r4-0D-uQP"/>
+                            <constraint firstItem="Obq-qT-ee5" firstAttribute="leading" secondItem="DoA-qt-ddp" secondAttribute="leading" constant="20" symbolic="YES" id="8O4-2o-91Z"/>
+                            <constraint firstItem="Obq-qT-ee5" firstAttribute="top" secondItem="DoA-qt-ddp" secondAttribute="top" constant="20" symbolic="YES" id="H1p-ez-6bd"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="fontButton" destination="ACk-C8-h9t" id="H3E-Ja-Mop"/>
+                        <outlet property="fontTextField" destination="S6I-3f-x3A" id="IWU-Si-R5c"/>
                     </connections>
                 </viewController>
                 <customObject id="e8E-9S-Sac" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="Tde-pi-nfm"/>
                 <customObject id="ofx-4g-hlq" customClass="NSFontManager"/>
             </objects>
-            <point key="canvasLocation" x="-160" y="632.5"/>
+            <point key="canvasLocation" x="590" y="399"/>
+        </scene>
+        <!--Dictionary-->
+        <scene sceneID="z7Q-RM-iPX">
+            <objects>
+                <customObject id="hyf-a8-MvE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController title="Dictionary" id="fkP-gV-HhW" customClass="DictionarySettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="JAp-BO-VSf">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="400"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="24" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ge3-eK-OHR">
+                                <rect key="frame" x="20" y="212" width="350" height="168"/>
+                                <subviews>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-HA-1EN">
+                                        <rect key="frame" x="0.0" y="152" width="235" height="16"/>
+                                        <subviews>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TBu-tr-kV8">
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="16" id="qHN-Ii-uMY"/>
+                                                    <constraint firstAttribute="height" constant="16" id="tJf-fM-6ir"/>
+                                                </constraints>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="2Uk-tH-0Qm"/>
+                                            </imageView>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="9wD-I1-qYo">
+                                                <rect key="frame" x="22" y="0.0" width="215" height="16"/>
+                                                <textFieldCell key="cell" selectable="YES" title="Error reading dictionary settings" id="ykI-Tv-pA1">
+                                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                    <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="128"/>
+                                        <rows>
+                                            <gridRow rowAlignment="firstBaseline" id="RLq-gE-v2S"/>
+                                            <gridRow rowAlignment="firstBaseline" id="VuE-iz-OSD"/>
+                                        </rows>
+                                        <columns>
+                                            <gridColumn xPlacement="trailing" id="FHq-7w-FWn"/>
+                                            <gridColumn width="248" id="wUf-yW-zSL"/>
+                                        </columns>
+                                        <gridCells>
+                                            <gridCell row="RLq-gE-v2S" column="FHq-7w-FWn" id="0r2-gH-xi4">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ojk-fD-3JJ">
+                                                    <rect key="frame" x="-2" y="112" width="94" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Attempt tricks:" id="fat-2E-k4Y">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="RLq-gE-v2S" column="wUf-yW-zSL" id="LAF-qU-5Tv">
+                                                <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ZR-LF-e0G">
+                                                    <rect key="frame" x="102" y="88" width="232" height="40"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2K-li-KeP">
+                                                            <rect key="frame" x="-2" y="23" width="168" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Medieval spelling tricks" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="x7D-dK-Akt">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                                <mutableString key="toolTip">This option instructs the program, when it is unable to find a proper 
+match in the dictionary, and after various prefixes and suffixes, and 
+tring every Classical Latin trick it can think of, to go to a few that
+are usually only found in medieval Latin, replacements of caul -&gt; col,
+st -&gt; est, z -&gt; di, ix -&gt; is, nct -&gt; nt.  It also tries some things   
+like replacing doubled consonants in classical with a single one.     
+Together these tricks are useful, but may give false positives (&gt;20%).
+This option is only available if the general DO_TRICKS is chosen.     
+If the text is late or medieval, this option is much more useful than 
+tricks for classical.  The dictionary can never contain all spelling  
+variations found in medieval Latin, but some constructs are common.</mutableString>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.doMedievalTricks" id="yrg-7a-34i">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c0S-5L-fPZ" userLabel="Do two words">
+                                                            <rect key="frame" x="-2" y="-1" width="234" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Splitting unknowns into two words" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="vHY-J7-Bm8">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.doTwoWords" id="GqQ-jR-nqY">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </gridCell>
+                                            <gridCell row="VuE-iz-OSD" column="FHq-7w-FWn" id="iuw-QH-YoJ">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-cn-RO0">
+                                                    <rect key="frame" x="40" y="48" width="52" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Include:" id="4o5-rb-UTN">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="VuE-iz-OSD" column="wUf-yW-zSL" id="lbg-St-Bh8">
+                                                <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfU-g8-0eF">
+                                                    <rect key="frame" x="102" y="0.0" width="134" height="64"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yle-wc-1WX" userLabel="Omit archaic words">
+                                                            <rect key="frame" x="-2" y="47" width="112" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Archaic words" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="Xji-pU-8s9">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.includeArchaicWords" id="YJc-Ho-NBg">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jvf-qN-29S" userLabel="Omit medieval words">
+                                                            <rect key="frame" x="-2" y="23" width="121" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Medieval words" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="aYL-4i-BJ8">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.includeMedievalWords" id="SUw-qe-a1B">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j0w-VZ-z2Y" userLabel="Omit uncommon words">
+                                                            <rect key="frame" x="-2" y="-1" width="136" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Uncommon words" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="dde-Ho-too">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="fkP-gV-HhW" name="value" keyPath="self.includeUncommonWords" id="sWU-j4-L1Z">
+                                                                    <dictionary key="options">
+                                                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </gridCell>
+                                        </gridCells>
+                                    </gridView>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-qY-VpY">
+                                <rect key="frame" x="497" y="23" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Hc-06-gfs">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openHelpAnchor" target="fkP-gV-HhW" id="SAW-CR-bbK"/>
+                                    <segue destination="3rs-7X-TgL" kind="show" id="QFW-gb-WL7"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ge3-eK-OHR" secondAttribute="bottom" constant="20" symbolic="YES" id="GJl-24-KGN"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ge3-eK-OHR" secondAttribute="trailing" constant="20" symbolic="YES" id="KYE-R8-gsR"/>
+                            <constraint firstItem="ge3-eK-OHR" firstAttribute="leading" secondItem="JAp-BO-VSf" secondAttribute="leading" constant="20" symbolic="YES" id="dEc-Xw-ZCb"/>
+                            <constraint firstAttribute="bottom" secondItem="Hp1-qY-VpY" secondAttribute="bottom" constant="20" symbolic="YES" id="gLq-TZ-0MU"/>
+                            <constraint firstItem="ge3-eK-OHR" firstAttribute="top" secondItem="JAp-BO-VSf" secondAttribute="top" constant="20" symbolic="YES" id="nGF-qY-fm5"/>
+                            <constraint firstAttribute="trailing" secondItem="Hp1-qY-VpY" secondAttribute="trailing" constant="20" symbolic="YES" id="ou7-w0-gGj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="doMedievalTricksButton" destination="j2K-li-KeP" id="Lbb-fI-Vgc"/>
+                        <outlet property="doTwoWordsButton" destination="c0S-5L-fPZ" id="Gmu-9s-UeQ"/>
+                        <outlet property="errorLabel" destination="9wD-I1-qYo" id="yh3-4m-SpF"/>
+                        <outlet property="errorStackView" destination="Zkn-HA-1EN" id="qe3-r3-hnL"/>
+                        <outlet property="includeArchaicWordsButton" destination="Yle-wc-1WX" id="CoK-FL-URa"/>
+                        <outlet property="includeMedievalWordsButton" destination="Jvf-qN-29S" id="Ih4-Va-GWG"/>
+                        <outlet property="includeUncommonWordsButton" destination="j0w-VZ-z2Y" id="pOy-DB-91N"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="577" y="889"/>
+        </scene>
+        <!--Updates-->
+        <scene sceneID="7Lf-gc-nHo">
+            <objects>
+                <viewController title="Updates" id="ftk-6b-HIn" customClass="UpdateSettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="CyD-1f-iVe">
+                        <rect key="frame" x="0.0" y="0.0" width="575" height="1023"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="n2r-Do-wyO">
+                                <rect key="frame" x="20" y="840" width="535" height="163"/>
+                                <rows>
+                                    <gridRow bottomPadding="8" id="8Hb-mA-779"/>
+                                    <gridRow id="pjW-r8-cja"/>
+                                    <gridRow bottomPadding="-4" id="KKf-v3-3R2"/>
+                                    <gridRow id="kX4-6M-QP2"/>
+                                    <gridRow topPadding="8" id="nJ3-V5-bNR"/>
+                                    <gridRow id="oRz-WH-ehB"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn xPlacement="trailing" id="OxK-oK-dTQ"/>
+                                    <gridColumn id="KWA-K6-mbn"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="8Hb-mA-779" column="OxK-oK-dTQ" id="tro-ne-bby"/>
+                                    <gridCell row="8Hb-mA-779" column="KWA-K6-mbn" id="L6a-bu-oRE">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="coG-Ud-jV1">
+                                            <rect key="frame" x="73" y="136" width="178" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Check for Updates Now" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2hC-VK-1kQ">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="checkForUpdates:" target="tU5-tj-Wyi" id="JIZ-3s-eUg"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="pjW-r8-cja" column="OxK-oK-dTQ" id="Yjd-OH-10O"/>
+                                    <gridCell row="pjW-r8-cja" column="KWA-K6-mbn" id="yXX-jt-pMw">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Qm0-S0-pqc">
+                                            <rect key="frame" x="78" y="110" width="222" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Check for updates automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gfO-PU-NqZ">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="automaticallyChecksForUpdates" id="el4-S9-t4K"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="KKf-v3-3R2" column="OxK-oK-dTQ" id="U0M-rF-qoq"/>
+                                    <gridCell row="KKf-v3-3R2" column="KWA-K6-mbn" id="I5V-dp-jsb">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-cZ-Qwk" userLabel="Send system profile data">
+                                            <rect key="frame" x="78" y="86" width="159" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Include system profile" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kGv-Jf-qni">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="automaticallyChecksForUpdates" id="dFI-hV-O8r"/>
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="sendsSystemProfile" id="TKF-Tw-iqF"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="kX4-6M-QP2" column="OxK-oK-dTQ" id="5IS-5D-HpV"/>
+                                    <gridCell row="kX4-6M-QP2" column="KWA-K6-mbn" id="uxp-ez-L0T">
+                                        <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a06-BE-fSV">
+                                            <rect key="frame" x="80" y="57" width="455" height="26"/>
+                                            <subviews>
+                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Tdi-KL-N9U">
+                                                    <rect key="frame" x="19" y="0.0" width="438" height="26"/>
+                                                    <textFieldCell key="cell" selectable="YES" id="UjP-uZ-IvD">
+                                                        <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
+                                                        <string key="title">When iWords pings for updates, it can include system information like your app version and macOS version to help guide development. No identifying information is included.</string>
+                                                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
+                                            <edgeInsets key="edgeInsets" left="21" right="0.0" top="0.0" bottom="0.0"/>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
+                                    </gridCell>
+                                    <gridCell row="nJ3-V5-bNR" column="OxK-oK-dTQ" id="bDz-N1-x7f">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0p0-IZ-FIP">
+                                            <rect key="frame" x="23" y="24" width="47" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Check:" id="dzU-id-PKM">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="nJ3-V5-bNR" column="KWA-K6-mbn" id="AAe-X3-kGp">
+                                        <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LcU-bd-O2e">
+                                            <rect key="frame" x="77" y="17" width="88" height="25"/>
+                                            <popUpButtonCell key="cell" type="push" title="Monthly" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2629800" imageScaling="proportionallyDown" inset="2" selectedItem="8an-L4-nf0" id="sAk-ET-f2q">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="bpB-Ty-l1X">
+                                                    <items>
+                                                        <menuItem title="Hourly" tag="3600" id="RGQ-Jf-rRA"/>
+                                                        <menuItem title="Daily" tag="86400" id="xWs-uP-1vR"/>
+                                                        <menuItem title="Weekly" tag="604800" id="0vf-Ny-7dE"/>
+                                                        <menuItem title="Monthly" state="on" tag="2629800" id="8an-L4-nf0"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="automaticallyChecksForUpdates" id="tcS-NC-T1k"/>
+                                                <binding destination="tU5-tj-Wyi" name="selectedTag" keyPath="updateCheckInterval" id="P5E-U0-KTR"/>
+                                            </connections>
+                                        </popUpButton>
+                                    </gridCell>
+                                    <gridCell row="oRz-WH-ehB" column="OxK-oK-dTQ" id="OqL-pr-oF8">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LEv-8J-WlP">
+                                            <rect key="frame" x="-2" y="0.0" width="72" height="13"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Last checked:" id="jx6-kF-w3g">
+                                                <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="oRz-WH-ehB" column="KWA-K6-mbn" id="vHQ-jd-SNJ">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fby-jQ-Viz">
+                                            <rect key="frame" x="78" y="0.0" width="31" height="13"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Sps-SP-8Ka">
+                                                <dateFormatter key="formatter" dateStyle="short" timeStyle="short" doesRelativeDateFormatting="YES" id="qoi-2v-Ix5"/>
+                                                <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="lastUpdateCheckDate" id="KX6-Fx-xjH">
+                                                    <dictionary key="options">
+                                                        <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                        <string key="NSNullPlaceholder">Never</string>
+                                                        <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="n2r-Do-wyO" firstAttribute="leading" secondItem="CyD-1f-iVe" secondAttribute="leading" constant="20" symbolic="YES" id="0Q3-Ae-UBR"/>
+                            <constraint firstItem="n2r-Do-wyO" firstAttribute="top" secondItem="CyD-1f-iVe" secondAttribute="top" constant="20" symbolic="YES" id="5FW-zZ-uXP"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n2r-Do-wyO" secondAttribute="trailing" constant="20" symbolic="YES" id="GU4-ZN-YhO"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="n2r-Do-wyO" secondAttribute="bottom" constant="20" symbolic="YES" id="cDB-qE-qzL"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="Sku-5K-RhB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <buttonCell type="push" title="Check Now" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JJF-CQ-Q4N">
+                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                    <font key="font" metaFont="system"/>
+                </buttonCell>
+                <customObject id="tU5-tj-Wyi" customClass="SUUpdater"/>
+                <userDefaultsController id="1Xf-S9-6Me"/>
+            </objects>
+            <point key="canvasLocation" x="-29" y="1537"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="bKp-4m-nlp">
+            <objects>
+                <windowController showSeguePresentationStyle="single" id="3rs-7X-TgL" sceneMemberID="viewController">
+                    <window key="window" title="Dictionary Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hidesOnDeactivate="YES" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="peW-xH-ge9" customClass="NSPanel">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES" nonactivatingPanel="YES" fullSizeContentView="YES"/>
+                        <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES" fullScreenDisallowsTiling="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="783" y="461" width="540" height="700"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+                        <value key="minSize" type="size" width="360" height="420"/>
+                        <value key="maxSize" type="size" width="900" height="1300"/>
+                        <view key="contentView" id="weU-4P-RTz">
+                            <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <toolbar key="toolbar" implicitIdentifier="AD583063-950D-4602-BE5B-067BC191DD4F" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="txn-Ej-6c2">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="CFB307DB-58B5-4E6F-9F91-6A8E70EEE24C" label="Text Size" paletteLabel="Text Size" sizingBehavior="auto" id="xRu-o9-IuW">
+                                    <nil key="toolTip"/>
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="Nhn-Cn-qrl" customClass="FontSizeSegmentedControl" customModule="iWords" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="14" width="71" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="Btk-DY-She">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment toolTip="Decrease text size" image="textformat.size.smaller" catalog="system" width="32" tag="3"/>
+                                                <segment toolTip="Increase text size" image="textformat.size.larger" width="32" tag="4"/>
+                                            </segments>
+                                        </segmentedCell>
+                                    </segmentedControl>
+                                </toolbarItem>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems/>
+                        </toolbar>
+                        <connections>
+                            <outlet property="delegate" destination="3rs-7X-TgL" id="NIh-pS-QVf"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="22I-hH-eEk" kind="relationship" relationship="window.shadowedContentViewController" id="U0Z-SW-JFf"/>
+                    </connections>
+                </windowController>
+                <customObject id="JRM-BN-ehK" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1255" y="904.5"/>
+        </scene>
+        <!--Dictionary Settings Help View Controller-->
+        <scene sceneID="qun-sr-EE9">
+            <objects>
+                <viewController id="22I-hH-eEk" customClass="DictionarySettingsHelpViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="I1B-qx-Gd2">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bwc-n9-ZFe">
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                                <clipView key="contentView" drawsBackground="NO" id="abp-iG-rv6">
+                                    <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="0Rf-Lx-24S">
+                                            <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="540" height="700"/>
+                                            <size key="maxSize" width="540" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="fYh-tN-VY1">
+                                    <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1BO-2C-8jm">
+                                    <rect key="frame" x="524" y="0.0" width="16" height="700"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="bwc-n9-ZFe" firstAttribute="leading" secondItem="I1B-qx-Gd2" secondAttribute="leading" id="1KI-e6-PmH"/>
+                            <constraint firstItem="bwc-n9-ZFe" firstAttribute="top" secondItem="I1B-qx-Gd2" secondAttribute="top" id="CFW-PB-Cfk"/>
+                            <constraint firstAttribute="bottom" secondItem="bwc-n9-ZFe" secondAttribute="bottom" id="gru-tY-pqp"/>
+                            <constraint firstAttribute="trailing" secondItem="bwc-n9-ZFe" secondAttribute="trailing" id="y8B-01-1Dt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="0Rf-Lx-24S" id="ehi-fy-Zwa"/>
+                    </connections>
+                </viewController>
+                <customObject id="Iws-81-Sbp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1913" y="897"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="NSCaution" width="32" height="32"/>
+        <image name="arrow.triangle.2.circlepath" catalog="system" width="18" height="15"/>
+        <image name="hand.point.up.left" catalog="system" width="14" height="15"/>
+        <image name="text.book.closed" catalog="system" width="14" height="16"/>
+        <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
+        <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
+    </resources>
 </document>

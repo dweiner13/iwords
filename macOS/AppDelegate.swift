@@ -9,6 +9,7 @@ import Cocoa
 import Intents
 import DWUtils
 import Flow
+import Sparkle
 
 extension NSFont {
     static let `default` = NSFont(name: "Menlo", size: 13)!
@@ -33,7 +34,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    var observation: Any?
+    var windowDidBecomeKey: Any?
+    var windowDidCloseObservation: Any?
 
     override init() {
         super.init()
@@ -45,6 +47,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     func keyWindowController() -> LookupWindowController? {
         NSApp.keyWindow?.windowController as? LookupWindowController
+    }
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        // Perform dictionary relocation
+        do {
+            try DictionaryMigrator.relocateDictionaryToApplicationSupport()
+        } catch let error as NSError {
+            NSApp.presentError(DWError("Unable to perform first-time setup.",
+                                       recoverySuggestion: """
+                Encountered \(error.domain) error \(error.code) (\"\(error.localizedDescription)\").
+
+                Please email support@danielweiner.org.
+                """))
+            NSApp.terminate(nil)
+        }
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -62,10 +79,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             newWindow(self)
         }
 
-        observation = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
+        windowDidBecomeKey = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
                                                              object: nil,
                                                              queue: nil) { [weak self] notification in
             self?.updateDirectionItemsState()
+        }
+
+        windowDidCloseObservation = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification,
+                                                                           object: nil,
+                                                                           queue: nil) { notification in
+            guard (notification.object as? NSWindow)?.identifier == .init("iWordsPreferences") else {
+                return
+            }
+            // If settings window closes, close associated help window
+            NSApp.windows.first {
+                $0.windowController?.contentViewController is DictionarySettingsHelpViewController
+            }?.close()
         }
 
         NSApp.servicesProvider = ServiceProvider()
@@ -119,6 +148,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             .do {
                 UserDefaults.standard.set($0, forKey: "font")
             }
+    }
+
+    @IBAction
+    func checkForUpdates(_ sender: Any?) {
+        SUUpdater.shared().checkForUpdates(sender)
     }
 
     @IBAction @objc
@@ -286,5 +320,12 @@ extension AppDelegate: HistoryDelegate {
         } else {
             keyWindowController()?.setSearchQuery(query, withAlternativeNavigation: false)
         }
+    }
+}
+
+extension AppDelegate {
+    @objc
+    func didPresentErrorWithRecovery(_ didRecover: Bool, contextInfo: UnsafeMutableRawPointer?) {
+        NSApp.terminate(self)
     }
 }
