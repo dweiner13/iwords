@@ -230,14 +230,11 @@ class LookupWindowController: NSWindowController {
                                        updateBackForward: true)
             controller.window?.makeKeyAndOrderFront(self)
         } else {
-            guard searchQuery != backForwardController.currentSearchQuery else {
-                print("Ignoring redundant search query \(searchQuery)")
-                return
-            }
+            let isCurrentQuery = searchQuery == backForwardController.currentSearchQuery
 
             self._setSearchQuery(searchQuery,
-                                 updateHistoryLists: true,
-                                 updateBackForward: true)
+                                 updateHistoryLists: !isCurrentQuery,
+                                 updateBackForward: !isCurrentQuery)
         }
     }
 
