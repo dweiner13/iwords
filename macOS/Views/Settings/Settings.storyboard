@@ -645,25 +645,6 @@ variations found in medieval Latin, but some constructs are common.</string>
                             <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
-                        <toolbar key="toolbar" implicitIdentifier="AD583063-950D-4602-BE5B-067BC191DD4F" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="txn-Ej-6c2">
-                            <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="CFB307DB-58B5-4E6F-9F91-6A8E70EEE24C" label="Text Size" paletteLabel="Text Size" sizingBehavior="auto" id="xRu-o9-IuW">
-                                    <nil key="toolTip"/>
-                                    <segmentedControl key="view" verticalHuggingPriority="750" id="Nhn-Cn-qrl" customClass="FontSizeSegmentedControl" customModule="iWords" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="14" width="71" height="24"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="Btk-DY-She">
-                                            <font key="font" metaFont="system"/>
-                                            <segments>
-                                                <segment toolTip="Decrease text size" image="textformat.size.smaller" catalog="system" width="32" tag="3"/>
-                                                <segment toolTip="Increase text size" image="textformat.size.larger" width="32" tag="4"/>
-                                            </segments>
-                                        </segmentedCell>
-                                    </segmentedControl>
-                                </toolbarItem>
-                            </allowedToolbarItems>
-                            <defaultToolbarItems/>
-                        </toolbar>
                         <connections>
                             <outlet property="delegate" destination="3rs-7X-TgL" id="NIh-pS-QVf"/>
                         </connections>
@@ -732,7 +713,5 @@ variations found in medieval Latin, but some constructs are common.</string>
         <image name="arrow.triangle.2.circlepath" catalog="system" width="18" height="15"/>
         <image name="hand.point.up.left" catalog="system" width="14" height="15"/>
         <image name="text.book.closed" catalog="system" width="14" height="16"/>
-        <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
-        <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
     </resources>
 </document>
