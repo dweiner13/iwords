@@ -305,7 +305,8 @@ class LookupWindowController: NSWindowController {
             alert.showsSuppressionButton = true
             let clicked = alert.runModal()
 
-            if let suppressionButton = alert.suppressionButton,
+            if clicked == .alertFirstButtonReturn,
+               let suppressionButton = alert.suppressionButton,
                suppressionButton.state == .on {
                 UserDefaults.standard.set(true, forKey: "suppressMultipleTabsAlert")
             }
