@@ -9,12 +9,24 @@
 :root {
     color-scheme: light dark;
 }
+
+h4 {
+    border-bottom: 1px solid lightgrey;
+}
+
+p {
+    margin-left: 1em;
+}
  
 body {
     font-family: -apple-system, BlinkMacSystemFont, Helvetica Neueu, Helvetica, Sans-Serif;
     font-size: 0.9em;
     margin: 2em;
     line-height: 1.4;
+}
+
+ul {
+    list-style-type: "-   ";
 }
 
 a[href] {
@@ -85,23 +97,28 @@ and parsing program for Latin.</p>
 <hr>
 
 <h3 id="userinterface">User Interface</h3>
-
-<h4>Navigation</h4>
-<p>In general, holding down <kbd>Shift</kbd> while performing a search action (e.g. searching from the search field, going forward/back, or selecting an item from the history menu) will perform the search in a new window or tab.</p>
+<h4>Tips</h4>
+<p>In general, holding down <kbd>Shift</kbd> while performing a search action (e.g. searching from the search field, going forward/back, or selecting an item from the history menu) will perform the search in a new window or tab, depending on your setting in System Preferences > General > Prefer Tabs.</p>
 
 <h4>Toolbar</h4>
 
 <p>By default, the toolbar includes the following items:
 
 <ul>
-<li><b>Back/Forward</b>: navigates through your search history.</li>
-<li><b>Font Size</b>: increases or decreases the font size of text in the results area.</li>
-<li><b>Look Up in Perseus</b>: look up the current query in <a href="https://www.perseus.tufts.edu/hopper/">Perseus</a>.</li>
-<li><b>Direction</b>: toggles between Latin-to-English and English-to-Latin.</li>
+<li><b>􀆉􀆊 Back/Forward</b>: navigate through your search history.</li>
+<li><b>􀅐 Font Size</b>: increase or decrease the font size of text in the results area.</li>
+<li><b>Look Up in Perseus</b>: look up the current query in <a href="https://www.perseus.tufts.edu/hopper/">Perseus</a> in your browser, opening a new tab for each word.</li>
+<li><b>Direction</b>: toggle the dictionary between Latin → English and English → Latin.</li>
 </li>
 </ul>
 
 <p>Right-clicking on the toolbar will let you customize it. Selecting "Customize Toolbar..." will let you re-arrange or add additional items to the toolbar.</p>
+
+<p>You can add the following additional toolbar items:</p>
+
+<ul>
+<li><b>􀎦 Float on Top</b>: toggle whether iWords should float on top of other applications.</li>
+</ul>
 
 <h4 id="userinterface-searchbar">Search Bar</h4>
 <p>Below the toolbar sits the <b>search bar</b>. Type a single word, or multiple words separated by spaces, into the text field and press <kbd>Enter</kbd> or the "Go" button to search.</p>
@@ -118,8 +135,8 @@ macOS menu bar, and many have keyboard shortcuts.</p>
 <ul>
     <li><b>iWords</b>:
         <ul>
-            <li><b>Preferences</b>: Open iWords' preferences window.</li>
-            <li><b>Check for Updates...</b>: Check for a newer version of iWords.</li>
+            <li><b>Preferences...</b>: open iWords' preferences window.</li>
+            <li><b>Check for Updates...</b>: check for a newer version of iWords.</li>
         </ul>
     </li>
     <li><b>File</b>:
@@ -132,9 +149,9 @@ macOS menu bar, and many have keyboard shortcuts.</p>
     <li><b>Dictionaries</b>:
         <ul>
             <li><b>Latin → English</b>: set the dictionary to look up definitions for Latin terms.</li>
-            <li><b>English → Latin</b>: set the dictionary to look up Latin equivalents for an English term.</li>
+            <li><b>English → Latin</b>: set the dictionary to look up Latin equivalents for English terms.</li>
             <li><b>Toggle Direction</b>: toggle the dictionary between Latin → English and English → Latin.</li>
-            <li><b>Look up in Perseus</b>: look up the current query in <a href="https://www.perseus.tufts.edu/hopper/">Perseus</a>.</li>
+            <li><b>Look up in Perseus</b>: look up the current query in <a href="https://www.perseus.tufts.edu/hopper/">Perseus</a> in your browser, opening a new tab for each word.</li>
         </ul>
     </li>
     <li><b>History</b>:
@@ -147,23 +164,24 @@ macOS menu bar, and many have keyboard shortcuts.</p>
     </li>
     <li><b>View</b>:
         <ul>
+            <li><b>Float on Top</b>: toggle whether iWords windows should float on top of other applications.</li>
             <li><b>Increase Text Size</b>: increase the font size of the text shown in the results area.</li>
             <li><b>Decrease Text Size</b>: decrease the font size of the text shown in the results area.</li>
             <li><b>Reset Text Size</b>: set the font size of the text shown in the results area to its default.</li>
-            <li><b>Show Fonts</b>: show the macOS Font panel, allowing you to customize the display font of the results area.</li>
+            <li><b>Show Fonts...</b>: show the Font panel, allowing you to customize the display font of the results area.</li>
             <li><b>Reset Warnings</b>: go back to showing any "Are you sure?" dialogs that were silenced.</li>
         </ul>
     </li>
     <li><b>Help</b>:
         <ul>
-            <li><b>Send iWords Feedback via Email...</b>: compose a new email with feedback using your default email application.</li>
+            <li><b>Send Feedback via Email...</b>: compose a new email with feedback using your default email application.</li>
         </ul>
     </li>
 </ul>
 
 <h4>Services Integration</h4>
 
-<p>iWords provides 2 macOS services, one for each direction of lookup. These services allow you to search in iWords from anywhere on your computer. As an example:</p>
+<p>iWords provides 2 macOS services, one for each direction of dictionary lookup. These services allow you to search in iWords from anywhere on your computer. As an example:</p>
 
 <ol>
 <li>Select text in an application</li>
@@ -175,7 +193,7 @@ macOS menu bar, and many have keyboard shortcuts.</p>
 
 <h4>Shortcuts Integration</h4>
 
-<p>iWords integrates with the Shortcuts app on macOS 12+ by providing a "Look Up in iWords" action, so you can integrate iWords into powerful automation workflows.</p>
+<p>iWords integrates with the Shortcuts app on macOS 12+ by providing a "Look Up in iWords" action, so you can use iWords in automation workflows.</p>
 
 <p>For more information on using Shortcuts, see <a href="https://support.apple.com/guide/shortcuts-mac/welcome/mac">the Shortcuts User Guide</a>.</p>
 
@@ -183,7 +201,7 @@ macOS menu bar, and many have keyboard shortcuts.</p>
     <li>
         "Look Up in iWords" takes the following inputs:
         <ul>
-            <li>Search text: one or more text items containing space-separated words to search.</li>
+            <li>Search text: one or more text items, each containing one or more space-separated words to search.</li>
             <li>Direction: which direction to look up words (Latin to English or English to Latin)</li>
         </ul>
     </li>

@@ -53,7 +53,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="fbp-5F-nwt"/>
-                                        <menuItem title="Check for Updates" id="ZoS-HG-WAS">
+                                        <menuItem title="Check for Updates..." id="ZoS-HG-WAS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="checkForUpdates:" target="1JM-2h-55k" id="eaY-Hy-oju"/>
@@ -359,7 +359,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="TsX-cJ-xkP"/>
-                                        <menuItem title="Show Fonts" id="Zf8-3B-kgh">
+                                        <menuItem title="Show Fonts..." id="Zf8-3B-kgh">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontFontPanel:" target="46f-Bv-BCE" id="uTA-ns-asM"/>
@@ -426,7 +426,7 @@
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Send Feedback via Email" id="h3V-DY-8nw">
+                                        <menuItem title="Send Feedback via Email..." id="h3V-DY-8nw">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="sendFeedback:" target="Ady-hI-5gd" id="rvj-CR-My3"/>
