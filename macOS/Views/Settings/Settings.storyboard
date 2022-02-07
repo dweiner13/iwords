@@ -38,6 +38,7 @@
                     <tabViewItems>
                         <tabViewItem image="hand.point.up.left" catalog="system" id="SVp-vV-VHC"/>
                         <tabViewItem image="text.book.closed" catalog="system" id="08H-le-U7A"/>
+                        <tabViewItem image="gearshape" catalog="system" id="crO-S2-a58"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="DKh-Ug-44b">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
@@ -51,6 +52,7 @@
                         <outlet property="tabView" destination="DKh-Ug-44b" id="jyx-H4-Itm"/>
                         <segue destination="p5y-ca-6ro" kind="relationship" relationship="tabItems" id="Qgg-44-oM1"/>
                         <segue destination="fkP-gV-HhW" kind="relationship" relationship="tabItems" id="gFE-LZ-NRv"/>
+                        <segue destination="ftk-6b-HIn" kind="relationship" relationship="tabItems" id="CPB-cm-jTB"/>
                     </connections>
                 </tabViewController>
                 <customObject id="49Q-8i-euo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -419,6 +421,114 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
             </objects>
             <point key="canvasLocation" x="577" y="889"/>
         </scene>
+        <!--Updates-->
+        <scene sceneID="7Lf-gc-nHo">
+            <objects>
+                <viewController title="Updates" id="ftk-6b-HIn" customClass="UpdateSettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="CyD-1f-iVe">
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="12" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="n2r-Do-wyO">
+                                <rect key="frame" x="20" y="372" width="379" height="108"/>
+                                <rows>
+                                    <gridRow id="8Hb-mA-779"/>
+                                    <gridRow id="pjW-r8-cja"/>
+                                    <gridRow id="KKf-v3-3R2"/>
+                                    <gridRow id="nJ3-V5-bNR"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="OxK-oK-dTQ"/>
+                                    <gridColumn id="KWA-K6-mbn"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="8Hb-mA-779" column="OxK-oK-dTQ" id="tro-ne-bby"/>
+                                    <gridCell row="8Hb-mA-779" column="KWA-K6-mbn" id="L6a-bu-oRE">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Qm0-S0-pqc">
+                                            <rect key="frame" x="129" y="91" width="222" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Check for updates automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gfO-PU-NqZ">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="automaticallyChecksForUpdates" id="el4-S9-t4K"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="pjW-r8-cja" column="OxK-oK-dTQ" id="Yjd-OH-10O"/>
+                                    <gridCell row="pjW-r8-cja" column="KWA-K6-mbn" id="yXX-jt-pMw">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-cZ-Qwk" userLabel="Send system profile data">
+                                            <rect key="frame" x="129" y="63" width="250" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Send anonymous system profile data" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kGv-Jf-qni">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="automaticallyChecksForUpdates" id="dFI-hV-O8r"/>
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="sendsSystemProfile" id="TKF-Tw-iqF"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="KKf-v3-3R2" column="OxK-oK-dTQ" id="U0M-rF-qoq">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0p0-IZ-FIP">
+                                            <rect key="frame" x="-2" y="35" width="123" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Check for updates: " id="dzU-id-PKM">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="KKf-v3-3R2" column="KWA-K6-mbn" id="I5V-dp-jsb">
+                                        <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LcU-bd-O2e">
+                                            <rect key="frame" x="128" y="28" width="88" height="25"/>
+                                            <popUpButtonCell key="cell" type="push" title="Monthly" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2629800" imageScaling="proportionallyDown" inset="2" selectedItem="8an-L4-nf0" id="sAk-ET-f2q">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="bpB-Ty-l1X">
+                                                    <items>
+                                                        <menuItem title="Hourly" tag="3600" id="RGQ-Jf-rRA"/>
+                                                        <menuItem title="Daily" tag="86400" id="xWs-uP-1vR"/>
+                                                        <menuItem title="Weekly" tag="604800" id="0vf-Ny-7dE"/>
+                                                        <menuItem title="Monthly" state="on" tag="2629800" id="8an-L4-nf0"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="automaticallyChecksForUpdates" id="tcS-NC-T1k"/>
+                                                <binding destination="tU5-tj-Wyi" name="selectedTag" keyPath="updateCheckInterval" id="P5E-U0-KTR"/>
+                                            </connections>
+                                        </popUpButton>
+                                    </gridCell>
+                                    <gridCell row="nJ3-V5-bNR" column="OxK-oK-dTQ" id="bDz-N1-x7f"/>
+                                    <gridCell row="nJ3-V5-bNR" column="KWA-K6-mbn" id="AAe-X3-kGp">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="coG-Ud-jV1">
+                                            <rect key="frame" x="124" y="-7" width="103" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Check Now" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2hC-VK-1kQ">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="checkForUpdates:" target="tU5-tj-Wyi" id="JIZ-3s-eUg"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="n2r-Do-wyO" firstAttribute="leading" secondItem="CyD-1f-iVe" secondAttribute="leading" constant="20" symbolic="YES" id="0Q3-Ae-UBR"/>
+                            <constraint firstItem="n2r-Do-wyO" firstAttribute="top" secondItem="CyD-1f-iVe" secondAttribute="top" constant="20" symbolic="YES" id="5FW-zZ-uXP"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n2r-Do-wyO" secondAttribute="trailing" constant="20" symbolic="YES" id="GU4-ZN-YhO"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="n2r-Do-wyO" secondAttribute="bottom" constant="20" symbolic="YES" id="cDB-qE-qzL"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="Sku-5K-RhB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="tU5-tj-Wyi" customClass="SUUpdater"/>
+            </objects>
+            <point key="canvasLocation" x="-24" y="1270"/>
+        </scene>
         <!--Window Controller-->
         <scene sceneID="bKp-4m-nlp">
             <objects>
@@ -500,6 +610,7 @@ variations found in medieval Latin, but some constructs are common.</mutableStri
     </scenes>
     <resources>
         <image name="NSCaution" width="32" height="32"/>
+        <image name="gearshape" catalog="system" width="16" height="16"/>
         <image name="hand.point.up.left" catalog="system" width="14" height="15"/>
         <image name="text.book.closed" catalog="system" width="14" height="16"/>
     </resources>

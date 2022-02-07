@@ -21,6 +21,7 @@
 		3760B37927B04A4600F81F38 /* DictionaryMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37827B04A4600F81F38 /* DictionaryMigrator.swift */; };
 		3760B37B27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */; };
 		3760B37D27B07C3C00F81F38 /* Dictionary Settings Help.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */; };
+		3760B38227B0992500F81F38 /* UpdateSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */; };
 		3766E410277A3CC700A9D064 /* DWUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 3766E40F277A3CC700A9D064 /* DWUtils */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
@@ -102,6 +103,7 @@
 		3760B37827B04A4600F81F38 /* DictionaryMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryMigrator.swift; sourceTree = "<group>"; };
 		3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySettingsHelpViewController.swift; sourceTree = "<group>"; };
 		3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Dictionary Settings Help.rtf"; sourceTree = "<group>"; };
+		3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSettingsViewController.swift; sourceTree = "<group>"; };
 		3766E408277A36F700A9D064 /* DWUtils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DWUtils; path = ../../DWUtils; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				378E51FB2795D57600730204 /* InterfaceSettingsViewController.swift */,
 				3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */,
 				3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */,
+				3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -594,6 +597,7 @@
 				37852ACE278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift in Sources */,
 				37B089FB272F237400932567 /* Intents.intentdefinition in Sources */,
 				37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */,
+				3760B38227B0992500F81F38 /* UpdateSettingsViewController.swift in Sources */,
 				37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */,
 				37BE70C2279341D600A041D2 /* SearchBarViewController.swift in Sources */,
 				37EDB2EA27945A4400911BC6 /* AutosizingTextField.swift in Sources */,
@@ -813,7 +817,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/words (macOS)Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.6.3;
+				CURRENT_PROJECT_VERSION = 0.6.4;
 				DEVELOPMENT_ASSET_PATHS = "macOS/Supporting\\ files/PreviewAssets.xcassets";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -828,7 +832,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 0.6.3;
+				MARKETING_VERSION = 0.6.4;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";
@@ -845,7 +849,7 @@
 				CODE_SIGN_ENTITLEMENTS = "macOS/Supporting files/macOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.6.3;
+				CURRENT_PROJECT_VERSION = 0.6.4;
 				DEVELOPMENT_ASSET_PATHS = "macOS/Supporting\\ files/PreviewAssets.xcassets";
 				DEVELOPMENT_TEAM = 5TSNJUMDQY;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -860,7 +864,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 0.6.3;
+				MARKETING_VERSION = 0.6.4;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.danielweiner.iwords;
 				PRODUCT_NAME = "$(inherited)";

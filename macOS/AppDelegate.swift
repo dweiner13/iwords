@@ -9,6 +9,7 @@ import Cocoa
 import Intents
 import DWUtils
 import Flow
+import Sparkle
 
 extension NSFont {
     static let `default` = NSFont(name: "Menlo", size: 13)!
@@ -147,6 +148,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             .do {
                 UserDefaults.standard.set($0, forKey: "font")
             }
+    }
+
+    @IBAction
+    func checkForUpdates(_ sender: Any?) {
+        SUUpdater.shared().checkForUpdates(sender)
     }
 
     @IBAction @objc
