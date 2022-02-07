@@ -234,8 +234,8 @@
                                     <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="128"/>
                                         <rows>
-                                            <gridRow id="RLq-gE-v2S"/>
-                                            <gridRow id="VuE-iz-OSD"/>
+                                            <gridRow rowAlignment="firstBaseline" id="RLq-gE-v2S"/>
+                                            <gridRow rowAlignment="firstBaseline" id="VuE-iz-OSD"/>
                                         </rows>
                                         <columns>
                                             <gridColumn xPlacement="trailing" id="FHq-7w-FWn"/>

@@ -20,7 +20,7 @@ class DictionarySettingsHelpViewController: NSViewController {
                                           documentAttributes: nil)!
         textView.textStorage?.setAttributedString(richText)
 
-        textView.textContainerInset = .init(width: 16, height: 16)
+        textView.textContainerInset = .init(width: 6, height: 8)
     }
 
 
