@@ -29,7 +29,7 @@
                 </windowController>
                 <customObject id="GXk-Nw-Hrg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-14" y="220"/>
+            <point key="canvasLocation" x="-628" y="398"/>
         </scene>
         <!--Tab View Controller-->
         <scene sceneID="g9h-RK-DNh">
@@ -57,18 +57,18 @@
                 </tabViewController>
                 <customObject id="49Q-8i-euo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-29" y="697"/>
+            <point key="canvasLocation" x="-26" y="344"/>
         </scene>
         <!--Interface-->
         <scene sceneID="hbl-40-pJw">
             <objects>
                 <viewController title="Interface" showSeguePresentationStyle="single" id="p5y-ca-6ro" customClass="InterfaceSettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="DoA-qt-ddp">
-                        <rect key="frame" x="0.0" y="0.0" width="566" height="300"/>
+                    <view key="view" misplaced="YES" id="DoA-qt-ddp">
+                        <rect key="frame" x="0.0" y="0.0" width="566" height="200"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-qT-ee5">
-                                <rect key="frame" x="20" y="143" width="484" height="137"/>
+                                <rect key="frame" x="20" y="44" width="484" height="137"/>
                                 <rows>
                                     <gridRow rowAlignment="none" id="OR3-GX-ynP"/>
                                     <gridRow yPlacement="top" id="nvG-6y-NdJ"/>
@@ -214,7 +214,7 @@
                 <userDefaultsController representsSharedInstance="YES" id="Tde-pi-nfm"/>
                 <customObject id="ofx-4g-hlq" customClass="NSFontManager"/>
             </objects>
-            <point key="canvasLocation" x="590" y="399"/>
+            <point key="canvasLocation" x="-628" y="795"/>
         </scene>
         <!--Dictionary-->
         <scene sceneID="z7Q-RM-iPX">
@@ -222,10 +222,10 @@
                 <customObject id="hyf-a8-MvE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Dictionary" id="fkP-gV-HhW" customClass="DictionarySettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="JAp-BO-VSf">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="250"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="24" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ge3-eK-OHR">
-                                <rect key="frame" x="20" y="212" width="350" height="168"/>
+                                <rect key="frame" x="20" y="62" width="350" height="168"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-HA-1EN">
                                         <rect key="frame" x="0.0" y="152" width="235" height="16"/>
@@ -412,8 +412,8 @@ variations found in medieval Latin, but some constructs are common.</string>
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
-                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-qY-VpY">
-                                <rect key="frame" x="497" y="23" width="25" height="25"/>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-qY-VpY">
+                                <rect key="frame" x="497" y="16" width="25" height="25"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Hc-06-gfs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -444,21 +444,21 @@ variations found in medieval Latin, but some constructs are common.</string>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="577" y="889"/>
+            <point key="canvasLocation" x="-65" y="820"/>
         </scene>
         <!--Updates-->
         <scene sceneID="7Lf-gc-nHo">
             <objects>
                 <viewController title="Updates" id="ftk-6b-HIn" customClass="UpdateSettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="CyD-1f-iVe">
-                        <rect key="frame" x="0.0" y="0.0" width="575" height="1023"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="CyD-1f-iVe">
+                        <rect key="frame" x="0.0" y="0.0" width="575" height="250"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="n2r-Do-wyO">
-                                <rect key="frame" x="20" y="840" width="535" height="163"/>
+                                <rect key="frame" x="20" y="43" width="535" height="187"/>
                                 <rows>
                                     <gridRow bottomPadding="8" id="8Hb-mA-779"/>
                                     <gridRow id="pjW-r8-cja"/>
+                                    <gridRow id="lRm-JU-gbt"/>
                                     <gridRow bottomPadding="-4" id="KKf-v3-3R2"/>
                                     <gridRow id="kX4-6M-QP2"/>
                                     <gridRow topPadding="8" id="nJ3-V5-bNR"/>
@@ -472,7 +472,7 @@ variations found in medieval Latin, but some constructs are common.</string>
                                     <gridCell row="8Hb-mA-779" column="OxK-oK-dTQ" id="tro-ne-bby"/>
                                     <gridCell row="8Hb-mA-779" column="KWA-K6-mbn" id="L6a-bu-oRE">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="coG-Ud-jV1">
-                                            <rect key="frame" x="73" y="136" width="178" height="32"/>
+                                            <rect key="frame" x="73" y="160" width="178" height="32"/>
                                             <buttonCell key="cell" type="push" title="Check for Updates Now" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2hC-VK-1kQ">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -485,13 +485,27 @@ variations found in medieval Latin, but some constructs are common.</string>
                                     <gridCell row="pjW-r8-cja" column="OxK-oK-dTQ" id="Yjd-OH-10O"/>
                                     <gridCell row="pjW-r8-cja" column="KWA-K6-mbn" id="yXX-jt-pMw">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Qm0-S0-pqc">
-                                            <rect key="frame" x="78" y="110" width="222" height="18"/>
+                                            <rect key="frame" x="78" y="134" width="222" height="18"/>
                                             <buttonCell key="cell" type="check" title="Check for updates automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gfO-PU-NqZ">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <binding destination="tU5-tj-Wyi" name="value" keyPath="updater.automaticallyChecksForUpdates" id="oH4-PQ-cUW"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="lRm-JU-gbt" column="OxK-oK-dTQ" id="hCN-QR-DZS"/>
+                                    <gridCell row="lRm-JU-gbt" column="KWA-K6-mbn" id="zyL-kp-WKe">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xfa-PJ-y8B" userLabel="Send system profile data">
+                                            <rect key="frame" x="78" y="110" width="288" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Download and install updates automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6Sm-2N-QeJ">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="updater.automaticallyChecksForUpdates" id="Wqc-Hb-BbH"/>
+                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="updater.automaticallyDownloadsUpdates" id="aWB-V8-62q"/>
                                             </connections>
                                         </button>
                                     </gridCell>
@@ -613,7 +627,7 @@ variations found in medieval Latin, but some constructs are common.</string>
                 <customObject id="tU5-tj-Wyi" customClass="SPUStandardUpdaterController"/>
                 <userDefaultsController id="1Xf-S9-6Me"/>
             </objects>
-            <point key="canvasLocation" x="-29" y="1537"/>
+            <point key="canvasLocation" x="506" y="820"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="bKp-4m-nlp">
@@ -660,7 +674,7 @@ variations found in medieval Latin, but some constructs are common.</string>
                 </windowController>
                 <customObject id="JRM-BN-ehK" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1255" y="904.5"/>
+            <point key="canvasLocation" x="-425" y="1465"/>
         </scene>
         <!--Dictionary Settings Help View Controller-->
         <scene sceneID="qun-sr-EE9">
@@ -710,7 +724,7 @@ variations found in medieval Latin, but some constructs are common.</string>
                 </viewController>
                 <customObject id="Iws-81-Sbp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1913" y="897"/>
+            <point key="canvasLocation" x="194" y="1465"/>
         </scene>
     </scenes>
     <resources>
