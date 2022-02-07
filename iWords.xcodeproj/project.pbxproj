@@ -23,6 +23,7 @@
 		3760B37D27B07C3C00F81F38 /* Dictionary Settings Help.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */; };
 		3760B38227B0992500F81F38 /* UpdateSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */; };
 		3760B38627B169C700F81F38 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3760B38527B169C700F81F38 /* Sparkle */; };
+		3760B38827B1846F00F81F38 /* KeyLookupWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B38727B1846F00F81F38 /* KeyLookupWindowController.swift */; };
 		3766E410277A3CC700A9D064 /* DWUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 3766E40F277A3CC700A9D064 /* DWUtils */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
@@ -102,6 +103,7 @@
 		3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySettingsHelpViewController.swift; sourceTree = "<group>"; };
 		3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Dictionary Settings Help.rtf"; sourceTree = "<group>"; };
 		3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSettingsViewController.swift; sourceTree = "<group>"; };
+		3760B38727B1846F00F81F38 /* KeyLookupWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyLookupWindowController.swift; sourceTree = "<group>"; };
 		3766E408277A36F700A9D064 /* DWUtils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DWUtils; path = ../../DWUtils; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		37679DFD262C860B003D15E1 /* BackForwardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardController.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				374355B6279C9E8A0052CFBA /* Pretty results (WIP) */,
 				374355B4279C9E3F0052CFBA /* Lookup */,
 				374355B3279C9E360052CFBA /* Settings */,
+				3760B38727B1846F00F81F38 /* KeyLookupWindowController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 			files = (
 				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
 				374355BC279CA10C0052CFBA /* VisualEffectBackground.swift in Sources */,
+				3760B38827B1846F00F81F38 /* KeyLookupWindowController.swift in Sources */,
 				37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */,
 				3760B37727B044AE00F81F38 /* DictionarySettingsViewController.swift in Sources */,
 				378E51FC2795D57600730204 /* InterfaceSettingsViewController.swift in Sources */,

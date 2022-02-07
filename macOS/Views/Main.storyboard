@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20034"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -335,6 +336,13 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="rXq-SZ-7jx"/>
+                                        <menuItem title="Float on Top" id="yfB-eW-YwJ">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <binding destination="S2P-p1-PcK" name="value" keyPath="values.windowsFloatOnTop" id="8in-QK-7VI"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="Ed9-lD-OCg"/>
                                         <menuItem title="Increase Text Size" tag="3" keyEquivalent="+" id="LY5-Jr-UWd">
                                             <connections>
                                                 <action selector="modifyFont:" target="46f-Bv-BCE" id="riH-hm-7tZ"/>
@@ -453,6 +461,7 @@
                 <customObject id="46f-Bv-BCE" customClass="NSFontManager"/>
                 <userDefaultsController id="S2P-p1-PcK"/>
                 <userDefaultsController id="a7h-fy-GpN"/>
+                <customObject id="Cl4-Cc-tzU" customClass="KeyLookupWindowController" customModule="iWords" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="61" y="-679"/>
         </scene>
@@ -535,6 +544,31 @@
                                         <action selector="lookUpInPerseus:" target="Oky-zY-oP4" id="eAM-yJ-7c7"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="FFDD8A55-34E0-4726-9086-9AB25C226116" label="Float" paletteLabel="Float on Top" image="pin" catalog="system" bordered="YES" sizingBehavior="auto" id="tJ7-AH-8Wv">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="A0X-YN-sJp">
+                                        <rect key="frame" x="21" y="14" width="31" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="pin" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wxC-B7-hlP">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <imageReference key="alternateImage" image="pin.fill" catalog="system" symbolScale="default" renderingMode="hierarchical-single">
+                                                <hierarchicalColors>
+                                                    <color name="AccentColor"/>
+                                                    <color name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                </hierarchicalColors>
+                                            </imageReference>
+                                        </buttonCell>
+                                        <connections>
+                                            <binding destination="XY3-6L-JDo" name="value" keyPath="values.windowsFloatOnTop" id="28h-SJ-N8J">
+                                                <dictionary key="options">
+                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="5fT-cZ-IJv"/>
@@ -554,6 +588,7 @@
                         <outlet property="dictionaryController" destination="lRh-Yv-s9e" id="5lQ-38-jFh"/>
                         <outlet property="directionToggleButton" destination="jHl-f1-qFJ" id="2zm-Mt-Vve"/>
                         <outlet property="directionToggleItem" destination="FaB-SV-uQT" id="sUm-JV-S3o"/>
+                        <outlet property="floatToolbarItem" destination="tJ7-AH-8Wv" id="goH-7M-nGQ"/>
                         <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>
                         <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -778,7 +813,12 @@ DQ
     <resources>
         <image name="NSGoBackTemplate" width="10" height="14"/>
         <image name="NSGoForwardTemplate" width="10" height="14"/>
+        <image name="pin" catalog="system" width="15" height="17"/>
+        <image name="pin.fill" catalog="system" width="15" height="17"/>
         <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
         <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
+        <namedColor name="AccentColor">
+            <color red="0.78799998760223389" green="0.0080000003799796104" blue="0.45899999141693115" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

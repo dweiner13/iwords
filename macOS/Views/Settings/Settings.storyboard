@@ -286,17 +286,6 @@
                                                             <buttonCell key="cell" type="check" title="Medieval spelling tricks" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="x7D-dK-Akt">
                                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                 <font key="font" metaFont="system"/>
-                                                                <string key="toolTip">This option instructs the program, when it is unable to find a proper 
-match in the dictionary, and after various prefixes and suffixes, and 
-tring every Classical Latin trick it can think of, to go to a few that
-are usually only found in medieval Latin, replacements of caul -&gt; col,
-st -&gt; est, z -&gt; di, ix -&gt; is, nct -&gt; nt.  It also tries some things   
-like replacing doubled consonants in classical with a single one.     
-Together these tricks are useful, but may give false positives (&gt;20%).
-This option is only available if the general DO_TRICKS is chosen.     
-If the text is late or medieval, this option is much more useful than 
-tricks for classical.  The dictionary can never contain all spelling  
-variations found in medieval Latin, but some constructs are common.</string>
                                                             </buttonCell>
                                                             <connections>
                                                                 <binding destination="fkP-gV-HhW" name="value" keyPath="self.doMedievalTricks" id="yrg-7a-34i">
@@ -630,7 +619,7 @@ variations found in medieval Latin, but some constructs are common.</string>
                 <customObject id="tU5-tj-Wyi" customClass="SPUStandardUpdaterController"/>
                 <userDefaultsController id="1Xf-S9-6Me"/>
             </objects>
-            <point key="canvasLocation" x="506" y="820"/>
+            <point key="canvasLocation" x="505.5" y="820"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="bKp-4m-nlp">

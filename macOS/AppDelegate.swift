@@ -181,7 +181,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             "prettyResults": false,
             "searchBarGrowsToFitContent": true,
             "copySearchToNewWindows": false,
-            "showStyledRawResults": true
+            "showStyledRawResults": true,
+            "windowsFloatOnTop": false
         ])
     }
 

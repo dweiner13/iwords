@@ -131,6 +131,7 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var directionToggleItem: NSToolbarItem!
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
     @IBOutlet weak var directionToggleButton: NSButton!
+    @IBOutlet weak var floatToolbarItem: NSToolbarItem!
 
     private weak var searchBar: SearchBarViewController!
 
@@ -138,7 +139,7 @@ class LookupWindowController: NSWindowController {
         contentViewController as? LookupViewController
     }
 
-    private var observation: Any?
+    private var dirObservation: Any?
 
     private lazy var directionMenuFormRepresentation: NSMenu = {
         NSMenu().then { menu in
@@ -169,12 +170,19 @@ class LookupWindowController: NSWindowController {
 
         fontSizeItem.menuFormRepresentation = fontMenuFormRepresentation()
 
+        floatToolbarItem.menuFormRepresentation = NSMenuItem(title: "Float on Top",
+                                                             action: nil,
+                                                             keyEquivalent: "").then {
+            $0.target = self
+            $0.action = #selector(toggleFloats(_:))
+        }
+
         // The window is restorable, so this will only affect initial launch after installation.
         window?.setContentSize(NSSize(width: 700, height: 500))
 
         window?.restorationClass = WindowRestoration.self
 
-        observation = dictionaryController.observe(\.direction) { [weak self] dictionaryController, change in
+        dirObservation = dictionaryController.observe(\.direction) { [weak self] dictionaryController, change in
             guard let self = self else { return }
             let direction = dictionaryController.direction
             AppDelegate.shared?.updateDirectionItemsState(direction)
@@ -186,6 +194,10 @@ class LookupWindowController: NSWindowController {
             self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
         }
 
+        UserDefaults.standard.addObserver(self, forKeyPath: "windowsFloatOnTop", context: nil)
+
+        setFloatsOnTop(UserDefaults.standard.bool(forKey: "windowsFloatOnTop"))
+
         dictionaryController.delegate = self
 
         updateTitle(forDirection: dictionaryController.direction)
@@ -194,6 +206,29 @@ class LookupWindowController: NSWindowController {
         window?.addTitlebarAccessoryViewController(searchBar)
         searchBar.delegate = self
         searchBar.backForwardController = backForwardController
+    }
+
+    @objc
+    func toggleFloats(_ sender: Any?) {
+        UserDefaults.standard.set(!UserDefaults.standard.bool(forKey: "windowsFloatOnTop"),
+                                  forKey: "windowsFloatOnTop")
+    }
+
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        print("🏕 floatsOnTop: ", UserDefaults.standard.bool(forKey: "windowsFloatOnTop"))
+        setFloatsOnTop(UserDefaults.standard.bool(forKey: "windowsFloatOnTop"))
+    }
+
+    deinit {
+        UserDefaults.standard.removeObserver(self, forKeyPath: "windowsFloatOnTop")
+    }
+
+    func setFloatsOnTop(_ floats: Bool) {
+        window?.level = floats ? .floating : .normal
+        floatToolbarItem.menuFormRepresentation?.title = floats ? "Stop Floating on Top" : "Float on Top"
     }
 
     @objc
