@@ -22,6 +22,7 @@
 		3760B37B27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */; };
 		3760B37D27B07C3C00F81F38 /* Dictionary Settings Help.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */; };
 		3760B38227B0992500F81F38 /* UpdateSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */; };
+		3760B38627B169C700F81F38 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3760B38527B169C700F81F38 /* Sparkle */; };
 		3766E410277A3CC700A9D064 /* DWUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 3766E40F277A3CC700A9D064 /* DWUtils */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
 		37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFD262C860B003D15E1 /* BackForwardController.swift */; };
@@ -53,8 +54,6 @@
 		37AB5A202626713500118674 /* STEMLIST.GEN in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A122626713500118674 /* STEMLIST.GEN */; };
 		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
-		37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; };
-		37AF82B92630EAC200931F2C /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37AF82B62630EAC000931F2C /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		37B089FB272F237400932567 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 37B089FD272F237400932567 /* Intents.intentdefinition */; };
 		37BE70C2279341D600A041D2 /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BE70C1279341D600A041D2 /* SearchBarViewController.swift */; };
 		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
@@ -82,7 +81,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				37AF82B92630EAC200931F2C /* Sparkle.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,7 +137,6 @@
 		37AB5A122626713500118674 /* STEMLIST.GEN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = STEMLIST.GEN; sourceTree = "<group>"; };
 		37AB5A21262671D200118674 /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
 		37AB5A232626733300118674 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		37AF82B62630EAC000931F2C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		37B089FC272F237400932567 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
 		37BE70C1279341D600A041D2 /* SearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
 		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
@@ -163,8 +160,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3760B38627B169C700F81F38 /* Sparkle in Frameworks */,
 				3766E410277A3CC700A9D064 /* DWUtils in Frameworks */,
-				37AF82B72630EAC000931F2C /* Sparkle.framework in Frameworks */,
 				37126CF2278A0030009BB010 /* OrderedCollections in Frameworks */,
 				37CC43662634AB8100E60CE9 /* Parsing in Frameworks */,
 				373AECBD272E22CB0021A393 /* Difference in Frameworks */,
@@ -359,7 +356,6 @@
 		37C9FDFB2628DFAD00AE794D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				37AF82B62630EAC000931F2C /* Sparkle.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -415,6 +411,7 @@
 				373AECBC272E22CB0021A393 /* Difference */,
 				3766E40F277A3CC700A9D064 /* DWUtils */,
 				37126CF1278A0030009BB010 /* OrderedCollections */,
+				3760B38527B169C700F81F38 /* Sparkle */,
 			);
 			productName = "words (macOS)";
 			productReference = 37A4D1B5262227E400A9E9EC /* iWords.app */;
@@ -473,6 +470,7 @@
 				37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */,
 				373AECBB272E22CA0021A393 /* XCRemoteSwiftPackageReference "Difference" */,
 				37126CF0278A0030009BB010 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				3760B38427B169C600F81F38 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = 37A4D1AE262227E400A9E9EC /* Products */;
 			projectDirPath = "";
@@ -975,6 +973,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		3760B38427B169C600F81F38 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		37CC43642634AB8100E60CE9 /* XCRemoteSwiftPackageReference "swift-parsing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-parsing";
@@ -995,6 +1001,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 373AECBB272E22CA0021A393 /* XCRemoteSwiftPackageReference "Difference" */;
 			productName = Difference;
+		};
+		3760B38527B169C700F81F38 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3760B38427B169C600F81F38 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 		3766E40F277A3CC700A9D064 /* DWUtils */ = {
 			isa = XCSwiftPackageProductDependency;
