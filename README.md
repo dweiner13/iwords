@@ -3,7 +3,7 @@ A replacement for the now-discontinued [Interpres app](https://sites.google.com/
 
 This project is still in alpha, so some areas of the code are in a prototype state (i.e., messy).
 
-See [the project website](https://danielweiner.org/iwords) for additional details.
+See [the project website](https://iwords.org) for additional details.
 
 ## Contributions
 Since the project is still in alpha, it's not accepting contributions at this time (if you have feedback or are interested in working on iWords, please get in touch with me).
