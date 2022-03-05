@@ -349,41 +349,6 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    #if DEBUG
-    private func canExportJSONResult() -> Bool {
-        lookupViewController?.results != nil
-    }
-
-    @IBAction
-    private func exportJSONResult(_ sender: Any?) {
-        guard let results = lookupViewController?.results,
-              let window = window else {
-            NSSound.beep()
-            return
-        }
-        let fileName = "\(backForwardController.currentSearchQuery?.searchText ?? "results").json"
-        let savePanel = NSSavePanel()
-        savePanel.nameFieldStringValue = fileName
-        savePanel.beginSheetModal(for: window) { [savePanel] modalResponse in
-            guard modalResponse == .OK else {
-                return
-            }
-            guard let url = savePanel.url else {
-                NSSound.beep()
-                return
-            }
-            do {
-                let parsedResults = results.compactMap(\.parsed).flatMap { $0 }
-                try JSONEncoder()
-                    .encode(parsedResults)
-                    .write(to: url)
-            } catch {
-                self.presentError(error)
-            }
-        }
-    }
-    #endif
-
     private func fontMenuFormRepresentation() -> NSMenuItem {
         NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "").then {
             $0.submenu = NSMenu().then { m in
@@ -562,10 +527,6 @@ extension LookupWindowController {
             return backForwardController.canGoBack
         case #selector(goForward(_:)):
             return backForwardController.canGoForward
-            #if DEBUG
-        case #selector(exportJSONResult(_:)):
-            return canExportJSONResult()
-            #endif
         case #selector(lookUpInPerseus(_:)):
             guard let searchText = backForwardController.currentSearchQuery?.searchText else {
                 return false

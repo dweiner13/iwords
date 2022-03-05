@@ -13,15 +13,13 @@ protocol DictionaryControllerDelegate: DictionaryDelegate {}
 class DictionaryController: NSObject, NSSecureCoding {
 
     class Result: Codable {
-        internal init(input: String, raw: String?, parsed: [ResultItem]?) {
+        internal init(input: String, raw: String?) {
             self.input = input
             self.raw = raw
-            self.parsed = parsed
         }
         
         let input: String
         let raw: String?
-        let parsed: [ResultItem]?
 
         static func allRaw(_ results: [Result]) -> String {
             results.compactMap(\.raw).joined(separator: "\n\n")
@@ -125,28 +123,13 @@ class DictionaryController: NSObject, NSSecureCoding {
         dictionary.getDefinitions(terms,
                                   direction: direction,
                                   options: UserDefaults.standard.dictionaryOptions) { result in
-            switch result {
-            case .failure(let error):
-                completion(.failure(error))
-            case .success(let dictionaryResults):
-                let parsedResults: [[ResultItem]?] = dictionaryResults
-                    .map(\.1)
-                    .map {
-                        if let rawResult = $0,
-                           let (results, _) = parse(rawResult) {
-                            return results
-                        } else {
-                            return nil
-                        }
-                    }
+            completion(result.map(self.transformDictionaryResults(_:)))
+        }
+    }
 
-                let finalResults = zip(dictionaryResults, parsedResults)
-                    .map { (dictionaryResult, parsedResult) -> Result in
-                        Result(input: dictionaryResult.0, raw: dictionaryResult.1, parsed: parsedResult)
-                    }
-
-                completion(.success(finalResults))
-            }
+    private func transformDictionaryResults(_ dictionaryResults: [(input: String, output: String?)]) -> [Result] {
+        dictionaryResults.map { dictionaryResult in
+            Result(input: dictionaryResult.input, raw: dictionaryResult.output)
         }
     }
 }

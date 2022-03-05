@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20034" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20034"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -40,16 +40,6 @@
                                                     </dictionary>
                                                 </binding>
                                                 <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Pretty Results (Debug)" keyEquivalent="P" id="5Tp-V2-055">
-                                            <connections>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="3sv-bK-3jM">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
-                                                <binding destination="AnR-hL-FcP" name="value" keyPath="values.prettyResults" id="LEt-CM-1wo"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="fbp-5F-nwt"/>
@@ -121,16 +111,6 @@
                                         <menuItem title="Save As..." keyEquivalent="s" id="bYf-fa-jBW">
                                             <connections>
                                                 <action selector="exportRawResult:" target="Ady-hI-5gd" id="XHt-KT-0ta"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Export Results as JSON...  (Debug)" keyEquivalent="J" id="L9E-xW-M2L">
-                                            <connections>
-                                                <action selector="exportJSONResult:" target="Ady-hI-5gd" id="aZp-oe-5U3"/>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="WNC-8h-mJy">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zFd-KG-8sn"/>
@@ -547,8 +527,8 @@
                                 <toolbarItem implicitItemIdentifier="FFDD8A55-34E0-4726-9086-9AB25C226116" label="Float" paletteLabel="Float on Top" image="pin" catalog="system" bordered="YES" sizingBehavior="auto" id="tJ7-AH-8Wv">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="A0X-YN-sJp">
-                                        <rect key="frame" x="21" y="14" width="31" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="23" y="14" width="27" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="pin" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wxC-B7-hlP">
                                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -618,15 +598,15 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
                                 <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="420" height="444"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="420" height="444"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="435" height="444"/>
+                                            <size key="minSize" width="420" height="444"/>
                                             <size key="maxSize" width="435" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -637,7 +617,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="419" y="0.0" width="16" height="444"/>
+                                    <rect key="frame" x="420" y="0.0" width="15" height="444"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

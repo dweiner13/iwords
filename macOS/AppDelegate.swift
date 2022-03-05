@@ -163,7 +163,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         UserDefaults.standard.register(defaults: [
             "diagnosticMode": false,
             "history": [],
-            "prettyResults": false,
             "searchBarGrowsToFitContent": true,
             "copySearchToNewWindows": false,
             "showStyledRawResults": true,

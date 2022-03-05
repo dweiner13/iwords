@@ -47,26 +47,6 @@ class LookupViewController: NSViewController {
         scrollView.isHidden = !welcomeView.isHidden
     }
 
-    var mode: ResultDisplayMode {
-        get {
-            #if DEBUG
-            return UserDefaults.standard.bool(forKey: "prettyResults") ? .pretty : .raw
-            #else
-            return .raw
-            #endif
-        }
-        set {
-            switch newValue {
-            case .pretty:
-                UserDefaults.standard.set(true, forKey: "prettyResults")
-            case .raw:
-                UserDefaults.standard.removeObject(forKey: "prettyResults")
-            }
-        }
-    }
-
-    private var definitionHostingView: NSView?
-
     @objc
     override func encodeRestorableState(with coder: NSCoder) {
         if let results = results,
@@ -148,25 +128,6 @@ class LookupViewController: NSViewController {
                                                                                       .foregroundColor: NSColor.labelColor]))
         }
 
-        definitionHostingView?.isHidden = true
-        definitionHostingView?.removeFromSuperview()
-        definitionHostingView = nil
-
-        if #available(macOS 11.0, *),
-           mode == .pretty {
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results.compactMap(\.parsed).flatMap { $0 },
-                                                                                    false)))
-            hostingView.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(hostingView)
-            NSLayoutConstraint.activate([
-                hostingView.topAnchor.constraint(equalTo: view.topAnchor),
-                hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-            definitionHostingView = hostingView
-        }
-
         DispatchQueue.main.async {
             self.scrollView.flashScrollers()
         }
@@ -174,26 +135,10 @@ class LookupViewController: NSViewController {
         invalidateRestorableState()
     }
 
-    private func updateForMode() {
-        switch mode {
-        case .raw:
-            textView.isHidden = false
-            definitionHostingView?.isHidden = true
-        case .pretty:
-            textView.isHidden = true
-            definitionHostingView?.isHidden = false
-        }
-        invalidateRestorableState()
-    }
-
     func fontChanged() {
         if let results = results {
             updateForResults(results)
         }
-    }
-
-    @IBAction func didChangeMode(_ sender: Any) {
-        updateForMode()
     }
 }
 
@@ -210,28 +155,18 @@ extension LookupViewController {
 
         let printView: NSView
         let width = printInfo.imageablePageBounds.width
-        switch mode {
-        case .pretty:
-            guard #available(macOS 11.0, *) else {
-                fallthrough
-            }
-            let parsedResults = results?.compactMap(\.parsed).flatMap { $0 }
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (parsedResults ?? [], false)))
-            hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
-            printView = hostingView
-        case .raw:
-            let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
-            results
-                .map {
-                    DictionaryController.Result.allRawStyled($0, font: AppDelegate.shared.font)
-                }
-                .map {
-                    textView.textStorage?.append($0)
-                }
 
-            textView.frame.size.height = textView.intrinsicContentSize.height
-            printView = textView
-        }
+        let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
+        results
+            .map {
+                DictionaryController.Result.allRawStyled($0, font: AppDelegate.shared.font)
+            }
+            .map {
+                textView.textStorage?.append($0)
+            }
+
+        textView.frame.size.height = textView.intrinsicContentSize.height
+        printView = textView
 
         let op = NSPrintOperation(view: printView, printInfo: printInfo)
         op.canSpawnSeparateThread = true
