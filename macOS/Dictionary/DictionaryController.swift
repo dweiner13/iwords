@@ -95,7 +95,7 @@ class DictionaryController: NSObject, NSSecureCoding {
                     str.append(NSAttributedString(string: word.inflections.joined(separator: "\n"),
                                                   attributes: [.font: font]))
                     str.append(.init(string: "\n"))
-                    str.append(NSAttributedString(string: word.dictionaryForm,
+                    str.append(NSAttributedString(string: word.dictionaryForms.joined(separator: "\n"),
                                                   attributes: [.font: NSFont.systemFont(ofSize: font.pointSize), .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4 }]))
                     str.append(.init(string: "\n"))
                     str.append(NSAttributedString(string: word.meaning,

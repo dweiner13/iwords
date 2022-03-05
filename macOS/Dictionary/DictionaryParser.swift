@@ -17,11 +17,11 @@ enum DictionaryParser {
 
         struct Word: Codable {
             let inflections: [String]
-            let dictionaryForm: String
+            let dictionaryForms: [String]
             let meaning: String
 
             var raw: String {
-                let text = [inflections.joined(separator: "\n"), dictionaryForm, meaning].joined(separator: "\n")
+                let text = [inflections.joined(separator: "\n"), dictionaryForms.joined(separator: "\n"), meaning].joined(separator: "\n")
                 return "\(text)"
             }
         }
@@ -38,7 +38,7 @@ enum DictionaryParser {
 
     static func parse(_ str: String) throws -> [Result] {
         var currentInflections: [String] = []
-        var currentDictionaryForm: String = ""
+        var currentDictionaryForms: [String] = []
         var currentMeaning: String = ""
 
         var currentResults: [Result] = []
@@ -52,44 +52,44 @@ enum DictionaryParser {
             case "01 ":
                 if !currentMeaning.isEmpty {
                     currentResults.append(.word(.init(inflections: currentInflections,
-                                                      dictionaryForm: currentDictionaryForm,
+                                                      dictionaryForms: currentDictionaryForms,
                                                       meaning: currentMeaning)))
                     currentInflections = []
-                    currentDictionaryForm = ""
+                    currentDictionaryForms = []
                     currentMeaning = ""
                 }
                 currentInflections.append(restOfLine)
             case "02 ":
-                currentDictionaryForm += restOfLine
+                currentDictionaryForms.append(restOfLine)
             case "03 ":
                 currentMeaning += restOfLine
             case "04 ":
                 if !currentMeaning.isEmpty {
                     currentResults.append(.word(.init(inflections: currentInflections,
-                                                      dictionaryForm: currentDictionaryForm,
+                                                      dictionaryForms: currentDictionaryForms,
                                                       meaning: currentMeaning)))
                     currentInflections = []
-                    currentDictionaryForm = ""
+                    currentDictionaryForms = []
                     currentMeaning = ""
                 }
                 currentResults.append(.unknown(restOfLine))
             case "05 ":
                 if !currentMeaning.isEmpty {
                     currentResults.append(.word(.init(inflections: currentInflections,
-                                                      dictionaryForm: currentDictionaryForm,
+                                                      dictionaryForms: currentDictionaryForms,
                                                       meaning: currentMeaning)))
                     currentInflections = []
-                    currentDictionaryForm = ""
+                    currentDictionaryForms = []
                     currentMeaning = ""
                 }
                 currentResults.append(.addon(restOfLine))
             case "06 ":
                 if !currentMeaning.isEmpty {
                     currentResults.append(.word(.init(inflections: currentInflections,
-                                                      dictionaryForm: currentDictionaryForm,
+                                                      dictionaryForms: currentDictionaryForms,
                                                       meaning: currentMeaning)))
                     currentInflections = []
-                    currentDictionaryForm = ""
+                    currentDictionaryForms = []
                     currentMeaning = ""
                 }
                 currentResults.append(.trick(restOfLine))
@@ -100,10 +100,10 @@ enum DictionaryParser {
 
         if !currentMeaning.isEmpty {
             currentResults.append(.word(.init(inflections: currentInflections,
-                                              dictionaryForm: currentDictionaryForm,
+                                              dictionaryForms: currentDictionaryForms,
                                               meaning: currentMeaning)))
             currentInflections = []
-            currentDictionaryForm = ""
+            currentDictionaryForms = []
             currentMeaning = ""
         }
 
