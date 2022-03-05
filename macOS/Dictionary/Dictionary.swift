@@ -143,13 +143,13 @@ class Dictionary {
         var completedCount: Double = 0
 
         func processInput(at i: Int) {
-            print("Looking up \"\(inputs[i])\"")
+//            print("Looking up \"\(inputs[i])\"")
             getDefinition(inputs[i], direction: direction, options: options) { result in
                 switch result {
                 case .failure(let error):
                     completion(.failure(error))
                 case .success(let result):
-                    print("Got result for \"\(inputs[i])\"")
+//                    print("Got result for \"\(inputs[i])\"")
                     results.append((inputs[i], result))
                     completedCount += 1
                     let progress = completedCount / totalCount
@@ -182,7 +182,7 @@ class Dictionary {
 
         func write(_ str: String) {
 #if DEBUG
-            print("Sending to stdin:", str)
+//            print("Sending to stdin:", str)
 #endif
             inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
         }
@@ -220,7 +220,7 @@ class Dictionary {
         tempData += newData
 
         #if DEBUG
-        print("New data available:", String(data: newData, encoding: .utf8))
+//        print("New data available:", String(data: newData  , encoding: .utf8))
         #endif
 
         // Always prefix of an English-to-Latin result
@@ -233,7 +233,7 @@ class Dictionary {
         }
 
         #if DEBUG
-        print("tempDataString", tempDataString)
+//        print("tempDataString", tempDataString)
         #endif
 
         if case let cmp = tempDataString.components(separatedBy: englishToLatinPrefix),
@@ -259,7 +259,7 @@ class Dictionary {
         assert(Thread.current.isMainThread)
 
         #if DEBUG
-        print("handleDefinitionResult(\"\(str)\")")
+//        print("handleDefinitionResult(\"\(str)\")")
         #endif
 
         var str = str
