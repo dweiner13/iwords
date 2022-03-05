@@ -7,20 +7,12 @@
 
 import Foundation
 
-// 01 qu.o                 PRON   1 0 ABL S M
-// 01 qu.o                 PRON   1 0 ABL S N
-// 02
-// 03 who; that; which, what; of which kind/degree; person/thing/time/point that;
-// 03 who/what/which?, what/which one/man/person/thing? what kind/type of?;
-// 03 who/whatever, everyone who, all that, anything that;
-// 03 any; anyone/anything, any such; unspecified some; (after si/sin/sive/ne);
-// 03 who?, which?, what?; what kind of?;
-// 01 quo                  ADV    POS
-// 02 quo  ADV    lesser
-// 03 where, to what place; to what purpose; for which reason, therefore;
-// 01 quo                  CONJ
-// 02 quo  CONJ    lesser
-// 03 whither, in what place, where;
+enum ResultPiece {
+    case word(WordResult)
+    case unknown
+    case addons
+    
+}
 
 enum DictionaryParser {
     struct WordResult {
