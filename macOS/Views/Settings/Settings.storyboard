@@ -228,19 +228,19 @@
                                 <rect key="frame" x="20" y="162" width="501" height="184"/>
                                 <subviews>
                                     <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
-                                        <rect key="frame" x="0.0" y="56" width="386" height="128"/>
+                                        <rect key="frame" x="0.0" y="56" width="347" height="128"/>
                                         <rows>
                                             <gridRow rowAlignment="firstBaseline" id="RLq-gE-v2S"/>
                                             <gridRow rowAlignment="firstBaseline" id="VuE-iz-OSD"/>
                                         </rows>
                                         <columns>
-                                            <gridColumn xPlacement="trailing" width="134" id="FHq-7w-FWn"/>
+                                            <gridColumn xPlacement="trailing" width="95" id="FHq-7w-FWn"/>
                                             <gridColumn width="240" id="wUf-yW-zSL"/>
                                         </columns>
                                         <gridCells>
                                             <gridCell row="RLq-gE-v2S" column="FHq-7w-FWn" id="0r2-gH-xi4">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ojk-fD-3JJ">
-                                                    <rect key="frame" x="42" y="112" width="94" height="16"/>
+                                                    <rect key="frame" x="3" y="112" width="94" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Attempt tricks:" id="fat-2E-k4Y">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -250,7 +250,7 @@
                                             </gridCell>
                                             <gridCell row="RLq-gE-v2S" column="wUf-yW-zSL" id="LAF-qU-5Tv">
                                                 <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ZR-LF-e0G">
-                                                    <rect key="frame" x="146" y="88" width="232" height="40"/>
+                                                    <rect key="frame" x="107" y="88" width="232" height="40"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2K-li-KeP">
                                                             <rect key="frame" x="-2" y="23" width="168" height="18"/>
@@ -293,7 +293,7 @@
                                             </gridCell>
                                             <gridCell row="VuE-iz-OSD" column="FHq-7w-FWn" id="iuw-QH-YoJ">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-cn-RO0">
-                                                    <rect key="frame" x="84" y="48" width="52" height="16"/>
+                                                    <rect key="frame" x="45" y="48" width="52" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Include:" id="4o5-rb-UTN">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -303,7 +303,7 @@
                                             </gridCell>
                                             <gridCell row="VuE-iz-OSD" column="wUf-yW-zSL" id="lbg-St-Bh8">
                                                 <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfU-g8-0eF">
-                                                    <rect key="frame" x="146" y="0.0" width="134" height="64"/>
+                                                    <rect key="frame" x="107" y="0.0" width="134" height="64"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yle-wc-1WX" userLabel="Omit archaic words">
                                                             <rect key="frame" x="-2" y="47" width="112" height="18"/>
@@ -446,25 +446,22 @@ This will use 33 MB of additional hard disk space.</string>
                         <rect key="frame" x="0.0" y="0.0" width="575" height="250"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="n2r-Do-wyO">
-                                <rect key="frame" x="20" y="43" width="535" height="187"/>
+                                <rect key="frame" x="20" y="79" width="535" height="151"/>
                                 <rows>
-                                    <gridRow bottomPadding="8" id="8Hb-mA-779"/>
+                                    <gridRow id="8Hb-mA-779"/>
+                                    <gridRow bottomPadding="8" id="REX-32-fqz"/>
                                     <gridRow id="pjW-r8-cja"/>
                                     <gridRow id="lRm-JU-gbt"/>
                                     <gridRow bottomPadding="-4" id="KKf-v3-3R2"/>
                                     <gridRow id="kX4-6M-QP2"/>
-                                    <gridRow topPadding="8" id="nJ3-V5-bNR"/>
-                                    <gridRow id="oRz-WH-ehB"/>
                                 </rows>
                                 <columns>
-                                    <gridColumn xPlacement="trailing" id="OxK-oK-dTQ"/>
                                     <gridColumn id="KWA-K6-mbn"/>
                                 </columns>
                                 <gridCells>
-                                    <gridCell row="8Hb-mA-779" column="OxK-oK-dTQ" id="tro-ne-bby"/>
                                     <gridCell row="8Hb-mA-779" column="KWA-K6-mbn" id="L6a-bu-oRE">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="coG-Ud-jV1">
-                                            <rect key="frame" x="73" y="160" width="178" height="32"/>
+                                            <rect key="frame" x="-7" y="124" width="178" height="32"/>
                                             <buttonCell key="cell" type="push" title="Check for Updates Now" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2hC-VK-1kQ">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -477,10 +474,51 @@ This will use 33 MB of additional hard disk space.</string>
                                             </connections>
                                         </button>
                                     </gridCell>
-                                    <gridCell row="pjW-r8-cja" column="OxK-oK-dTQ" id="Yjd-OH-10O"/>
+                                    <gridCell row="REX-32-fqz" column="KWA-K6-mbn" id="1Dg-Ww-vgS">
+                                        <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="05w-gl-HQL">
+                                            <rect key="frame" x="0.0" y="110" width="98" height="13"/>
+                                            <subviews>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="V88-al-rKK">
+                                                    <rect key="frame" x="-2" y="0.0" width="75" height="13"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Last checked: " id="ySq-cQ-2LZ">
+                                                        <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fby-jQ-Viz">
+                                                    <rect key="frame" x="69" y="0.0" width="31" height="13"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Sps-SP-8Ka">
+                                                        <dateFormatter key="formatter" dateStyle="short" timeStyle="short" doesRelativeDateFormatting="YES" id="qoi-2v-Ix5"/>
+                                                        <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <connections>
+                                                        <binding destination="tU5-tj-Wyi" name="value" keyPath="updater.lastUpdateCheckDate" id="okH-xI-jm4">
+                                                            <dictionary key="options">
+                                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                <string key="NSNullPlaceholder">Never</string>
+                                                                <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
+                                                            </dictionary>
+                                                        </binding>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
+                                    </gridCell>
                                     <gridCell row="pjW-r8-cja" column="KWA-K6-mbn" id="yXX-jt-pMw">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Qm0-S0-pqc">
-                                            <rect key="frame" x="78" y="134" width="222" height="18"/>
+                                            <rect key="frame" x="-2" y="77" width="222" height="18"/>
                                             <buttonCell key="cell" type="check" title="Check for updates automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="gfO-PU-NqZ">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -490,10 +528,9 @@ This will use 33 MB of additional hard disk space.</string>
                                             </connections>
                                         </button>
                                     </gridCell>
-                                    <gridCell row="lRm-JU-gbt" column="OxK-oK-dTQ" id="hCN-QR-DZS"/>
                                     <gridCell row="lRm-JU-gbt" column="KWA-K6-mbn" id="zyL-kp-WKe">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xfa-PJ-y8B" userLabel="Send system profile data">
-                                            <rect key="frame" x="78" y="110" width="288" height="18"/>
+                                            <rect key="frame" x="-2" y="53" width="288" height="18"/>
                                             <buttonCell key="cell" type="check" title="Download and install updates automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6Sm-2N-QeJ">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -504,10 +541,9 @@ This will use 33 MB of additional hard disk space.</string>
                                             </connections>
                                         </button>
                                     </gridCell>
-                                    <gridCell row="KKf-v3-3R2" column="OxK-oK-dTQ" id="U0M-rF-qoq"/>
                                     <gridCell row="KKf-v3-3R2" column="KWA-K6-mbn" id="I5V-dp-jsb">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-cZ-Qwk" userLabel="Send system profile data">
-                                            <rect key="frame" x="78" y="86" width="232" height="18"/>
+                                            <rect key="frame" x="-2" y="29" width="232" height="18"/>
                                             <buttonCell key="cell" type="check" title="Include anonymous system profile" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kGv-Jf-qni">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -518,13 +554,12 @@ This will use 33 MB of additional hard disk space.</string>
                                             </connections>
                                         </button>
                                     </gridCell>
-                                    <gridCell row="kX4-6M-QP2" column="OxK-oK-dTQ" id="5IS-5D-HpV"/>
                                     <gridCell row="kX4-6M-QP2" column="KWA-K6-mbn" id="uxp-ez-L0T">
                                         <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a06-BE-fSV">
-                                            <rect key="frame" x="80" y="57" width="455" height="26"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="535" height="26"/>
                                             <subviews>
                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Tdi-KL-N9U">
-                                                    <rect key="frame" x="19" y="0.0" width="438" height="26"/>
+                                                    <rect key="frame" x="19" y="0.0" width="518" height="26"/>
                                                     <textFieldCell key="cell" selectable="YES" id="UjP-uZ-IvD">
                                                         <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
                                                         <string key="title">When iWords pings for updates, it can include system information, like your macOS version, to help guide development. No identifying information is included.</string>
@@ -541,67 +576,6 @@ This will use 33 MB of additional hard disk space.</string>
                                                 <real value="3.4028234663852886e+38"/>
                                             </customSpacing>
                                         </stackView>
-                                    </gridCell>
-                                    <gridCell row="nJ3-V5-bNR" column="OxK-oK-dTQ" id="bDz-N1-x7f">
-                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0p0-IZ-FIP">
-                                            <rect key="frame" x="23" y="24" width="47" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Check:" id="dzU-id-PKM">
-                                                <font key="font" usesAppearanceFont="YES"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                    </gridCell>
-                                    <gridCell row="nJ3-V5-bNR" column="KWA-K6-mbn" id="AAe-X3-kGp">
-                                        <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LcU-bd-O2e">
-                                            <rect key="frame" x="77" y="17" width="88" height="25"/>
-                                            <popUpButtonCell key="cell" type="push" title="Monthly" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2629800" imageScaling="proportionallyDown" inset="2" selectedItem="8an-L4-nf0" id="sAk-ET-f2q">
-                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
-                                                <menu key="menu" id="bpB-Ty-l1X">
-                                                    <items>
-                                                        <menuItem title="Hourly" tag="3600" id="RGQ-Jf-rRA"/>
-                                                        <menuItem title="Daily" tag="86400" id="xWs-uP-1vR"/>
-                                                        <menuItem title="Weekly" tag="604800" id="0vf-Ny-7dE"/>
-                                                        <menuItem title="Monthly" state="on" tag="2629800" id="8an-L4-nf0"/>
-                                                    </items>
-                                                </menu>
-                                            </popUpButtonCell>
-                                            <connections>
-                                                <binding destination="tU5-tj-Wyi" name="enabled" keyPath="updater.automaticallyChecksForUpdates" id="vrQ-bI-tmG"/>
-                                                <binding destination="tU5-tj-Wyi" name="selectedTag" keyPath="updater.updateCheckInterval" id="DPV-Ot-pTq"/>
-                                            </connections>
-                                        </popUpButton>
-                                    </gridCell>
-                                    <gridCell row="oRz-WH-ehB" column="OxK-oK-dTQ" id="OqL-pr-oF8">
-                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LEv-8J-WlP">
-                                            <rect key="frame" x="-2" y="0.0" width="72" height="13"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Last checked:" id="jx6-kF-w3g">
-                                                <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                    </gridCell>
-                                    <gridCell row="oRz-WH-ehB" column="KWA-K6-mbn" id="vHQ-jd-SNJ">
-                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fby-jQ-Viz">
-                                            <rect key="frame" x="78" y="0.0" width="31" height="13"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Sps-SP-8Ka">
-                                                <dateFormatter key="formatter" dateStyle="short" timeStyle="short" doesRelativeDateFormatting="YES" id="qoi-2v-Ix5"/>
-                                                <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                            <connections>
-                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="updater.lastUpdateCheckDate" id="okH-xI-jm4">
-                                                    <dictionary key="options">
-                                                        <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                        <string key="NSNullPlaceholder">Never</string>
-                                                        <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
-                                                    </dictionary>
-                                                </binding>
-                                            </connections>
-                                        </textField>
                                     </gridCell>
                                 </gridCells>
                             </gridView>
