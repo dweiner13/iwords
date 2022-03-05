@@ -158,6 +158,8 @@ class LookupWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
+        window?.showsToolbarButton = true
+
         // Set up menu form equivalents for toolbar items
         let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
         backForwardMenuItem.submenu = backForwardController.menu()
