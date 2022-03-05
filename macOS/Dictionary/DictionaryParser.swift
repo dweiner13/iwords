@@ -7,43 +7,104 @@
 
 import Foundation
 
-enum ResultPiece {
-    case word(WordResult)
-    case unknown
-    case addons
-    
-}
-
 enum DictionaryParser {
-    struct WordResult {
-        let parse: String
-        let expansion: String
-        let meaning: String
+
+    enum Result {
+        case word(Word)
+        case unknown(String)
+        case addon(String)
+        case trick(String)
+
+        struct Word {
+            let inflections: [String]
+            let dictionaryForm: String
+            let meaning: String
+
+            var raw: String {
+                let text = [inflections.joined(separator: "\n"), dictionaryForm, meaning].joined(separator: "\n")
+                return "\(text)"
+            }
+        }
+
+        var raw: String {
+            switch self {
+            case .word(let word):
+                return word.raw
+            case .unknown(let str), .addon(let str), .trick(let str):
+                return str
+            }
+        }
     }
 
-    static func parse(_ str: Substring) throws -> [WordResult] {
-        var currentParse = ""
-        var currentExpansion = ""
-        var currentMeaning = ""
-        var currentResults: [WordResult] = []
+    static func parse(_ str: String) throws -> [Result] {
+        var currentInflections: [String] = []
+        var currentDictionaryForm: String = ""
+        var currentMeaning: String = ""
+
+        var currentResults: [Result] = []
+
         for line in str.split(whereSeparator: \.isNewline) {
-            let endOfCode = str.index(str.startIndex, offsetBy: 3)
-            switch line[str.startIndex...endOfCode] {
+            let endOfCode = line.index(line.startIndex, offsetBy: 3)
+            let code = line[line.startIndex..<endOfCode]
+            let restOfLine = String(line[endOfCode...])
+
+            switch code {
             case "01 ":
                 if !currentMeaning.isEmpty {
-                    currentResults.append(WordResult(parse: currentParse, expansion: currentExpansion, meaning: currentMeaning))
-                    currentParse = ""
-                    currentExpansion = ""
+                    currentResults.append(.word(.init(inflections: currentInflections,
+                                                      dictionaryForm: currentDictionaryForm,
+                                                      meaning: currentMeaning)))
+                    currentInflections = []
+                    currentDictionaryForm = ""
                     currentMeaning = ""
                 }
-                currentParse += line[endOfCode...] + "\n"
+                currentInflections.append(restOfLine)
             case "02 ":
-                currentExpansion += line[endOfCode...] + "\n"
+                currentDictionaryForm += restOfLine
             case "03 ":
-                currentMeaning += line[endOfCode...]
+                currentMeaning += restOfLine
+            case "04 ":
+                if !currentMeaning.isEmpty {
+                    currentResults.append(.word(.init(inflections: currentInflections,
+                                                      dictionaryForm: currentDictionaryForm,
+                                                      meaning: currentMeaning)))
+                    currentInflections = []
+                    currentDictionaryForm = ""
+                    currentMeaning = ""
+                }
+                currentResults.append(.unknown(restOfLine))
+            case "05 ":
+                if !currentMeaning.isEmpty {
+                    currentResults.append(.word(.init(inflections: currentInflections,
+                                                      dictionaryForm: currentDictionaryForm,
+                                                      meaning: currentMeaning)))
+                    currentInflections = []
+                    currentDictionaryForm = ""
+                    currentMeaning = ""
+                }
+                currentResults.append(.addon(restOfLine))
+            case "06 ":
+                if !currentMeaning.isEmpty {
+                    currentResults.append(.word(.init(inflections: currentInflections,
+                                                      dictionaryForm: currentDictionaryForm,
+                                                      meaning: currentMeaning)))
+                    currentInflections = []
+                    currentDictionaryForm = ""
+                    currentMeaning = ""
+                }
+                currentResults.append(.trick(restOfLine))
             default:
-                throw DWError("Encountered unparseable line: \(str)")
+                throw DWError("Encountered unparseable line: \(line)")
             }
+        }
+
+        if !currentMeaning.isEmpty {
+            currentResults.append(.word(.init(inflections: currentInflections,
+                                              dictionaryForm: currentDictionaryForm,
+                                              meaning: currentMeaning)))
+            currentInflections = []
+            currentDictionaryForm = ""
+            currentMeaning = ""
         }
 
         return currentResults

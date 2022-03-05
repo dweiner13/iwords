@@ -129,7 +129,9 @@ class DictionaryController: NSObject, NSSecureCoding {
 
     private func transformDictionaryResults(_ dictionaryResults: [(input: String, output: String?)]) -> [Result] {
         dictionaryResults.map { dictionaryResult in
-            Result(input: dictionaryResult.input, raw: dictionaryResult.output)
+            let parsed = try! dictionaryResult.output.map(DictionaryParser.parse)
+
+            return Result(input: dictionaryResult.input, raw: parsed?.map(\.raw).joined(separator: "\n"))
         }
     }
 }
