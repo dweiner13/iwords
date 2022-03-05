@@ -16,12 +16,21 @@ enum DictionaryParser {
         case trick(String)
 
         struct Word: Codable {
-            let inflections: [String]
-            let dictionaryForms: [String]
+            struct Form: Codable {
+                let inflections: [String]
+                let dictionaryForms: [String]
+
+                var raw: String {
+                    let text = [inflections.joined(separator: "\n"), dictionaryForms.joined(separator: "\n")].joined(separator: "\n")
+                    return "\(text)"
+                }
+            }
+
+            let forms: [Form]
             let meaning: String
 
             var raw: String {
-                let text = [inflections.joined(separator: "\n"), dictionaryForms.joined(separator: "\n"), meaning].joined(separator: "\n")
+                let text = [forms.map(\.raw).joined(separator: "\n"), meaning].joined(separator: "\n")
                 return "\(text)"
             }
         }
@@ -39,9 +48,29 @@ enum DictionaryParser {
     static func parse(_ str: String) throws -> [Result] {
         var currentInflections: [String] = []
         var currentDictionaryForms: [String] = []
+
+        var currentForms: [Result.Word.Form] = []
+
         var currentMeaning: String = ""
 
         var currentResults: [Result] = []
+
+        func addPendingWord() {
+            if !currentDictionaryForms.isEmpty || !currentInflections.isEmpty {
+                addPendingForm()
+            }
+            currentResults.append(.word(.init(forms: currentForms,
+                                              meaning: currentMeaning)))
+            currentForms = []
+            currentMeaning = ""
+        }
+
+        func addPendingForm() {
+            currentForms.append(.init(inflections: currentInflections,
+                                      dictionaryForms: currentDictionaryForms))
+            currentInflections = []
+            currentDictionaryForms = []
+        }
 
         for line in str.split(whereSeparator: \.isNewline) {
             let endOfCode = line.index(line.startIndex, offsetBy: 3)
@@ -51,12 +80,10 @@ enum DictionaryParser {
             switch code {
             case "01 ":
                 if !currentMeaning.isEmpty {
-                    currentResults.append(.word(.init(inflections: currentInflections,
-                                                      dictionaryForms: currentDictionaryForms,
-                                                      meaning: currentMeaning)))
-                    currentInflections = []
-                    currentDictionaryForms = []
-                    currentMeaning = ""
+                    addPendingWord()
+                }
+                if !currentDictionaryForms.isEmpty || !currentInflections.isEmpty {
+                    addPendingForm()
                 }
                 currentInflections.append(restOfLine)
             case "02 ":
@@ -65,32 +92,17 @@ enum DictionaryParser {
                 currentMeaning += restOfLine
             case "04 ":
                 if !currentMeaning.isEmpty {
-                    currentResults.append(.word(.init(inflections: currentInflections,
-                                                      dictionaryForms: currentDictionaryForms,
-                                                      meaning: currentMeaning)))
-                    currentInflections = []
-                    currentDictionaryForms = []
-                    currentMeaning = ""
+                    addPendingWord()
                 }
                 currentResults.append(.unknown(restOfLine))
             case "05 ":
                 if !currentMeaning.isEmpty {
-                    currentResults.append(.word(.init(inflections: currentInflections,
-                                                      dictionaryForms: currentDictionaryForms,
-                                                      meaning: currentMeaning)))
-                    currentInflections = []
-                    currentDictionaryForms = []
-                    currentMeaning = ""
+                    addPendingWord()
                 }
                 currentResults.append(.addon(restOfLine))
             case "06 ":
                 if !currentMeaning.isEmpty {
-                    currentResults.append(.word(.init(inflections: currentInflections,
-                                                      dictionaryForms: currentDictionaryForms,
-                                                      meaning: currentMeaning)))
-                    currentInflections = []
-                    currentDictionaryForms = []
-                    currentMeaning = ""
+                    addPendingWord()
                 }
                 currentResults.append(.trick(restOfLine))
             default:
@@ -99,12 +111,7 @@ enum DictionaryParser {
         }
 
         if !currentMeaning.isEmpty {
-            currentResults.append(.word(.init(inflections: currentInflections,
-                                              dictionaryForms: currentDictionaryForms,
-                                              meaning: currentMeaning)))
-            currentInflections = []
-            currentDictionaryForms = []
-            currentMeaning = ""
+            addPendingWord()
         }
 
         let json = try! JSONEncoder().encode(currentResults)

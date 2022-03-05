@@ -7,6 +7,7 @@
 
 import Cocoa
 import SwiftUI
+import WebKit
 
 enum ResultDisplayMode: Int {
     case raw, pretty
@@ -14,11 +15,7 @@ enum ResultDisplayMode: Int {
 
 class LookupViewController: NSViewController {
 
-    @IBOutlet
-    weak var textView: NSTextView!
-
-    @IBOutlet
-    weak var scrollView: NSScrollView!
+    @IBOutlet weak var webView: WKWebView!
 
     @IBOutlet weak var loadingView: LoadingView!
 
@@ -34,7 +31,7 @@ class LookupViewController: NSViewController {
     var isLoading = false {
         didSet {
             updateWelcomeViewVisibility()
-            textView.isSelectable = !isLoading
+//            textView.isSelectable = !isLoading // TODO: fix
             NSAnimationContext.runAnimationGroup { context in
                 context.duration = 0.2
                 loadingView.animator().isHidden = !isLoading
@@ -44,7 +41,7 @@ class LookupViewController: NSViewController {
 
     func updateWelcomeViewVisibility() {
         welcomeView.isHidden = results != nil || isLoading
-        scrollView.isHidden = !welcomeView.isHidden
+        webView.isHidden = !welcomeView.isHidden
     }
 
     @objc
@@ -67,8 +64,9 @@ class LookupViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.textContainerInset = NSSize(width: 4, height: 8)
-        textView.delegate = self
+
+        let url = Bundle.main.url(forResource: "results-page", withExtension: "html")!
+        webView.loadFileURL(url, allowingReadAccessTo: url)
 
         startListeningToUserDefaults()
 
@@ -109,30 +107,45 @@ class LookupViewController: NSViewController {
     }
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
-        let font = AppDelegate.shared.font
-        let string = String(repeating: "a", count: 80)
-        let textWidth = (string as NSString).size(withAttributes: [.font: font as Any]).width
-        return textWidth + textView.textContainerInset.width * 2 + 24
+        // TODO: fix
+        return 300
+//        let font = AppDelegate.shared.font
+//        let string = String(repeating: "a", count: 80)
+//        let textWidth = (string as NSString).size(withAttributes: [.font: font as Any]).width
+//        return textWidth + textView.textContainerInset.width * 2 + 24
     }
 
     func updateForResults(_ results: [DictionaryController.Result]) {
-        if UserDefaults.standard.bool(forKey: "showStyledRawResults"),
-           let textStorage = textView.textStorage {
-            let attrString = DictionaryController.Result.parsedStyled(results, font: AppDelegate.shared.font)
-                .let { NSMutableAttributedString(attributedString: $0) }
-                .then { $0.addAttributes([.foregroundColor: NSColor.labelColor], range: NSRange(location: 0, length: $0.length)) }
-            textStorage.setAttributedString(attrString)
-        } else {
-            textView.textStorage?.setAttributedString(NSAttributedString(string: DictionaryController.Result.allRaw(results),
-                                                                         attributes: [.font: AppDelegate.shared.font,
-                                                                                      .foregroundColor: NSColor.labelColor]))
-        }
+        showResultsInWebView(results)
+        // TODO: fix
+//        if UserDefaults.standard.bool(forKey: "showStyledRawResults"),
+//           let textStorage = textView.textStorage {
+//            let attrString = DictionaryController.Result.parsedStyled(results, font: AppDelegate.shared.font)
+//                .let { NSMutableAttributedString(attributedString: $0) }
+//                .then { $0.addAttributes([.foregroundColor: NSColor.labelColor], range: NSRange(location: 0, length: $0.length)) }
+//            textStorage.setAttributedString(attrString)
+//        } else {
+//            textView.textStorage?.setAttributedString(NSAttributedString(string: DictionaryController.Result.allRaw(results),
+//                                                                         attributes: [.font: AppDelegate.shared.font,
+//                                                                                      .foregroundColor: NSColor.labelColor]))
+//        }
 
-        DispatchQueue.main.async {
-            self.scrollView.flashScrollers()
-        }
+//        DispatchQueue.main.async {
+//            self.webView.flashScrollers()
+//        }
 
-        invalidateRestorableState()
+//        invalidateRestorableState()
+    }
+
+    func showResultsInWebView(_ results: [DictionaryController.Result]) {
+        let first = results
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let encoded = try! encoder.encode(first)
+        let str = String(data: encoded, encoding: .utf8)!
+        print(str)
+        webView.evaluateJavaScript("showResults({ queries: \(str) })", completionHandler: nil)
+//        webView.callAsyncJavaScript("showResults({ results: \(str) }})", arguments: [:], in: nil, in: .page, completionHandler: nil)
     }
 
     func fontChanged() {
@@ -213,12 +226,18 @@ extension LookupViewController: NSTextViewDelegate {
     }
 
     private func selectedText() -> String {
-        let range = textView.selectedRange()
-        guard let substring = textView.textStorage?.attributedSubstring(from: range),
-              substring.length > 0 else {
+        guard #available(macOS 10.15.4, *) else {
             return ""
         }
-        return substring.string
+
+        let range = webView.firstSelectedRange
+        print(range)
+        return ""
+//        guard let substring = textView.textStorage?.attributedSubstring(from: range),
+//              substring.length > 0 else {
+//            return ""
+//        }
+//        return substring.string
     }
 }
 

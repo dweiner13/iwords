@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>
+		
+	<script>
+	  var compiled = _.template(`
+	  	  <% _.forEach(queries, function(query) {
+			  if (queries.length > 1) {
+			  	%> <h2 class="input"> <%- query.input %> </h2> <%
+			  }
+			  %> <div> <% _.forEach(query.parsed, function(result) {
+				  if (result.word) {
+					%> <article class="word"> <%
+					_.forEach(result.word._0.forms, function(form) {
+						const joinedInflections = form.inflections.join('\\n');
+						const joinedDictionaryForms = form.dictionaryForms.join('\\n');	
+						%> <pre class="word-inflections"><%- joinedInflections %></pre> <%
+						%> <pre class="word-dictionary-forms"><%- joinedDictionaryForms %></pre> <%	
+					})
+					%> <p class="word-meanings"><%- result.word._0.meaning %></p> <% 
+					%> </article> <%
+				
+				  } else if (result.addon) {
+					  
+					%> <article> <%
+					%> <pre class="addon"><%- result.addon._0 %></pre> <% 
+					%> </article> <%
+					
+				  } else if (result.trick) {
+			
+					%> <article> <%
+					%> <pre class="trick"><%- result.trick._0 %></pre> <%  
+					%> </article> <%
+					
+				  } else if (result.unknown) {
+			
+					%> <article> <%
+					%> <pre class="unknown"><%- result.unknown._0 %></pre> <%  
+					%> </article> <%					  
+						  
+				  }
+			  }); %>
+			  </div>
+		  <% }) %>
+		  
+	  `)
+
+      function showResults(results) {
+          document.body.innerHTML = compiled(results)
+      }
+	  
+	  // /*
+	  window.addEventListener('load', () => {
+			showResults({ queries: [
+				  {
+					"input" : "quique",
+					"parsed" : [
+					  {
+						"addon" : {
+						  "_0" : "que                  TACKON                             "
+						}
+					  },
+					  {
+						"trick" : {
+						  "_0" : "PACKON w\/qui => whoever it be; whatever; each, each one; everyone, everything;"
+						}
+					  },
+					  {
+						"word" : {
+						  "_0" : {
+							"forms" : [
+							  {
+								"dictionaryForms" : [
+								  "qu  PACK  "
+								],
+								"inflections" : [
+								  "qu.i                 PRON   1 0 DAT S X                 ",
+								  "qu.i                 PRON   1 0 NOM P M                 "
+								]
+							  }
+							],
+							"meaning" : "(w\/-que) each, each one; every, everybody, everything (more than 2); whatever;"
+						  }
+						}
+					  },
+					  {
+						"word" : {
+						  "_0" : {
+							"forms" : [
+				
+							],
+							"meaning" : "(w\/-que) any; each;"
+						  }
+						}
+					  },
+					  {
+						"addon" : {
+						  "_0" : "que                  TACKON                             "
+						}
+					  },
+					  {
+						"trick" : {
+						  "_0" : "-que = and (enclitic, translated before attached word); completes plerus\/uter;"
+						}
+					  },
+					  {
+						"word" : {
+						  "_0" : {
+							"forms" : [
+				
+							],
+							"meaning" : "who; that; which, what; of which kind\/degree; person\/thing\/time\/point that;who\/what\/which?, what\/which one\/man\/person\/thing? what kind\/type of?;who\/whatever, everyone who, all that, anything that;any; anyone\/anything, any such; unspecified some; (after si\/sin\/sive\/ne);who?, which?, what?; what kind of?;"
+						  }
+						}
+					  },
+					  {
+						"word" : {
+						  "_0" : {
+							"forms" : [
+				
+							],
+							"meaning" : "who; that; which, what; of which kind\/degree; person\/thing\/time\/point that;who\/whatever, everyone who, all that, anything that;any; anyone\/anything, any such; unspecified some; (after si\/sin\/sive\/ne);who?, which?, what?; what kind of?;"
+						  }
+						}
+					  },
+					  {
+						"word" : {
+						  "_0" : {
+							"forms" : [
+							  {
+								"dictionaryForms" : [
+								  "queo, quire, quivi(ii), quitus  V  "
+								],
+								"inflections" : [
+								  "qu.i                 PRON   1 0 NOM S M                 ",
+								  "qu.i                 PRON   1 0 NOM P M                 ",
+								  "qu.i                 PRON   1 0 NOM S M                 ",
+								  "qui                  V      6 1 PRES ACTIVE  IMP 2 S    "
+								]
+							  }
+							],
+							"meaning" : "be able;"
+						  }
+						}
+					  },
+					  {
+						"word" : {
+						  "_0" : {
+							"forms" : [
+				
+							],
+							"meaning" : "how?; how so; in what way; by what\/which means; whereby; at whatever price;"
+						  }
+						}
+					  },
+					  {
+						"addon" : {
+						  "_0" : "que                  TACKON                             "
+						}
+					  },
+					  {
+						"trick" : {
+						  "_0" : "PACKON w\/qui => whoever it be; whatever; each, each one; everyone, everything;"
+						}
+					  },
+					  {
+						"word" : {
+						  "_0" : {
+							"forms" : [
+							  {
+								"dictionaryForms" : [
+								  "qui  ADV  "
+								],
+								"inflections" : [
+								  "qui                  ADV    POS                         "
+								]
+							  },
+							  {
+								"dictionaryForms" : [
+								  "qu  PACK  "
+								],
+								"inflections" : [
+								  "qu.i                 PRON   1 0 DAT S X                 ",
+								  "qu.i                 PRON   1 0 NOM P M                 "
+								]
+							  }
+							],
+							"meaning" : "(w\/-que) each, each one; every, everybody, everything (more than 2); whatever;"
+						  }
+						}
+					  },
+					  {
+						"word" : {
+						  "_0" : {
+							"forms" : [
+				
+							],
+							"meaning" : "(w\/-que) any; each;"
+						  }
+						}
+					  }
+					],
+					"raw" : "que                  TACKON                             \nPACKON w\/qui => whoever it be; whatever; each, each one; everyone, everything;\nqu.i                 PRON   1 0 DAT S X                 \nqu.i                 PRON   1 0 NOM P M                 \nqu  PACK  \n(w\/-que) each, each one; every, everybody, everything (more than 2); whatever;\n\n(w\/-que) any; each;\nque                  TACKON                             \n-que = and (enclitic, translated before attached word); completes plerus\/uter;\n\nwho; that; which, what; of which kind\/degree; person\/thing\/time\/point that;who\/what\/which?, what\/which one\/man\/person\/thing? what kind\/type of?;who\/whatever, everyone who, all that, anything that;any; anyone\/anything, any such; unspecified some; (after si\/sin\/sive\/ne);who?, which?, what?; what kind of?;\n\nwho; that; which, what; of which kind\/degree; person\/thing\/time\/point that;who\/whatever, everyone who, all that, anything that;any; anyone\/anything, any such; unspecified some; (after si\/sin\/sive\/ne);who?, which?, what?; what kind of?;\nqu.i                 PRON   1 0 NOM S M                 \nqu.i                 PRON   1 0 NOM P M                 \nqu.i                 PRON   1 0 NOM S M                 \nqui                  V      6 1 PRES ACTIVE  IMP 2 S    \nqueo, quire, quivi(ii), quitus  V  \nbe able;\n\nhow?; how so; in what way; by what\/which means; whereby; at whatever price;\nque                  TACKON                             \nPACKON w\/qui => whoever it be; whatever; each, each one; everyone, everything;\nqui                  ADV    POS                         \nqui  ADV  \nqu.i                 PRON   1 0 DAT S X                 \nqu.i                 PRON   1 0 NOM P M                 \nqu  PACK  \n(w\/-que) each, each one; every, everybody, everything (more than 2); whatever;\n\n(w\/-que) any; each;"
+				  }
+				] })
+	  })
+	  // */
+	</script>
+	
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Results</title>
+	
+	<style>
+/* 		@media (prefers-color-scheme: dark) {
+	  		body   { background:  #333; color: whitesmoke; }
+		} */
+		
+		:root {
+			color-scheme: light dark;
+		}
+
+		body {
+			font-size: 0.9em;
+			margin: 0;
+			line-height: 110%;
+			padding-left: 0.5em;
+/* 			font-family: "New York", "Georgia", "Serif"; */
+			font-family: sans-serif;
+		}
+		
+		article {
+			padding-left: 1em;
+		}
+		
+		article.word {
+			margin-top: 0.5em
+		}
+	
+		article.word:not(:first-child) {
+			padding-top: 0.75em;
+			margin-top: 1.5em;
+		}
+		
+		article:last-child {
+			margin-bottom: 2em;
+		}
+		
+		pre.word-dictionary-forms {
+/* 			font-weight: bold; */
+			margin-bottom: 0.4em;
+			margin-top: 0.2em;
+		}
+		
+		pre.word-inflections {
+			color: gray;
+		}
+		
+		p.word-meanings {
+			margin-left: 1em;
+		}
+	
+		pre {
+			font-size: 90%;
+			font-family: "SF Mono", "monospace";
+			margin: 0;
+		}
+		
+		h2.input {
+			font-size: 1.2em;
+			margin-top: 0.5em;
+			margin-bottom: 1em;
+		}
+		
+		h2.input:not(:first-child) {
+			border-top: 1px solid gray;
+			padding-top: 1em;
+		}
+		
+		p {
+			margin: 0
+		}
+	</style>
+</head>
+<body>
+</body>
+</html>

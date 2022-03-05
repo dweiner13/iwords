@@ -54,67 +54,6 @@ class DictionaryController: NSObject, NSSecureCoding {
                 return attrString
             }
         }
-
-        static func parsedStyled(_ results: [Result], font: NSFont) -> NSAttributedString {
-            let attrString = results
-                .map { result -> NSMutableAttributedString in
-                    if results.count > 1 {
-                        let str = NSMutableAttributedString(string: result.input,
-                                                            attributes: [.font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask),
-                                                                         .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4; $0.paragraphSpacingBefore = 20 }])
-                        str.append(.init(string: "\n",
-                                         attributes: [.font: font]))
-                        if let parsed = result.parsed {
-                            str.append(formatParsedResults(parsed, font: font))
-                        } else {
-                            str.append(.init(string: result.raw ?? "No result",
-                                             attributes: [.font: font,
-                                                          .paragraphStyle: NSMutableParagraphStyle().then { $0.firstLineHeadIndent = 12; $0.headIndent = 24 }]))
-                        }
-                        return str
-                    } else {
-                        return NSMutableAttributedString(string: result.raw ?? "No result", attributes: [.font: font])
-                    }
-                }
-                .reduce(into: NSMutableAttributedString(string: "", attributes: [.font: font])) { partialResult, styledDefinition in
-                    partialResult.append(styledDefinition)
-                    partialResult.append(.init(string: "\n", attributes: [.font: font]))
-                }
-            if attrString.length == 0 {
-                return NSAttributedString(string: "No results.", attributes: [.font: font])
-            } else {
-                return attrString
-            }
-        }
-
-        static func formatParsedResults(_ results: [DictionaryParser.Result], font: NSFont) -> NSAttributedString {
-            let str = NSMutableAttributedString()
-            for result in results {
-                switch result {
-                case .word(let word):
-                    str.append(NSAttributedString(string: word.inflections.joined(separator: "\n"),
-                                                  attributes: [.font: font]))
-                    str.append(.init(string: "\n"))
-                    str.append(NSAttributedString(string: word.dictionaryForms.joined(separator: "\n"),
-                                                  attributes: [.font: NSFont.systemFont(ofSize: font.pointSize), .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4 }]))
-                    str.append(.init(string: "\n"))
-                    str.append(NSAttributedString(string: word.meaning,
-                                                  attributes: [.font: NSFont.systemFont(ofSize: font.pointSize), .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4 }]))
-                case .addon(let addon):
-                    str.append(NSAttributedString(string: addon,
-                                                  attributes: [.font: NSFont.systemFont(ofSize: font.pointSize)]))
-                case .trick(let trick):
-                    str.append(NSAttributedString(string: trick,
-                                                  attributes: [.font: NSFont.systemFont(ofSize: font.pointSize)]))
-                case .unknown(let unknown):
-                    str.append(NSAttributedString(string: unknown,
-                                                  attributes: [.font: NSFont.systemFont(ofSize: font.pointSize)]))
-                }
-
-                str.append(.init(string: "\n"))
-            }
-            return str
-        }
     }
 
     static let supportsSecureCoding = true

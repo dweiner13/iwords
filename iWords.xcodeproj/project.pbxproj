@@ -32,6 +32,7 @@
 		37852ACE278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */; };
 		37852AD0278B3EC500ACFFE6 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852ACF278B3EC500ACFFE6 /* LoadingView.swift */; };
 		37852AD2278B45ED00ACFFE6 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37852AD1278B45ED00ACFFE6 /* Dictionary.swift */; };
+		378C811527D40FD000DAC83A /* results-page.html in Resources */ = {isa = PBXBuildFile; fileRef = 378C811427D40FD000DAC83A /* results-page.html */; };
 		378E51FA2795C9FF00730204 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 378E51F92795C9FF00730204 /* Settings.storyboard */; };
 		378E51FC2795D57600730204 /* InterfaceSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378E51FB2795D57600730204 /* InterfaceSettingsViewController.swift */; };
 		37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */; };
@@ -113,6 +114,7 @@
 		37852ACD278A4B0200ACFFE6 /* FontSizeSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeSegmentedControl.swift; sourceTree = "<group>"; };
 		37852ACF278B3EC500ACFFE6 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		37852AD1278B45ED00ACFFE6 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		378C811427D40FD000DAC83A /* results-page.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "results-page.html"; sourceTree = "<group>"; };
 		378E51F92795C9FF00730204 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		378E51FB2795D57600730204 /* InterfaceSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceSettingsViewController.swift; sourceTree = "<group>"; };
 		37988D5427249A6D00FFBB97 /* LookUpIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookUpIntentHandler.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
 				3710529127247B790077CE3D /* ServiceProvider.swift */,
 				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,
+				378C811427D40FD000DAC83A /* results-page.html */,
 				374355B8279C9EC70052CFBA /* Controllers and Services */,
 				374355B7279C9EBD0052CFBA /* Dictionary */,
 				37988D4F2724949200FFBB97 /* Intents */,
@@ -503,6 +506,7 @@
 			files = (
 				37AB5A172626713500118674 /* INFLECTS.LAT in Resources */,
 				37AB5A192626713500118674 /* INDXFILE.GEN in Resources */,
+				378C811527D40FD000DAC83A /* results-page.html in Resources */,
 				373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */,
 				37A4D24726223BFB00A9E9EC /* Main.storyboard in Resources */,
 				3760B37D27B07C3C00F81F38 /* Dictionary Settings Help.rtf in Resources */,

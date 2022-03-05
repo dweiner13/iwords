@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="19529"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -595,32 +596,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
+                            <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zwt-14-0C9">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
-                                <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="420" height="444"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="420" height="444"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="420" height="444"/>
-                                            <size key="maxSize" width="435" height="10000000"/>
-                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                        </textView>
-                                    </subviews>
-                                </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="2Za-Qb-z1c">
-                                    <rect key="frame" x="-100" y="-100" width="240" height="16"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="420" y="0.0" width="15" height="444"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                            </scrollView>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
                             <customView hidden="YES" verifyAmbiguity="ignoreSizes" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-3S-c0A" customClass="LoadingView" customModule="iWords" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
                             </customView>
@@ -699,27 +681,25 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="7Pm-iP-BOf"/>
+                            <constraint firstItem="Zwt-14-0C9" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="11x-qG-mhY"/>
                             <constraint firstItem="ZiB-z0-Agz" firstAttribute="top" secondItem="aeF-3S-c0A" secondAttribute="top" id="9fU-I4-DVt"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Ahy-qu-R1U"/>
                             <constraint firstAttribute="trailing" secondItem="vJw-zo-fvh" secondAttribute="trailing" id="DNu-gO-hB1"/>
-                            <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="EBz-JL-sZC"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="Uic-o1-tow"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="Czz-wX-hvt" secondAttribute="leading" id="VjF-mw-YAg"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="XAJ-CS-kOL"/>
-                            <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="Y5E-wS-i7o"/>
+                            <constraint firstAttribute="bottom" secondItem="Zwt-14-0C9" secondAttribute="bottom" id="LVD-hv-6hs"/>
+                            <constraint firstItem="aeF-3S-c0A" firstAttribute="trailing" secondItem="Zwt-14-0C9" secondAttribute="trailing" id="Ory-7F-dix"/>
+                            <constraint firstItem="aeF-3S-c0A" firstAttribute="bottom" secondItem="Zwt-14-0C9" secondAttribute="bottom" id="ccX-lI-Meo"/>
+                            <constraint firstItem="Zwt-14-0C9" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="ehj-UK-IAt"/>
                             <constraint firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" constant="-52" id="esW-qf-JTf"/>
                             <constraint firstAttribute="bottom" secondItem="vJw-zo-fvh" secondAttribute="bottom" id="f9c-Hg-ejJ"/>
-                            <constraint firstAttribute="top" secondItem="Czz-wX-hvt" secondAttribute="top" id="g4v-W9-fwG"/>
+                            <constraint firstAttribute="trailing" secondItem="Zwt-14-0C9" secondAttribute="trailing" id="l1g-eM-pfF"/>
                             <constraint firstItem="vJw-zo-fvh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="mxg-4r-YiC"/>
+                            <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="Zwt-14-0C9" secondAttribute="leading" id="ryN-F3-G73"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZiB-z0-Agz"/>
                         <viewLayoutGuide key="layoutMargins" id="ieB-cA-Vdm"/>
                     </view>
                     <connections>
                         <outlet property="loadingView" destination="aeF-3S-c0A" id="ShM-qs-hsd"/>
-                        <outlet property="scrollView" destination="Czz-wX-hvt" id="bFk-Ow-tpL"/>
-                        <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
+                        <outlet property="webView" destination="Zwt-14-0C9" id="BVh-LZ-qKp"/>
                         <outlet property="welcomeView" destination="vJw-zo-fvh" id="fvP-dN-YBh"/>
                     </connections>
                 </viewController>
