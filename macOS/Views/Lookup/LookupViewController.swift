@@ -118,7 +118,7 @@ class LookupViewController: NSViewController {
     func updateForResults(_ results: [DictionaryController.Result]) {
         if UserDefaults.standard.bool(forKey: "showStyledRawResults"),
            let textStorage = textView.textStorage {
-            let attrString = DictionaryController.Result.allRawStyled(results, font: AppDelegate.shared.font)
+            let attrString = DictionaryController.Result.parsedStyled(results, font: AppDelegate.shared.font)
                 .let { NSMutableAttributedString(attributedString: $0) }
                 .then { $0.addAttributes([.foregroundColor: NSColor.labelColor], range: NSRange(location: 0, length: $0.length)) }
             textStorage.setAttributedString(attrString)

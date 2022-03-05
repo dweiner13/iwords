@@ -9,13 +9,13 @@ import Foundation
 
 enum DictionaryParser {
 
-    enum Result {
+    enum Result: Codable {
         case word(Word)
         case unknown(String)
         case addon(String)
         case trick(String)
 
-        struct Word {
+        struct Word: Codable {
             let inflections: [String]
             let dictionaryForm: String
             let meaning: String
@@ -106,6 +106,10 @@ enum DictionaryParser {
             currentDictionaryForm = ""
             currentMeaning = ""
         }
+
+        let json = try! JSONEncoder().encode(currentResults)
+        let string = String(data: json, encoding: .utf8)!
+        print(string)
 
         return currentResults
     }
