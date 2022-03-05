@@ -49,21 +49,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApp.keyWindow?.windowController as? LookupWindowController
     }
 
-    func applicationWillFinishLaunching(_ notification: Notification) {
-        // Perform dictionary relocation
-        do {
-            try DictionaryMigrator.relocateDictionaryToApplicationSupport()
-        } catch let error as NSError {
-            NSApp.presentError(DWError("Unable to perform first-time setup.",
-                                       recoverySuggestion: """
-                Encountered \(error.domain) error \(error.code) (\"\(error.localizedDescription)\").
-
-                Please email support@danielweiner.org.
-                """))
-            NSApp.terminate(nil)
-        }
-    }
-
     func applicationDidFinishLaunching(_ notification: Notification) {
         DebugDefaults.check()
 

@@ -94,7 +94,13 @@ class Dictionary {
         return url
     }()
     private lazy var executablePath = executableURL.path
-    private lazy var workingDir: URL = DictionaryMigrator.dictionarySupportURL
+    private lazy var bundleWorkingDir = Bundle.main.url(forResource: "DICTFILE", withExtension: "GEN")!
+        .deletingLastPathComponent()
+    private lazy var workingDir: URL = {
+        DictionaryRelocator.wasRelocationPerformed()
+            ? ((try? DictionaryRelocator.dictionarySupportURL()) ?? bundleWorkingDir)
+            : bundleWorkingDir
+    }()
 
     private var activeCompletionHandler: ((Result<String?, DWError>) -> Void)?
     private var process: Process?

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20034" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="upR-4V-vlI">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="upR-4V-vlI">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20034"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -222,54 +222,25 @@
                 <customObject id="hyf-a8-MvE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Dictionary" id="fkP-gV-HhW" customClass="DictionarySettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="JAp-BO-VSf">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="250"/>
+                        <rect key="frame" x="0.0" y="0.0" width="548" height="366"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="24" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ge3-eK-OHR">
-                                <rect key="frame" x="20" y="62" width="350" height="168"/>
+                                <rect key="frame" x="20" y="162" width="501" height="184"/>
                                 <subviews>
-                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-HA-1EN">
-                                        <rect key="frame" x="0.0" y="152" width="235" height="16"/>
-                                        <subviews>
-                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TBu-tr-kV8">
-                                                <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="16" id="qHN-Ii-uMY"/>
-                                                    <constraint firstAttribute="height" constant="16" id="tJf-fM-6ir"/>
-                                                </constraints>
-                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="2Uk-tH-0Qm"/>
-                                            </imageView>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="9wD-I1-qYo">
-                                                <rect key="frame" x="22" y="0.0" width="215" height="16"/>
-                                                <textFieldCell key="cell" selectable="YES" title="Error reading dictionary settings" id="ykI-Tv-pA1">
-                                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
-                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                        <visibilityPriorities>
-                                            <integer value="1000"/>
-                                            <integer value="1000"/>
-                                        </visibilityPriorities>
-                                        <customSpacing>
-                                            <real value="3.4028234663852886e+38"/>
-                                            <real value="3.4028234663852886e+38"/>
-                                        </customSpacing>
-                                    </stackView>
                                     <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="128"/>
+                                        <rect key="frame" x="0.0" y="56" width="386" height="128"/>
                                         <rows>
                                             <gridRow rowAlignment="firstBaseline" id="RLq-gE-v2S"/>
                                             <gridRow rowAlignment="firstBaseline" id="VuE-iz-OSD"/>
                                         </rows>
                                         <columns>
-                                            <gridColumn xPlacement="trailing" id="FHq-7w-FWn"/>
-                                            <gridColumn width="248" id="wUf-yW-zSL"/>
+                                            <gridColumn xPlacement="trailing" width="134" id="FHq-7w-FWn"/>
+                                            <gridColumn width="240" id="wUf-yW-zSL"/>
                                         </columns>
                                         <gridCells>
                                             <gridCell row="RLq-gE-v2S" column="FHq-7w-FWn" id="0r2-gH-xi4">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ojk-fD-3JJ">
-                                                    <rect key="frame" x="-2" y="112" width="94" height="16"/>
+                                                    <rect key="frame" x="42" y="112" width="94" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Attempt tricks:" id="fat-2E-k4Y">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -279,7 +250,7 @@
                                             </gridCell>
                                             <gridCell row="RLq-gE-v2S" column="wUf-yW-zSL" id="LAF-qU-5Tv">
                                                 <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ZR-LF-e0G">
-                                                    <rect key="frame" x="102" y="88" width="232" height="40"/>
+                                                    <rect key="frame" x="146" y="88" width="232" height="40"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j2K-li-KeP">
                                                             <rect key="frame" x="-2" y="23" width="168" height="18"/>
@@ -322,7 +293,7 @@
                                             </gridCell>
                                             <gridCell row="VuE-iz-OSD" column="FHq-7w-FWn" id="iuw-QH-YoJ">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f4U-cn-RO0">
-                                                    <rect key="frame" x="40" y="48" width="52" height="16"/>
+                                                    <rect key="frame" x="84" y="48" width="52" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Include:" id="4o5-rb-UTN">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -332,7 +303,7 @@
                                             </gridCell>
                                             <gridCell row="VuE-iz-OSD" column="wUf-yW-zSL" id="lbg-St-Bh8">
                                                 <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VfU-g8-0eF">
-                                                    <rect key="frame" x="102" y="0.0" width="134" height="64"/>
+                                                    <rect key="frame" x="146" y="0.0" width="134" height="64"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yle-wc-1WX" userLabel="Omit archaic words">
                                                             <rect key="frame" x="-2" y="47" width="112" height="18"/>
@@ -391,6 +362,39 @@
                                             </gridCell>
                                         </gridCells>
                                     </gridView>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalClippingResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwV-hE-buG">
+                                        <rect key="frame" x="0.0" y="0.0" width="501" height="32"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="vj5-TA-c8q">
+                                                <rect key="frame" x="-2" y="0.0" width="409" height="32"/>
+                                                <textFieldCell key="cell" selectable="YES" alignment="left" id="MXo-xz-aim">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <string key="title">Dictionary files need to be installed in order to customize settings. 
+This will use 33 MB of additional hard disk space.</string>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F32-Sb-ZlH">
+                                                <rect key="frame" x="406" y="-1" width="102" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Install Files" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2XC-9T-A7h">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="installFiles:" target="fkP-gV-HhW" id="HTo-u1-pJp"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
                                 </subviews>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
@@ -402,7 +406,7 @@
                                 </customSpacing>
                             </stackView>
                             <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hp1-qY-VpY">
-                                <rect key="frame" x="497" y="16" width="25" height="25"/>
+                                <rect key="frame" x="505" y="16" width="25" height="25"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Hc-06-gfs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -425,11 +429,10 @@
                     <connections>
                         <outlet property="doMedievalTricksButton" destination="j2K-li-KeP" id="Lbb-fI-Vgc"/>
                         <outlet property="doTwoWordsButton" destination="c0S-5L-fPZ" id="Gmu-9s-UeQ"/>
-                        <outlet property="errorLabel" destination="9wD-I1-qYo" id="yh3-4m-SpF"/>
-                        <outlet property="errorStackView" destination="Zkn-HA-1EN" id="qe3-r3-hnL"/>
                         <outlet property="includeArchaicWordsButton" destination="Yle-wc-1WX" id="CoK-FL-URa"/>
                         <outlet property="includeMedievalWordsButton" destination="Jvf-qN-29S" id="Ih4-Va-GWG"/>
                         <outlet property="includeUncommonWordsButton" destination="j0w-VZ-z2Y" id="pOy-DB-91N"/>
+                        <outlet property="installStackView" destination="zwV-hE-buG" id="a8k-TT-Tpu"/>
                     </connections>
                 </viewController>
             </objects>
@@ -660,15 +663,15 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bwc-n9-ZFe">
                                 <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
                                 <clipView key="contentView" drawsBackground="NO" id="abp-iG-rv6">
-                                    <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="525" height="700"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="0Rf-Lx-24S">
-                                            <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="525" height="700"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="540" height="700"/>
+                                            <size key="minSize" width="525" height="700"/>
                                             <size key="maxSize" width="540" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -679,7 +682,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1BO-2C-8jm">
-                                    <rect key="frame" x="524" y="0.0" width="16" height="700"/>
+                                    <rect key="frame" x="525" y="0.0" width="15" height="700"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -701,7 +704,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="NSCaution" width="32" height="32"/>
         <image name="arrow.triangle.2.circlepath" catalog="system" width="18" height="15"/>
         <image name="hand.point.up.left" catalog="system" width="14" height="15"/>
         <image name="text.book.closed" catalog="system" width="14" height="16"/>

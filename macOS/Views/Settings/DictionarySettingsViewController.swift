@@ -13,49 +13,84 @@ let SETTINGS_WINDOW_WIDTH: CGFloat = 575
 class DictionarySettingsViewController: NSViewController {
 
     @objc dynamic
-    var doMedievalTricks = false {
+    var doMedievalTricks = true {
         didSet {
-            attemptToSetValue(doMedievalTricks, for: .doMedievalTricks)
+            do {
+                try attemptToSetValue(doMedievalTricks, for: .doMedievalTricks)
+            } catch {
+                DispatchQueue.main.async {
+                    self.readValuesFromSettings()
+                }
+            }
         }
     }
 
     @objc dynamic
-    var doTwoWords = false {
+    var doTwoWords = true {
         didSet {
-            attemptToSetValue(doTwoWords, for: .doTwoWords)
+            do {
+                try attemptToSetValue(doTwoWords, for: .doTwoWords)
+            } catch {
+                DispatchQueue.main.async {
+                    self.doTwoWords.toggle()
+                }
+            }
         }
     }
 
     @objc dynamic
-    var includeArchaicWords = false {
+    var includeArchaicWords = true {
         didSet {
-            attemptToSetValue(!includeArchaicWords, for: .omitArchaic)
+            do {
+                try attemptToSetValue(!includeArchaicWords, for: .omitArchaic)
+            } catch {
+                DispatchQueue.main.async {
+                    self.includeArchaicWords.toggle()
+                }
+            }
         }
     }
 
     @objc dynamic
-    var includeMedievalWords = false {
+    var includeMedievalWords = true {
         didSet {
-            attemptToSetValue(!includeMedievalWords, for: .omitMedieval)
+            do {
+                try attemptToSetValue(!includeMedievalWords, for: .omitMedieval)
+            } catch {
+                DispatchQueue.main.async {
+                    self.includeMedievalWords.toggle()
+                }
+            }
         }
     }
 
     @objc dynamic
-    var includeUncommonWords = false {
+    var includeUncommonWords = true {
         didSet {
-            attemptToSetValue(!includeUncommonWords, for: .omitUncommon)
+            do {
+                try attemptToSetValue(!includeUncommonWords, for: .omitUncommon)
+            } catch {
+                DispatchQueue.main.async {
+                    self.includeUncommonWords.toggle()
+                }
+            }
         }
     }
 
-    func attemptToSetValue(_ value: Bool, for key: DictionarySettings.Key) {
+    func attemptToSetValue(_ value: Bool, for key: DictionarySettings.Key) throws {
+        guard let settings = settings else {
+            return
+        }
         do {
-            try manager.setValue(value, for: key)
+            try settings.setValue(value, for: key)
         } catch {
             self.presentError(error)
+            updateView()
+            throw error
         }
     }
 
-    var manager: DictionarySettings!
+    var settings: DictionarySettings?
 
     @IBOutlet weak var doMedievalTricksButton: NSButton!
     @IBOutlet weak var doTwoWordsButton: NSButton!
@@ -63,29 +98,41 @@ class DictionarySettingsViewController: NSViewController {
     @IBOutlet weak var includeMedievalWordsButton: NSButton!
     @IBOutlet weak var includeUncommonWordsButton: NSButton!
 
-    @IBOutlet weak var errorStackView: NSStackView!
-    @IBOutlet weak var errorLabel: NSTextField!
+    @IBOutlet weak var installStackView: NSStackView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let url = DictionaryMigrator.dictionarySupportURL.appendingPathComponent("WORD.MDV", isDirectory: false)
-        do {
-            manager = try DictionarySettings(url: url)
-        } catch {
-            errorStackView.isHidden = false
-            errorLabel.stringValue = "Error reading dictionary settings: \(error.localizedDescription)"
-            return
-        }
-
-        errorStackView.isHidden = true
 
         preferredContentSize = view.fittingSize.then {
             $0.width = SETTINGS_WINDOW_WIDTH
         }
 
+        updateView()
+    }
+
+    private func updateView() {
+        do {
+            guard DictionaryRelocator.wasRelocationPerformed() else {
+                // Just throw so it gets caught by guard
+                throw DWError("mockError", recoverySuggestion: nil)
+            }
+            let url = try DictionaryRelocator.dictionarySupportURL()
+                .appendingPathComponent("WORD.MDV", isDirectory: false)
+            settings = try DictionarySettings(url: url)
+        } catch {
+            installStackView.isHidden = false
+            setCheckboxesEnabled(false)
+            return
+        }
+
+        installStackView.isHidden = true
+
         readValuesFromSettings()
 
+        setCheckboxesEnabled(true)
+    }
+
+    private func setCheckboxesEnabled(_ enabled: Bool) {
         [
             doMedievalTricksButton,
             doTwoWordsButton,
@@ -93,16 +140,31 @@ class DictionarySettingsViewController: NSViewController {
             includeMedievalWordsButton,
             includeUncommonWordsButton
         ].forEach {
-            $0.isEnabled = true
+            $0.isEnabled = enabled
         }
     }
 
     private func readValuesFromSettings() {
-        doMedievalTricks = manager.value(for: .doMedievalTricks)
-        doTwoWords = manager.value(for: .doTwoWords)
-        includeArchaicWords = !manager.value(for: .omitArchaic)
-        includeMedievalWords = !manager.value(for: .omitMedieval)
-        includeUncommonWords = !manager.value(for: .omitUncommon)
+        guard let settings = settings else {
+            return
+        }
+
+        doMedievalTricks = settings.value(for: .doMedievalTricks)
+        doTwoWords = settings.value(for: .doTwoWords)
+        includeArchaicWords = !settings.value(for: .omitArchaic)
+        includeMedievalWords = !settings.value(for: .omitMedieval)
+        includeUncommonWords = !settings.value(for: .omitUncommon)
+    }
+
+    @IBAction
+    private func installFiles(_ sender: Any?) {
+        do {
+            try DictionaryRelocator.relocateDictionaryToApplicationSupport()
+            
+        } catch {
+            self.presentError(error)
+        }
+        updateView()
     }
 }
 
@@ -169,12 +231,14 @@ class DictionarySettings {
 
         do {
             try writeSettings(newSettings)
+
+            settings = newSettings
+
+            NotificationCenter.default.post(name: .dictionarySettingsDidChange, object: self)
         } catch {
             // If we encounter an error writing, try to read from to keep us in sync with whatever is in file
-            try readSettings()
             throw error
         }
-        try readSettings()
     }
 
     private func readSettings() throws {
@@ -222,6 +286,7 @@ class DictionarySettings {
             throw DWError("Could not convert string to data")
         }
         try data.write(to: url)
+        print("Wrote new settings to \(url)")
     }
 }
 

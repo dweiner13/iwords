@@ -65,7 +65,8 @@ class DictionaryController: NSObject, NSSecureCoding {
 
     private var dictionary: Dictionary
 
-    private var observation: Any?
+    private var settingsObservation: Any?
+    private var relocationObservation: Any?
 
     internal init(dictionary: Dictionary = Dictionary(),
                   direction: Dictionary.Direction) {
@@ -78,10 +79,15 @@ class DictionaryController: NSObject, NSSecureCoding {
     }
 
     private func startObserving() {
-        observation = NotificationCenter.default.addObserver(forName: .dictionarySettingsDidChange,
-                                                             object: nil,
-                                                             queue: nil) { [unowned self] _ in
-            self.dictionary.setNeedsRestart()
+        settingsObservation = NotificationCenter.default.addObserver(forName: .dictionarySettingsDidChange,
+                                                                     object: nil,
+                                                                     queue: nil) { [weak self] _ in
+            self?.dictionary.setNeedsRestart()
+        }
+        relocationObservation = NotificationCenter.default.addObserver(forName: .dictionaryRelocationComplete,
+                                                                       object: nil,
+                                                                       queue: nil) { [weak self] _ in
+            self?.dictionary.setNeedsRestart()
         }
     }
 

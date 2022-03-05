@@ -7,12 +7,20 @@
 
 import Foundation
 
-enum DictionaryMigrator {
-    // This is guaranteed to be populated by the time `applicationWillFinishLaunching` is complete.
-    private(set) static var dictionarySupportURL: URL!
+extension NSNotification.Name {
+    static let dictionaryRelocationComplete = NSNotification.Name("dictionaryRelocationComplete")
+}
 
-    // Migrate dictionary to local user storage if necessary.
+enum DictionaryRelocator {
+
     static func relocateDictionaryToApplicationSupport() throws {
+        try _relocate()
+    }
+
+    /// URL that relocated dictionary support files would live after relocation. Note that this may
+    /// return a valid URL even if relocation has not been performed and there are no files at
+    /// the URL.
+    static func dictionarySupportURL() throws -> URL {
         let fileManager = FileManager.default
 
         let appSupportURL = try fileManager.url(for: .applicationSupportDirectory,
@@ -20,30 +28,51 @@ enum DictionaryMigrator {
                                                 appropriateFor: nil,
                                                 create: true)
 
-        dictionarySupportURL = appSupportURL.appendingPathComponent("iWords",
-                                                                    isDirectory: true)
-                                            .appendingPathComponent("Dictionary Support",
-                                                                    isDirectory: true)
+        return appSupportURL
+            .appendingPathComponent("iWords",
+                                    isDirectory: true)
+            .appendingPathComponent("Dictionary Support",
+                                    isDirectory: true)
+    }
+
+    static func wasRelocationPerformed() -> Bool {
+        do {
+            let dictionarySupportURL = try dictionarySupportURL()
+            return fileNamesToMigrate
+                .allSatisfy {
+                    let dstURL = dictionarySupportURL.appendingPathComponent($0, isDirectory: false)
+                    return FileManager.default.fileExists(atPath: dstURL.path)
+                }
+        } catch {
+            return false
+        }
+    }
+
+    private static let fileNamesToMigrate = [
+        "WORD.MDV",
+        "ADDONS.LAT",
+        "CHECKEWD.",
+        "DICTFILE.GEN",
+        "DICTLINE.GEN",
+        "EWDSFILE.GEN",
+        "EWDSLIST.GEN",
+        "INDXFILE.GEN",
+        "INFLECTS.LAT",
+        "INFLECTS.SEC",
+        "STEMFILE.GEN",
+        "STEMLIST.GEN",
+        "UNIQUES.LAT"
+    ]
+
+    // Migrate dictionary to local user storage if necessary.
+    private static func _relocate() throws {
+        let dictionarySupportURL = try dictionarySupportURL()
+
+        let fileManager = FileManager.default
 
         try fileManager.createDirectory(at: dictionarySupportURL, withIntermediateDirectories: true)
 
-        let filesToMigrate = [
-            "WORD.MDV",
-            "ADDONS.LAT",
-            "CHECKEWD.",
-            "DICTFILE.GEN",
-            "DICTLINE.GEN",
-            "EWDSFILE.GEN",
-            "EWDSLIST.GEN",
-            "INDXFILE.GEN",
-            "INFLECTS.LAT",
-            "INFLECTS.SEC",
-            "STEMFILE.GEN",
-            "STEMLIST.GEN",
-            "UNIQUES.LAT"
-        ]
-
-        for file in filesToMigrate {
+        for file in fileNamesToMigrate {
             guard let srcURL = Bundle.main.url(forResource: file, withExtension: nil) else {
                 throw DWError("Unable to get URL for dictionary file \(file)")
             }
@@ -62,6 +91,8 @@ enum DictionaryMigrator {
                 print("Not migrating \(file) because it already exists in destination")
             }
         }
+
+        NotificationCenter.default.post(name: .dictionaryRelocationComplete, object: nil)
     }
 
 }
