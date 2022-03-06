@@ -102,6 +102,11 @@
                                                 <action selector="focusSearch:" target="Ady-hI-5gd" id="Ssr-7g-XuO"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="New Search" hidden="YES" keyEquivalent="l" allowsKeyEquivalentWhenHidden="YES" id="lLG-pe-rtM">
+                                            <connections>
+                                                <action selector="focusSearch:" target="Ady-hI-5gd" id="ISh-8w-KjC"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="3jA-Gu-wqu"/>
                                         <menuItem title="Print..." keyEquivalent="p" id="6Ld-fy-Su7">
                                             <connections>
@@ -437,7 +442,7 @@
                 <userDefaultsController id="S2P-p1-PcK"/>
                 <userDefaultsController id="a7h-fy-GpN"/>
             </objects>
-            <point key="canvasLocation" x="61" y="-679"/>
+            <point key="canvasLocation" x="61" y="-305"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -446,7 +451,7 @@
                     <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" toolbarStyle="compact" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="256" width="700" height="599"/>
+                        <rect key="contentRect" x="196" y="256" width="650" height="300"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
                         <value key="minSize" type="size" width="400" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">
@@ -684,7 +689,7 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="jkl-w9-pOM"/>
             </objects>
-            <point key="canvasLocation" x="65.5" y="760"/>
+            <point key="canvasLocation" x="61" y="641"/>
         </scene>
         <!--Search Bar View Controller-->
         <scene sceneID="UbV-vl-mpN">
@@ -745,7 +750,7 @@ DQ
                 </viewController>
                 <customObject id="tcF-Pn-eM1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="673" y="-213"/>
+            <point key="canvasLocation" x="649" y="-65"/>
         </scene>
     </scenes>
     <resources>
