@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>
+	<script src="./lodash.min.js"></script>
 		
 	<script>
+        window.addEventListener("load", () => {
+            if (window.webkit 
+				&& window.webkit.messageHandlers 
+				&& window.webkit.messageHandlers.windowDidLoad) {
+                window.webkit.messageHandlers.windowDidLoad.postMessage("windowDidLoad");
+            }
+        })
+
 	  var compiled = _.template(`
 	  	  <% _.forEach(queries, function(query) {
-			  // if (queries.length > 1) {
-			  	%> <h2 class="input"> <%- query.input %> </h2> <%
-			  // }
+			  %> <h2 class="input"> <%- query.input %> </h2> <%
 			  %> <div> <% _.forEach(query.parsed, function(result) {
 				  if (result.word) {
+
 					%> <article class="word"> <%
 					_.forEach(result.word._0.forms, function(form) {
-						const joinedInflections = form.inflections.join('\\n');
-						const joinedDictionaryForms = form.dictionaryForms.join('\\n');	
-						%> <pre class="word-inflections"><%- joinedInflections %></pre> <%
+						if (showInflections) {
+                            const joinedInflections = form.inflections.join('\\n');
+                            %> <pre class="word-inflections"><%- joinedInflections %></pre> <%
+                        }
+                        const joinedDictionaryForms = form.dictionaryForms.join('\\n');
 						%> <pre class="word-dictionary-forms"><%- joinedDictionaryForms %></pre> <%	
 					})
 					%> <p class="word-meanings"><%- result.word._0.meaning %></p> <% 
@@ -50,11 +59,12 @@
           document.body.innerHTML = compiled(results)
       }
 	  
-	  /*
+	  // /*
 	  window.addEventListener('load', () => {
-			showResults({ queries: [
+			showResults({ showInflections: true, queries: [
 				  {
-					"input" : "quique",
+					"input" : "quidque",
+					"raw": "thisIsRawOutput",
 					"parsed" : [
 					  {
 						"addon" : {
@@ -205,7 +215,7 @@
 				  }
 				] })
 	  })
-	  */
+	  // */
 	</script>
 	
 	<meta charset="UTF-8">

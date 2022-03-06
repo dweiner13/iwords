@@ -139,7 +139,7 @@ class DictionaryController: NSObject, NSSecureCoding {
                 try DictionaryParser.parse($0, direction: direction)
             }
 
-            print(dictionaryResult.output)
+            dictionaryResult.output.map { print($0) }
 
             return Result(input: dictionaryResult.input, raw: parsed?.map(\.raw).joined(separator: "\n"), parsed: parsed)
         }

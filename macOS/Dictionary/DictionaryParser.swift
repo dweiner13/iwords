@@ -128,9 +128,9 @@ enum DictionaryParser {
             addPendingWord()
         }
 
-        let json = try! JSONEncoder().encode(currentResults)
-        let string = String(data: json, encoding: .utf8)!
-        print(string)
+//        let json = try! JSONEncoder().encode(currentResults)
+//        let string = String(data: json, encoding: .utf8)!
+//        print(string)
 
         return currentResults
     }

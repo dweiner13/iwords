@@ -166,7 +166,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             "searchBarGrowsToFitContent": true,
             "copySearchToNewWindows": false,
             "showStyledRawResults": true,
-            "windowsFloatOnTop": false
+            "windowsFloatOnTop": false,
+            "showInflections": false
         ])
     }
 

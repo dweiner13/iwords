@@ -57,9 +57,10 @@ class LookupViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        webView.configuration.userContentController.add(self, name: "windowDidLoad")
 
         let url = Bundle.main.url(forResource: "results-page", withExtension: "html")!
-        webView.loadFileURL(url, allowingReadAccessTo: url)
+        webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
 
         startListeningToUserDefaults()
 
@@ -77,15 +78,18 @@ class LookupViewController: NSViewController {
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
         #endif
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showStyledRawResults", options: .new, context: nil)
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
         #if DEBUG
         case "values.prettyResults":
-            results.map(updateForResults(_:))
+            fallthrough
         #endif
         case "values.showStyledRawResults":
+            fallthrough
+        case "values.showInflections":
             results.map(updateForResults(_:))
         default:
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -97,6 +101,7 @@ class LookupViewController: NSViewController {
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
 #endif
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showStyledRawResults")
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
     }
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
@@ -132,15 +137,23 @@ class LookupViewController: NSViewController {
     }
 
     func showResultsInWebView(_ results: [DictionaryController.Result]) {
-        let first = results
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        let encoded = try! encoder.encode(first)
+        let encoded = try! encoder.encode(results)
         let str = String(data: encoded, encoding: .utf8)!
-        print(str)
-        webView.evaluateJavaScript("showResults({ queries: \(str) })", completionHandler: { result, error in
-            print("webkit error:", error)
-        })
+//        print(str)
+
+        webView.evaluateJavaScript(
+            """
+            showResults({
+                queries: \(str),
+                showInflections: \(String(UserDefaults.standard.bool(forKey: "showInflections")))
+            })
+            """,
+            completionHandler: { result, error in
+                print("webkit error:", error)
+            }
+        )
 //        webView.callAsyncJavaScript("showResults({ results: \(str) }})", arguments: [:], in: nil, in: .page, completionHandler: nil)
     }
 
@@ -148,6 +161,13 @@ class LookupViewController: NSViewController {
         if let results = results {
             updateForResults(results)
         }
+    }
+}
+
+extension LookupViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+        results.map(showResultsInWebView(_:))
     }
 }
 
@@ -162,10 +182,10 @@ extension LookupViewController {
         printInfo.isHorizontallyCentered = false
         printInfo.isVerticallyCentered = false
 
-        // TODO: webkit printing broken \
+        // TODO: webkit printing broken >:(
         if #available(macOS 11.0, *) {
             let op = webView.printOperation(with: printInfo)
-            op.view?.frame = view.bounds
+            op.view?.frame = webView.bounds
             op.run()
         } else {
             // TODO: Fallback on earlier versions
