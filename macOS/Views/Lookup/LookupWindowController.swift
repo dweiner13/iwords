@@ -133,6 +133,9 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var directionToggleButton: NSButton!
     @IBOutlet weak var floatToolbarItem: NSToolbarItem!
 
+    // Not used, but need a strong reference or it will be dealloced.
+    @IBOutlet var sharedFontSizeController: SharedFontSizeController!
+
     private weak var searchBar: SearchBarViewController!
 
     var lookupViewController: LookupViewController! {
@@ -170,7 +173,7 @@ class LookupWindowController: NSWindowController {
                 $0.submenu = directionMenuFormRepresentation
             }
 
-        fontSizeItem.menuFormRepresentation = fontMenuFormRepresentation()
+//        fontSizeItem.menuFormRepresentation = fontMenuFormRepresentation()
 
         floatToolbarItem.menuFormRepresentation = NSMenuItem(title: "Float on Top",
                                                              action: nil,
@@ -516,6 +519,30 @@ class LookupWindowController: NSWindowController {
             window?.title = "iWords"
         } else {
             window?.title = "iWords"
+        }
+    }
+
+    func decreaseTextSize() {
+        lookupViewController.decreaseTextSize()
+    }
+
+    func increaseTextSize() {
+        lookupViewController.increaseTextSize()
+    }
+
+    func resetTextSize() {
+        lookupViewController.resetTextSize()
+    }
+
+    @IBAction
+    func fontSizeControlPressed(_ sender: NSSegmentedControl) {
+        switch sender.selectedSegment {
+        case 0:
+            decreaseTextSize()
+        case 1:
+            increaseTextSize()
+        default:
+            preconditionFailure()
         }
     }
 }

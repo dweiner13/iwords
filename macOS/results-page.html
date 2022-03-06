@@ -5,11 +5,7 @@
 		
 	<script>
         window.addEventListener("load", () => {
-            if (window.webkit 
-				&& window.webkit.messageHandlers 
-				&& window.webkit.messageHandlers.windowDidLoad) {
-                window.webkit.messageHandlers.windowDidLoad.postMessage("windowDidLoad");
-            }
+            window.iWordsDelegate.webViewDidLoad()
         })
 
 	  var compiled = _.template(`
@@ -59,7 +55,7 @@
           document.body.innerHTML = compiled(results)
       }
 	  
-	  // /*
+	  /*
 	  window.addEventListener('load', () => {
 			showResults({ showInflections: true, queries: [
 				  {
@@ -215,7 +211,7 @@
 				  }
 				] })
 	  })
-	  // */
+	  */
 	</script>
 	
 	<meta charset="UTF-8">

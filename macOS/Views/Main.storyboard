@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
-        <plugIn identifier="com.apple.WebKit2IBPlugin" version="19529"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
@@ -327,24 +326,17 @@
                                         <menuItem isSeparatorItem="YES" id="Ed9-lD-OCg"/>
                                         <menuItem title="Increase Text Size" tag="3" keyEquivalent="+" id="LY5-Jr-UWd">
                                             <connections>
-                                                <action selector="modifyFont:" target="46f-Bv-BCE" id="riH-hm-7tZ"/>
+                                                <action selector="increaseScale:" target="4BM-jX-8AG" id="HNK-8V-umJ"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Decrease Text Size" tag="4" keyEquivalent="-" id="ZDb-lj-Vk8">
                                             <connections>
-                                                <action selector="modifyFont:" target="46f-Bv-BCE" id="fzI-6x-9HA"/>
+                                                <action selector="decreaseScale:" target="4BM-jX-8AG" id="t2l-d9-6SV"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Reset Text Size" keyEquivalent="0" id="3u8-kf-UKB">
                                             <connections>
-                                                <action selector="resetFont:" target="Ady-hI-5gd" id="ir5-5V-dOL"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="TsX-cJ-xkP"/>
-                                        <menuItem title="Show Fonts..." id="Zf8-3B-kgh">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="orderFrontFontPanel:" target="46f-Bv-BCE" id="uTA-ns-asM"/>
+                                                <action selector="resetScale:" target="4BM-jX-8AG" id="gw0-aN-ewy"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="RnI-8p-IH7"/>
@@ -439,6 +431,7 @@
                     </connections>
                 </customObject>
                 <userDefaultsController id="ZZt-xK-ds5"/>
+                <customObject id="4BM-jX-8AG" customClass="SharedFontSizeController" customModule="iWords" customModuleProvider="target"/>
                 <customObject id="1JM-2h-55k" customClass="SPUStandardUpdaterController"/>
                 <customObject id="46f-Bv-BCE" customClass="NSFontManager"/>
                 <userDefaultsController id="S2P-p1-PcK"/>
@@ -454,7 +447,7 @@
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="256" width="700" height="599"/>
-                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
                         <value key="minSize" type="size" width="400" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">
                             <allowedToolbarItems>
@@ -473,7 +466,7 @@
                                             </segments>
                                         </segmentedCell>
                                         <connections>
-                                            <action selector="modifyFont:" target="9Wc-xw-fDc" id="Csx-f2-mV6"/>
+                                            <action selector="didSelectSegmentedControl:" target="Bha-pi-VKu" id="g6b-v2-rXs"/>
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
@@ -571,7 +564,7 @@
                         <outlet property="directionToggleItem" destination="FaB-SV-uQT" id="sUm-JV-S3o"/>
                         <outlet property="floatToolbarItem" destination="tJ7-AH-8Wv" id="goH-7M-nGQ"/>
                         <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>
-                        <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
+                        <outlet property="sharedFontSizeController" destination="Bha-pi-VKu" id="uJN-nY-Gij"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
                 </windowController>
@@ -585,6 +578,11 @@
                 </customObject>
                 <customObject id="lRh-Yv-s9e" customClass="DictionaryController" customModule="iWords" customModuleProvider="target"/>
                 <customObject id="9Wc-xw-fDc" customClass="NSFontManager"/>
+                <customObject id="Bha-pi-VKu" customClass="SharedFontSizeController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="segmentedControl" destination="1z5-4S-FWj" id="FSc-de-XKe"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="60" y="67.5"/>
         </scene>
@@ -596,13 +594,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zwt-14-0C9">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="vJw-zo-fvh">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
                                 <subviews>
@@ -678,20 +669,15 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Zwt-14-0C9" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="11x-qG-mhY"/>
                             <constraint firstAttribute="trailing" secondItem="vJw-zo-fvh" secondAttribute="trailing" id="DNu-gO-hB1"/>
-                            <constraint firstAttribute="bottom" secondItem="Zwt-14-0C9" secondAttribute="bottom" id="LVD-hv-6hs"/>
-                            <constraint firstItem="Zwt-14-0C9" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="ehj-UK-IAt"/>
                             <constraint firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" constant="-52" id="esW-qf-JTf"/>
                             <constraint firstAttribute="bottom" secondItem="vJw-zo-fvh" secondAttribute="bottom" id="f9c-Hg-ejJ"/>
-                            <constraint firstAttribute="trailing" secondItem="Zwt-14-0C9" secondAttribute="trailing" id="l1g-eM-pfF"/>
                             <constraint firstItem="vJw-zo-fvh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="mxg-4r-YiC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZiB-z0-Agz"/>
                         <viewLayoutGuide key="layoutMargins" id="ieB-cA-Vdm"/>
                     </view>
                     <connections>
-                        <outlet property="webView" destination="Zwt-14-0C9" id="BVh-LZ-qKp"/>
                         <outlet property="welcomeView" destination="vJw-zo-fvh" id="fvP-dN-YBh"/>
                     </connections>
                 </viewController>

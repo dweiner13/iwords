@@ -64,13 +64,14 @@
             <objects>
                 <viewController title="Interface" showSeguePresentationStyle="single" id="p5y-ca-6ro" customClass="InterfaceSettingsViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="DoA-qt-ddp">
-                        <rect key="frame" x="0.0" y="0.0" width="566" height="275"/>
+                        <rect key="frame" x="0.0" y="0.0" width="570" height="309"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-qT-ee5">
-                                <rect key="frame" x="20" y="55" width="526" height="200"/>
+                                <rect key="frame" x="20" y="103" width="530" height="186"/>
                                 <rows>
-                                    <gridRow rowAlignment="none" height="136" id="OR3-GX-ynP"/>
+                                    <gridRow id="4Pf-0y-Dhf"/>
+                                    <gridRow yPlacement="none" rowAlignment="none" id="OR3-GX-ynP"/>
                                     <gridRow yPlacement="top" id="nvG-6y-NdJ"/>
                                 </rows>
                                 <columns>
@@ -78,10 +79,36 @@
                                     <gridColumn id="yTN-Lg-EK4"/>
                                 </columns>
                                 <gridCells>
+                                    <gridCell row="4Pf-0y-Dhf" column="i4D-yV-vAc" id="jMa-qP-jit">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4U2-qz-QMM" userLabel="Display:">
+                                            <rect key="frame" x="52" y="169" width="61" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Text size:" id="pd9-gM-L53">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="4Pf-0y-Dhf" column="yTN-Lg-EK4" id="ziS-z6-Kp3">
+                                        <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z8r-Dj-7vx">
+                                            <rect key="frame" x="120" y="164" width="138" height="24"/>
+                                            <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="70r-H2-UGS">
+                                                <font key="font" metaFont="system"/>
+                                                <segments>
+                                                    <segment label="-"/>
+                                                    <segment label="Reset" toolTip="Reset text size" tag="1"/>
+                                                    <segment label="+" toolTip="Make text bigger"/>
+                                                </segments>
+                                            </segmentedCell>
+                                            <connections>
+                                                <action selector="didSelectSegmentedControl:" target="VHF-rJ-x9N" id="VZV-Pl-ooK"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </gridCell>
                                     <gridCell row="OR3-GX-ynP" column="i4D-yV-vAc" id="ZZ5-ml-Bka">
-                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3zq-PG-Qgg" userLabel="Display:">
-                                            <rect key="frame" x="-2" y="184" width="81" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Appearance:" id="Se8-lw-4jg">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3zq-PG-Qgg" userLabel="Display:">
+                                            <rect key="frame" x="-2" y="126" width="115" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Displaying results:" id="Se8-lw-4jg">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -90,42 +117,10 @@
                                     </gridCell>
                                     <gridCell row="OR3-GX-ynP" column="yTN-Lg-EK4" id="BBj-jd-GSd">
                                         <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="awF-w2-4ZH">
-                                            <rect key="frame" x="89" y="122" width="437" height="78"/>
+                                            <rect key="frame" x="123" y="64" width="407" height="78"/>
                                             <subviews>
-                                                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GE4-9u-5lW">
-                                                    <rect key="frame" x="0.0" y="78" width="125" height="0.0"/>
-                                                    <subviews>
-                                                        <textField verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S6I-3f-x3A">
-                                                            <rect key="frame" x="0.0" y="0.0" width="125" height="0.0"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="HBX-ug-XvQ"/>
-                                                            </constraints>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Menlo Regular 13pt" drawsBackground="YES" id="KAA-Et-5Ic">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                        </textField>
-                                                    </subviews>
-                                                    <visibilityPriorities>
-                                                        <integer value="1000"/>
-                                                    </visibilityPriorities>
-                                                    <customSpacing>
-                                                        <real value="3.4028234663852886e+38"/>
-                                                    </customSpacing>
-                                                </stackView>
-                                                <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ACk-C8-h9t">
-                                                    <rect key="frame" x="-7" y="63" width="103" height="12"/>
-                                                    <buttonCell key="cell" type="push" title="Select Font" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7HO-bv-FTe">
-                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <action selector="orderFrontFontPanel:" target="ofx-4g-hlq" id="522-21-38m"/>
-                                                    </connections>
-                                                </button>
-                                                <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bau-Y2-AbD">
-                                                    <rect key="frame" x="-2" y="57" width="347" height="6"/>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bau-Y2-AbD">
+                                                    <rect key="frame" x="-2" y="57" width="347" height="22"/>
                                                     <buttonCell key="cell" type="check" title="Group results under headers for multi-word searches" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="OG5-Yg-wbU">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
@@ -146,10 +141,10 @@
                                                     </connections>
                                                 </button>
                                                 <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bdl-Zr-a9V">
-                                                    <rect key="frame" x="21" y="0.0" width="416" height="26"/>
+                                                    <rect key="frame" x="21" y="0.0" width="386" height="26"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="tj1-Ae-lAy">
-                                                            <rect key="frame" x="-2" y="0.0" width="420" height="26"/>
+                                                            <rect key="frame" x="-2" y="0.0" width="390" height="26"/>
                                                             <textFieldCell key="cell" selectable="YES" id="N7v-GV-OFH">
                                                                 <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
                                                                 <string key="title">If disabled, only dictionary forms and meanings will be shown. Students or teachers may wish to hide inflections for educational purposes.</string>
@@ -173,12 +168,8 @@
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
-                                                <integer value="1000"/>
-                                                <integer value="1000"/>
                                             </visibilityPriorities>
                                             <customSpacing>
-                                                <real value="3.4028234663852886e+38"/>
-                                                <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
@@ -187,7 +178,7 @@
                                     </gridCell>
                                     <gridCell row="nvG-6y-NdJ" column="i4D-yV-vAc" id="sEC-sx-kPQ">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E6C-VP-HzI">
-                                            <rect key="frame" x="18" y="24" width="61" height="16"/>
+                                            <rect key="frame" x="52" y="24" width="61" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Behavior:" id="YF4-XR-TeI">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -197,7 +188,7 @@
                                     </gridCell>
                                     <gridCell row="nvG-6y-NdJ" column="yTN-Lg-EK4" id="eKs-OD-65Q">
                                         <stackView key="contentView" distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4r6-83-Tqt">
-                                            <rect key="frame" x="89" y="0.0" width="395" height="40"/>
+                                            <rect key="frame" x="123" y="0.0" width="395" height="40"/>
                                             <subviews>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iuo-Ky-Xnp">
                                                     <rect key="frame" x="-2" y="23" width="397" height="18"/>
@@ -243,14 +234,14 @@
                             <constraint firstItem="Obq-qT-ee5" firstAttribute="top" secondItem="DoA-qt-ddp" secondAttribute="top" constant="20" symbolic="YES" id="H1p-ez-6bd"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="fontButton" destination="ACk-C8-h9t" id="H3E-Ja-Mop"/>
-                        <outlet property="fontTextField" destination="S6I-3f-x3A" id="IWU-Si-R5c"/>
-                    </connections>
                 </viewController>
                 <customObject id="e8E-9S-Sac" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="Tde-pi-nfm"/>
-                <customObject id="ofx-4g-hlq" customClass="NSFontManager"/>
+                <customObject id="VHF-rJ-x9N" customClass="SharedFontSizeController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="segmentedControl" destination="z8r-Dj-7vx" id="pbv-hl-Oif"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="-628" y="807.5"/>
         </scene>

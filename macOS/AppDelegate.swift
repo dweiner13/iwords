@@ -49,10 +49,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApp.keyWindow?.windowController as? LookupWindowController
     }
 
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        registerDefaults()
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         DebugDefaults.check()
-
-        registerDefaults()
 
         setUpFont()
 
@@ -167,7 +169,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             "copySearchToNewWindows": false,
             "showStyledRawResults": true,
             "windowsFloatOnTop": false,
-            "showInflections": false
+            "showInflections": false,
+            "webViewTextSizeMultiplier": 1 as Float
         ])
     }
 
