@@ -117,6 +117,7 @@ class LookupViewController: NSViewController {
 
     func updateForResults(_ results: [DictionaryController.Result]) {
         showResultsInWebView(results)
+        invalidateRestorableState()
         // TODO: fix
 //        if UserDefaults.standard.bool(forKey: "showStyledRawResults"),
 //           let textStorage = textView.textStorage {
