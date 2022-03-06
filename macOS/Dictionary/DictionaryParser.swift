@@ -73,6 +73,10 @@ enum DictionaryParser {
         }
 
         for line in str.split(whereSeparator: \.isNewline) {
+            guard line.count > 3 else {
+                currentResults.append(.unknown(String(line)))
+                continue
+            }
             let endOfCode = line.index(line.startIndex, offsetBy: 3)
             let code = line[line.startIndex..<endOfCode]
             let restOfLine = String(line[endOfCode...])
