@@ -17,8 +17,6 @@ class LookupViewController: NSViewController {
 
     @IBOutlet weak var webView: WKWebView!
 
-    @IBOutlet weak var loadingView: LoadingView!
-
     @IBOutlet weak var welcomeView: NSView!
 
     var results: [DictionaryController.Result]? {
@@ -31,11 +29,6 @@ class LookupViewController: NSViewController {
     var isLoading = false {
         didSet {
             updateWelcomeViewVisibility()
-//            textView.isSelectable = !isLoading // TODO: fix
-            NSAnimationContext.runAnimationGroup { context in
-                context.duration = 0.2
-                loadingView.animator().isHidden = !isLoading
-            }
         }
     }
 
@@ -145,7 +138,9 @@ class LookupViewController: NSViewController {
         let encoded = try! encoder.encode(first)
         let str = String(data: encoded, encoding: .utf8)!
         print(str)
-        webView.evaluateJavaScript("showResults({ queries: \(str) })", completionHandler: nil)
+        webView.evaluateJavaScript("showResults({ queries: \(str) })", completionHandler: { result, error in
+            print("webkit error:", error)
+        })
 //        webView.callAsyncJavaScript("showResults({ results: \(str) }})", arguments: [:], in: nil, in: .page, completionHandler: nil)
     }
 
@@ -167,24 +162,14 @@ extension LookupViewController {
         printInfo.isHorizontallyCentered = false
         printInfo.isVerticallyCentered = false
 
-        let printView: NSView
-        let width = printInfo.imageablePageBounds.width
-
-        let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
-        results
-            .map {
-                DictionaryController.Result.allRawStyled($0, font: AppDelegate.shared.font)
-            }
-            .map {
-                textView.textStorage?.append($0)
-            }
-
-        textView.frame.size.height = textView.intrinsicContentSize.height
-        printView = textView
-
-        let op = NSPrintOperation(view: printView, printInfo: printInfo)
-        op.canSpawnSeparateThread = true
-        op.run()
+        // TODO: webkit printing broken \
+        if #available(macOS 11.0, *) {
+            let op = webView.printOperation(with: printInfo)
+            op.view?.frame = view.bounds
+            op.run()
+        } else {
+            // TODO: Fallback on earlier versions
+        }
     }
 
     @objc

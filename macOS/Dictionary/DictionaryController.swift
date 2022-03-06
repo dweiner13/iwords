@@ -122,16 +122,24 @@ class DictionaryController: NSObject, NSSecureCoding {
 
     /// - throws: DWError
     func search(terms: [String], completion: @escaping (Swift.Result<[Result], DWError>) -> Void) {
+        let direction = direction
         dictionary.getDefinitions(terms,
                                   direction: direction,
                                   options: UserDefaults.standard.dictionaryOptions) { result in
-            completion(result.map(self.transformDictionaryResults(_:)))
+            completion(result.map {
+                self.transformDictionaryResults($0, direction: direction)
+            })
         }
     }
 
-    private func transformDictionaryResults(_ dictionaryResults: [(input: String, output: String?)]) -> [Result] {
+    private func transformDictionaryResults(_ dictionaryResults: [(input: String, output: String?)],
+                                            direction: Dictionary.Direction) -> [Result] {
         dictionaryResults.map { dictionaryResult in
-            let parsed = try! dictionaryResult.output.map(DictionaryParser.parse)
+            let parsed = try! dictionaryResult.output.map {
+                try DictionaryParser.parse($0, direction: direction)
+            }
+
+            print(dictionaryResult.output)
 
             return Result(input: dictionaryResult.input, raw: parsed?.map(\.raw).joined(separator: "\n"), parsed: parsed)
         }

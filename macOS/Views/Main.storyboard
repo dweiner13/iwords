@@ -603,9 +603,6 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
-                            <customView hidden="YES" verifyAmbiguity="ignoreSizes" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-3S-c0A" customClass="LoadingView" customModule="iWords" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
-                            </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="vJw-zo-fvh">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
                                 <subviews>
@@ -682,23 +679,18 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="Zwt-14-0C9" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="11x-qG-mhY"/>
-                            <constraint firstItem="ZiB-z0-Agz" firstAttribute="top" secondItem="aeF-3S-c0A" secondAttribute="top" id="9fU-I4-DVt"/>
                             <constraint firstAttribute="trailing" secondItem="vJw-zo-fvh" secondAttribute="trailing" id="DNu-gO-hB1"/>
                             <constraint firstAttribute="bottom" secondItem="Zwt-14-0C9" secondAttribute="bottom" id="LVD-hv-6hs"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="trailing" secondItem="Zwt-14-0C9" secondAttribute="trailing" id="Ory-7F-dix"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="bottom" secondItem="Zwt-14-0C9" secondAttribute="bottom" id="ccX-lI-Meo"/>
                             <constraint firstItem="Zwt-14-0C9" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="ehj-UK-IAt"/>
                             <constraint firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" constant="-52" id="esW-qf-JTf"/>
                             <constraint firstAttribute="bottom" secondItem="vJw-zo-fvh" secondAttribute="bottom" id="f9c-Hg-ejJ"/>
                             <constraint firstAttribute="trailing" secondItem="Zwt-14-0C9" secondAttribute="trailing" id="l1g-eM-pfF"/>
                             <constraint firstItem="vJw-zo-fvh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="mxg-4r-YiC"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="Zwt-14-0C9" secondAttribute="leading" id="ryN-F3-G73"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZiB-z0-Agz"/>
                         <viewLayoutGuide key="layoutMargins" id="ieB-cA-Vdm"/>
                     </view>
                     <connections>
-                        <outlet property="loadingView" destination="aeF-3S-c0A" id="ShM-qs-hsd"/>
                         <outlet property="webView" destination="Zwt-14-0C9" id="BVh-LZ-qKp"/>
                         <outlet property="welcomeView" destination="vJw-zo-fvh" id="fvP-dN-YBh"/>
                     </connections>

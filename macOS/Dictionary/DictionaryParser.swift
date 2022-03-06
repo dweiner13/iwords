@@ -45,7 +45,13 @@ enum DictionaryParser {
         }
     }
 
-    static func parse(_ str: String) throws -> [Result] {
+    static func parse(_ str: String, direction: Dictionary.Direction) throws -> [Result] {
+        let lines = str.split(whereSeparator: \.isNewline)
+
+        guard direction == .latinToEnglish else {
+            return lines.map(String.init(_:)).map(Result.unknown)
+        }
+
         var currentInflections: [String] = []
         var currentDictionaryForms: [String] = []
 
@@ -72,8 +78,12 @@ enum DictionaryParser {
             currentDictionaryForms = []
         }
 
-        for line in str.split(whereSeparator: \.isNewline) {
-            guard line.count > 3 else {
+        for line in lines {
+            guard line.count >= 3 else {
+                currentResults.append(.unknown(String(line)))
+                continue
+            }
+            guard line != "No Match" else {
                 currentResults.append(.unknown(String(line)))
                 continue
             }

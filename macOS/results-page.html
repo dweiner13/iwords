@@ -6,9 +6,9 @@
 	<script>
 	  var compiled = _.template(`
 	  	  <% _.forEach(queries, function(query) {
-			  if (queries.length > 1) {
+			  // if (queries.length > 1) {
 			  	%> <h2 class="input"> <%- query.input %> </h2> <%
-			  }
+			  // }
 			  %> <div> <% _.forEach(query.parsed, function(result) {
 				  if (result.word) {
 					%> <article class="word"> <%
@@ -50,7 +50,7 @@
           document.body.innerHTML = compiled(results)
       }
 	  
-	  // /*
+	  /*
 	  window.addEventListener('load', () => {
 			showResults({ queries: [
 				  {
@@ -205,7 +205,7 @@
 				  }
 				] })
 	  })
-	  // */
+	  */
 	</script>
 	
 	<meta charset="UTF-8">
@@ -255,11 +255,13 @@
 		}
 		
 		pre.word-inflections {
-			color: gray;
+			color: -apple-system-secondary-label;
 		}
 		
 		p.word-meanings {
 			margin-left: 1em;
+            font-size: 1.1em;
+            line-height: 150%;
 		}
 	
 		pre {
