@@ -103,7 +103,7 @@ enum DictionaryParser {
             case "02 ":
                 currentDictionaryForms.append(restOfLine)
             case "03 ":
-                currentMeaning += restOfLine
+                currentMeaning += "\n" + restOfLine
             case "04 ":
                 if !currentMeaning.isEmpty {
                     addPendingWord()

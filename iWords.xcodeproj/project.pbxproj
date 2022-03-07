@@ -23,7 +23,6 @@
 		3760B37D27B07C3C00F81F38 /* Dictionary Settings Help.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */; };
 		3760B38227B0992500F81F38 /* UpdateSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */; };
 		3760B38627B169C700F81F38 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3760B38527B169C700F81F38 /* Sparkle */; };
-		3760B38827B1846F00F81F38 /* KeyLookupWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B38727B1846F00F81F38 /* KeyLookupWindowController.swift */; };
 		3760B38C27B1E7DD00F81F38 /* DictionaryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B38B27B1E7DD00F81F38 /* DictionaryParser.swift */; };
 		3766E410277A3CC700A9D064 /* DWUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 3766E40F277A3CC700A9D064 /* DWUtils */; };
 		37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37679DFB262C779E003D15E1 /* HistoryController.swift */; };
@@ -106,7 +105,6 @@
 		3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySettingsHelpViewController.swift; sourceTree = "<group>"; };
 		3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Dictionary Settings Help.rtf"; sourceTree = "<group>"; };
 		3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSettingsViewController.swift; sourceTree = "<group>"; };
-		3760B38727B1846F00F81F38 /* KeyLookupWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyLookupWindowController.swift; sourceTree = "<group>"; };
 		3760B38B27B1E7DD00F81F38 /* DictionaryParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryParser.swift; sourceTree = "<group>"; };
 		3766E408277A36F700A9D064 /* DWUtils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DWUtils; path = ../../DWUtils; sourceTree = "<group>"; };
 		37679DFB262C779E003D15E1 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
@@ -202,7 +200,6 @@
 				374355B6279C9E8A0052CFBA /* Pretty results (WIP) */,
 				374355B4279C9E3F0052CFBA /* Lookup */,
 				374355B3279C9E360052CFBA /* Settings */,
-				3760B38727B1846F00F81F38 /* KeyLookupWindowController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,11 +207,9 @@
 		374355B3279C9E360052CFBA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				378C811A27D59AC600DAC83A /* Dictionary Settings */,
 				378E51F92795C9FF00730204 /* Settings.storyboard */,
-				3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */,
 				378E51FB2795D57600730204 /* InterfaceSettingsViewController.swift */,
-				3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */,
-				3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */,
 				3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */,
 			);
 			path = Settings;
@@ -225,6 +220,8 @@
 			children = (
 				374355B5279C9E770052CFBA /* Search Bar */,
 				37852ACF278B3EC500ACFFE6 /* LoadingView.swift */,
+				378C811627D465F400DAC83A /* lodash.min.js */,
+				378C811427D40FD000DAC83A /* results-page.html */,
 				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
 				37A4D256262240D000A9E9EC /* LookupWindowController.swift */,
 			);
@@ -264,6 +261,7 @@
 		374355B8279C9EC70052CFBA /* Controllers and Services */ = {
 			isa = PBXGroup;
 			children = (
+				378C811827D52FC300DAC83A /* FontSizeController.swift */,
 				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
 				37679DFB262C779E003D15E1 /* HistoryController.swift */,
 				37126CE1278244B2009BB010 /* PerseusService.swift */,
@@ -292,6 +290,16 @@
 				373AECC0272EB0160021A393 /* PreviewAssets.xcassets */,
 			);
 			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		378C811A27D59AC600DAC83A /* Dictionary Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */,
+				3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */,
+				3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */,
+			);
+			path = "Dictionary Settings";
 			sourceTree = "<group>";
 		};
 		37988D4F2724949200FFBB97 /* Intents */ = {
@@ -331,14 +339,11 @@
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
 				3710529127247B790077CE3D /* ServiceProvider.swift */,
 				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,
-				378C811427D40FD000DAC83A /* results-page.html */,
-				378C811627D465F400DAC83A /* lodash.min.js */,
 				374355B8279C9EC70052CFBA /* Controllers and Services */,
 				374355B7279C9EBD0052CFBA /* Dictionary */,
 				37988D4F2724949200FFBB97 /* Intents */,
 				37679DFA262C7761003D15E1 /* Supporting files */,
 				374355B2279C9E310052CFBA /* Views */,
-				378C811827D52FC300DAC83A /* FontSizeController.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -596,7 +601,6 @@
 			files = (
 				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
 				374355BC279CA10C0052CFBA /* VisualEffectBackground.swift in Sources */,
-				3760B38827B1846F00F81F38 /* KeyLookupWindowController.swift in Sources */,
 				37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */,
 				3760B37727B044AE00F81F38 /* DictionarySettingsViewController.swift in Sources */,
 				378E51FC2795D57600730204 /* InterfaceSettingsViewController.swift in Sources */,

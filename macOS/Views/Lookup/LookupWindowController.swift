@@ -223,7 +223,6 @@ class LookupWindowController: NSWindowController {
                                of object: Any?,
                                change: [NSKeyValueChangeKey : Any]?,
                                context: UnsafeMutableRawPointer?) {
-        print("🏕 floatsOnTop: ", UserDefaults.standard.bool(forKey: "windowsFloatOnTop"))
         setFloatsOnTop(UserDefaults.standard.bool(forKey: "windowsFloatOnTop"))
     }
 
@@ -300,6 +299,14 @@ class LookupWindowController: NSWindowController {
         guard let searchText = searchText else { return }
 
         let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: searchText)
+
+        if urls.count >= 50 {
+            let alert = NSAlert()
+            alert.messageText = "Too Many Words"
+            alert.informativeText = "Looking up in Perseus opens a new tab for each word. Your query has \(urls.count) words. Please search for fewer than 50 words."
+            alert.runModal()
+            return
+        }
 
         if urls.count > 1 && !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
             let alert = NSAlert()

@@ -50,6 +50,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillFinishLaunching(_ notification: Notification) {
+        DictionaryRelocator.initialize()
+
         registerDefaults()
     }
 

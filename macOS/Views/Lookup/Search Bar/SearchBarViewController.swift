@@ -126,7 +126,8 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
     }
 
     private func refreshHeight() {
-        self.setHeight(min(self.searchField.intrinsicContentSize.height + 15, 150))
+        let maxHeight: CGFloat = 142
+        self.setHeight(min(self.searchField.intrinsicContentSize.height + 15, 142))
     }
 }
 

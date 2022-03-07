@@ -322,8 +322,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="rXq-SZ-7jx"/>
-                                        <menuItem title="Float on Top" id="yfB-eW-YwJ">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menuItem title="Float on Top" keyEquivalent="P" id="yfB-eW-YwJ">
                                             <connections>
                                                 <binding destination="S2P-p1-PcK" name="value" keyPath="values.windowsFloatOnTop" id="8in-QK-7VI"/>
                                             </connections>
@@ -538,6 +537,8 @@
                                                     <color name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                 </hierarchicalColors>
                                             </imageReference>
+                                            <string key="keyEquivalent">P</string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
                                         <connections>
                                             <binding destination="XY3-6L-JDo" name="value" keyPath="values.windowsFloatOnTop" id="28h-SJ-N8J">

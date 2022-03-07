@@ -254,10 +254,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="548" height="366"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="24" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ge3-eK-OHR">
-                                <rect key="frame" x="20" y="162" width="501" height="184"/>
+                                <rect key="frame" x="20" y="238" width="501" height="108"/>
                                 <subviews>
                                     <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
-                                        <rect key="frame" x="0.0" y="56" width="347" height="128"/>
+                                        <rect key="frame" x="0.0" y="112" width="347" height="128"/>
                                         <rows>
                                             <gridRow rowAlignment="firstBaseline" id="RLq-gE-v2S"/>
                                             <gridRow rowAlignment="firstBaseline" id="VuE-iz-OSD"/>
@@ -392,14 +392,14 @@
                                         </gridCells>
                                     </gridView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalClippingResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwV-hE-buG">
-                                        <rect key="frame" x="0.0" y="0.0" width="501" height="32"/>
+                                        <rect key="frame" x="0.0" y="56" width="501" height="32"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="vj5-TA-c8q">
                                                 <rect key="frame" x="-2" y="0.0" width="409" height="32"/>
                                                 <textFieldCell key="cell" selectable="YES" alignment="left" id="MXo-xz-aim">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <string key="title">Dictionary files need to be installed in order to customize settings. 
-This will use 33 MB of additional hard disk space.</string>
+This will use 33 MB of additional disk space.</string>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
@@ -424,12 +424,47 @@ This will use 33 MB of additional hard disk space.</string>
                                             <real value="3.4028234663852886e+38"/>
                                         </customSpacing>
                                     </stackView>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalClippingResistancePriority="250" detachesHiddenViews="YES" id="RZz-WE-z5S">
+                                        <rect key="frame" x="0.0" y="0.0" width="501" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vPG-Jx-RXa">
+                                                <rect key="frame" x="-2" y="1" width="403" height="30"/>
+                                                <textFieldCell key="cell" selectable="YES" alignment="left" id="bOb-9k-o0H">
+                                                    <font key="font" textStyle="callout" name=".SFNS-Regular"/>
+                                                    <string key="title">Dictionary files have been installed. Removing them will save 33 MB of disk space, but you will lose any customizations to dictionary settings.</string>
+                                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="On2-RH-MI9">
+                                                <rect key="frame" x="406" y="4" width="96" height="23"/>
+                                                <buttonCell key="cell" type="roundTextured" title="Remove Files" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bBb-F2-7Wp">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="removeFiles:" target="fkP-gV-HhW" id="ILZ-hZ-dfk"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
                                 </subviews>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
@@ -462,6 +497,7 @@ This will use 33 MB of additional hard disk space.</string>
                         <outlet property="includeMedievalWordsButton" destination="Jvf-qN-29S" id="Ih4-Va-GWG"/>
                         <outlet property="includeUncommonWordsButton" destination="j0w-VZ-z2Y" id="pOy-DB-91N"/>
                         <outlet property="installStackView" destination="zwV-hE-buG" id="a8k-TT-Tpu"/>
+                        <outlet property="uninstallStackView" destination="RZz-WE-z5S" id="7v0-Af-lP0"/>
                     </connections>
                 </viewController>
             </objects>
@@ -666,15 +702,15 @@ This will use 33 MB of additional hard disk space.</string>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bwc-n9-ZFe">
                                 <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
                                 <clipView key="contentView" drawsBackground="NO" id="abp-iG-rv6">
-                                    <rect key="frame" x="0.0" y="0.0" width="525" height="700"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="0Rf-Lx-24S">
-                                            <rect key="frame" x="0.0" y="0.0" width="525" height="700"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="540" height="700"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="525" height="700"/>
+                                            <size key="minSize" width="540" height="700"/>
                                             <size key="maxSize" width="540" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -685,7 +721,7 @@ This will use 33 MB of additional hard disk space.</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1BO-2C-8jm">
-                                    <rect key="frame" x="525" y="0.0" width="15" height="700"/>
+                                    <rect key="frame" x="524" y="0.0" width="16" height="700"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

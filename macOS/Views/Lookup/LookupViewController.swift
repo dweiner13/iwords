@@ -244,6 +244,7 @@ extension LookupViewController {
 // MARK: - NSTextViewDelegate
 
 extension LookupViewController: NSTextViewDelegate {
+    // TODO: fix
     func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         guard !selectedText().trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             return menu

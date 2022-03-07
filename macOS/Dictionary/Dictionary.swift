@@ -96,11 +96,9 @@ class Dictionary {
     private lazy var executablePath = executableURL.path
     private lazy var bundleWorkingDir = Bundle.main.url(forResource: "DICTFILE", withExtension: "GEN")!
         .deletingLastPathComponent()
-    private lazy var workingDir: URL = {
-        DictionaryRelocator.wasRelocationPerformed()
-            ? ((try? DictionaryRelocator.dictionarySupportURL()) ?? bundleWorkingDir)
-            : bundleWorkingDir
-    }()
+    private var workingDir: URL {
+        DictionaryRelocator.dictionarySupportURL ?? bundleWorkingDir
+    }
 
     private var activeCompletionHandler: ((Result<String?, DWError>) -> Void)?
     private var process: Process?
@@ -324,6 +322,8 @@ class Dictionary {
         p.standardOutput = outputPipe
         p.standardError = errorPipe
         p.standardInput = inputPipe
+
+        print("WORDS process launching with workingDir \(p.currentDirectoryURL!)")
 
         let outputFileHandle = outputPipe!.fileHandleForReading
 
