@@ -1,5 +1,5 @@
 //
-//  RelocateDictionaryOperation.swift
+//  DictionaryRelocator.swift
 //  iWords (macOS)
 //
 //  Created by Dan Weiner on 2/6/22.
@@ -13,50 +13,27 @@ extension NSNotification.Name {
 
 enum DictionaryRelocator {
 
-    static func relocateDictionaryToApplicationSupport() throws {
-        try _relocate()
-    }
+    // MARK: Properties
 
-    /// Will only exist after migration has been performed.
+    /// Will be non-nil if migration has been performed.
     static var dictionarySupportURL: URL?
 
-    static func uninstall() throws {
-        guard let dictionarySupportURL = dictionarySupportURL else {
-            throw DWError("Unable to get dictionary support path.", recoverySuggestion: nil)
-        }
+    // MARK: Private properties
 
+    private static let _dictionarySupportURL: URL? = {
         let fileManager = FileManager.default
 
-        try fileManager.removeItem(at: dictionarySupportURL)
+        let appSupportURL = try? fileManager.url(for: .applicationSupportDirectory,
+                                                    in: .userDomainMask,
+                                                    appropriateFor: nil,
+                                                    create: true)
 
-        Self.dictionarySupportURL = nil
-
-        print("Removed items at \(dictionarySupportURL)")
-
-        NotificationCenter.default.post(name: .dictionaryRelocationComplete, object: nil)
-    }
-
-    // TODO: This is gross, fix it later
-    static func initialize() {
-        if wasRelocationPerformed() {
-            dictionarySupportURL = _dictionarySupportURL
-        }
-    }
-
-    private static func wasRelocationPerformed() -> Bool {
-        do {
-            guard let dictionarySupportURL = _dictionarySupportURL else {
-                throw DWError("Unable to get dictionary support path.", recoverySuggestion: nil)
-            }
-            return fileNamesToMigrate
-                .allSatisfy {
-                    let dstURL = dictionarySupportURL.appendingPathComponent($0, isDirectory: false)
-                    return FileManager.default.fileExists(atPath: dstURL.path)
-                }
-        } catch {
-            return false
-        }
-    }
+        return appSupportURL?
+            .appendingPathComponent("iWords",
+                                    isDirectory: true)
+            .appendingPathComponent("Dictionary Support",
+                                    isDirectory: true)
+    }()
 
     private static let fileNamesToMigrate = [
         "WORD.MDV",
@@ -74,20 +51,48 @@ enum DictionaryRelocator {
         "UNIQUES.LAT"
     ]
 
-    private static let _dictionarySupportURL: URL? = {
+    // MARK: Methods
+
+    static func relocateDictionaryToApplicationSupport() throws {
+        try _relocate()
+    }
+
+    static func initialize() {
+        if wasRelocationPerformed() {
+            dictionarySupportURL = _dictionarySupportURL
+        }
+    }
+
+    static func uninstall() throws {
+        guard let dictionarySupportURL = dictionarySupportURL else {
+            throw DWError("Unable to get dictionary support path.", recoverySuggestion: nil)
+        }
+
         let fileManager = FileManager.default
 
-        let appSupportURL = try? fileManager.url(for: .applicationSupportDirectory,
-                                                    in: .userDomainMask,
-                                                    appropriateFor: nil,
-                                                    create: true)
+        try fileManager.removeItem(at: dictionarySupportURL)
 
-        return appSupportURL?
-            .appendingPathComponent("iWords",
-                                    isDirectory: true)
-            .appendingPathComponent("Dictionary Support",
-                                    isDirectory: true)
-    }()
+        Self.dictionarySupportURL = nil
+
+        NotificationCenter.default.post(name: .dictionaryRelocationComplete, object: nil)
+    }
+
+    // MARK: Private methods
+
+    private static func wasRelocationPerformed() -> Bool {
+        do {
+            guard let dictionarySupportURL = _dictionarySupportURL else {
+                throw DWError("Unable to get dictionary support path.", recoverySuggestion: nil)
+            }
+            return fileNamesToMigrate
+                .allSatisfy {
+                    let dstURL = dictionarySupportURL.appendingPathComponent($0, isDirectory: false)
+                    return FileManager.default.fileExists(atPath: dstURL.path)
+                }
+        } catch {
+            return false
+        }
+    }
 
     // Migrate dictionary to local user storage if necessary.
     private static func _relocate() throws {
@@ -107,6 +112,8 @@ enum DictionaryRelocator {
             let dstURL = dictionarySupportURL.appendingPathComponent(file, isDirectory: false)
 
 #if DEBUG
+            // If in DEBUG mode, always overwrite WORD.MDV instead of leaving the existing copy, so
+            // that we can easily tweak it for development purposes.
             if file == "WORD.MDV" {
                 try? fileManager.removeItem(at: dstURL)
             }

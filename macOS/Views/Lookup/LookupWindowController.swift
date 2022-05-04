@@ -174,6 +174,7 @@ class LookupWindowController: NSWindowController {
                 $0.submenu = directionMenuFormRepresentation
             }
 
+        // TODO: fix
 //        fontSizeItem.menuFormRepresentation = fontMenuFormRepresentation()
 
         floatToolbarItem.menuFormRepresentation = NSMenuItem(title: "Float on Top",

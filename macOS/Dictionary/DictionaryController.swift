@@ -135,6 +135,7 @@ class DictionaryController: NSObject, NSSecureCoding {
     private func transformDictionaryResults(_ dictionaryResults: [(input: String, output: String?)],
                                             direction: Dictionary.Direction) -> [Result] {
         dictionaryResults.map { dictionaryResult in
+            // TODO: remove force-try
             let parsed = try! dictionaryResult.output.map {
                 try DictionaryParser.parse($0, direction: direction)
             }

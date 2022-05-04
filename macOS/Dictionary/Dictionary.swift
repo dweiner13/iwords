@@ -141,13 +141,11 @@ class Dictionary {
         var completedCount: Double = 0
 
         func processInput(at i: Int) {
-//            print("Looking up \"\(inputs[i])\"")
             getDefinition(inputs[i], direction: direction, options: options) { result in
                 switch result {
                 case .failure(let error):
                     completion(.failure(error))
                 case .success(let result):
-//                    print("Got result for \"\(inputs[i])\"")
                     results.append((inputs[i], result))
                     completedCount += 1
                     let progress = completedCount / totalCount
@@ -179,9 +177,6 @@ class Dictionary {
         }
 
         func write(_ str: String) {
-#if DEBUG
-//            print("Sending to stdin:", str)
-#endif
             inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
         }
 
@@ -217,10 +212,6 @@ class Dictionary {
         let newData = fileHandle.availableData
         tempData += newData
 
-        #if DEBUG
-//        print("New data available:", String(data: newData  , encoding: .utf8))
-        #endif
-
         // Always prefix of an English-to-Latin result
         let englishToLatinPrefix = "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )\n\n=>"
         // Always prefix of a Latin-to-English result
@@ -229,10 +220,6 @@ class Dictionary {
         guard let tempDataString = String(data: tempData, encoding: .utf8) else {
             fatalError()
         }
-
-        #if DEBUG
-//        print("tempDataString", tempDataString)
-        #endif
 
         if case let cmp = tempDataString.components(separatedBy: englishToLatinPrefix),
            cmp.count > 1,
@@ -255,10 +242,6 @@ class Dictionary {
 
     private func handleDefinitionResult(_ str: String) {
         assert(Thread.current.isMainThread)
-
-        #if DEBUG
-//        print("handleDefinitionResult(\"\(str)\")")
-        #endif
 
         var str = str
         str = str.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -322,8 +305,6 @@ class Dictionary {
         p.standardOutput = outputPipe
         p.standardError = errorPipe
         p.standardInput = inputPipe
-
-        print("WORDS process launching with workingDir \(p.currentDirectoryURL!)")
 
         let outputFileHandle = outputPipe!.fileHandleForReading
 

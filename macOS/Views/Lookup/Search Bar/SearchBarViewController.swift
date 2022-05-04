@@ -94,8 +94,6 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
 
-
-
         delegate?.searchBar(self, textDidChangeTo: searchField.stringValue)
     }
 

@@ -56,21 +56,9 @@ class BackForwardController: NSObject {
         forwardList.last
     }
 
-    private var backList: [SearchQuery] = [] {
-        didSet {
-            #if DEBUG
-//            print("backList: \(backList)")
-            #endif
-        }
-    }
+    private var backList: [SearchQuery] = []
 
-    private var forwardList: [SearchQuery] = [] {
-        didSet {
-            #if DEBUG
-//            print("forwardList: \(forwardList)")
-            #endif
-        }
-    }
+    private var forwardList: [SearchQuery] = []
 
     func decode(with coder: NSCoder) {
         backList = coder.decodeObject(forKey: "BackForwardController.backList") as? [SearchQuery] ?? []

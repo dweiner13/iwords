@@ -18,7 +18,7 @@
 		373AECC8272EF26D0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
 		374355BC279CA10C0052CFBA /* VisualEffectBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */; };
 		3760B37727B044AE00F81F38 /* DictionarySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */; };
-		3760B37927B04A4600F81F38 /* DictionaryMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37827B04A4600F81F38 /* DictionaryMigrator.swift */; };
+		3760B37927B04A4600F81F38 /* DictionaryRelocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37827B04A4600F81F38 /* DictionaryRelocator.swift */; };
 		3760B37B27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */; };
 		3760B37D27B07C3C00F81F38 /* Dictionary Settings Help.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */; };
 		3760B38227B0992500F81F38 /* UpdateSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */; };
@@ -58,6 +58,7 @@
 		37AB5A22262671D200118674 /* words in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A21262671D200118674 /* words */; };
 		37AB5A242626733300118674 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 37AB5A232626733300118674 /* Credits.rtf */; };
 		37B089FB272F237400932567 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 37B089FD272F237400932567 /* Intents.intentdefinition */; };
+		37B0F0D628220FE400F23C6D /* SharedFontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B0F0D528220FE400F23C6D /* SharedFontSizeController.swift */; };
 		37BE70C2279341D600A041D2 /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BE70C1279341D600A041D2 /* SearchBarViewController.swift */; };
 		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
 		37BF1C0C262B8366003C4A97 /* iWords.help in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C0B262B8366003C4A97 /* iWords.help */; };
@@ -101,7 +102,7 @@
 		373AECC0272EB0160021A393 /* PreviewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewAssets.xcassets; sourceTree = "<group>"; };
 		374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
 		3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySettingsViewController.swift; sourceTree = "<group>"; };
-		3760B37827B04A4600F81F38 /* DictionaryMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryMigrator.swift; sourceTree = "<group>"; };
+		3760B37827B04A4600F81F38 /* DictionaryRelocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryRelocator.swift; sourceTree = "<group>"; };
 		3760B37A27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySettingsHelpViewController.swift; sourceTree = "<group>"; };
 		3760B37C27B07C3C00F81F38 /* Dictionary Settings Help.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Dictionary Settings Help.rtf"; sourceTree = "<group>"; };
 		3760B38027B0992500F81F38 /* UpdateSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSettingsViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		37AB5A21262671D200118674 /* words */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = words; sourceTree = "<group>"; };
 		37AB5A232626733300118674 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		37B089FC272F237400932567 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
+		37B0F0D528220FE400F23C6D /* SharedFontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFontSizeController.swift; sourceTree = "<group>"; };
 		37BE70C1279341D600A041D2 /* SearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
 		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
 		37BF1C0B262B8366003C4A97 /* iWords.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iWords.help; sourceTree = "<group>"; };
@@ -252,7 +254,7 @@
 				37A4D1FC26222A7000A9E9EC /* WORDS */,
 				37852AD1278B45ED00ACFFE6 /* Dictionary.swift */,
 				37126CF3278A035B009BB010 /* DictionaryController.swift */,
-				3760B37827B04A4600F81F38 /* DictionaryMigrator.swift */,
+				3760B37827B04A4600F81F38 /* DictionaryRelocator.swift */,
 				3760B38B27B1E7DD00F81F38 /* DictionaryParser.swift */,
 			);
 			path = Dictionary;
@@ -262,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				378C811827D52FC300DAC83A /* FontSizeController.swift */,
+				37B0F0D528220FE400F23C6D /* SharedFontSizeController.swift */,
 				37679DFD262C860B003D15E1 /* BackForwardController.swift */,
 				37679DFB262C779E003D15E1 /* HistoryController.swift */,
 				37126CE1278244B2009BB010 /* PerseusService.swift */,
@@ -607,12 +610,13 @@
 				37AA04DA2634485200353747 /* DefinitionParser.swift in Sources */,
 				372E2E0D27821A1D005C9C8A /* PartOfSpeech.swift in Sources */,
 				37679DFC262C779E003D15E1 /* HistoryController.swift in Sources */,
-				3760B37927B04A4600F81F38 /* DictionaryMigrator.swift in Sources */,
+				3760B37927B04A4600F81F38 /* DictionaryRelocator.swift in Sources */,
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
 				37126CE2278244B2009BB010 /* PerseusService.swift in Sources */,
 				3710529227247B790077CE3D /* ServiceProvider.swift in Sources */,
 				378C811927D52FC300DAC83A /* FontSizeController.swift in Sources */,
 				37B089FB272F237400932567 /* Intents.intentdefinition in Sources */,
+				37B0F0D628220FE400F23C6D /* SharedFontSizeController.swift in Sources */,
 				37A4D2592622412000A9E9EC /* LookupWindowController.swift in Sources */,
 				3760B38227B0992500F81F38 /* UpdateSettingsViewController.swift in Sources */,
 				37679E00262CC87C003D15E1 /* WindowRestoration.swift in Sources */,

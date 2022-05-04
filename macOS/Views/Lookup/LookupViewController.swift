@@ -59,7 +59,6 @@ class LookupViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        webView.configuration.userContentController.add(self, name: "windowDidLoad")
 
         webView = WebView(frame: view.bounds)
         webView.setMaintainsBackForwardList(false)
@@ -77,7 +76,6 @@ class LookupViewController: NSViewController {
 
         let url = Bundle.main.url(forResource: "results-page", withExtension: "html")!
         webView.mainFrame.load(URLRequest(url: url))
-//        webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
 
         startListeningToUserDefaults()
 
@@ -132,25 +130,8 @@ class LookupViewController: NSViewController {
 
     func updateForResults(_ results: [DictionaryController.Result]) {
         showResultsInWebView(results)
+
         invalidateRestorableState()
-        // TODO: fix
-//        if UserDefaults.standard.bool(forKey: "groupDefinitions"),
-//           let textStorage = textView.textStorage {
-//            let attrString = DictionaryController.Result.parsedStyled(results, font: AppDelegate.shared.font)
-//                .let { NSMutableAttributedString(attributedString: $0) }
-//                .then { $0.addAttributes([.foregroundColor: NSColor.labelColor], range: NSRange(location: 0, length: $0.length)) }
-//            textStorage.setAttributedString(attrString)
-//        } else {
-//            textView.textStorage?.setAttributedString(NSAttributedString(string: DictionaryController.Result.allRaw(results),
-//                                                                         attributes: [.font: AppDelegate.shared.font,
-//                                                                                      .foregroundColor: NSColor.labelColor]))
-//        }
-
-//        DispatchQueue.main.async {
-//            self.webView.flashScrollers()
-//        }
-
-//        invalidateRestorableState()
     }
 
     func showResultsInWebView(_ results: [DictionaryController.Result]) {
@@ -241,48 +222,6 @@ extension LookupViewController {
 
     func resetTextSize() {
         webView.textSizeMultiplier = 1
-    }
-}
-
-// MARK: - NSTextViewDelegate
-
-extension LookupViewController: NSTextViewDelegate {
-    // TODO: fix
-    func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
-        guard !selectedText().trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            return menu
-        }
-        menu.insertItem(NSMenuItem(title: "Look Up (Latin → English)",
-                                   action: #selector(LookupWindowController.search(_:)),
-                                   keyEquivalent: "").then { $0.tag = Dictionary.Direction.latinToEnglish.rawValue; $0.representedObject = selectedText() },
-                        at: 0)
-        menu.insertItem(NSMenuItem(title: "Look Up (English → Latin)",
-                                   action: #selector(LookupWindowController.search(_:)),
-                                   keyEquivalent: "").then { $0.tag = Dictionary.Direction.englishToLatin.rawValue; $0.representedObject = selectedText() },
-                        at: 1)
-        menu.insertItem(NSMenuItem(title: "Look Up in Perseus",
-                                   action: #selector(LookupWindowController.lookUpInPerseus(_:)),
-                                   keyEquivalent: "").then { $0.representedObject = selectedText() },
-                        at: 2)
-        menu.insertItem(NSMenuItem.separator(),
-                        at: 3)
-        return menu
-    }
-
-    private func selectedText() -> String {
-        guard #available(macOS 10.15.4, *) else {
-            return ""
-        }
-        return ""
-
-//        let range = webView.firstSelectedRange
-//        print(range)
-//        return ""
-//        guard let substring = textView.textStorage?.attributedSubstring(from: range),
-//              substring.length > 0 else {
-//            return ""
-//        }
-//        return substring.string
     }
 }
 
