@@ -9,6 +9,7 @@ import Cocoa
 
 protocol SearchBarDelegate: AnyObject {
     func searchBar(_ searchBar: SearchBarViewController, didSearchText text: String)
+    func searchBar(_ searchBar: SearchBarViewController, textDidChangeTo text: String)
 }
 
 class SearchBarViewController: NSTitlebarAccessoryViewController {
@@ -90,6 +91,14 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
         refreshHeight()
     }
 
+    override func viewDidAppear() {
+        super.viewDidAppear()
+
+
+
+        delegate?.searchBar(self, textDidChangeTo: searchField.stringValue)
+    }
+
     private func startListeningToUserDefaults() {
         NSUserDefaultsController.shared.addObserver(self,
                                                     forKeyPath: "values.searchBarGrowsToFitContent",
@@ -127,7 +136,7 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 
     private func refreshHeight() {
         let maxHeight: CGFloat = 142
-        self.setHeight(min(self.searchField.intrinsicContentSize.height + 15, 142))
+        self.setHeight(min(self.searchField.intrinsicContentSize.height + 15, maxHeight))
     }
 }
 
@@ -135,6 +144,7 @@ extension SearchBarViewController: NSTextFieldDelegate {
     func controlTextDidChange(_ obj: Notification) {
         DispatchQueue.main.async {
             self.refreshHeight()
+            self.delegate?.searchBar(self, textDidChangeTo: self.searchField.stringValue)
         }
     }
 }

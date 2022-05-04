@@ -132,6 +132,7 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
     @IBOutlet weak var directionToggleButton: NSButton!
     @IBOutlet weak var floatToolbarItem: NSToolbarItem!
+    @IBOutlet weak var perseusLookupButton: NSButton!
 
     // Not used, but need a strong reference or it will be dealloced.
     @IBOutlet var sharedFontSizeController: SharedFontSizeController!
@@ -554,7 +555,7 @@ class LookupWindowController: NSWindowController {
     }
 }
 
-// Handling for back/forward
+// MARK: - Handling for toolbar items
 @objc
 extension LookupWindowController {
     override func responds(to aSelector: Selector!) -> Bool {
@@ -582,6 +583,8 @@ extension LookupWindowController {
     }
 }
 
+// MARK: - NSWindow Delegate
+
 extension LookupWindowController: NSWindowDelegate {
     func windowDidBecomeKey(_ notification: Notification) {
         searchBar?.focusSearch(self)
@@ -594,6 +597,8 @@ extension LookupWindowController: NSWindowDelegate {
         return standardFrame
     }
 }
+
+// MARK: - BackForward Delegate
 
 extension LookupWindowController: BackForwardDelegate {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController) {
@@ -621,14 +626,22 @@ extension LookupWindowController: BackForwardDelegate {
     }
 }
 
+// MARK: - DictionaryController Delegate
+
 extension LookupWindowController: DictionaryControllerDelegate {
     func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
         searchBar?.setProgress(progress)
     }
 }
 
+// MARK: - SearchBar Delegate
+
 extension LookupWindowController: SearchBarDelegate {
     func searchBar(_ searchBar: SearchBarViewController, didSearchText text: String) {
         search(text)
+    }
+
+    func searchBar(_ searchBar: SearchBarViewController, textDidChangeTo text: String) {
+        perseusLookupButton.isEnabled = PerseusUtils.canLookUpInPerseus(searchText: text)
     }
 }

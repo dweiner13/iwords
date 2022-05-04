@@ -108,7 +108,7 @@
                                     </gridCell>
                                     <gridCell row="OR3-GX-ynP" column="i4D-yV-vAc" id="ZZ5-ml-Bka">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3zq-PG-Qgg" userLabel="Display:">
-                                            <rect key="frame" x="-2" y="126" width="115" height="16"/>
+                                            <rect key="frame" x="-2" y="64" width="115" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Displaying results:" id="Se8-lw-4jg">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -258,7 +258,7 @@
                                 <rect key="frame" x="20" y="238" width="501" height="108"/>
                                 <subviews>
                                     <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
-                                        <rect key="frame" x="0.0" y="112" width="347" height="128"/>
+                                        <rect key="frame" x="0.0" y="-20" width="347" height="128"/>
                                         <rows>
                                             <gridRow rowAlignment="firstBaseline" id="RLq-gE-v2S"/>
                                             <gridRow rowAlignment="firstBaseline" id="VuE-iz-OSD"/>
@@ -393,7 +393,7 @@
                                         </gridCells>
                                     </gridView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalClippingResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwV-hE-buG">
-                                        <rect key="frame" x="0.0" y="56" width="501" height="32"/>
+                                        <rect key="frame" x="0.0" y="-76" width="501" height="32"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="vj5-TA-c8q">
                                                 <rect key="frame" x="-2" y="0.0" width="409" height="32"/>
