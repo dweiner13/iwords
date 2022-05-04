@@ -14,8 +14,8 @@
 
 	  var compiled = _.template(`
 	  	  <% _.forEach(queries, function(query) {
-			  %> <h2 class="input"> <%- query.input %> </h2> <%
-			  %> <div> <% _.forEach(query.parsed, function(result) {
+			  %> <h2 class="input <%- groupDefinitions ? "" : "hidden" %>"> <%- query.input %> </h2> <%
+			  %> <div class=" <%- groupDefinitions ? "indented" : "" %> "> <% _.forEach(query.parsed, function(result) {
 				  if (result.word) {
 
 					%> <article class="word"> <%
@@ -60,164 +60,6 @@
       function showResults(results) {
           document.body.innerHTML = compiled(results)
       }
-	  
-	  /*
-	  window.addEventListener('load', () => {
-			showResults({ showInflections: true, queries: [
-				  {
-					"input" : "quidque",
-					"raw": "thisIsRawOutput",
-					"parsed" : [
-					  {
-						"addon" : {
-						  "_0" : "que                  TACKON                             "
-						}
-					  },
-					  {
-						"trick" : {
-						  "_0" : "PACKON w\/qui => whoever it be; whatever; each, each one; everyone, everything;"
-						}
-					  },
-					  {
-						"word" : {
-						  "_0" : {
-							"forms" : [
-							  {
-								"dictionaryForms" : [
-								  "qu  PACK  "
-								],
-								"inflections" : [
-								  "qu.i                 PRON   1 0 DAT S X                 ",
-								  "qu.i                 PRON   1 0 NOM P M                 "
-								]
-							  }
-							],
-							"meaning" : "(w\/-que) each, each one; every, everybody, everything (more than 2); whatever;"
-						  }
-						}
-					  },
-					  {
-						"word" : {
-						  "_0" : {
-							"forms" : [
-				
-							],
-							"meaning" : "(w\/-que) any; each;"
-						  }
-						}
-					  },
-					  {
-						"addon" : {
-						  "_0" : "que                  TACKON                             "
-						}
-					  },
-					  {
-						"trick" : {
-						  "_0" : "-que = and (enclitic, translated before attached word); completes plerus\/uter;"
-						}
-					  },
-					  {
-						"word" : {
-						  "_0" : {
-							"forms" : [
-				
-							],
-							"meaning" : "who; that; which, what; of which kind\/degree; person\/thing\/time\/point that;who\/what\/which?, what\/which one\/man\/person\/thing? what kind\/type of?;who\/whatever, everyone who, all that, anything that;any; anyone\/anything, any such; unspecified some; (after si\/sin\/sive\/ne);who?, which?, what?; what kind of?;"
-						  }
-						}
-					  },
-					  {
-						"word" : {
-						  "_0" : {
-							"forms" : [
-				
-							],
-							"meaning" : "who; that; which, what; of which kind\/degree; person\/thing\/time\/point that;who\/whatever, everyone who, all that, anything that;any; anyone\/anything, any such; unspecified some; (after si\/sin\/sive\/ne);who?, which?, what?; what kind of?;"
-						  }
-						}
-					  },
-					  {
-						"word" : {
-						  "_0" : {
-							"forms" : [
-							  {
-								"dictionaryForms" : [
-								  "queo, quire, quivi(ii), quitus  V  "
-								],
-								"inflections" : [
-								  "qu.i                 PRON   1 0 NOM S M                 ",
-								  "qu.i                 PRON   1 0 NOM P M                 ",
-								  "qu.i                 PRON   1 0 NOM S M                 ",
-								  "qui                  V      6 1 PRES ACTIVE  IMP 2 S    "
-								]
-							  }
-							],
-							"meaning" : "be able;"
-						  }
-						}
-					  },
-					  {
-						"word" : {
-						  "_0" : {
-							"forms" : [
-				
-							],
-							"meaning" : "how?; how so; in what way; by what\/which means; whereby; at whatever price;"
-						  }
-						}
-					  },
-					  {
-						"addon" : {
-						  "_0" : "que                  TACKON                             "
-						}
-					  },
-					  {
-						"trick" : {
-						  "_0" : "PACKON w\/qui => whoever it be; whatever; each, each one; everyone, everything;"
-						}
-					  },
-					  {
-						"word" : {
-						  "_0" : {
-							"forms" : [
-							  {
-								"dictionaryForms" : [
-								  "qui  ADV  "
-								],
-								"inflections" : [
-								  "qui                  ADV    POS                         "
-								]
-							  },
-							  {
-								"dictionaryForms" : [
-								  "qu  PACK  "
-								],
-								"inflections" : [
-								  "qu.i                 PRON   1 0 DAT S X                 ",
-								  "qu.i                 PRON   1 0 NOM P M                 "
-								]
-							  }
-							],
-							"meaning" : "(w\/-que) each, each one; every, everybody, everything (more than 2); whatever;"
-						  }
-						}
-					  },
-					  {
-						"word" : {
-						  "_0" : {
-							"forms" : [
-				
-							],
-							"meaning" : "(w\/-que) any; each;"
-						  }
-						}
-					  }
-					],
-					"raw" : "que                  TACKON                             \nPACKON w\/qui => whoever it be; whatever; each, each one; everyone, everything;\nqu.i                 PRON   1 0 DAT S X                 \nqu.i                 PRON   1 0 NOM P M                 \nqu  PACK  \n(w\/-que) each, each one; every, everybody, everything (more than 2); whatever;\n\n(w\/-que) any; each;\nque                  TACKON                             \n-que = and (enclitic, translated before attached word); completes plerus\/uter;\n\nwho; that; which, what; of which kind\/degree; person\/thing\/time\/point that;who\/what\/which?, what\/which one\/man\/person\/thing? what kind\/type of?;who\/whatever, everyone who, all that, anything that;any; anyone\/anything, any such; unspecified some; (after si\/sin\/sive\/ne);who?, which?, what?; what kind of?;\n\nwho; that; which, what; of which kind\/degree; person\/thing\/time\/point that;who\/whatever, everyone who, all that, anything that;any; anyone\/anything, any such; unspecified some; (after si\/sin\/sive\/ne);who?, which?, what?; what kind of?;\nqu.i                 PRON   1 0 NOM S M                 \nqu.i                 PRON   1 0 NOM P M                 \nqu.i                 PRON   1 0 NOM S M                 \nqui                  V      6 1 PRES ACTIVE  IMP 2 S    \nqueo, quire, quivi(ii), quitus  V  \nbe able;\n\nhow?; how so; in what way; by what\/which means; whereby; at whatever price;\nque                  TACKON                             \nPACKON w\/qui => whoever it be; whatever; each, each one; everyone, everything;\nqui                  ADV    POS                         \nqui  ADV  \nqu.i                 PRON   1 0 DAT S X                 \nqu.i                 PRON   1 0 NOM P M                 \nqu  PACK  \n(w\/-que) each, each one; every, everybody, everything (more than 2); whatever;\n\n(w\/-que) any; each;"
-				  }
-				] })
-	  })
-	  */
 	</script>
 	
 	<style>
@@ -229,20 +71,23 @@
 			color-scheme: light dark;
 		}
 
+        .hidden {
+            display: none;
+        }
+
+        .indented {
+            padding-left: 0.5em;
+        }
+
 		body {
 			font-size: 0.9em;
 			margin: 0;
 			line-height: 110%;
 			margin-left: 0.5em;
             margin-top: 0.5em;
-/* 			font-family: "New York", "Georgia", "Serif"; */
 			font-family: sans-serif;
             background: -apple-system-text-background;
             color: -apple-system-label;
-		}
-		
-		article {
-			padding-left: 1em;
 		}
 		
 		article.word {
@@ -259,7 +104,6 @@
 		}
 		
 		pre.word-dictionary-forms {
-/* 			font-weight: bold; */
 			margin-bottom: 0.4em;
 			margin-top: 0.2em;
 		}
@@ -269,7 +113,7 @@
 		}
 		
 		p.word-meanings {
-			margin-left: 1em;
+			margin-left: 0.5em;
             font-size: 1.1em;
             line-height: 150%;
 		}

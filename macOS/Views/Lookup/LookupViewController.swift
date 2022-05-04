@@ -94,7 +94,7 @@ class LookupViewController: NSViewController {
         #if DEBUG
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
         #endif
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showStyledRawResults", options: .new, context: nil)
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.groupDefinitions", options: .new, context: nil)
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
     }
 
@@ -104,7 +104,7 @@ class LookupViewController: NSViewController {
         case "values.prettyResults":
             fallthrough
         #endif
-        case "values.showStyledRawResults":
+        case "values.groupDefinitions":
             fallthrough
         case "values.showInflections":
             results.map(updateForResults(_:))
@@ -117,7 +117,7 @@ class LookupViewController: NSViewController {
 #if DEBUG
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
 #endif
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showStyledRawResults")
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.groupDefinitions")
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
     }
 
@@ -134,7 +134,7 @@ class LookupViewController: NSViewController {
         showResultsInWebView(results)
         invalidateRestorableState()
         // TODO: fix
-//        if UserDefaults.standard.bool(forKey: "showStyledRawResults"),
+//        if UserDefaults.standard.bool(forKey: "groupDefinitions"),
 //           let textStorage = textView.textStorage {
 //            let attrString = DictionaryController.Result.parsedStyled(results, font: AppDelegate.shared.font)
 //                .let { NSMutableAttributedString(attributedString: $0) }
@@ -158,12 +158,15 @@ class LookupViewController: NSViewController {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         let encoded = try! encoder.encode(results)
         let str = String(data: encoded, encoding: .utf8)!
-        webView.stringByEvaluatingJavaScript(from: """
+        let js = """
             showResults({
                 queries: \(str),
-                showInflections: \(String(UserDefaults.standard.bool(forKey: "showInflections")))
+                showInflections: \(String(UserDefaults.standard.bool(forKey: "showInflections"))),
+                groupDefinitions: \(String(UserDefaults.standard.bool(forKey: "groupDefinitions")))
             })
-            """)
+            """
+        print(js)
+        webView.stringByEvaluatingJavaScript(from: js)
     }
 
     func fontChanged() {

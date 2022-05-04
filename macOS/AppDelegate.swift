@@ -169,7 +169,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             "history": [],
             "searchBarGrowsToFitContent": true,
             "copySearchToNewWindows": false,
-            "showStyledRawResults": true,
+            "groupDefinitions": true,
             "windowsFloatOnTop": false,
             "showInflections": false,
             "webViewTextSizeMultiplier": 1 as Float
