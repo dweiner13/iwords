@@ -142,7 +142,9 @@ class DictionaryController: NSObject, NSSecureCoding {
 
             dictionaryResult.output.map { print($0) }
 
-            return Result(input: dictionaryResult.input, raw: parsed?.map(\.raw).joined(separator: "\n"), parsed: parsed)
+            return Result(input: dictionaryResult.input,
+                          raw: parsed?.map(\.raw).joined(separator: "\n"),
+                          parsed: parsed)
         }
     }
 }

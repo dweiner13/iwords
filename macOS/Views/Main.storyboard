@@ -570,6 +570,7 @@
                         <outlet property="directionToggleItem" destination="FaB-SV-uQT" id="sUm-JV-S3o"/>
                         <outlet property="floatToolbarItem" destination="tJ7-AH-8Wv" id="goH-7M-nGQ"/>
                         <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>
+                        <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="QTS-ck-VGB"/>
                         <outlet property="perseusLookupButton" destination="qpa-VS-4lI" id="TTl-5p-mzP"/>
                         <outlet property="sharedFontSizeController" destination="Bha-pi-VKu" id="uJN-nY-Gij"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
