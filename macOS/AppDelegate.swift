@@ -165,14 +165,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func registerDefaults() {
         UserDefaults.standard.register(defaults: [
-            "diagnosticMode": false,
-            "history": [],
-            "searchBarGrowsToFitContent": true,
             "copySearchToNewWindows": false,
+            "diagnosticMode": false,
             "groupDefinitions": true,
-            "windowsFloatOnTop": false,
+            "history": [],
+            "prettyFormatOutput": true,
+            "searchBarGrowsToFitContent": true,
             "showInflections": false,
-            "webViewTextSizeMultiplier": 1 as Float
+            "webViewTextSizeMultiplier": 1 as Float,
+            "windowsFloatOnTop": false,
         ])
     }
 

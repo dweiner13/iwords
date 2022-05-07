@@ -94,6 +94,7 @@ class LookupViewController: NSViewController {
         #endif
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.groupDefinitions", options: .new, context: nil)
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyFormatOutput", options: .new, context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -105,6 +106,8 @@ class LookupViewController: NSViewController {
         case "values.groupDefinitions":
             fallthrough
         case "values.showInflections":
+            fallthrough
+        case "values.prettyFormatOutput":
             results.map(updateForResults(_:))
         default:
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -117,6 +120,7 @@ class LookupViewController: NSViewController {
 #endif
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.groupDefinitions")
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyFormatOutput")
     }
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
@@ -143,7 +147,8 @@ class LookupViewController: NSViewController {
             showResults({
                 queries: \(str),
                 showInflections: \(String(UserDefaults.standard.bool(forKey: "showInflections"))),
-                groupDefinitions: \(String(UserDefaults.standard.bool(forKey: "groupDefinitions")))
+                groupDefinitions: \(String(UserDefaults.standard.bool(forKey: "groupDefinitions"))),
+                prettyFormatOutput: \(String(UserDefaults.standard.bool(forKey: "prettyFormatOutput")))
             })
             """
         print(js)

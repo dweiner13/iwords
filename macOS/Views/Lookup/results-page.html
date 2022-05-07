@@ -12,7 +12,7 @@
             window.iWordsDelegate.webViewDidLoad()
         })
 
-	  var compiled = _.template(`
+	    var prettyTemplate = _.template(`
 	  	  <% _.forEach(queries, function(query) {
 			  %> <h2 class="input <%- groupDefinitions ? "" : "hidden" %>"> <%- query.input %> </h2> <%
 			  %> <div class=" <%- groupDefinitions ? "indented" : "" %> "> <% _.forEach(query.parsed, function(result) {
@@ -54,11 +54,57 @@
 			  }); %>
 			  </div>
 		  <% }) %>
-		  
 	  `)
 
+      var rawTemplate = _.template(`
+            <% _.forEach(queries, function(query) {
+              %> <div> <% _.forEach(query.parsed, function(result) {
+                  if (result.word) {
+
+                    %> <article> <%
+                    _.forEach(result.word._0.forms, function(form) {
+                        if (showInflections && form.inflections.length > 0) {
+                            const joinedInflections = form.inflections.join('\\n');
+                            %> <pre><%- joinedInflections %></pre> <%
+                        }
+                        if (form.dictionaryForms.length > 0) {
+                            const joinedDictionaryForms = form.dictionaryForms.join('\\n');
+                            %> <pre><%- joinedDictionaryForms %></pre> <%
+                        }
+                    })
+                    %> <pre><%- result.word._0.meaning %></pre> <%
+                    %> </article> <%
+
+                  } else if (result.addon) {
+
+                    %> <article> <%
+                    %> <pre><%- result.addon._0 %></pre> <%
+                    %> </article> <%
+
+                  } else if (result.trick) {
+
+                    %> <article> <%
+                    %> <pre><%- result.trick._0 %></pre> <%
+                    %> </article> <%
+
+                  } else if (result.unknown) {
+
+                    %> <article> <%
+                    %> <pre><%- result.unknown._0 %></pre> <%
+                    %> </article> <%
+
+                  }
+              }); %>
+              </div>
+          <% }) %>
+      `)
+
       function showResults(results) {
-          document.body.innerHTML = compiled(results)
+          if (results.prettyFormatOutput) {
+              document.body.innerHTML = prettyTemplate(results)
+          } else {
+              document.body.innerHTML = rawTemplate(results)
+          }
       }
 	</script>
 	
