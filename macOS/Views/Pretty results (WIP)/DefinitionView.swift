@@ -8,6 +8,8 @@
 import SwiftUI
 import DWUtils
 
+#if DEBUG
+
 // MARK: DefinitionsView
 
 @available(macOS 11.0, *)
@@ -169,3 +171,5 @@ struct DefinitionView_Previews: PreviewProvider {
         }
     }
 }
+
+#endif

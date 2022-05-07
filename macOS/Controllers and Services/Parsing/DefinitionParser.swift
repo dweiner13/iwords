@@ -5,9 +5,17 @@
 //  Created by Dan Weiner on 4/24/21.
 //
 
+#if DEBUG
+
 import Foundation
 import Parsing
 import DWUtils
+
+// NOTE: this parser is currently unused. Instead, the parser in `DictionaryParser` (simpler, based
+// on Pearse codes output by WORDS) is used instead.
+// The parser in this file is more powerful and can parse every piece of a definition into a
+// highly structured output, but is less stable and requires a lot of manual work to handle edge
+// cases.
 
 enum PartOfSpeech: String, CustomStringConvertible, Codable {
     case noun = "N",
@@ -1105,3 +1113,5 @@ func parse(_ str: String) -> ([ResultItem], Bool)? {
 
     return (results, truncated)
 }
+
+#endif
