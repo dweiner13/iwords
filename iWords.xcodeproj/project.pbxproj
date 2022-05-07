@@ -65,6 +65,7 @@
 		37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC4362263476DD00E60CE9 /* DefinitionTests.swift */; };
 		37CC43662634AB8100E60CE9 /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 37CC43652634AB8100E60CE9 /* Parsing */; };
 		37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC43692634D81900E60CE9 /* DefinitionView.swift */; };
+		37ECE3322826CBEF0087C94C /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37ECE3312826CBEF0087C94C /* SearchQuery.swift */; };
 		37EDB2EA27945A4400911BC6 /* AutosizingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -153,6 +154,7 @@
 		37CC435C263476D200E60CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37CC4362263476DD00E60CE9 /* DefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionTests.swift; sourceTree = "<group>"; };
 		37CC43692634D81900E60CE9 /* DefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
+		37ECE3312826CBEF0087C94C /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
 		37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizingTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -226,6 +228,7 @@
 				378C811427D40FD000DAC83A /* results-page.html */,
 				37A4D24B26223C6D00A9E9EC /* LookupViewController.swift */,
 				37A4D256262240D000A9E9EC /* LookupWindowController.swift */,
+				37ECE3312826CBEF0087C94C /* SearchQuery.swift */,
 			);
 			path = Lookup;
 			sourceTree = "<group>";
@@ -614,6 +617,7 @@
 				37A4D2532622401D00A9E9EC /* AppDelegate.swift in Sources */,
 				37126CE2278244B2009BB010 /* PerseusService.swift in Sources */,
 				3710529227247B790077CE3D /* ServiceProvider.swift in Sources */,
+				37ECE3322826CBEF0087C94C /* SearchQuery.swift in Sources */,
 				378C811927D52FC300DAC83A /* FontSizeController.swift in Sources */,
 				37B089FB272F237400932567 /* Intents.intentdefinition in Sources */,
 				37B0F0D628220FE400F23C6D /* SharedFontSizeController.swift in Sources */,
