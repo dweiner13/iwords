@@ -26,34 +26,6 @@ class DictionaryController: NSObject, NSSecureCoding {
         static func allRaw(_ results: [Result]) -> String {
             results.compactMap(\.raw).joined(separator: "\n\n")
         }
-
-        static func allRawStyled(_ results: [Result], font: NSFont) -> NSAttributedString {
-            let attrString = results
-                .map { result -> NSMutableAttributedString in
-                    if results.count > 1 {
-                        let str = NSMutableAttributedString(string: result.input,
-                                                  attributes: [.font: NSFontManager.shared.convert(font, toHaveTrait: .boldFontMask),
-                                                               .paragraphStyle: NSMutableParagraphStyle().then { $0.paragraphSpacing = 4; $0.paragraphSpacingBefore = 20 }])
-                        str.append(.init(string: "\n",
-                                        attributes: [.font: font]))
-                        str.append(.init(string: result.raw ?? "No result",
-                                        attributes: [.font: font,
-                                                     .paragraphStyle: NSMutableParagraphStyle().then { $0.firstLineHeadIndent = 12; $0.headIndent = 24 }]))
-                        return str
-                    } else {
-                        return NSMutableAttributedString(string: result.raw ?? "No result", attributes: [.font: font])
-                    }
-                }
-                .reduce(into: NSMutableAttributedString(string: "", attributes: [.font: font])) { partialResult, styledDefinition in
-                    partialResult.append(styledDefinition)
-                    partialResult.append(.init(string: "\n", attributes: [.font: font]))
-                }
-            if attrString.length == 0 {
-                return NSAttributedString(string: "No results.", attributes: [.font: font])
-            } else {
-                return attrString
-            }
-        }
     }
 
     static let supportsSecureCoding = true
@@ -135,17 +107,25 @@ class DictionaryController: NSObject, NSSecureCoding {
     private func transformDictionaryResults(_ dictionaryResults: [(input: String, output: String?)],
                                             direction: Dictionary.Direction) -> [Result] {
         dictionaryResults.map { dictionaryResult in
-            // TODO: remove force-try
-            let parsed = try! dictionaryResult.output.map {
+            let parsed = try? dictionaryResult.output.map {
                 try DictionaryParser.parse($0, direction: direction)
             }
 
             dictionaryResult.output.map { print($0) }
 
             return Result(input: dictionaryResult.input,
-                          raw: parsed?.map(\.raw).joined(separator: "\n"),
+                          raw: dictionaryResult.output.map(trimPearseCodes(fromRawOutput:)),
                           parsed: parsed)
         }
+    }
+
+    private func trimPearseCodes(fromRawOutput raw: String) -> String {
+        let trimmed = raw.split(whereSeparator: \.isNewline)
+            .map {
+                $0.count > 3 ? $0.suffix(from: $0.startIndex.advanced(by: 3)) : $0
+            }
+            .joined(separator: "\n")
+        return String(trimmed)
     }
 }
 
