@@ -23,7 +23,7 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 
     @IBOutlet private weak var progressIndicator: NSProgressIndicator!
 
-    weak var backForwardController: BackForwardController? {
+    var backForwardController: BackForwardController? {
         didSet {
             backForwardControllerObservation = nil
             backForwardControllerObservation = backForwardController?.observe(\.currentSearchQuery, changeHandler: { backForwardController, change in
