@@ -200,6 +200,7 @@ class LookupWindowController: NSWindowController {
         backForwardController = nil
         fontManager = nil
         dictionaryController = nil
+        lookupViewController.removeObservers()
     }
 
     @IBAction

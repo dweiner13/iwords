@@ -89,34 +89,33 @@ class LookupViewController: NSViewController {
     }
 
     private func startListeningToUserDefaults() {
-        #if DEBUG
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
-        #endif
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyFormatOutput", options: .new, context: nil)
+//        NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: nil, queue: nil) { [weak self] notification in
+//            guard let self = self else { return }
+//            self.results.map(self.updateForResults(_:))
+//        }
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        switch keyPath {
-        #if DEBUG
-        case "values.prettyResults":
-            fallthrough
-        #endif
-        case "values.showInflections":
-            fallthrough
-        case "values.prettyFormatOutput":
-            results.map(updateForResults(_:))
-        default:
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        switch keyPath {
+//        #if DEBUG
+//        case "prettyResults":
+//            fallthrough
+//        #endif
+//        case "showInflections":
+//            fallthrough
+//        case "prettyFormatOutput":
+//            results.map(updateForResults(_:))
+//        default:
+//            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+//        }
+//    }
 
-    deinit {
+    func removeObservers() {
 #if DEBUG
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
+//        UserDefaults.standard.removeObserver(self, forKeyPath: "prettyResults")
 #endif
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyFormatOutput")
+//        UserDefaults.standard.removeObserver(self, forKeyPath: "showInflections")
+//        UserDefaults.standard.removeObserver(self, forKeyPath: "prettyFormatOutput")
     }
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
