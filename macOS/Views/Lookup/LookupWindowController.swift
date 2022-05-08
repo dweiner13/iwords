@@ -51,7 +51,6 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
     @IBOutlet weak var directionToggleButton: NSButton!
     @IBOutlet weak var floatToolbarItem: NSToolbarItem!
-    @IBOutlet weak var perseusLookupButton: NSButton!
 
     // Not used, but need a strong reference or it will be dealloced.
     @IBOutlet var sharedFontSizeController: SharedFontSizeController!
@@ -201,56 +200,6 @@ class LookupWindowController: NSWindowController {
         backForwardController = nil
         fontManager = nil
         dictionaryController = nil
-    }
-
-    @IBAction
-    func lookUpInPerseus(_ sender: Any?) {
-        let searchText: String? = {
-            if let menuItemSender = sender as? NSMenuItem,
-               let representedObject = menuItemSender.representedObject as? String {
-                // If sender is menu item in context menu in the results text view,
-                // representedObject will be the selected text
-                return representedObject
-            } else {
-                return backForwardController.currentSearchQuery?.searchText
-            }
-        }()
-
-        guard let searchText = searchText else { return }
-
-        let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: searchText)
-
-        if urls.count >= 50 {
-            let alert = NSAlert()
-            alert.messageText = "Too Many Words"
-            alert.informativeText = "Looking up in Perseus opens a new tab for each word. Your query has \(urls.count) words. Please search for fewer than 50 words."
-            alert.runModal()
-            return
-        }
-
-        if urls.count > 1 && !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
-            let alert = NSAlert()
-            alert.messageText = "Are you sure you want to open \(urls.count) new tabs in your web browser?"
-            alert.informativeText = "\(urls.count) tabs to www.perseus.tufts.edu will be opened."
-            alert.addButton(withTitle: "Open \(urls.count) Tabs")
-            alert.addButton(withTitle: "Cancel")
-            alert.showsSuppressionButton = true
-            let clicked = alert.runModal()
-
-            if clicked == .alertFirstButtonReturn,
-               let suppressionButton = alert.suppressionButton,
-               suppressionButton.state == .on {
-                UserDefaults.standard.set(true, forKey: "suppressMultipleTabsAlert")
-            }
-
-            guard clicked == .alertFirstButtonReturn else {
-                return
-            }
-        }
-
-        urls.forEach {
-            NSWorkspace.shared.open($0)
-        }
     }
 
     @IBAction
@@ -479,11 +428,6 @@ extension LookupWindowController {
             return backForwardController.canGoBack
         case #selector(goForward(_:)):
             return backForwardController.canGoForward
-        case #selector(lookUpInPerseus(_:)):
-            guard let searchText = backForwardController.currentSearchQuery?.searchText else {
-                return false
-            }
-            return PerseusUtils.canLookUpInPerseus(searchText: searchText)
         default:
             return super.responds(to: aSelector)
         }
@@ -554,9 +498,5 @@ extension LookupWindowController: DictionaryControllerDelegate {
 extension LookupWindowController: SearchBarDelegate {
     func searchBar(_ searchBar: SearchBarViewController, didSearchText text: String) {
         search(text)
-    }
-
-    func searchBar(_ searchBar: SearchBarViewController, textDidChangeTo text: String) {
-        perseusLookupButton.isEnabled = PerseusUtils.canLookUpInPerseus(searchText: text)
     }
 }

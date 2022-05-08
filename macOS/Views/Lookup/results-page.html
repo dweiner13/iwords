@@ -12,10 +12,16 @@
             window.iWordsDelegate.webViewDidLoad()
         })
 
+        function buttonClick(word) {
+            window.iWordsDelegate.displayContextMenuFor_(word)
+        }
+
 	    const prettyTemplate = _.template(`
 	  	  <% _.forEach(queries, function(query) {
-			  %> <h2 class="input <%- groupDefinitions ? "" : "hidden" %>"> <%- query.input %> </h2> <%
-			  %> <div class=" <%- groupDefinitions ? "indented" : "" %> "> <% _.forEach(query.parsed, function(result) {
+			  %> <h2 class="input">
+                <%- query.input %> <button onclick="buttonClick('<%- query.input %>')">⋯</button>
+              </h2> <%
+			  %> <div class="indented"> <% _.forEach(query.parsed, function(result) {
 				  if (result.word) {
 
 					%> <article class="word"> <%
@@ -137,9 +143,14 @@
 		}
 		
 		h2.input {
-			font-size: 1.2em;
-			margin-top: 0.5em;
-			margin-bottom: 1em;
+            font-size: 1.2em;
+            margin-top: 0.4em;
+            margin-bottom: 0.5em;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: baseline;
 		}
 		
 		h2.input:not(:first-child) {
@@ -150,6 +161,25 @@
 		p {
 			margin: 0
 		}
+
+        button {
+            border: none;
+            background-color: rgba(1,1,1,0);
+            font-weight: bolder;
+            font-size: 1em;
+            margin-right: 0.5em;
+            padding: 2px 6px;
+            margin-top: 0;
+        }
+
+        button:hover {
+            background-color: lightgray;
+            border-radius: 5pt;
+        }
+
+        button:active {
+            background-color: gray;
+        }
 	</style>
 </head>
 <body>
