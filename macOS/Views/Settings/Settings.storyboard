@@ -259,7 +259,7 @@
                                 <rect key="frame" x="20" y="238" width="501" height="108"/>
                                 <subviews>
                                     <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" rowSpacing="24" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-vt-UMC">
-                                        <rect key="frame" x="0.0" y="-20" width="347" height="128"/>
+                                        <rect key="frame" x="0.0" y="112" width="347" height="128"/>
                                         <rows>
                                             <gridRow rowAlignment="firstBaseline" id="RLq-gE-v2S"/>
                                             <gridRow rowAlignment="firstBaseline" id="VuE-iz-OSD"/>
@@ -394,7 +394,7 @@
                                         </gridCells>
                                     </gridView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalClippingResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwV-hE-buG">
-                                        <rect key="frame" x="0.0" y="-76" width="501" height="32"/>
+                                        <rect key="frame" x="0.0" y="56" width="501" height="32"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="vj5-TA-c8q">
                                                 <rect key="frame" x="-2" y="0.0" width="409" height="32"/>
@@ -521,12 +521,10 @@ This will use 33 MB of additional disk space.</string>
                         <rect key="frame" x="0.0" y="0.0" width="575" height="250"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="n2r-Do-wyO">
-                                <rect key="frame" x="20" y="59" width="535" height="171"/>
+                                <rect key="frame" x="20" y="133" width="262" height="97"/>
                                 <rows>
                                     <gridRow id="8Hb-mA-779"/>
                                     <gridRow bottomPadding="8" id="REX-32-fqz"/>
-                                    <gridRow id="gHk-Bj-pOe"/>
-                                    <gridRow bottomPadding="16" id="daM-R7-pSz"/>
                                     <gridRow id="pjW-r8-cja"/>
                                     <gridRow id="lRm-JU-gbt"/>
                                 </rows>
@@ -538,7 +536,7 @@ This will use 33 MB of additional disk space.</string>
                                     <gridCell row="8Hb-mA-779" column="Ptg-02-cIl" id="ceM-Gv-pxB"/>
                                     <gridCell row="8Hb-mA-779" column="KWA-K6-mbn" id="L6a-bu-oRE">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="coG-Ud-jV1">
-                                            <rect key="frame" x="91" y="144" width="178" height="32"/>
+                                            <rect key="frame" x="91" y="70" width="178" height="32"/>
                                             <buttonCell key="cell" type="push" title="Check for Updates Now" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2hC-VK-1kQ">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -554,7 +552,7 @@ This will use 33 MB of additional disk space.</string>
                                     <gridCell row="REX-32-fqz" column="Ptg-02-cIl" id="Vnh-Gk-WYw"/>
                                     <gridCell row="REX-32-fqz" column="KWA-K6-mbn" id="1Dg-Ww-vgS">
                                         <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="05w-gl-HQL">
-                                            <rect key="frame" x="98" y="130" width="98" height="13"/>
+                                            <rect key="frame" x="98" y="56" width="98" height="13"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="V88-al-rKK">
                                                     <rect key="frame" x="-2" y="0.0" width="75" height="13"/>
@@ -590,43 +588,6 @@ This will use 33 MB of additional disk space.</string>
                                             </visibilityPriorities>
                                             <customSpacing>
                                                 <real value="3.4028234663852886e+38"/>
-                                                <real value="3.4028234663852886e+38"/>
-                                            </customSpacing>
-                                        </stackView>
-                                    </gridCell>
-                                    <gridCell row="gHk-Bj-pOe" column="Ptg-02-cIl" id="SyS-pX-Ubs"/>
-                                    <gridCell row="gHk-Bj-pOe" column="KWA-K6-mbn" id="oyr-FT-mke">
-                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-cZ-Qwk" userLabel="Send system profile data">
-                                            <rect key="frame" x="96" y="97" width="232" height="18"/>
-                                            <buttonCell key="cell" type="check" title="Include anonymous system profile" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kGv-Jf-qni">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <binding destination="tU5-tj-Wyi" name="value" keyPath="updater.sendsSystemProfile" id="ori-5x-KgU"/>
-                                            </connections>
-                                        </button>
-                                    </gridCell>
-                                    <gridCell row="daM-R7-pSz" column="Ptg-02-cIl" id="YvM-8r-6mc"/>
-                                    <gridCell row="daM-R7-pSz" column="KWA-K6-mbn" id="Xlf-PZ-fSy">
-                                        <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a06-BE-fSV">
-                                            <rect key="frame" x="98" y="64" width="437" height="26"/>
-                                            <subviews>
-                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Tdi-KL-N9U">
-                                                    <rect key="frame" x="19" y="0.0" width="420" height="26"/>
-                                                    <textFieldCell key="cell" selectable="YES" id="UjP-uZ-IvD">
-                                                        <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
-                                                        <string key="title">When iWords pings for updates, it can include system information, like your macOS version, to help guide development. No identifying information is included.</string>
-                                                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                </textField>
-                                            </subviews>
-                                            <edgeInsets key="edgeInsets" left="21" right="0.0" top="0.0" bottom="0.0"/>
-                                            <visibilityPriorities>
-                                                <integer value="1000"/>
-                                            </visibilityPriorities>
-                                            <customSpacing>
                                                 <real value="3.4028234663852886e+38"/>
                                             </customSpacing>
                                         </stackView>
