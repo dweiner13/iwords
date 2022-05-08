@@ -64,7 +64,7 @@
 
       const rawTemplate = _.template(`
           <% _.forEach(queries, function(query) { %>
-              <article><pre><%- query.raw %></pre></article>
+              <article><pre><%- query.raw %>\n\n</pre></article>
           <% }) %>
       `)
 
