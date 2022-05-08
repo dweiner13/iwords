@@ -226,7 +226,29 @@ class LookupViewController: NSViewController {
 extension LookupViewController: WebFrameLoadDelegate {
 
     func webView(_ webView: WebView!, didClearWindowObject windowObject: WebScriptObject!, for frame: WebFrame!) {
-        windowObject.setValue(self, forKey: "iWordsDelegate")
+        let delegate = WebViewDelegate()
+        delegate.onWebViewDidLoad = { [unowned self] in
+            self.webViewDidLoad()
+        }
+        delegate.onDisplayContextMenuForWord = { [unowned self] word in
+            self.displayContextMenu(for: word)
+        }
+        windowObject.setValue(delegate, forKey: "iWordsDelegate")
+    }
+}
+
+private class WebViewDelegate: NSObject {
+    var onWebViewDidLoad: () -> Void = { }
+    var onDisplayContextMenuForWord: (String) -> Void = { _ in }
+
+    @objc
+    func webViewDidLoad() {
+        onWebViewDidLoad()
+    }
+
+    @objc
+    func displayContextMenu(for word: String) {
+        onDisplayContextMenuForWord(word)
     }
 }
 
