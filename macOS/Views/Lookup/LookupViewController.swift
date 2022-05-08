@@ -92,7 +92,6 @@ class LookupViewController: NSViewController {
         #if DEBUG
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
         #endif
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.groupDefinitions", options: .new, context: nil)
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyFormatOutput", options: .new, context: nil)
     }
@@ -103,8 +102,6 @@ class LookupViewController: NSViewController {
         case "values.prettyResults":
             fallthrough
         #endif
-        case "values.groupDefinitions":
-            fallthrough
         case "values.showInflections":
             fallthrough
         case "values.prettyFormatOutput":
@@ -118,7 +115,6 @@ class LookupViewController: NSViewController {
 #if DEBUG
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
 #endif
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.groupDefinitions")
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyFormatOutput")
     }
@@ -147,8 +143,7 @@ class LookupViewController: NSViewController {
             showResults({
                 queries: \(str),
                 showInflections: \(String(UserDefaults.standard.bool(forKey: "showInflections"))),
-                groupDefinitions: \(String(UserDefaults.standard.bool(forKey: "groupDefinitions"))),
-                prettyFormatOutput: \(String(UserDefaults.standard.bool(forKey: "prettyFormatOutput")))
+                prettyFormatOutput: \(String(UserDefaults.standard.bool(forKey: "prettyFormatOutput"))),
             })
             """
         print(js)
@@ -167,12 +162,64 @@ class LookupViewController: NSViewController {
         results.map(showResultsInWebView(_:))
     }
 
-    override class func isSelectorExcluded(fromWebScript selector: Selector!) -> Bool {
-        if selector == #selector(webViewDidLoad) {
-            return false
+    @objc
+    func displayContextMenu(for word: String) {
+        let menu = NSMenu()
+        let perseusItem = NSMenuItem(title: "Look Up in Perseus", action: #selector(lookUpInPerseus(_:)), keyEquivalent: "")
+        perseusItem.representedObject = word
+        menu.addItem(perseusItem)
+        menu.popUp(positioning: menu.item(at: 0), at: view.window?.mouseLocationOutsideOfEventStream ?? .zero, in: view)
+    }
+
+    @IBAction
+    func lookUpInPerseus(_ sender: NSMenuItem) {
+        guard let word = sender.representedObject as? String else {
+            print("Trying to look up in perseus but sender.representedObject is not a string")
+            return
         }
 
-        return true
+        let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: word)
+
+        if urls.count >= 50 {
+            let alert = NSAlert()
+            alert.messageText = "Too Many Words"
+            alert.informativeText = "Looking up in Perseus opens a new tab for each word. Your query has \(urls.count) words. Please search for fewer than 50 words."
+            alert.runModal()
+            return
+        }
+
+        if urls.count > 1 && !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
+            let alert = NSAlert()
+            alert.messageText = "Are you sure you want to open \(urls.count) new tabs in your web browser?"
+            alert.informativeText = "\(urls.count) tabs to www.perseus.tufts.edu will be opened."
+            alert.addButton(withTitle: "Open \(urls.count) Tabs")
+            alert.addButton(withTitle: "Cancel")
+            alert.showsSuppressionButton = true
+            let clicked = alert.runModal()
+
+            if clicked == .alertFirstButtonReturn,
+               let suppressionButton = alert.suppressionButton,
+               suppressionButton.state == .on {
+                UserDefaults.standard.set(true, forKey: "suppressMultipleTabsAlert")
+            }
+
+            guard clicked == .alertFirstButtonReturn else {
+                return
+            }
+        }
+
+        urls.forEach {
+            NSWorkspace.shared.open($0)
+        }
+    }
+
+    override class func isSelectorExcluded(fromWebScript selector: Selector!) -> Bool {
+        switch selector {
+        case #selector(webViewDidLoad), #selector(displayContextMenu(for:)):
+            return false
+        default:
+            return true
+        }
     }
 }
 

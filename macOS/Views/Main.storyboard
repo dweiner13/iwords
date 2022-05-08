@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
@@ -276,13 +276,6 @@
                                                 <action selector="changeDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="NCi-r5-ysW"/>
-                                        <menuItem title="Look Up in Perseus" keyEquivalent="p" id="dEI-ff-LEF" userLabel="Toggle">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="lookUpInPerseus:" target="Ady-hI-5gd" id="Aoa-qy-HaN"/>
-                                            </connections>
-                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -506,22 +499,6 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="52E67CFE-A32C-4250-BFC7-591F810ACB9C" label="Look Up in Perseus" paletteLabel="Look Up in Perseus" bordered="YES" title="Perseus" sizingBehavior="auto" id="pR4-E5-Ef0">
-                                    <nil key="toolTip"/>
-                                    <button key="view" toolTip="Look up in Perseus Digital Library" verticalHuggingPriority="750" id="qpa-VS-4lI">
-                                        <rect key="frame" x="22" y="14" width="65" height="23"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="roundTextured" title="Perseus" bezelStyle="texturedRounded" imagePosition="leading" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f6n-DK-oM9">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                            <string key="keyEquivalent">p</string>
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                        </buttonCell>
-                                    </button>
-                                    <connections>
-                                        <action selector="lookUpInPerseus:" target="Oky-zY-oP4" id="eAM-yJ-7c7"/>
-                                    </connections>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="FFDD8A55-34E0-4726-9086-9AB25C226116" label="Float" paletteLabel="Float on Top" image="pin" catalog="system" bordered="YES" sizingBehavior="auto" id="tJ7-AH-8Wv">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="A0X-YN-sJp">
@@ -554,7 +531,6 @@
                                 <toolbarItem reference="5fT-cZ-IJv"/>
                                 <toolbarItem reference="ocg-9b-k2f"/>
                                 <toolbarItem reference="WMQ-RV-CF9"/>
-                                <toolbarItem reference="pR4-E5-Ef0"/>
                                 <toolbarItem reference="FaB-SV-uQT"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -571,7 +547,6 @@
                         <outlet property="floatToolbarItem" destination="tJ7-AH-8Wv" id="goH-7M-nGQ"/>
                         <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>
                         <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="QTS-ck-VGB"/>
-                        <outlet property="perseusLookupButton" destination="qpa-VS-4lI" id="TTl-5p-mzP"/>
                         <outlet property="sharedFontSizeController" destination="Bha-pi-VKu" id="uJN-nY-Gij"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
