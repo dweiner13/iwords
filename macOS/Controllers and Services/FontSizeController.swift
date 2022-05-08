@@ -49,6 +49,9 @@ class FontSizeController: NSObject {
         guard canIncreaseScale else {
             return
         }
+        if textScale < 0.6 {
+            textScale = 0.6
+        }
         textScale *= kStepMultiplier
         UserDefaults.standard.set(textScale, forKey: "webViewTextSizeMultiplier")
         notify()
