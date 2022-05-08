@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20034" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20034"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
+        <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -40,16 +41,6 @@
                                                     </dictionary>
                                                 </binding>
                                                 <binding destination="AnR-hL-FcP" name="value" keyPath="values.diagnosticMode" id="mvD-DL-W9a"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Pretty Results (Debug)" keyEquivalent="P" id="5Tp-V2-055">
-                                            <connections>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="3sv-bK-3jM">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
-                                                <binding destination="AnR-hL-FcP" name="value" keyPath="values.prettyResults" id="LEt-CM-1wo"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="fbp-5F-nwt"/>
@@ -111,6 +102,11 @@
                                                 <action selector="focusSearch:" target="Ady-hI-5gd" id="Ssr-7g-XuO"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="New Search" hidden="YES" keyEquivalent="l" allowsKeyEquivalentWhenHidden="YES" id="lLG-pe-rtM">
+                                            <connections>
+                                                <action selector="focusSearch:" target="Ady-hI-5gd" id="ISh-8w-KjC"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="3jA-Gu-wqu"/>
                                         <menuItem title="Print..." keyEquivalent="p" id="6Ld-fy-Su7">
                                             <connections>
@@ -121,16 +117,6 @@
                                         <menuItem title="Save As..." keyEquivalent="s" id="bYf-fa-jBW">
                                             <connections>
                                                 <action selector="exportRawResult:" target="Ady-hI-5gd" id="XHt-KT-0ta"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Export Results as JSON...  (Debug)" keyEquivalent="J" id="L9E-xW-M2L">
-                                            <connections>
-                                                <action selector="exportJSONResult:" target="Ady-hI-5gd" id="aZp-oe-5U3"/>
-                                                <binding destination="Voe-Tx-rLC" name="hidden" keyPath="isDebug" id="WNC-8h-mJy">
-                                                    <dictionary key="options">
-                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                    </dictionary>
-                                                </binding>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zFd-KG-8sn"/>
@@ -290,13 +276,6 @@
                                                 <action selector="changeDirection:" target="Ady-hI-5gd" id="uzk-JL-rc9"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="NCi-r5-ysW"/>
-                                        <menuItem title="Look Up in Perseus" keyEquivalent="p" id="dEI-ff-LEF" userLabel="Toggle">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="lookUpInPerseus:" target="Ady-hI-5gd" id="Aoa-qy-HaN"/>
-                                            </connections>
-                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -336,8 +315,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="rXq-SZ-7jx"/>
-                                        <menuItem title="Float on Top" id="yfB-eW-YwJ">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menuItem title="Float on Top" keyEquivalent="P" id="yfB-eW-YwJ">
                                             <connections>
                                                 <binding destination="S2P-p1-PcK" name="value" keyPath="values.windowsFloatOnTop" id="8in-QK-7VI"/>
                                             </connections>
@@ -345,24 +323,17 @@
                                         <menuItem isSeparatorItem="YES" id="Ed9-lD-OCg"/>
                                         <menuItem title="Increase Text Size" tag="3" keyEquivalent="+" id="LY5-Jr-UWd">
                                             <connections>
-                                                <action selector="modifyFont:" target="46f-Bv-BCE" id="riH-hm-7tZ"/>
+                                                <action selector="increaseScale:" target="4BM-jX-8AG" id="HNK-8V-umJ"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Decrease Text Size" tag="4" keyEquivalent="-" id="ZDb-lj-Vk8">
                                             <connections>
-                                                <action selector="modifyFont:" target="46f-Bv-BCE" id="fzI-6x-9HA"/>
+                                                <action selector="decreaseScale:" target="4BM-jX-8AG" id="t2l-d9-6SV"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Reset Text Size" keyEquivalent="0" id="3u8-kf-UKB">
                                             <connections>
-                                                <action selector="resetFont:" target="Ady-hI-5gd" id="ir5-5V-dOL"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="TsX-cJ-xkP"/>
-                                        <menuItem title="Show Fonts..." id="Zf8-3B-kgh">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="orderFrontFontPanel:" target="46f-Bv-BCE" id="uTA-ns-asM"/>
+                                                <action selector="resetScale:" target="4BM-jX-8AG" id="gw0-aN-ewy"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="RnI-8p-IH7"/>
@@ -457,13 +428,13 @@
                     </connections>
                 </customObject>
                 <userDefaultsController id="ZZt-xK-ds5"/>
+                <customObject id="4BM-jX-8AG" customClass="SharedFontSizeController" customModule="iWords" customModuleProvider="target"/>
                 <customObject id="1JM-2h-55k" customClass="SPUStandardUpdaterController"/>
                 <customObject id="46f-Bv-BCE" customClass="NSFontManager"/>
                 <userDefaultsController id="S2P-p1-PcK"/>
                 <userDefaultsController id="a7h-fy-GpN"/>
-                <customObject id="Cl4-Cc-tzU" customClass="KeyLookupWindowController" customModule="iWords" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="61" y="-679"/>
+            <point key="canvasLocation" x="61" y="-305"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -472,8 +443,8 @@
                     <window key="window" title="iWords" separatorStyle="line" allowsToolTipsWhenApplicationIsInactive="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" toolbarStyle="compact" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="256" width="700" height="599"/>
-                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <rect key="contentRect" x="196" y="256" width="650" height="300"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
                         <value key="minSize" type="size" width="400" height="270"/>
                         <toolbar key="toolbar" implicitIdentifier="0A8884AC-3AFD-4E23-B73F-F34A8534AA35" displayMode="iconOnly" sizeMode="regular" id="0sn-wt-JM9">
                             <allowedToolbarItems>
@@ -492,7 +463,7 @@
                                             </segments>
                                         </segmentedCell>
                                         <connections>
-                                            <action selector="modifyFont:" target="9Wc-xw-fDc" id="Csx-f2-mV6"/>
+                                            <action selector="didSelectSegmentedControl:" target="Bha-pi-VKu" id="g6b-v2-rXs"/>
                                         </connections>
                                     </segmentedControl>
                                 </toolbarItem>
@@ -528,37 +499,23 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="52E67CFE-A32C-4250-BFC7-591F810ACB9C" label="Look Up in Perseus" paletteLabel="Look Up in Perseus" bordered="YES" title="Perseus" sizingBehavior="auto" id="pR4-E5-Ef0">
-                                    <nil key="toolTip"/>
-                                    <button key="view" toolTip="Look up in Perseus Digital Library" verticalHuggingPriority="750" id="qpa-VS-4lI">
-                                        <rect key="frame" x="22" y="14" width="65" height="23"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="roundTextured" title="Perseus" bezelStyle="texturedRounded" imagePosition="leading" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f6n-DK-oM9">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                            <string key="keyEquivalent">p</string>
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                        </buttonCell>
-                                    </button>
-                                    <connections>
-                                        <action selector="lookUpInPerseus:" target="Oky-zY-oP4" id="eAM-yJ-7c7"/>
-                                    </connections>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="FFDD8A55-34E0-4726-9086-9AB25C226116" label="Float" paletteLabel="Float on Top" image="pin" catalog="system" bordered="YES" sizingBehavior="auto" id="tJ7-AH-8Wv">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="A0X-YN-sJp">
-                                        <rect key="frame" x="21" y="14" width="31" height="25"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="23" y="14" width="27" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="pin" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wxC-B7-hlP">
                                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                             <imageReference key="alternateImage" image="pin.fill" catalog="system" symbolScale="default" renderingMode="hierarchical-single">
                                                 <hierarchicalColors>
-                                                    <color name="AccentColor"/>
+                                                    <color name="controlAccentColor" catalog="System" colorSpace="catalog"/>
                                                     <color name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <color name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                 </hierarchicalColors>
                                             </imageReference>
+                                            <string key="keyEquivalent">P</string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
                                         <connections>
                                             <binding destination="XY3-6L-JDo" name="value" keyPath="values.windowsFloatOnTop" id="28h-SJ-N8J">
@@ -574,7 +531,6 @@
                                 <toolbarItem reference="5fT-cZ-IJv"/>
                                 <toolbarItem reference="ocg-9b-k2f"/>
                                 <toolbarItem reference="WMQ-RV-CF9"/>
-                                <toolbarItem reference="pR4-E5-Ef0"/>
                                 <toolbarItem reference="FaB-SV-uQT"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -590,7 +546,8 @@
                         <outlet property="directionToggleItem" destination="FaB-SV-uQT" id="sUm-JV-S3o"/>
                         <outlet property="floatToolbarItem" destination="tJ7-AH-8Wv" id="goH-7M-nGQ"/>
                         <outlet property="fontManager" destination="9Wc-xw-fDc" id="71p-2L-eRA"/>
-                        <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="88L-OD-OuN"/>
+                        <outlet property="fontSizeItem" destination="WMQ-RV-CF9" id="QTS-ck-VGB"/>
+                        <outlet property="sharedFontSizeController" destination="Bha-pi-VKu" id="uJN-nY-Gij"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
                     </connections>
                 </windowController>
@@ -604,6 +561,11 @@
                 </customObject>
                 <customObject id="lRh-Yv-s9e" customClass="DictionaryController" customModule="iWords" customModuleProvider="target"/>
                 <customObject id="9Wc-xw-fDc" customClass="NSFontManager"/>
+                <customObject id="Bha-pi-VKu" customClass="SharedFontSizeController" customModule="iWords" customModuleProvider="target">
+                    <connections>
+                        <outlet property="segmentedControl" destination="1z5-4S-FWj" id="FSc-de-XKe"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="60" y="67.5"/>
         </scene>
@@ -615,35 +577,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czz-wX-hvt">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
-                                <clipView key="contentView" drawsBackground="NO" id="aQF-c7-Dy9">
-                                    <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" findStyle="bar" smartInsertDelete="YES" id="hxW-Tk-bhP">
-                                            <rect key="frame" x="0.0" y="0.0" width="435" height="444"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="435" height="444"/>
-                                            <size key="maxSize" width="435" height="10000000"/>
-                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                        </textView>
-                                    </subviews>
-                                </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="2Za-Qb-z1c">
-                                    <rect key="frame" x="-100" y="-100" width="240" height="16"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1Ys-hh-Dvn">
-                                    <rect key="frame" x="419" y="0.0" width="16" height="444"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                            </scrollView>
-                            <customView hidden="YES" verifyAmbiguity="ignoreSizes" translatesAutoresizingMaskIntoConstraints="NO" id="aeF-3S-c0A" customClass="LoadingView" customModule="iWords" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
-                            </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="vJw-zo-fvh">
                                 <rect key="frame" x="0.0" y="0.0" width="435" height="392"/>
                                 <subviews>
@@ -719,34 +652,22 @@
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="7Pm-iP-BOf"/>
-                            <constraint firstItem="ZiB-z0-Agz" firstAttribute="top" secondItem="aeF-3S-c0A" secondAttribute="top" id="9fU-I4-DVt"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Ahy-qu-R1U"/>
                             <constraint firstAttribute="trailing" secondItem="vJw-zo-fvh" secondAttribute="trailing" id="DNu-gO-hB1"/>
-                            <constraint firstAttribute="bottom" secondItem="Czz-wX-hvt" secondAttribute="bottom" id="EBz-JL-sZC"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="Uic-o1-tow"/>
-                            <constraint firstItem="aeF-3S-c0A" firstAttribute="leading" secondItem="Czz-wX-hvt" secondAttribute="leading" id="VjF-mw-YAg"/>
-                            <constraint firstItem="Czz-wX-hvt" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="XAJ-CS-kOL"/>
-                            <constraint firstAttribute="trailing" secondItem="Czz-wX-hvt" secondAttribute="trailing" id="Y5E-wS-i7o"/>
                             <constraint firstAttribute="top" secondItem="vJw-zo-fvh" secondAttribute="top" constant="-52" id="esW-qf-JTf"/>
                             <constraint firstAttribute="bottom" secondItem="vJw-zo-fvh" secondAttribute="bottom" id="f9c-Hg-ejJ"/>
-                            <constraint firstAttribute="top" secondItem="Czz-wX-hvt" secondAttribute="top" id="g4v-W9-fwG"/>
                             <constraint firstItem="vJw-zo-fvh" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="mxg-4r-YiC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZiB-z0-Agz"/>
                         <viewLayoutGuide key="layoutMargins" id="ieB-cA-Vdm"/>
                     </view>
                     <connections>
-                        <outlet property="loadingView" destination="aeF-3S-c0A" id="ShM-qs-hsd"/>
-                        <outlet property="scrollView" destination="Czz-wX-hvt" id="bFk-Ow-tpL"/>
-                        <outlet property="textView" destination="hxW-Tk-bhP" id="BVN-kG-khD"/>
                         <outlet property="welcomeView" destination="vJw-zo-fvh" id="fvP-dN-YBh"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="jkl-w9-pOM"/>
             </objects>
-            <point key="canvasLocation" x="65.5" y="760"/>
+            <point key="canvasLocation" x="61" y="641"/>
         </scene>
         <!--Search Bar View Controller-->
         <scene sceneID="UbV-vl-mpN">
@@ -807,7 +728,7 @@ DQ
                 </viewController>
                 <customObject id="tcF-Pn-eM1" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="673" y="-213"/>
+            <point key="canvasLocation" x="649" y="-65"/>
         </scene>
     </scenes>
     <resources>
@@ -817,8 +738,5 @@ DQ
         <image name="pin.fill" catalog="system" width="15" height="17"/>
         <image name="textformat.size.larger" width="11.855500221252441" height="14.443400382995605"/>
         <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
-        <namedColor name="AccentColor">
-            <color red="0.78799998760223389" green="0.0080000003799796104" blue="0.45899999141693115" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
     </resources>
 </document>

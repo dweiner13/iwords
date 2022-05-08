@@ -49,10 +49,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApp.keyWindow?.windowController as? LookupWindowController
     }
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        DebugDefaults.check()
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        DictionaryRelocator.initialize()
 
         registerDefaults()
+    }
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        DebugDefaults.check()
 
         setUpFont()
 
@@ -161,13 +165,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func registerDefaults() {
         UserDefaults.standard.register(defaults: [
+            "copySearchToNewWindows": false,
             "diagnosticMode": false,
             "history": [],
-            "prettyResults": false,
+            "prettyFormatOutput": true,
             "searchBarGrowsToFitContent": true,
-            "copySearchToNewWindows": false,
-            "showStyledRawResults": true,
-            "windowsFloatOnTop": false
+            "showInflections": false,
+            "webViewTextSizeMultiplier": 1 as Float,
+            "windowsFloatOnTop": false,
         ])
     }
 

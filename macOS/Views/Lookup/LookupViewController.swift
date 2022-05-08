@@ -7,6 +7,7 @@
 
 import Cocoa
 import SwiftUI
+import WebKit
 
 enum ResultDisplayMode: Int {
     case raw, pretty
@@ -14,15 +15,11 @@ enum ResultDisplayMode: Int {
 
 class LookupViewController: NSViewController {
 
-    @IBOutlet
-    weak var textView: NSTextView!
-
-    @IBOutlet
-    weak var scrollView: NSScrollView!
-
-    @IBOutlet weak var loadingView: LoadingView!
+    private var webView: WebView!
 
     @IBOutlet weak var welcomeView: NSView!
+
+    var fontSizeController = FontSizeController.shared
 
     var results: [DictionaryController.Result]? {
         didSet {
@@ -34,38 +31,13 @@ class LookupViewController: NSViewController {
     var isLoading = false {
         didSet {
             updateWelcomeViewVisibility()
-            textView.isSelectable = !isLoading
-            NSAnimationContext.runAnimationGroup { context in
-                context.duration = 0.2
-                loadingView.animator().isHidden = !isLoading
-            }
         }
     }
 
     func updateWelcomeViewVisibility() {
         welcomeView.isHidden = results != nil || isLoading
-        scrollView.isHidden = !welcomeView.isHidden
+        webView.isHidden = !welcomeView.isHidden
     }
-
-    var mode: ResultDisplayMode {
-        get {
-            #if DEBUG
-            return UserDefaults.standard.bool(forKey: "prettyResults") ? .pretty : .raw
-            #else
-            return .raw
-            #endif
-        }
-        set {
-            switch newValue {
-            case .pretty:
-                UserDefaults.standard.set(true, forKey: "prettyResults")
-            case .raw:
-                UserDefaults.standard.removeObject(forKey: "prettyResults")
-            }
-        }
-    }
-
-    private var definitionHostingView: NSView?
 
     @objc
     override func encodeRestorableState(with coder: NSCoder) {
@@ -87,17 +59,32 @@ class LookupViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.textContainerInset = NSSize(width: 4, height: 8)
-        textView.delegate = self
+
+        webView = WebView(frame: view.bounds)
+        webView.setMaintainsBackForwardList(false)
+        webView.textSizeMultiplier = fontSizeController.textScale
+        view.addSubview(webView)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.topAnchor.constraint(equalTo: view.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+        webView.drawsBackground = false
+        webView.frameLoadDelegate = self
+
+        let url = Bundle.main.url(forResource: "results-page", withExtension: "html")!
+        webView.mainFrame.load(URLRequest(url: url))
 
         startListeningToUserDefaults()
 
         updateWelcomeViewVisibility()
 
-        NotificationCenter.default.addObserver(forName: .selectedFontDidChange,
-                                               object: AppDelegate.shared,
+        NotificationCenter.default.addObserver(forName: .textScaleDidChange,
+                                               object: FontSizeController.shared,
                                                queue: nil) { [weak self] notification in
-            self?.fontChanged()
+            self?.webView.textSizeMultiplier = notification.userInfo![FontSizeController.scaleUserInfoKey] as! Float
         }
     }
 
@@ -105,16 +92,19 @@ class LookupViewController: NSViewController {
         #if DEBUG
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
         #endif
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showStyledRawResults", options: .new, context: nil)
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyFormatOutput", options: .new, context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
         #if DEBUG
         case "values.prettyResults":
-            results.map(updateForResults(_:))
+            fallthrough
         #endif
-        case "values.showStyledRawResults":
+        case "values.showInflections":
+            fallthrough
+        case "values.prettyFormatOutput":
             results.map(updateForResults(_:))
         default:
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -125,65 +115,39 @@ class LookupViewController: NSViewController {
 #if DEBUG
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
 #endif
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showStyledRawResults")
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyFormatOutput")
     }
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
-        let font = AppDelegate.shared.font
-        let string = String(repeating: "a", count: 80)
-        let textWidth = (string as NSString).size(withAttributes: [.font: font as Any]).width
-        return textWidth + textView.textContainerInset.width * 2 + 24
+        // TODO: fix
+        return 300
+//        let font = AppDelegate.shared.font
+//        let string = String(repeating: "a", count: 80)
+//        let textWidth = (string as NSString).size(withAttributes: [.font: font as Any]).width
+//        return textWidth + textView.textContainerInset.width * 2 + 24
     }
 
     func updateForResults(_ results: [DictionaryController.Result]) {
-        if UserDefaults.standard.bool(forKey: "showStyledRawResults"),
-           let textStorage = textView.textStorage {
-            let attrString = DictionaryController.Result.allRawStyled(results, font: AppDelegate.shared.font)
-                .let { NSMutableAttributedString(attributedString: $0) }
-                .then { $0.addAttributes([.foregroundColor: NSColor.labelColor], range: NSRange(location: 0, length: $0.length)) }
-            textStorage.setAttributedString(attrString)
-        } else {
-            textView.textStorage?.setAttributedString(NSAttributedString(string: DictionaryController.Result.allRaw(results),
-                                                                         attributes: [.font: AppDelegate.shared.font,
-                                                                                      .foregroundColor: NSColor.labelColor]))
-        }
-
-        definitionHostingView?.isHidden = true
-        definitionHostingView?.removeFromSuperview()
-        definitionHostingView = nil
-
-        if #available(macOS 11.0, *),
-           mode == .pretty {
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (results.compactMap(\.parsed).flatMap { $0 },
-                                                                                    false)))
-            hostingView.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(hostingView)
-            NSLayoutConstraint.activate([
-                hostingView.topAnchor.constraint(equalTo: view.topAnchor),
-                hostingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                hostingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                hostingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-            definitionHostingView = hostingView
-        }
-
-        DispatchQueue.main.async {
-            self.scrollView.flashScrollers()
-        }
+        showResultsInWebView(results)
 
         invalidateRestorableState()
     }
 
-    private func updateForMode() {
-        switch mode {
-        case .raw:
-            textView.isHidden = false
-            definitionHostingView?.isHidden = true
-        case .pretty:
-            textView.isHidden = true
-            definitionHostingView?.isHidden = false
-        }
-        invalidateRestorableState()
+    func showResultsInWebView(_ results: [DictionaryController.Result]) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let encoded = try! encoder.encode(results)
+        let str = String(data: encoded, encoding: .utf8)!
+        let js = """
+            showResults({
+                queries: \(str),
+                showInflections: \(String(UserDefaults.standard.bool(forKey: "showInflections"))),
+                prettyFormatOutput: \(String(UserDefaults.standard.bool(forKey: "prettyFormatOutput"))),
+            })
+            """
+        print(js)
+        webView.stringByEvaluatingJavaScript(from: js)
     }
 
     func fontChanged() {
@@ -192,8 +156,77 @@ class LookupViewController: NSViewController {
         }
     }
 
-    @IBAction func didChangeMode(_ sender: Any) {
-        updateForMode()
+    // Called from JS in web view
+    @objc
+    func webViewDidLoad() {
+        results.map(showResultsInWebView(_:))
+    }
+
+    @objc
+    func displayContextMenu(for word: String) {
+        let menu = NSMenu()
+        let perseusItem = NSMenuItem(title: "Look Up in Perseus", action: #selector(lookUpInPerseus(_:)), keyEquivalent: "")
+        perseusItem.representedObject = word
+        menu.addItem(perseusItem)
+        menu.popUp(positioning: menu.item(at: 0), at: view.window?.mouseLocationOutsideOfEventStream ?? .zero, in: view)
+    }
+
+    @IBAction
+    func lookUpInPerseus(_ sender: NSMenuItem) {
+        guard let word = sender.representedObject as? String else {
+            print("Trying to look up in perseus but sender.representedObject is not a string")
+            return
+        }
+
+        let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: word)
+
+        if urls.count >= 50 {
+            let alert = NSAlert()
+            alert.messageText = "Too Many Words"
+            alert.informativeText = "Looking up in Perseus opens a new tab for each word. Your query has \(urls.count) words. Please search for fewer than 50 words."
+            alert.runModal()
+            return
+        }
+
+        if urls.count > 1 && !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
+            let alert = NSAlert()
+            alert.messageText = "Are you sure you want to open \(urls.count) new tabs in your web browser?"
+            alert.informativeText = "\(urls.count) tabs to www.perseus.tufts.edu will be opened."
+            alert.addButton(withTitle: "Open \(urls.count) Tabs")
+            alert.addButton(withTitle: "Cancel")
+            alert.showsSuppressionButton = true
+            let clicked = alert.runModal()
+
+            if clicked == .alertFirstButtonReturn,
+               let suppressionButton = alert.suppressionButton,
+               suppressionButton.state == .on {
+                UserDefaults.standard.set(true, forKey: "suppressMultipleTabsAlert")
+            }
+
+            guard clicked == .alertFirstButtonReturn else {
+                return
+            }
+        }
+
+        urls.forEach {
+            NSWorkspace.shared.open($0)
+        }
+    }
+
+    override class func isSelectorExcluded(fromWebScript selector: Selector!) -> Bool {
+        switch selector {
+        case #selector(webViewDidLoad), #selector(displayContextMenu(for:)):
+            return false
+        default:
+            return true
+        }
+    }
+}
+
+extension LookupViewController: WebFrameLoadDelegate {
+
+    func webView(_ webView: WebView!, didClearWindowObject windowObject: WebScriptObject!, for frame: WebFrame!) {
+        windowObject.setValue(self, forKey: "iWordsDelegate")
     }
 }
 
@@ -207,35 +240,12 @@ extension LookupViewController {
         printInfo.horizontalPagination = .fit
         printInfo.isHorizontallyCentered = false
         printInfo.isVerticallyCentered = false
+        printInfo.topMargin = 24
+        printInfo.leftMargin = 24
+        printInfo.bottomMargin = 24
+        printInfo.rightMargin = 24
 
-        let printView: NSView
-        let width = printInfo.imageablePageBounds.width
-        switch mode {
-        case .pretty:
-            guard #available(macOS 11.0, *) else {
-                fallthrough
-            }
-            let parsedResults = results?.compactMap(\.parsed).flatMap { $0 }
-            let hostingView = NSHostingView(rootView: DefinitionsView(definitions: (parsedResults ?? [], false)))
-            hostingView.frame = CGRect(x: 0, y: 0, width: width, height: hostingView.intrinsicContentSize.height)
-            printView = hostingView
-        case .raw:
-            let textView = NSTextView(frame: CGRect(x: 0, y: 0, width: width, height: 100))
-            results
-                .map {
-                    DictionaryController.Result.allRawStyled($0, font: AppDelegate.shared.font)
-                }
-                .map {
-                    textView.textStorage?.append($0)
-                }
-
-            textView.frame.size.height = textView.intrinsicContentSize.height
-            printView = textView
-        }
-
-        let op = NSPrintOperation(view: printView, printInfo: printInfo)
-        op.canSpawnSeparateThread = true
-        op.run()
+        webView.mainFrame.frameView.printOperation(with: printInfo).run()
     }
 
     @objc
@@ -251,39 +261,19 @@ extension LookupViewController {
             return super.responds(to: aSelector)
         }
     }
-}
 
-// MARK: - NSTextViewDelegate
-
-extension LookupViewController: NSTextViewDelegate {
-    func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
-        guard !selectedText().trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            return menu
-        }
-        menu.insertItem(NSMenuItem(title: "Look Up (Latin → English)",
-                                   action: #selector(LookupWindowController.search(_:)),
-                                   keyEquivalent: "").then { $0.tag = Dictionary.Direction.latinToEnglish.rawValue; $0.representedObject = selectedText() },
-                        at: 0)
-        menu.insertItem(NSMenuItem(title: "Look Up (English → Latin)",
-                                   action: #selector(LookupWindowController.search(_:)),
-                                   keyEquivalent: "").then { $0.tag = Dictionary.Direction.englishToLatin.rawValue; $0.representedObject = selectedText() },
-                        at: 1)
-        menu.insertItem(NSMenuItem(title: "Look Up in Perseus",
-                                   action: #selector(LookupWindowController.lookUpInPerseus(_:)),
-                                   keyEquivalent: "").then { $0.representedObject = selectedText() },
-                        at: 2)
-        menu.insertItem(NSMenuItem.separator(),
-                        at: 3)
-        return menu
+    func decreaseTextSize() {
+        webView.makeTextSmaller(nil)
+        print("new text size: \(webView.textSizeMultiplier)")
     }
 
-    private func selectedText() -> String {
-        let range = textView.selectedRange()
-        guard let substring = textView.textStorage?.attributedSubstring(from: range),
-              substring.length > 0 else {
-            return ""
-        }
-        return substring.string
+    func increaseTextSize() {
+        webView.makeTextLarger(nil)
+        print("new text size: \(webView.textSizeMultiplier)")
+    }
+
+    func resetTextSize() {
+        webView.textSizeMultiplier = 1
     }
 }
 

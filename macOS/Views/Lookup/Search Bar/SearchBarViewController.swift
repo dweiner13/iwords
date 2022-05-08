@@ -23,7 +23,7 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 
     @IBOutlet private weak var progressIndicator: NSProgressIndicator!
 
-    var backForwardController: BackForwardController? {
+    weak var backForwardController: BackForwardController? {
         didSet {
             backForwardControllerObservation = nil
             backForwardControllerObservation = backForwardController?.observe(\.currentSearchQuery, changeHandler: { backForwardController, change in
@@ -126,7 +126,8 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
     }
 
     private func refreshHeight() {
-        self.setHeight(min(self.searchField.intrinsicContentSize.height + 15, 150))
+        let maxHeight: CGFloat = 142
+        self.setHeight(min(self.searchField.intrinsicContentSize.height + 15, maxHeight))
     }
 }
 

@@ -88,8 +88,6 @@
 	<array>
 		<string>LookUpIntent</string>
 	</array>
-	<key>SUEnableSystemProfiling</key>
-	<true/>
 	<key>SUFeedURL</key>
 	<string>https://iwords.org/iwords-changelog.xml</string>
 	<key>SUPublicEDKey</key>

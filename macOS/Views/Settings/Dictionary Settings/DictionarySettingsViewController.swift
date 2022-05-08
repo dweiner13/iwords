@@ -19,7 +19,7 @@ class DictionarySettingsViewController: NSViewController {
                 try attemptToSetValue(doMedievalTricks, for: .doMedievalTricks)
             } catch {
                 DispatchQueue.main.async {
-                    self.readValuesFromSettings()
+                    self.doTwoWords.toggle()
                 }
             }
         }
@@ -99,6 +99,15 @@ class DictionarySettingsViewController: NSViewController {
     @IBOutlet weak var includeUncommonWordsButton: NSButton!
 
     @IBOutlet weak var installStackView: NSStackView!
+    @IBOutlet weak var uninstallStackView: NSStackView!
+
+    private lazy var allCheckboxes = [
+        doMedievalTricksButton,
+        doTwoWordsButton,
+        includeArchaicWordsButton,
+        includeMedievalWordsButton,
+        includeUncommonWordsButton
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,43 +121,36 @@ class DictionarySettingsViewController: NSViewController {
 
     private func updateView() {
         do {
-            guard DictionaryRelocator.wasRelocationPerformed() else {
-                // Just throw so it gets caught by guard
-                throw DWError("mockError", recoverySuggestion: nil)
+            guard let url = DictionaryRelocator.dictionarySupportURL?
+                    .appendingPathComponent("WORD.MDV", isDirectory: false) else {
+                throw DWError("", recoverySuggestion: nil)
             }
-            let url = try DictionaryRelocator.dictionarySupportURL()
-                .appendingPathComponent("WORD.MDV", isDirectory: false)
             settings = try DictionarySettings(url: url)
         } catch {
             installStackView.isHidden = false
+            uninstallStackView.isHidden = true
+            let settings = try! DictionarySettings(url: Bundle.main.url(forResource: "WORD",
+                                                                        withExtension: "MDV")!)
+            readValuesFromSettings(settings)
             setCheckboxesEnabled(false)
             return
         }
 
         installStackView.isHidden = true
+        uninstallStackView.isHidden = false
 
-        readValuesFromSettings()
+        settings.map(readValuesFromSettings(_:))
 
         setCheckboxesEnabled(true)
     }
 
     private func setCheckboxesEnabled(_ enabled: Bool) {
-        [
-            doMedievalTricksButton,
-            doTwoWordsButton,
-            includeArchaicWordsButton,
-            includeMedievalWordsButton,
-            includeUncommonWordsButton
-        ].forEach {
-            $0.isEnabled = enabled
+        allCheckboxes.forEach {
+            $0?.isEnabled = enabled
         }
     }
 
-    private func readValuesFromSettings() {
-        guard let settings = settings else {
-            return
-        }
-
+    private func readValuesFromSettings(_ settings: DictionarySettings) {
         doMedievalTricks = settings.value(for: .doMedievalTricks)
         doTwoWords = settings.value(for: .doTwoWords)
         includeArchaicWords = !settings.value(for: .omitArchaic)
@@ -166,11 +168,21 @@ class DictionarySettingsViewController: NSViewController {
         }
         updateView()
     }
+
+    @IBAction func removeFiles(_ sender: Any) {
+        do {
+            try DictionaryRelocator.uninstall()
+        } catch {
+            self.presentError(error)
+        }
+        settings = nil
+        updateView()
+    }
 }
 
 extension DictionarySettingsViewController: DictionarySettingsDelegate {
     func settingsDidChange(_ settings: DictionarySettings) {
-        readValuesFromSettings()
+        readValuesFromSettings(settings)
     }
 }
 

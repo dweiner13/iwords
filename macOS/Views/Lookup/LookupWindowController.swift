@@ -25,92 +25,11 @@ extension UserDefaults {
     }
 }
 
-@objc
-class SearchQuery: NSObject, NSSecureCoding {
-    static var supportsSecureCoding: Bool {
-        true
-    }
-
-    let searchText: String
-    let direction: Dictionary.Direction
-
-    override var debugDescription: String {
-        "<\"\(searchText)\" (\(direction.debugDescription))>"
-    }
-
-    override var description: String {
-        "\(searchText) (\(direction))"
-    }
-
-    func propertyListRepresentation() -> Any {
-        ["searchText": searchText, "direction": direction.rawValue]
-    }
-
-    func displaySearchText() -> String {
-        if searchText.count > 100 {
-            return searchText.prefix(100).appending("…")
-        } else {
-            return searchText
-        }
-    }
-
-    init?(fromPropertyListRepresentation obj: Any) {
-        guard let obj = obj as? [String: Any] else {
-            fatalError("Could not decode from obj \(obj)")
-            return nil
-        }
-        guard let searchText = obj["searchText"] as? String,
-              let direction = obj["direction"] as? Int else {
-            return nil
-        }
-        self.searchText = searchText
-        self.direction = .init(rawValue: direction)!
-    }
-
-    required init?(coder: NSCoder) {
-        guard let searchText = coder.decodeObject(of: NSString.self, forKey: "searchText") as String? else {
-            return nil
-        }
-        self.searchText = searchText
-        guard let direction = Dictionary.Direction(rawValue: coder.decodeInteger(forKey: "direction")) else {
-            return nil
-        }
-        self.direction = direction
-        super.init()
-    }
-
-    init(_ searchText: String, _ direction: Dictionary.Direction) {
-        self.searchText = searchText
-        self.direction = direction
-    }
-
-    override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? SearchQuery else { return false }
-        return searchText == object.searchText &&
-            direction == object.direction
-    }
-
-    func encode(with coder: NSCoder) {
-        coder.encode(searchText, forKey: "searchText")
-        coder.encode(direction.rawValue, forKey: "direction")
-    }
-
-    func withDirection(_ direction: Dictionary.Direction) -> SearchQuery {
-        SearchQuery(searchText, direction)
-    }
-}
-
 private extension NSStoryboard.SceneIdentifier {
     static let lookupWindowController =  NSStoryboard.SceneIdentifier("LookupWindowController")
 }
 
 let DEFAULT_DIRECTION: Dictionary.Direction = .latinToEnglish
-
-private extension NSUserInterfaceItemIdentifier {
-    static let fontSizeMenuFormDecrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormDecrease")
-    static let fontSizeMenuFormIncrease = NSUserInterfaceItemIdentifier("fontSizeMenuFormIncrease")
-}
-
 
 class LookupWindowController: NSWindowController {
 
@@ -132,6 +51,9 @@ class LookupWindowController: NSWindowController {
     @IBOutlet weak var fontSizeItem: NSToolbarItem!
     @IBOutlet weak var directionToggleButton: NSButton!
     @IBOutlet weak var floatToolbarItem: NSToolbarItem!
+
+    // Not used, but need a strong reference or it will be dealloced.
+    @IBOutlet var sharedFontSizeController: SharedFontSizeController!
 
     private weak var searchBar: SearchBarViewController!
 
@@ -157,6 +79,8 @@ class LookupWindowController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
+
+        window?.showsToolbarButton = true
 
         // Set up menu form equivalents for toolbar items
         let backForwardMenuItem = NSMenuItem(title: "Back/Forward", action: nil, keyEquivalent: "")
@@ -218,7 +142,6 @@ class LookupWindowController: NSWindowController {
                                of object: Any?,
                                change: [NSKeyValueChangeKey : Any]?,
                                context: UnsafeMutableRawPointer?) {
-        print("🏕 floatsOnTop: ", UserDefaults.standard.bool(forKey: "windowsFloatOnTop"))
         setFloatsOnTop(UserDefaults.standard.bool(forKey: "windowsFloatOnTop"))
     }
 
@@ -280,48 +203,6 @@ class LookupWindowController: NSWindowController {
     }
 
     @IBAction
-    func lookUpInPerseus(_ sender: Any?) {
-        let searchText: String? = {
-            if let menuItemSender = sender as? NSMenuItem,
-               let representedObject = menuItemSender.representedObject as? String {
-                // If sender is menu item in context menu in the results text view,
-                // representedObject will be the selected text
-                return representedObject
-            } else {
-                return backForwardController.currentSearchQuery?.searchText
-            }
-        }()
-
-        guard let searchText = searchText else { return }
-
-        let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: searchText)
-
-        if urls.count > 1 && !UserDefaults.standard.bool(forKey: "suppressMultipleTabsAlert") {
-            let alert = NSAlert()
-            alert.messageText = "Are you sure you want to open \(urls.count) new tabs in your web browser?"
-            alert.informativeText = "\(urls.count) tabs to www.perseus.tufts.edu will be opened."
-            alert.addButton(withTitle: "Open \(urls.count) Tabs")
-            alert.addButton(withTitle: "Cancel")
-            alert.showsSuppressionButton = true
-            let clicked = alert.runModal()
-
-            if clicked == .alertFirstButtonReturn,
-               let suppressionButton = alert.suppressionButton,
-               suppressionButton.state == .on {
-                UserDefaults.standard.set(true, forKey: "suppressMultipleTabsAlert")
-            }
-
-            guard clicked == .alertFirstButtonReturn else {
-                return
-            }
-        }
-
-        urls.forEach {
-            NSWorkspace.shared.open($0)
-        }
-    }
-
-    @IBAction
     private func exportRawResult(_ sender: Any?) {
         guard let results = lookupViewController?.results,
               let window = window else {
@@ -349,60 +230,19 @@ class LookupWindowController: NSWindowController {
         }
     }
 
-    #if DEBUG
-    private func canExportJSONResult() -> Bool {
-        lookupViewController?.results != nil
-    }
-
-    @IBAction
-    private func exportJSONResult(_ sender: Any?) {
-        guard let results = lookupViewController?.results,
-              let window = window else {
-            NSSound.beep()
-            return
-        }
-        let fileName = "\(backForwardController.currentSearchQuery?.searchText ?? "results").json"
-        let savePanel = NSSavePanel()
-        savePanel.nameFieldStringValue = fileName
-        savePanel.beginSheetModal(for: window) { [savePanel] modalResponse in
-            guard modalResponse == .OK else {
-                return
-            }
-            guard let url = savePanel.url else {
-                NSSound.beep()
-                return
-            }
-            do {
-                let parsedResults = results.compactMap(\.parsed).flatMap { $0 }
-                try JSONEncoder()
-                    .encode(parsedResults)
-                    .write(to: url)
-            } catch {
-                self.presentError(error)
-            }
-        }
-    }
-    #endif
-
     private func fontMenuFormRepresentation() -> NSMenuItem {
         NSMenuItem(title: "Font Size", action: nil, keyEquivalent: "").then {
             $0.submenu = NSMenu().then { m in
-                let decrease = NSMenuItem(title: "Decrease Text Size",
-                                          action: #selector(NSFontManager.modifyFont(_:)),
-                                          keyEquivalent: "").then {
-                    $0.target = NSFontManager.shared
-                    $0.identifier = .fontSizeMenuFormDecrease
-                    $0.tag = Int(NSFontAction.sizeDownFontAction.rawValue)
-                }
-                m.addItem(decrease)
-                let increase = NSMenuItem(title: "Increase Text Size",
-                                          action: #selector(NSFontManager.modifyFont(_:)),
-                                          keyEquivalent: "").then {
-                    $0.target = NSFontManager.shared
-                    $0.identifier = .fontSizeMenuFormIncrease
-                    $0.tag = Int(NSFontAction.sizeUpFontAction.rawValue)
-                }
-                m.addItem(increase)
+                m.addItem(NSMenuItem(title: "Decrease Text Size",
+                                     action: #selector(decreaseTextSize),
+                                     keyEquivalent: "").then {
+                    $0.target = self
+                })
+                m.addItem(NSMenuItem(title: "Increase Text Size",
+                                     action: #selector(increaseTextSize),
+                                     keyEquivalent: "").then {
+                    $0.target = self
+                })
             }
         }
     }
@@ -551,9 +391,35 @@ class LookupWindowController: NSWindowController {
             window?.title = "iWords"
         }
     }
+
+    @objc
+    func decreaseTextSize() {
+        lookupViewController.decreaseTextSize()
+    }
+
+    @objc
+    func increaseTextSize() {
+        lookupViewController.increaseTextSize()
+    }
+
+    func resetTextSize() {
+        lookupViewController.resetTextSize()
+    }
+
+    @IBAction
+    func fontSizeControlPressed(_ sender: NSSegmentedControl) {
+        switch sender.selectedSegment {
+        case 0:
+            decreaseTextSize()
+        case 1:
+            increaseTextSize()
+        default:
+            preconditionFailure()
+        }
+    }
 }
 
-// Handling for back/forward
+// MARK: - Handling for toolbar items
 @objc
 extension LookupWindowController {
     override func responds(to aSelector: Selector!) -> Bool {
@@ -562,15 +428,6 @@ extension LookupWindowController {
             return backForwardController.canGoBack
         case #selector(goForward(_:)):
             return backForwardController.canGoForward
-            #if DEBUG
-        case #selector(exportJSONResult(_:)):
-            return canExportJSONResult()
-            #endif
-        case #selector(lookUpInPerseus(_:)):
-            guard let searchText = backForwardController.currentSearchQuery?.searchText else {
-                return false
-            }
-            return PerseusUtils.canLookUpInPerseus(searchText: searchText)
         default:
             return super.responds(to: aSelector)
         }
@@ -585,6 +442,8 @@ extension LookupWindowController {
     }
 }
 
+// MARK: - NSWindow Delegate
+
 extension LookupWindowController: NSWindowDelegate {
     func windowDidBecomeKey(_ notification: Notification) {
         searchBar?.focusSearch(self)
@@ -597,6 +456,8 @@ extension LookupWindowController: NSWindowDelegate {
         return standardFrame
     }
 }
+
+// MARK: - BackForward Delegate
 
 extension LookupWindowController: BackForwardDelegate {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController) {
@@ -624,11 +485,15 @@ extension LookupWindowController: BackForwardDelegate {
     }
 }
 
+// MARK: - DictionaryController Delegate
+
 extension LookupWindowController: DictionaryControllerDelegate {
     func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double) {
         searchBar?.setProgress(progress)
     }
 }
+
+// MARK: - SearchBar Delegate
 
 extension LookupWindowController: SearchBarDelegate {
     func searchBar(_ searchBar: SearchBarViewController, didSearchText text: String) {
