@@ -68,23 +68,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             newWindow(self)
         }
 
-//        windowDidBecomeKey = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
-//                                                             object: nil,
-//                                                             queue: nil) { [weak self] notification in
-//            self?.updateDirectionItemsState()
-//        }
+        windowDidBecomeKey = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
+                                                             object: nil,
+                                                             queue: nil) { [weak self] notification in
+            self?.updateDirectionItemsState()
+        }
 
-//        windowDidCloseObservation = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification,
-//                                                                           object: nil,
-//                                                                           queue: nil) { notification in
-//            guard (notification.object as? NSWindow)?.identifier == .init("iWordsPreferences") else {
-//                return
-//            }
-//            // If settings window closes, close associated help window
-//            NSApp.windows.first {
-//                $0.windowController?.contentViewController is DictionarySettingsHelpViewController
-//            }?.close()
-//        }
+        windowDidCloseObservation = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification,
+                                                                           object: nil,
+                                                                           queue: nil) { notification in
+            guard (notification.object as? NSWindow)?.identifier == .init("iWordsPreferences") else {
+                return
+            }
+            // If settings window closes, close associated help window
+            NSApp.windows.first {
+                $0.windowController?.contentViewController is DictionarySettingsHelpViewController
+            }?.close()
+        }
 
         NSApp.servicesProvider = ServiceProvider()
     }
@@ -151,7 +151,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     #if DEBUG
     private func startListeningToUserDefaults() {
-//        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.diagnosticMode", options: .new, context: nil)
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.diagnosticMode", options: .new, context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
