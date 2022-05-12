@@ -97,6 +97,11 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
         setAutogrows(UserDefaults.standard.bool(forKey: "searchBarGrowsToFitContent"))
     }
 
+    deinit {
+        NSUserDefaultsController.shared.removeObserver(self,
+                                                       forKeyPath: "values.searchBarGrowsToFitContent")
+    }
+
     private func setAutogrows(_ autogrows: Bool) {
         if view.window?.firstResponder == view.window?.fieldEditor(false, for: searchField) {
             view.window?.makeFirstResponder(nil)
