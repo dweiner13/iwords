@@ -23,23 +23,7 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
 
     @IBOutlet private weak var progressIndicator: NSProgressIndicator!
 
-    var backForwardController: BackForwardController? {
-        didSet {
-            backForwardControllerObservation = nil
-            backForwardControllerObservation = backForwardController?.observe(\.currentSearchQuery, changeHandler: { backForwardController, change in
-                if let searchText = backForwardController.currentSearchQuery?.searchText {
-                    self.searchField.stringValue = searchText
-                    self.searchField.invalidateSize()
-                    DispatchQueue.main.async {
-                        self.refreshHeight()
-                    }
-                }
-            })
-        }
-    }
-
     weak var delegate: SearchBarDelegate?
-    var backForwardControllerObservation: Any?
 
     @IBAction func goAction(_ sender: Any?) {
         delegate?.searchBar(self, didSearchText: searchField.stringValue)
@@ -61,6 +45,14 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
     @objc
     func focusSearch(_ sender: Any?) {
         view.window?.makeFirstResponder(searchField)
+    }
+
+    func update(for query: SearchQuery) {
+        searchField.stringValue = query.searchText
+        searchField.invalidateSize()
+        DispatchQueue.main.async {
+            self.refreshHeight()
+        }
     }
 
     override func viewDidLoad() {
@@ -103,6 +95,11 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
             return
         }
         setAutogrows(UserDefaults.standard.bool(forKey: "searchBarGrowsToFitContent"))
+    }
+
+    deinit {
+        NSUserDefaultsController.shared.removeObserver(self,
+                                                       forKeyPath: "values.searchBarGrowsToFitContent")
     }
 
     private func setAutogrows(_ autogrows: Bool) {

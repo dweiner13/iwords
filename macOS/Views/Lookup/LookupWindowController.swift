@@ -129,7 +129,6 @@ class LookupWindowController: NSWindowController {
         searchBar = NSStoryboard.main!.instantiateController(withIdentifier: .init("SearchBarViewController")) as? SearchBarViewController
         window?.addTitlebarAccessoryViewController(searchBar)
         searchBar.delegate = self
-        searchBar.backForwardController = backForwardController
     }
 
     @objc
@@ -252,6 +251,8 @@ class LookupWindowController: NSWindowController {
     private func _setSearchQuery(_ searchQuery: SearchQuery,
                                  updateHistoryLists: Bool,
                                  updateBackForward: Bool) {
+        searchBar.update(for: searchQuery)
+
         guard !searchQuery.searchText.isEmpty else {
             return
         }
