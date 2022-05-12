@@ -21,6 +21,10 @@ class SharedFontSizeController: NSObject {
 
     override init() {
         super.init()
+        // TODO: trying to fix memory leak. Remove every observer everywhere and see if crash still
+        // happens. Best guess right now is that the memory leak is what prevented the crash from
+        // happening. Fixing the memory leak caused the crash to start, reverting it prevents the
+        // crash from happening.
         NotificationCenter.default.addObserver(forName: .textScaleDidChange,
                                                object: sharedController,
                                                queue: nil) { [weak self] notification in
