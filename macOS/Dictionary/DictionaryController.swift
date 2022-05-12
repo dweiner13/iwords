@@ -51,16 +51,16 @@ class DictionaryController: NSObject, NSSecureCoding {
     }
 
     private func startObserving() {
-        settingsObservation = NotificationCenter.default.addObserver(forName: .dictionarySettingsDidChange,
-                                                                     object: nil,
-                                                                     queue: nil) { [weak self] _ in
-            self?.dictionary.setNeedsRestart()
-        }
-        relocationObservation = NotificationCenter.default.addObserver(forName: .dictionaryRelocationComplete,
-                                                                       object: nil,
-                                                                       queue: nil) { [weak self] _ in
-            self?.dictionary.setNeedsRestart()
-        }
+//        settingsObservation = NotificationCenter.default.addObserver(forName: .dictionarySettingsDidChange,
+//                                                                     object: nil,
+//                                                                     queue: nil) { [weak self] _ in
+//            self?.dictionary.setNeedsRestart()
+//        }
+//        relocationObservation = NotificationCenter.default.addObserver(forName: .dictionaryRelocationComplete,
+//                                                                       object: nil,
+//                                                                       queue: nil) { [weak self] _ in
+//            self?.dictionary.setNeedsRestart()
+//        }
     }
 
     required init?(coder: NSCoder) {

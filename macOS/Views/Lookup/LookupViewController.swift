@@ -81,19 +81,19 @@ class LookupViewController: NSViewController {
 
         updateWelcomeViewVisibility()
 
-        NotificationCenter.default.addObserver(forName: .textScaleDidChange,
-                                               object: FontSizeController.shared,
-                                               queue: nil) { [weak self] notification in
-            self?.webView.textSizeMultiplier = notification.userInfo![FontSizeController.scaleUserInfoKey] as! Float
-        }
+//        NotificationCenter.default.addObserver(forName: .textScaleDidChange,
+//                                               object: FontSizeController.shared,
+//                                               queue: nil) { [weak self] notification in
+//            self?.webView.textSizeMultiplier = notification.userInfo![FontSizeController.scaleUserInfoKey] as! Float
+//        }
     }
 
     private func startListeningToUserDefaults() {
         #if DEBUG
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
+//        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
         #endif
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyFormatOutput", options: .new, context: nil)
+//        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
+//        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyFormatOutput", options: .new, context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -113,10 +113,10 @@ class LookupViewController: NSViewController {
 
     deinit {
 #if DEBUG
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
+//        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
 #endif
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyFormatOutput")
+//        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
+//        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyFormatOutput")
     }
 
     func standardWidthAtCurrentFontSize() -> CGFloat {

@@ -83,10 +83,10 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
     }
 
     private func startListeningToUserDefaults() {
-        NSUserDefaultsController.shared.addObserver(self,
-                                                    forKeyPath: "values.searchBarGrowsToFitContent",
-                                                    options: .new,
-                                                    context: nil)
+//        NSUserDefaultsController.shared.addObserver(self,
+//                                                    forKeyPath: "values.searchBarGrowsToFitContent",
+//                                                    options: .new,
+//                                                    context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

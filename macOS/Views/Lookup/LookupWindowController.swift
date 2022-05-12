@@ -106,19 +106,19 @@ class LookupWindowController: NSWindowController {
 
         window?.restorationClass = WindowRestoration.self
 
-        dirObservation = dictionaryController.observe(\.direction) { [weak self] dictionaryController, change in
-            guard let self = self else { return }
-            let direction = dictionaryController.direction
-            AppDelegate.shared?.updateDirectionItemsState(direction)
-            self.updateTitle(forDirection: direction)
-            self.invalidateRestorableState()
-            self.directionToggleButton.title = direction.description
+//        dirObservation = dictionaryController.observe(\.direction) { [weak self] dictionaryController, change in
+//            guard let self = self else { return }
+//            let direction = dictionaryController.direction
+//            AppDelegate.shared?.updateDirectionItemsState(direction)
+//            self.updateTitle(forDirection: direction)
+//            self.invalidateRestorableState()
+//            self.directionToggleButton.title = direction.description
+//
+//            self.directionMenuFormRepresentation.items[direction.rawValue].state = .on
+//            self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
+//        }
 
-            self.directionMenuFormRepresentation.items[direction.rawValue].state = .on
-            self.directionMenuFormRepresentation.items[1 - direction.rawValue].state = .off
-        }
-
-        UserDefaults.standard.addObserver(self, forKeyPath: "windowsFloatOnTop", context: nil)
+//        UserDefaults.standard.addObserver(self, forKeyPath: "windowsFloatOnTop", context: nil)
 
         setFloatsOnTop(UserDefaults.standard.bool(forKey: "windowsFloatOnTop"))
 
@@ -145,7 +145,7 @@ class LookupWindowController: NSWindowController {
     }
 
     deinit {
-        UserDefaults.standard.removeObserver(self, forKeyPath: "windowsFloatOnTop")
+//        UserDefaults.standard.removeObserver(self, forKeyPath: "windowsFloatOnTop")
     }
 
     func setFloatsOnTop(_ floats: Bool) {
