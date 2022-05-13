@@ -213,14 +213,7 @@ class LookupViewController: NSViewController {
         }
     }
 
-    override class func isSelectorExcluded(fromWebScript selector: Selector!) -> Bool {
-        switch selector {
-        case #selector(webViewDidLoad), #selector(displayContextMenu(for:)):
-            return false
-        default:
-            return true
-        }
-    }
+    private var webViewDelegate: WebViewDelegate?
 }
 
 extension LookupViewController: WebFrameLoadDelegate {
@@ -249,6 +242,15 @@ private class WebViewDelegate: NSObject {
     @objc
     func displayContextMenu(for word: String) {
         onDisplayContextMenuForWord(word)
+    }
+
+    override class func isSelectorExcluded(fromWebScript selector: Selector!) -> Bool {
+        switch selector {
+        case #selector(webViewDidLoad), #selector(displayContextMenu(for:)):
+            return false
+        default:
+            return true
+        }
     }
 }
 
