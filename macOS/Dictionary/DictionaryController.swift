@@ -122,7 +122,7 @@ class DictionaryController: NSObject, NSSecureCoding {
     private func trimPearseCodes(fromRawOutput raw: String) -> String {
         let trimmed = raw.split(whereSeparator: \.isNewline)
             .map {
-                $0.count > 3 ? $0.suffix(from: $0.startIndex.advanced(by: 3)) : $0
+                $0.count > 2 ? $0.suffix(from: $0.startIndex.advanced(by: 3)) : $0
             }
             .joined(separator: "\n")
         return String(trimmed)
