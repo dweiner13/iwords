@@ -139,6 +139,7 @@
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
+                                                        <binding destination="Tde-pi-nfm" name="enabled" keyPath="values.prettyFormatOutput" id="YIl-rF-zXM"/>
                                                         <binding destination="Tde-pi-nfm" name="value" keyPath="values.showInflections" id="ilt-o2-SZ7"/>
                                                     </connections>
                                                 </button>
