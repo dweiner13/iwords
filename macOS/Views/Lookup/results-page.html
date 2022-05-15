@@ -32,10 +32,10 @@
                 <%- query.input %>
                 <div class="buttons">
                     <% if (!showInflections) {
-                        %> <button onclick="toggleInflections('<%- i %>')">Toggle inflections</button> <%
+                        %> <button onclick="toggleInflections('<%- i %>')" title="Toggle showing inflections for this word">Toggle inflections</button> <%
                     }
                     %>
-                    <button onclick="perseus('<%- query.input %>')">Perseus</button>
+                    <button onclick="perseus('<%- query.input %>')" title="Look up this word in Perseus">Perseus</button>
                 </div>
               </h2> <%
 			  %> <div class="indented"> <% _.forEach(query.parsed, function(result) {
