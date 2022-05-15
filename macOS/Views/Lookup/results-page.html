@@ -12,29 +12,48 @@
             window.iWordsDelegate.webViewDidLoad()
         })
 
-        function buttonClick(word) {
-            window.iWordsDelegate.displayContextMenuFor_(word)
+        function perseus(word) {
+            window.iWordsDelegate.lookUpInPerseus_(word)
+        }
+
+        function toggleInflections(index) {
+            document.querySelectorAll(`#inflections${index}`).forEach((elt) => {
+                if (elt.style.display === "none") {
+                    elt.style.display = "initial"
+                } else {
+                    elt.style.display = "none"
+                }
+            })
         }
 
 	    const prettyTemplate = _.template(`
-	  	  <% _.forEach(queries, function(query) {
-			  %> <h2 class="input">
-                <%- query.input %> <button onclick="buttonClick('<%- query.input %>')">⋯</button>
+	  	  <% _.forEach(queries, function(query, i) {
+			  %> <h2 class="input" id="<%- i %>">
+                <%- query.input %>
+                <div class="buttons">
+                    <% if (!showInflections) {
+                        %> <button onclick="toggleInflections('<%- i %>')">Toggle inflections</button> <%
+                    }
+                    %>
+                    <button onclick="perseus('<%- query.input %>')">Perseus</button>
+                </div>
               </h2> <%
 			  %> <div class="indented"> <% _.forEach(query.parsed, function(result) {
 				  if (result.word) {
 
 					%> <article class="word"> <%
-					_.forEach(result.word._0.forms, function(form) {
-						if (showInflections && form.inflections.length > 0) {
-                            const joinedInflections = form.inflections.join('\\n');
-                            %> <pre class="word-inflections"><%- joinedInflections %></pre> <%
+                    _.forEach(result.word._0.forms, function(form) {
+                        if (form.inflections.length > 0) {
+                           const joinedInflections = form.inflections.join('\\n'); %>
+                           <pre style=" <% if (!showInflections) { %> display: none; <% } %> " id="inflections<%- i %>" class="word-inflections"><%- joinedInflections %></pre> <%
                         }
+                    })
+                    _.forEach(result.word._0.forms, function(form) {
                         if (form.dictionaryForms.length > 0) {
                             const joinedDictionaryForms = form.dictionaryForms.join('\\n');
                             %> <pre class="word-dictionary-forms"><%- joinedDictionaryForms %></pre> <%
                         }
-					})
+                    })
 					%> <p class="word-meanings"><%- result.word._0.meaning %></p> <% 
 					%> </article> <%
 				
@@ -129,6 +148,17 @@
 		pre.word-inflections {
 			color: -apple-system-secondary-label;
 		}
+
+        .hidden {
+            display: none;
+        }
+
+        details > summary {
+            cursor: pointer;
+            color: -apple-system-tertiary-label;
+            font-size: 0.7rem;
+            outline: none;
+        }
 		
 		p.word-meanings {
 			margin-left: 0.5em;
@@ -163,13 +193,20 @@
 		}
 
         button {
-            border: none;
             background-color: rgba(1,1,1,0);
-            font-weight: bolder;
-            font-size: 1em;
             margin-right: 0.5em;
             padding: 2px 6px;
             margin-top: 0;
+            border: 1px solid lightgray;
+            border-radius: 5pt;
+            color: -apple-system-secondary-label;
+            font-size: 0.7rem;
+        }
+
+        button.ellipsis {
+            font-weight: bolder;
+            border: none;
+            font-size: 1em;
         }
 
         button:hover {

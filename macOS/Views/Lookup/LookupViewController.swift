@@ -162,22 +162,7 @@ class LookupViewController: NSViewController {
         results.map(showResultsInWebView(_:))
     }
 
-    @objc
-    func displayContextMenu(for word: String) {
-        let menu = NSMenu()
-        let perseusItem = NSMenuItem(title: "Look Up in Perseus", action: #selector(lookUpInPerseus(_:)), keyEquivalent: "")
-        perseusItem.representedObject = word
-        menu.addItem(perseusItem)
-        menu.popUp(positioning: menu.item(at: 0), at: view.window?.mouseLocationOutsideOfEventStream ?? .zero, in: view)
-    }
-
-    @IBAction
-    func lookUpInPerseus(_ sender: NSMenuItem) {
-        guard let word = sender.representedObject as? String else {
-            print("Trying to look up in perseus but sender.representedObject is not a string")
-            return
-        }
-
+    func lookUpInPerseus(_ word: String) {
         let urls = PerseusUtils.urlsForLookUpInPerseus(searchText: word)
 
         if urls.count >= 50 {
@@ -223,8 +208,8 @@ extension LookupViewController: WebFrameLoadDelegate {
         delegate.onWebViewDidLoad = { [unowned self] in
             self.webViewDidLoad()
         }
-        delegate.onDisplayContextMenuForWord = { [unowned self] word in
-            self.displayContextMenu(for: word)
+        delegate.onLookUpInPerseus = { [unowned self] word in
+            self.lookUpInPerseus(word)
         }
         windowObject.setValue(delegate, forKey: "iWordsDelegate")
     }
@@ -232,7 +217,7 @@ extension LookupViewController: WebFrameLoadDelegate {
 
 private class WebViewDelegate: NSObject {
     var onWebViewDidLoad: () -> Void = { }
-    var onDisplayContextMenuForWord: (String) -> Void = { _ in }
+    var onLookUpInPerseus: (String) -> Void = { _ in }
 
     @objc
     func webViewDidLoad() {
@@ -240,13 +225,13 @@ private class WebViewDelegate: NSObject {
     }
 
     @objc
-    func displayContextMenu(for word: String) {
-        onDisplayContextMenuForWord(word)
+    func lookUpInPerseus(_ word: String) {
+        onLookUpInPerseus(word)
     }
 
     override class func isSelectorExcluded(fromWebScript selector: Selector!) -> Bool {
         switch selector {
-        case #selector(webViewDidLoad), #selector(displayContextMenu(for:)):
+        case #selector(webViewDidLoad), #selector(lookUpInPerseus(_:)):
             return false
         default:
             return true
