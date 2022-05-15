@@ -26,17 +26,30 @@
             })
         }
 
+        function toggleButtons(index) {
+            document.querySelectorAll(`#buttons${index}`).forEach((elt) => {
+                if (elt.style.display === "none") {
+                    elt.style.display = "initial"
+                } else {
+                    elt.style.display = "none"
+                }
+            })
+        }
+
 	    const prettyTemplate = _.template(`
 	  	  <% _.forEach(queries, function(query, i) {
-			  %> <h2 class="input" id="<%- i %>">
+			  %> <h2 class="input">
                 <%- query.input %>
-                <div class="buttons">
-                    <% if (!showInflections) {
-                        %> <button onclick="toggleInflections('<%- i %>')" title="Toggle showing inflections for this word">Toggle inflections</button> <%
-                    }
-                    %>
-                    <button onclick="perseus('<%- query.input %>')" title="Look up this word in Perseus">Perseus</button>
-                </div>
+                    <div style="display: flex; align-items: center;">
+                        <div id="buttons<%- i %>" style="display: none;">
+                            <% if (!showInflections) {
+                                %> <button onclick="toggleInflections('<%- i %>')" title="Toggle showing inflections for this word">Toggle inflections</button> <%
+                            }
+                            %>
+                            <button onclick="perseus('<%- query.input %>')" title="Look up this word in Perseus">Perseus</button>
+                        </div>
+                        <button onclick="toggleButtons('<%- i %>')" class="ellipsis" title="Show options">⋯</button>
+                    </div>
               </h2> <%
 			  %> <div class="indented"> <% _.forEach(query.parsed, function(result) {
 				  if (result.word) {
