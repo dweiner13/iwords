@@ -333,7 +333,7 @@
                                         </menuItem>
                                         <menuItem title="Reset Text Size" keyEquivalent="0" id="3u8-kf-UKB">
                                             <connections>
-                                                <action selector="resetScale:" target="4BM-jX-8AG" id="gw0-aN-ewy"/>
+                                                <action selector="resetScale:" target="4BM-jX-8AG" id="xt0-7W-MPw"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="RnI-8p-IH7"/>
