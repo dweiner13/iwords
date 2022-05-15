@@ -19,22 +19,38 @@
 	    const prettyTemplate = _.template(`
 	  	  <% _.forEach(queries, function(query) {
 			  %> <h2 class="input">
-                <%- query.input %> <button onclick="buttonClick('<%- query.input %>')">⋯</button>
+                <%- query.input %>
+                <button onclick="buttonClick('<%- query.input %>')">⋯</button>
               </h2> <%
 			  %> <div class="indented"> <% _.forEach(query.parsed, function(result) {
 				  if (result.word) {
 
 					%> <article class="word"> <%
-					_.forEach(result.word._0.forms, function(form) {
-						if (showInflections && form.inflections.length > 0) {
-                            const joinedInflections = form.inflections.join('\\n');
-                            %> <pre class="word-inflections"><%- joinedInflections %></pre> <%
-                        }
+                    if (showInflections) {
+                        _.forEach(result.word._0.forms, function(form) {
+                            if (form.inflections.length > 0) {
+                               const joinedInflections = form.inflections.join('\\n'); %>
+                               <pre class="word-inflections"><%- joinedInflections %></pre> <%
+                            }
+                        })
+                    } else {
+                        %> <details>
+                          <summary>inflections</summary> <%
+                            _.forEach(result.word._0.forms, function(form) {
+                                if (form.inflections.length > 0) {
+                                    const joinedInflections = form.inflections.join('\\n'); %>
+
+                                          <pre class="word-inflections"><%- joinedInflections %></pre><%
+                                }
+                            })
+                       %> </details> <%
+                    }
+                    _.forEach(result.word._0.forms, function(form) {
                         if (form.dictionaryForms.length > 0) {
                             const joinedDictionaryForms = form.dictionaryForms.join('\\n');
                             %> <pre class="word-dictionary-forms"><%- joinedDictionaryForms %></pre> <%
                         }
-					})
+                    })
 					%> <p class="word-meanings"><%- result.word._0.meaning %></p> <% 
 					%> </article> <%
 				
@@ -129,6 +145,17 @@
 		pre.word-inflections {
 			color: -apple-system-secondary-label;
 		}
+
+        .hidden {
+            display: none;
+        }
+
+        details > summary {
+            cursor: pointer;
+            color: -apple-system-tertiary-label;
+            font-size: 0.7rem;
+            outline: none;
+        }
 		
 		p.word-meanings {
 			margin-left: 0.5em;
