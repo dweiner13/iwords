@@ -394,7 +394,7 @@
                                     <items>
                                         <menuItem title="iWords Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
-                                                <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
+                                                <action selector="openHelp:" target="Voe-Tx-rLC" id="Y67-EA-nZB"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Send Feedback via Email..." id="h3V-DY-8nw">
@@ -434,7 +434,7 @@
                 <userDefaultsController id="S2P-p1-PcK"/>
                 <userDefaultsController id="a7h-fy-GpN"/>
             </objects>
-            <point key="canvasLocation" x="61" y="-305"/>
+            <point key="canvasLocation" x="61" y="-231"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -590,7 +590,7 @@
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
-                                                    <action selector="showHelp:" target="rPt-NT-nkU" id="odd-P8-q3e"/>
+                                                    <action selector="openHelp:" target="rPt-NT-nkU" id="Ecu-UO-Lmd"/>
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jsj-Jx-Sd8">

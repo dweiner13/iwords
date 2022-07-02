@@ -229,7 +229,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         case "feedback":
             sendFeedback(application)
         case "help":
-            openHelp()
+            openHelp(nil)
         default:
             return
         }
@@ -248,8 +248,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         UserDefaults.standard.removeObject(forKey: "suppressMultipleTabsAlert")
     }
 
-    private func openHelp() {
-        NSApp.showHelp(nil)
+    @IBAction
+    private func openHelp(_ sender: Any?) {
+        let url = Bundle.main.url(forResource: "help", withExtension: "html")!
+        NSWorkspace.shared.open(url)
     }
 
     @IBAction

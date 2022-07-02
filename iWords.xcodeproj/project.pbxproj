@@ -11,6 +11,8 @@
 		37126CE2278244B2009BB010 /* PerseusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37126CE1278244B2009BB010 /* PerseusService.swift */; };
 		37126CF2278A0030009BB010 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 37126CF1278A0030009BB010 /* OrderedCollections */; };
 		37126CF4278A035B009BB010 /* DictionaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37126CF3278A035B009BB010 /* DictionaryController.swift */; };
+		37192C612870D7910063471D /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = 37192C602870D7910063471D /* help.html */; };
+		37192C622870D7910063471D /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = 37192C602870D7910063471D /* help.html */; };
 		373AECBD272E22CB0021A393 /* Difference in Frameworks */ = {isa = PBXBuildFile; productRef = 373AECBC272E22CB0021A393 /* Difference */; };
 		373AECBF272E22D90021A393 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECBE272E22D90021A393 /* Utils.swift */; };
 		373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
@@ -60,7 +62,6 @@
 		37B0F0D628220FE400F23C6D /* SharedFontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B0F0D528220FE400F23C6D /* SharedFontSizeController.swift */; };
 		37BE70C2279341D600A041D2 /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BE70C1279341D600A041D2 /* SearchBarViewController.swift */; };
 		37BF1C01262B7908003C4A97 /* WORD.MDV in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C00262B7908003C4A97 /* WORD.MDV */; };
-		37BF1C0C262B8366003C4A97 /* iWords.help in Resources */ = {isa = PBXBuildFile; fileRef = 37BF1C0B262B8366003C4A97 /* iWords.help */; };
 		37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC4362263476DD00E60CE9 /* DefinitionTests.swift */; };
 		37CC43662634AB8100E60CE9 /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 37CC43652634AB8100E60CE9 /* Parsing */; };
 		37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC43692634D81900E60CE9 /* DefinitionView.swift */; };
@@ -95,6 +96,7 @@
 		3710529127247B790077CE3D /* ServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProvider.swift; sourceTree = "<group>"; };
 		37126CE1278244B2009BB010 /* PerseusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerseusService.swift; sourceTree = "<group>"; };
 		37126CF3278A035B009BB010 /* DictionaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryController.swift; sourceTree = "<group>"; };
+		37192C602870D7910063471D /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
 		371BE240262B3D3100FC1FED /* WordsEntitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = WordsEntitlements.plist; sourceTree = "<group>"; };
 		373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "words (macOS)Debug.entitlements"; sourceTree = "<group>"; };
 		373AECBE272E22D90021A393 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -147,7 +149,6 @@
 		37B0F0D528220FE400F23C6D /* SharedFontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedFontSizeController.swift; sourceTree = "<group>"; };
 		37BE70C1279341D600A041D2 /* SearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
 		37BF1C00262B7908003C4A97 /* WORD.MDV */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WORD.MDV; sourceTree = "<group>"; };
-		37BF1C0B262B8366003C4A97 /* iWords.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = iWords.help; sourceTree = "<group>"; };
 		37CC4358263476D200E60CE9 /* iWordsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iWordsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37CC435C263476D200E60CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37CC4362263476DD00E60CE9 /* DefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionTests.swift; sourceTree = "<group>"; };
@@ -286,7 +287,7 @@
 			children = (
 				373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */,
 				37A4D1A8262227E400A9E9EC /* Assets.xcassets */,
-				37BF1C0B262B8366003C4A97 /* iWords.help */,
+				37192C602870D7910063471D /* help.html */,
 				37A4D1B7262227E400A9E9EC /* Info.plist */,
 				37A4D1B8262227E400A9E9EC /* macOS.entitlements */,
 				37AB5A232626733300118674 /* Credits.rtf */,
@@ -484,6 +485,7 @@
 			knownRegions = (
 				en,
 				Base,
+				English,
 			);
 			mainGroup = 37A4D1A0262227E300A9E9EC;
 			packageReferences = (
@@ -516,6 +518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37AB5A172626713500118674 /* INFLECTS.LAT in Resources */,
+				37192C612870D7910063471D /* help.html in Resources */,
 				37AB5A192626713500118674 /* INDXFILE.GEN in Resources */,
 				378C811527D40FD000DAC83A /* results-page.html in Resources */,
 				373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */,
@@ -525,7 +528,6 @@
 				37AB5A1C2626713500118674 /* INFLECTS.SEC in Resources */,
 				378E51FA2795C9FF00730204 /* Settings.storyboard in Resources */,
 				37AB5A1B2626713500118674 /* DICTLINE.GEN in Resources */,
-				37BF1C0C262B8366003C4A97 /* iWords.help in Resources */,
 				37AB5A182626713500118674 /* UNIQUES.LAT in Resources */,
 				37AB5A142626713500118674 /* ADDONS.LAT in Resources */,
 				37AB5A202626713500118674 /* STEMLIST.GEN in Resources */,
@@ -546,6 +548,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37192C622870D7910063471D /* help.html in Resources */,
 				373AECC8272EF26D0021A393 /* PreviewAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

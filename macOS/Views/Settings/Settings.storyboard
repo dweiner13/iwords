@@ -395,7 +395,7 @@
                                         </gridCells>
                                     </gridView>
                                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalClippingResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwV-hE-buG">
-                                        <rect key="frame" x="0.0" y="-76" width="501" height="32"/>
+                                        <rect key="frame" x="0.0" y="56" width="501" height="32"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="vj5-TA-c8q">
                                                 <rect key="frame" x="-2" y="0.0" width="409" height="32"/>
