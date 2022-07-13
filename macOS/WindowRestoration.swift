@@ -11,6 +11,7 @@ class WindowRestoration: NSObject, NSWindowRestoration {
     static func restoreWindow(withIdentifier identifier: NSUserInterfaceItemIdentifier,
                               state: NSCoder,
                               completionHandler: @escaping (NSWindow?, Error?) -> Void) {
-        completionHandler(LookupWindowController.newController().window, nil)
+        // TODO: dw restore
+//        completionHandler(LookupWindowController.newController().window, nil)
     }
 }

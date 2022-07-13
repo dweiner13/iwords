@@ -17,6 +17,8 @@
 		373AECBF272E22D90021A393 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373AECBE272E22D90021A393 /* Utils.swift */; };
 		373AECC3272EB26F0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
 		373AECC8272EF26D0021A393 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373AECC0272EB0160021A393 /* PreviewAssets.xcassets */; };
+		37426B7F287E281A007E080E /* iWordsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37426B7E287E281A007E080E /* iWordsApp.swift */; };
+		37426B81287E2826007E080E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37426B80287E2826007E080E /* ContentView.swift */; };
 		374355BC279CA10C0052CFBA /* VisualEffectBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */; };
 		3760B37727B044AE00F81F38 /* DictionarySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */; };
 		3760B37927B04A4600F81F38 /* DictionaryRelocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760B37827B04A4600F81F38 /* DictionaryRelocator.swift */; };
@@ -65,6 +67,8 @@
 		37CC4363263476DD00E60CE9 /* DefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC4362263476DD00E60CE9 /* DefinitionTests.swift */; };
 		37CC43662634AB8100E60CE9 /* Parsing in Frameworks */ = {isa = PBXBuildFile; productRef = 37CC43652634AB8100E60CE9 /* Parsing */; };
 		37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CC43692634D81900E60CE9 /* DefinitionView.swift */; };
+		37D4EA35287E2D4F008C2D9E /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4EA34287E2D4F008C2D9E /* ResultsView.swift */; };
+		37D4EA37287E3267008C2D9E /* MockResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4EA36287E3267008C2D9E /* MockResults.swift */; };
 		37ECE3322826CBEF0087C94C /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37ECE3312826CBEF0087C94C /* SearchQuery.swift */; };
 		37EDB2EA27945A4400911BC6 /* AutosizingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */; };
 /* End PBXBuildFile section */
@@ -101,6 +105,8 @@
 		373AECBA272A28660021A393 /* words (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "words (macOS)Debug.entitlements"; sourceTree = "<group>"; };
 		373AECBE272E22D90021A393 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		373AECC0272EB0160021A393 /* PreviewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewAssets.xcassets; sourceTree = "<group>"; };
+		37426B7E287E281A007E080E /* iWordsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iWordsApp.swift; sourceTree = "<group>"; };
+		37426B80287E2826007E080E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		374355BB279CA10C0052CFBA /* VisualEffectBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
 		3760B37627B044AE00F81F38 /* DictionarySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySettingsViewController.swift; sourceTree = "<group>"; };
 		3760B37827B04A4600F81F38 /* DictionaryRelocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryRelocator.swift; sourceTree = "<group>"; };
@@ -153,6 +159,8 @@
 		37CC435C263476D200E60CE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37CC4362263476DD00E60CE9 /* DefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionTests.swift; sourceTree = "<group>"; };
 		37CC43692634D81900E60CE9 /* DefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
+		37D4EA34287E2D4F008C2D9E /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		37D4EA36287E3267008C2D9E /* MockResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResults.swift; sourceTree = "<group>"; };
 		37ECE3312826CBEF0087C94C /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
 		37EDB2E927945A4400911BC6 /* AutosizingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizingTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -193,6 +201,17 @@
 				37AA04D92634485200353747 /* DefinitionParser.swift */,
 			);
 			path = Parsing;
+			sourceTree = "<group>";
+		};
+		37426B7D287E280B007E080E /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				37D4EA34287E2D4F008C2D9E /* ResultsView.swift */,
+				37426B7E287E281A007E080E /* iWordsApp.swift */,
+				37426B80287E2826007E080E /* ContentView.swift */,
+				37D4EA36287E3267008C2D9E /* MockResults.swift */,
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		374355B2279C9E310052CFBA /* Views */ = {
@@ -340,6 +359,7 @@
 		37A4D1B6262227E400A9E9EC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				37426B7D287E280B007E080E /* SwiftUI */,
 				37A4D2512622401900A9E9EC /* AppDelegate.swift */,
 				3710529127247B790077CE3D /* ServiceProvider.swift */,
 				37679DFF262CC87C003D15E1 /* WindowRestoration.swift */,
@@ -608,6 +628,8 @@
 				37679DFE262C860B003D15E1 /* BackForwardController.swift in Sources */,
 				374355BC279CA10C0052CFBA /* VisualEffectBackground.swift in Sources */,
 				37CC436A2634D81900E60CE9 /* DefinitionView.swift in Sources */,
+				37D4EA37287E3267008C2D9E /* MockResults.swift in Sources */,
+				37426B7F287E281A007E080E /* iWordsApp.swift in Sources */,
 				3760B37727B044AE00F81F38 /* DictionarySettingsViewController.swift in Sources */,
 				378E51FC2795D57600730204 /* InterfaceSettingsViewController.swift in Sources */,
 				37AA04DA2634485200353747 /* DefinitionParser.swift in Sources */,
@@ -617,6 +639,7 @@
 				37126CE2278244B2009BB010 /* PerseusService.swift in Sources */,
 				3710529227247B790077CE3D /* ServiceProvider.swift in Sources */,
 				37ECE3322826CBEF0087C94C /* SearchQuery.swift in Sources */,
+				37D4EA35287E2D4F008C2D9E /* ResultsView.swift in Sources */,
 				378C811927D52FC300DAC83A /* FontSizeController.swift in Sources */,
 				37B089FB272F237400932567 /* Intents.intentdefinition in Sources */,
 				37B0F0D628220FE400F23C6D /* SharedFontSizeController.swift in Sources */,
@@ -630,6 +653,7 @@
 				37988D5527249A6D00FFBB97 /* LookUpIntentHandler.swift in Sources */,
 				3760B37B27B07B3400F81F38 /* DictionarySettingsHelpViewController.swift in Sources */,
 				37852AD2278B45ED00ACFFE6 /* Dictionary.swift in Sources */,
+				37426B81287E2826007E080E /* ContentView.swift in Sources */,
 				37126CF4278A035B009BB010 /* DictionaryController.swift in Sources */,
 				37852AD0278B3EC500ACFFE6 /* LoadingView.swift in Sources */,
 			);
@@ -858,7 +882,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 0.7;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.iwords.iwords;
@@ -890,7 +914,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 0.7;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.iwords.iwords;

@@ -21,7 +21,6 @@ extension NSNotification.Name {
 
 let SelectedFontDidChangeFontKey = "font"
 
-@main
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static var shared: AppDelegate!
 

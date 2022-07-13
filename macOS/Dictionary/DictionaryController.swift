@@ -12,12 +12,14 @@ protocol DictionaryControllerDelegate: DictionaryDelegate {}
 /// This should provide a higher-level wrapper around Dictionary to do parsing etc.
 class DictionaryController: NSObject, NSSecureCoding {
 
-    class Result: Codable {
+    class Result: Codable, Identifiable {
         internal init(input: String, raw: String?, parsed: [DictionaryParser.Result]?) {
             self.input = input
             self.raw = raw
             self.parsed = parsed
         }
+
+        let id = UUID()
         
         let input: String
         let raw: String?
