@@ -7,6 +7,3 @@ See [the project website](https://iwords.org) for additional details.
 
 ## Contributions
 Since the project is still in alpha, it's not accepting contributions at this time (if you have feedback or are interested in working on iWords, please get in touch with me).
-
-## Pretty mode
-To enable the debug "pretty" mode, which attempts to parse Words output into a structured output that can be formatted in a GUI, launch iWords with the command-line argument `-resultDisplayMode 1`. Note that this is highly WIP.
