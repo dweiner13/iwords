@@ -430,6 +430,8 @@ extension LookupWindowController {
             return backForwardController.canGoBack
         case #selector(goForward(_:)):
             return backForwardController.canGoForward
+        case #selector(exportRawResult(_:)):
+            return lookupViewController?.results?.isEmpty == false
         default:
             return super.responds(to: aSelector)
         }
