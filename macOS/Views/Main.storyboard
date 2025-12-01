@@ -499,8 +499,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="FFDD8A55-34E0-4726-9086-9AB25C226116" label="Float" paletteLabel="Float on Top" image="pin" catalog="system" bordered="YES" sizingBehavior="auto" id="tJ7-AH-8Wv">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="FFDD8A55-34E0-4726-9086-9AB25C226116" label="Float" paletteLabel="Float on Top" toolTip="Float on top of other windows" image="pin" catalog="system" bordered="YES" sizingBehavior="auto" id="tJ7-AH-8Wv">
                                     <button key="view" verticalHuggingPriority="750" id="A0X-YN-sJp">
                                         <rect key="frame" x="23" y="14" width="27" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
