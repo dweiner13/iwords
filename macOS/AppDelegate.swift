@@ -7,8 +7,6 @@
 
 import Cocoa
 import Intents
-import DWUtils
-import Flow
 import Sparkle
 
 extension NSFont {
@@ -22,8 +20,20 @@ extension NSNotification.Name {
 let SelectedFontDidChangeFontKey = "font"
 
 @main
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     static var shared: AppDelegate!
+
+    // Own controllers explicitly rather than relying on a delegate retain cycle.
+    private var lookupWindows: [LookupWindowController] = []
+
+    func retainWindow(_ controller: LookupWindowController) {
+        if !lookupWindows.contains(where: { $0 === controller }) { lookupWindows.append(controller) }
+    }
+
+    func releaseWindow(_ controller: LookupWindowController) {
+        lookupWindows.removeAll { $0 === controller }
+    }
 
     @IBOutlet weak var latinToEnglishItem: NSMenuItem!
     @IBOutlet weak var englishToLatinItem: NSMenuItem!
@@ -49,6 +59,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSApp.keyWindow?.windowController as? LookupWindowController
     }
 
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { true }
+
     func applicationWillFinishLaunching(_ notification: Notification) {
         DictionaryRelocator.initialize()
 
@@ -56,7 +68,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        DebugDefaults.check()
+        // Explicit opt-in for resetting this test app's preferences.
+        #if DEBUG
+        if UserDefaults.standard.bool(forKey: "DWDebug.ClearDefaults"),
+           let identifier = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: identifier)
+        }
+        #endif
 
         setUpFont()
 
@@ -64,14 +82,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         startListeningToUserDefaults()
         #endif
 
-        if NSApp.windows.isEmpty {
+        if !NSApp.windows.contains(where: { $0.isVisible && $0.windowController is LookupWindowController }) {
             newWindow(self)
         }
 
         windowDidBecomeKey = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification,
                                                              object: nil,
                                                              queue: nil) { [weak self] notification in
-            self?.updateDirectionItemsState()
+            Task { @MainActor [weak self] in self?.updateDirectionItemsState() }
         }
 
         windowDidCloseObservation = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification,
@@ -126,19 +144,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func saveFont(_ font: NSFont) {
-        NSKeyedArchiver(requiringSecureCoding: true)
-            .then {
-                $0.encode(font, forKey: "font")
-            }
-            .encodedData
-            .do {
-                UserDefaults.standard.set($0, forKey: "font")
-            }
+        let archiver = NSKeyedArchiver(requiringSecureCoding: true)
+        archiver.encode(font, forKey: "font")
+        archiver.finishEncoding()
+        UserDefaults.standard.set(archiver.encodedData, forKey: "font")
     }
 
     @IBAction @objc
     func resetFont(_ sender: Any?) {
-        font = font.dwWithSize(16)
+        font = NSFontManager.shared.convert(font, toSize: 16)
         NSFontManager.shared.setSelectedFont(font, isMultiple: false)
         applyFont(font)
         saveFont(font)
@@ -209,8 +223,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func application(_ application: NSApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
-        print(userActivityType)
-        return false
+        userActivityType == LookUpIntentHandler.activityType
+    }
+
+    func application(_ application: NSApplication, continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([NSUserActivityRestoring]) -> Void) -> Bool {
+        guard userActivity.activityType == LookUpIntentHandler.activityType else { return false }
+
+        let terms: [String]
+        let direction: Dictionary.Direction?
+        if let intent = userActivity.interaction?.intent as? LookUpIntent {
+            terms = LookUpIntentHandler.searchTerms(from: intent.query)
+            direction = Dictionary.Direction(intent.direction)
+        } else {
+            // Successful background lookups carry their input into foreground continuation.
+            terms = LookUpIntentHandler.searchTerms(from: userActivity.userInfo?["query"] as? [String])
+            direction = (userActivity.userInfo?["direction"] as? Int)
+                .flatMap(Dictionary.Direction.init(rawValue:))
+        }
+
+        guard let direction, !terms.isEmpty,
+              terms.allSatisfy(LookUpIntentHandler.isValidSearchTerm) else { return false }
+        return ServiceProvider().lookUp(terms.joined(separator: " "), direction: direction)
     }
 
     @available(macOS 12.0, *)
@@ -312,5 +346,12 @@ extension AppDelegate {
     @objc
     func didPresentErrorWithRecovery(_ didRecover: Bool, contextInfo: UnsafeMutableRawPointer?) {
         NSApp.terminate(self)
+    }
+}
+
+// Window cascading uses screen coordinates, with the origin at the bottom left.
+extension NSWindow {
+    var topLeft: NSPoint {
+        NSPoint(x: frame.minX, y: frame.maxY)
     }
 }

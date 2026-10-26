@@ -21,7 +21,7 @@ extension Dictionary.Direction {
 
 @available(macOS 12.0, *)
 class LookUpIntentHandler: NSObject, LookUpIntentHandling {
-    lazy var dictionaryController = DictionaryController(direction: .latinToEnglish)
+    @MainActor lazy var dictionaryController = DictionaryController(direction: .latinToEnglish)
 
     func handle(intent: LookUpIntent, completion: @escaping (LookUpIntentResponse) -> Void) {
         guard let direction = Dictionary.Direction(intent.direction) else {
@@ -29,18 +29,29 @@ class LookUpIntentHandler: NSObject, LookUpIntentHandling {
             return
         }
 
-        let sanitizedTerms = intent.query?.map { Dictionary.sanitize(input: $0) ?? "" } ?? []
-        dictionaryController.direction = direction
-        dictionaryController.search(terms: sanitizedTerms) { result in
-            switch result {
-            case .failure(let error):
-                completion(LookUpIntentResponse(code: .failure, userActivity: nil))
-            case .success(let results):
-                let response = LookUpIntentResponse(code: .success, userActivity: nil)
-                response.definition = results
-                    .map(\.raw)
-                    .map { $0 ?? "No result" }
-                completion(response)
+        let sanitizedTerms = Self.searchTerms(from: intent.query)
+        guard !sanitizedTerms.isEmpty, sanitizedTerms.allSatisfy(Self.isValidSearchTerm) else {
+            completion(LookUpIntentResponse(code: .failure, userActivity: nil))
+            return
+        }
+        Task { @MainActor in
+            dictionaryController.direction = direction
+            dictionaryController.search(terms: sanitizedTerms) { result in
+                switch result {
+                case .failure:
+                    completion(LookUpIntentResponse(code: .failure, userActivity: nil))
+                case .success(let results):
+                    let activity = NSUserActivity(activityType: Self.activityType)
+                    activity.userInfo = [
+                        "query": sanitizedTerms,
+                        "direction": direction.rawValue
+                    ]
+                    let response = LookUpIntentResponse(code: .success, userActivity: activity)
+                    response.definition = results
+                        .map(\.raw)
+                        .map { $0 ?? "No result" }
+                    completion(response)
+                }
             }
         }
     }
@@ -55,8 +66,30 @@ class LookUpIntentHandler: NSObject, LookUpIntentHandling {
     }
 
     func resolveQuery(for intent: LookUpIntent, with completion: @escaping ([INStringResolutionResult]) -> Void) {
-        completion(intent.query?.map {
-            .success(with: $0)
-        } ?? [])
+        guard let query = intent.query, !query.isEmpty else {
+            completion([.needsValue()])
+            return
+        }
+
+        completion(query.map { text in
+            let terms = Self.searchTerms(from: [text])
+            guard !terms.isEmpty else { return .needsValue() }
+            guard terms.allSatisfy(Self.isValidSearchTerm) else { return .unsupported() }
+            return .success(with: terms.joined(separator: " "))
+        })
+    }
+
+    static let activityType = "LookUpIntent"
+
+    // A Shortcuts text item can contain several words, just like the app's search field.
+    static func searchTerms(from query: [String]?) -> [String] {
+        (query ?? [])
+            .flatMap { $0.split(whereSeparator: \.isWhitespace) }
+            .compactMap { Dictionary.sanitize(input: String($0)) }
+    }
+
+    static func isValidSearchTerm(_ term: String) -> Bool {
+        term.utf8.count <= 256 &&
+            term.rangeOfCharacter(from: .controlCharacters) == nil
     }
 }

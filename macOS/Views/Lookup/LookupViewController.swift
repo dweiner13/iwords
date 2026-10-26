@@ -6,24 +6,25 @@
 //
 
 import Cocoa
-import SwiftUI
-import WebKit
-
-enum ResultDisplayMode: Int {
-    case raw, pretty
-}
 
 class LookupViewController: NSViewController {
 
-    private var webView: WebView!
+    private let scrollView = NSScrollView()
+    private let textView = NSTextView()
+    private var expandedInflections: Set<Int> = []
+    private var isObservingDefaults = false
+    private var scaleObservation: NSObjectProtocol?
 
     @IBOutlet weak var welcomeView: NSView!
 
     var fontSizeController = FontSizeController.shared
 
-    var results: [DictionaryController.Result]? {
+    var results: [LookupResult]? {
         didSet {
-            results.map(updateForResults)
+            expandedInflections.removeAll()
+            renderResults()
+            if isViewLoaded { textView.scrollRangeToVisible(NSRange(location: 0, length: 0)) }
+            invalidateRestorableState()
             updateWelcomeViewVisibility()
         }
     }
@@ -35,8 +36,9 @@ class LookupViewController: NSViewController {
     }
 
     func updateWelcomeViewVisibility() {
+        guard isViewLoaded else { return }
         welcomeView.isHidden = results != nil || isLoading
-        webView.isHidden = !welcomeView.isHidden
+        scrollView.isHidden = !welcomeView.isHidden
     }
 
     @objc
@@ -52,7 +54,7 @@ class LookupViewController: NSViewController {
     override func restoreState(with coder: NSCoder) {
         super.restoreState(with: coder)
         if let data = coder.decodeObject(of: NSData.self, forKey: "resultsJSON") {
-            results = try? JSONDecoder().decode([DictionaryController.Result].self,
+            results = try? JSONDecoder().decode([LookupResult].self,
                                                 from: data as Data)
         }
     }
@@ -60,106 +62,93 @@ class LookupViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        webView = WebView(frame: view.bounds)
-        webView.setMaintainsBackForwardList(false)
-        webView.textSizeMultiplier = fontSizeController.textScale
-        view.addSubview(webView)
-        webView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.hasVerticalScroller = true
+        scrollView.autohidesScrollers = true
+        scrollView.borderType = .noBorder
+        scrollView.documentView = textView
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isRichText = true
+        textView.allowsUndo = false
+        textView.usesFindBar = true
+        textView.delegate = self
+        textView.backgroundColor = .textBackgroundColor
+        textView.textContainerInset = NSSize(width: 12, height: 12)
+        textView.isVerticallyResizable = true
+        textView.isHorizontallyResizable = false
+        textView.autoresizingMask = [.width]
+        textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        textView.textContainer?.widthTracksTextView = true
+        textView.textContainer?.containerSize = NSSize(width: view.bounds.width, height: CGFloat.greatestFiniteMagnitude)
+        textView.setAccessibilityLabel("Dictionary results")
+        textView.setAccessibilityIdentifier("lookupResults")
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.topAnchor.constraint(equalTo: view.topAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-        webView.drawsBackground = false
-        webView.frameLoadDelegate = self
-
-        let url = Bundle.main.url(forResource: "results-page", withExtension: "html")!
-        webView.mainFrame.load(URLRequest(url: url))
+        textView.frame = scrollView.contentView.bounds
+        renderResults()
 
         startListeningToUserDefaults()
 
         updateWelcomeViewVisibility()
 
-        NotificationCenter.default.addObserver(forName: .textScaleDidChange,
+        scaleObservation = NotificationCenter.default.addObserver(forName: .textScaleDidChange,
                                                object: FontSizeController.shared,
-                                               queue: nil) { [weak self] notification in
-            self?.webView.textSizeMultiplier = notification.userInfo![FontSizeController.scaleUserInfoKey] as! Float
+                                               queue: .main) { [weak self] notification in
+            self?.renderResults()
         }
     }
 
     private func startListeningToUserDefaults() {
-        #if DEBUG
-        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyResults", options: .new, context: nil)
-        #endif
+        isObservingDefaults = true
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.showInflections", options: .new, context: nil)
         NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.prettyFormatOutput", options: .new, context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
-        #if DEBUG
-        case "values.prettyResults":
-            fallthrough
-        #endif
         case "values.showInflections":
             fallthrough
         case "values.prettyFormatOutput":
-            results.map(updateForResults(_:))
+            renderResults()
         default:
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
 
     deinit {
-#if DEBUG
-        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyResults")
-#endif
+        if let scaleObservation { NotificationCenter.default.removeObserver(scaleObservation) }
+        guard isObservingDefaults else { return }
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.showInflections")
         NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.prettyFormatOutput")
     }
 
     func standardWidthAtCurrentFontSize() -> CGFloat {
-        // TODO: fix
-        return 300
-//        let font = AppDelegate.shared.font
-//        let string = String(repeating: "a", count: 80)
-//        let textWidth = (string as NSString).size(withAttributes: [.font: font as Any]).width
-//        return textWidth + textView.textContainerInset.width * 2 + 24
+        let font = NSFont.monospacedSystemFont(ofSize: 13 * CGFloat(fontSizeController.textScale), weight: .regular)
+        return (String(repeating: "0", count: 80) as NSString).size(withAttributes: [.font: font]).width + 48
     }
 
-    func updateForResults(_ results: [DictionaryController.Result]) {
-        showResultsInWebView(results)
-
-        invalidateRestorableState()
-    }
-
-    func showResultsInWebView(_ results: [DictionaryController.Result]) {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        let encoded = try! encoder.encode(results)
-        let str = String(data: encoded, encoding: .utf8)!
-        let js = """
-            showResults({
-                queries: \(str),
-                showInflections: \(String(UserDefaults.standard.bool(forKey: "showInflections"))),
-                prettyFormatOutput: \(String(UserDefaults.standard.bool(forKey: "prettyFormatOutput"))),
-            })
-            """
-        print(js)
-        webView.stringByEvaluatingJavaScript(from: js)
-    }
-
-    func fontChanged() {
-        if let results = results {
-            updateForResults(results)
-        }
-    }
-
-    // Called from JS in web view
-    @objc
-    func webViewDidLoad() {
-        results.map(showResultsInWebView(_:))
+    private func renderResults() {
+        guard isViewLoaded else { return }
+        let origin = scrollView.contentView.bounds.origin
+        let output = ResultsRenderer.render(
+            results ?? [],
+            scale: CGFloat(fontSizeController.textScale),
+            formatted: UserDefaults.standard.bool(forKey: "prettyFormatOutput"),
+            showInflections: UserDefaults.standard.bool(forKey: "showInflections"),
+            expandedInflections: expandedInflections
+        )
+        let selection = textView.selectedRange()
+        let preservesSelection = textView.string == output.string
+        textView.textStorage?.setAttributedString(output)
+        if preservesSelection { textView.setSelectedRange(selection) }
+        scrollView.contentView.scroll(to: origin)
+        scrollView.reflectScrolledClipView(scrollView.contentView)
     }
 
     func lookUpInPerseus(_ word: String) {
@@ -198,44 +187,25 @@ class LookupViewController: NSViewController {
         }
     }
 
-    private var webViewDelegate: WebViewDelegate?
 }
 
-extension LookupViewController: WebFrameLoadDelegate {
-
-    func webView(_ webView: WebView!, didClearWindowObject windowObject: WebScriptObject!, for frame: WebFrame!) {
-        let delegate = WebViewDelegate()
-        delegate.onWebViewDidLoad = { [unowned self] in
-            self.webViewDidLoad()
-        }
-        delegate.onLookUpInPerseus = { [unowned self] word in
-            self.lookUpInPerseus(word)
-        }
-        windowObject.setValue(delegate, forKey: "iWordsDelegate")
-    }
-}
-
-private class WebViewDelegate: NSObject {
-    var onWebViewDidLoad: () -> Void = { }
-    var onLookUpInPerseus: (String) -> Void = { _ in }
-
-    @objc
-    func webViewDidLoad() {
-        onWebViewDidLoad()
-    }
-
-    @objc
-    func lookUpInPerseus(_ word: String) {
-        onLookUpInPerseus(word)
-    }
-
-    override class func isSelectorExcluded(fromWebScript selector: Selector!) -> Bool {
-        switch selector {
-        case #selector(webViewDidLoad), #selector(lookUpInPerseus(_:)):
-            return false
+extension LookupViewController: NSTextViewDelegate {
+    func textView(_ textView: NSTextView, clickedOnLink link: Any, at charIndex: Int) -> Bool {
+        guard let url = link as? URL,
+              let index = Int(url.lastPathComponent),
+              let results, results.indices.contains(index) else { return false }
+        switch url.host {
+        case "perseus":
+            lookUpInPerseus(results[index].input)
+        case "inflections":
+            if !expandedInflections.insert(index).inserted {
+                expandedInflections.remove(index)
+            }
+            renderResults()
         default:
-            return true
+            return false
         }
+        return true
     }
 }
 
@@ -254,7 +224,19 @@ extension LookupViewController {
         printInfo.bottomMargin = 24
         printInfo.rightMargin = 24
 
-        webView.mainFrame.frameView.printOperation(with: printInfo).run()
+        // Use a separate view so pagination does not resize the onscreen results.
+        let width = printInfo.paperSize.width - printInfo.leftMargin - printInfo.rightMargin
+        let printView = NSTextView(frame: NSRect(x: 0, y: 0, width: width, height: 1))
+        printView.textStorage?.setAttributedString(ResultsRenderer.render(
+            results ?? [],
+            scale: CGFloat(fontSizeController.textScale),
+            formatted: UserDefaults.standard.bool(forKey: "prettyFormatOutput"),
+            showInflections: UserDefaults.standard.bool(forKey: "showInflections"),
+            expandedInflections: expandedInflections,
+            includeActions: false
+        ))
+        printView.sizeToFit()
+        NSPrintOperation(view: printView, printInfo: printInfo).run()
     }
 
     @objc
@@ -272,17 +254,15 @@ extension LookupViewController {
     }
 
     func decreaseTextSize() {
-        webView.makeTextSmaller(nil)
-        print("new text size: \(webView.textSizeMultiplier)")
+        fontSizeController.decreaseScale(nil)
     }
 
     func increaseTextSize() {
-        webView.makeTextLarger(nil)
-        print("new text size: \(webView.textSizeMultiplier)")
+        fontSizeController.increaseScale(nil)
     }
 
     func resetTextSize() {
-        webView.textSizeMultiplier = 1
+        fontSizeController.resetScale(nil)
     }
 }
 

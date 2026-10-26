@@ -38,15 +38,15 @@ class SearchQuery: NSObject, NSSecureCoding {
 
     init?(fromPropertyListRepresentation obj: Any) {
         guard let obj = obj as? [String: Any] else {
-            fatalError("Could not decode from obj \(obj)")
             return nil
         }
         guard let searchText = obj["searchText"] as? String,
-              let direction = obj["direction"] as? Int else {
+              let rawDirection = obj["direction"] as? Int,
+              let direction = Dictionary.Direction(rawValue: rawDirection) else {
                   return nil
               }
         self.searchText = searchText
-        self.direction = .init(rawValue: direction)!
+        self.direction = direction
     }
 
     required init?(coder: NSCoder) {

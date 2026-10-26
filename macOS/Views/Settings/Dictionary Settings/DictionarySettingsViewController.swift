@@ -18,9 +18,7 @@ class DictionarySettingsViewController: NSViewController {
             do {
                 try attemptToSetValue(doMedievalTricks, for: .doMedievalTricks)
             } catch {
-                DispatchQueue.main.async {
-                    self.doTwoWords.toggle()
-                }
+                // attemptToSetValue restores the persisted values and presents the error.
             }
         }
     }
@@ -31,9 +29,7 @@ class DictionarySettingsViewController: NSViewController {
             do {
                 try attemptToSetValue(doTwoWords, for: .doTwoWords)
             } catch {
-                DispatchQueue.main.async {
-                    self.doTwoWords.toggle()
-                }
+                // attemptToSetValue restores the persisted values and presents the error.
             }
         }
     }
@@ -44,9 +40,7 @@ class DictionarySettingsViewController: NSViewController {
             do {
                 try attemptToSetValue(!includeArchaicWords, for: .omitArchaic)
             } catch {
-                DispatchQueue.main.async {
-                    self.includeArchaicWords.toggle()
-                }
+                // attemptToSetValue restores the persisted values and presents the error.
             }
         }
     }
@@ -57,9 +51,7 @@ class DictionarySettingsViewController: NSViewController {
             do {
                 try attemptToSetValue(!includeMedievalWords, for: .omitMedieval)
             } catch {
-                DispatchQueue.main.async {
-                    self.includeMedievalWords.toggle()
-                }
+                // attemptToSetValue restores the persisted values and presents the error.
             }
         }
     }
@@ -70,15 +62,15 @@ class DictionarySettingsViewController: NSViewController {
             do {
                 try attemptToSetValue(!includeUncommonWords, for: .omitUncommon)
             } catch {
-                DispatchQueue.main.async {
-                    self.includeUncommonWords.toggle()
-                }
+                // attemptToSetValue restores the persisted values and presents the error.
             }
         }
     }
 
+    private var isReadingSettings = false
+
     func attemptToSetValue(_ value: Bool, for key: DictionarySettings.Key) throws {
-        guard let settings = settings else {
+        guard !isReadingSettings, let settings = settings else {
             return
         }
         do {
@@ -112,9 +104,7 @@ class DictionarySettingsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        preferredContentSize = view.fittingSize.then {
-            $0.width = SETTINGS_WINDOW_WIDTH
-        }
+        preferredContentSize = NSSize(width: SETTINGS_WINDOW_WIDTH, height: view.fittingSize.height)
 
         updateView()
     }
@@ -129,9 +119,11 @@ class DictionarySettingsViewController: NSViewController {
         } catch {
             installStackView.isHidden = false
             uninstallStackView.isHidden = true
-            let settings = try! DictionarySettings(url: Bundle.main.url(forResource: "WORD",
-                                                                        withExtension: "MDV")!)
-            readValuesFromSettings(settings)
+            settings = nil
+            if let url = Bundle.main.url(forResource: "WORD", withExtension: "MDV"),
+               let defaults = try? DictionarySettings(url: url) {
+                readValuesFromSettings(defaults)
+            }
             setCheckboxesEnabled(false)
             return
         }
@@ -151,6 +143,8 @@ class DictionarySettingsViewController: NSViewController {
     }
 
     private func readValuesFromSettings(_ settings: DictionarySettings) {
+        isReadingSettings = true
+        defer { isReadingSettings = false }
         doMedievalTricks = settings.value(for: .doMedievalTricks)
         doTwoWords = settings.value(for: .doTwoWords)
         includeArchaicWords = !settings.value(for: .omitArchaic)
@@ -211,11 +205,7 @@ class DictionarySettings {
     private var didAlreadyRead = false
 
     /// Always represents current settings in file. Should not be altered except when read from file.
-    private var settings: OrderedDictionary<String, String> = [:] {
-        didSet {
-            print("settings.count:", settings.count)
-        }
-    }
+    private var settings: OrderedDictionary<String, String> = [:]
 
     weak var delegate: DictionarySettingsDelegate?
 
@@ -297,8 +287,7 @@ class DictionarySettings {
         guard let data = stringToWrite.data(using: .utf8) else {
             throw DWError("Could not convert string to data")
         }
-        try data.write(to: url)
-        print("Wrote new settings to \(url)")
+        try data.write(to: url, options: .atomic)
     }
 }
 

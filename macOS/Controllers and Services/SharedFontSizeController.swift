@@ -8,7 +8,8 @@
 import AppKit
 
 // For IB use. Proxies everything to the shared FontSizeController object.
-class SharedFontSizeController: NSObject {
+@MainActor
+class SharedFontSizeController: NSObject, NSMenuItemValidation {
 
     // MARK: Properties
 
@@ -28,7 +29,7 @@ class SharedFontSizeController: NSObject {
         NotificationCenter.default.addObserver(forName: .textScaleDidChange,
                                                object: sharedController,
                                                queue: nil) { [weak self] notification in
-            self?.updateSegmentedControl()
+            Task { @MainActor [weak self] in self?.updateSegmentedControl() }
         }
     }
 
@@ -37,8 +38,9 @@ class SharedFontSizeController: NSObject {
         updateSegmentedControl()
     }
 
-    override func responds(to aSelector: Selector!) -> Bool {
-        switch aSelector {
+    // Validate availability without hiding actions from storyboard connections.
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.action {
         case #selector(increaseScale(_:)):
             return sharedController.canIncreaseScale
         case #selector(decreaseScale(_:)):
@@ -46,7 +48,7 @@ class SharedFontSizeController: NSObject {
         case #selector(resetScale(_:)):
             return sharedController.canResetScale
         default:
-            return super.responds(to: aSelector)
+            return true
         }
     }
 

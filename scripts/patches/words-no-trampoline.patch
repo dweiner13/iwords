@@ -1,0 +1,20 @@
+diff --git a/src/words_engine/words_engine-parse.adb b/src/words_engine/words_engine-parse.adb
+--- a/src/words_engine/words_engine-parse.adb
++++ b/src/words_engine/words_engine-parse.adb
+@@ -1184,8 +1184,15 @@
+       procedure Print_Analyses
+         (Analyses : Result_Container.Vector)
+       is
++         Position : Result_Container.Cursor :=
++           Result_Container.First (Analyses);
+       begin
+-         Analyses.Iterate (Process => Put_Analysis'Access);
++         -- Direct calls avoid executable trampolines for the nested callback.
++         -- This allows macOS hardened runtime without executable-memory grants.
++         while Result_Container.Has_Element (Position) loop
++            Put_Analysis (Position);
++            Result_Container.Next (Position);
++         end loop;
+       end Print_Analyses;
+    begin
+       declare

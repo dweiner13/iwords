@@ -9,57 +9,21 @@ import Foundation
 
 enum DictionaryParser {
 
-    enum Result: Codable {
-        case word(Word)
-        case unknown(String)
-        case addon(String)
-        case trick(String)
-
-        struct Word: Codable {
-            struct Form: Codable {
-                let inflections: [String]
-                let dictionaryForms: [String]
-
-                var raw: String {
-                    let text = [inflections.joined(separator: "\n"), dictionaryForms.joined(separator: "\n")].joined(separator: "\n")
-                    return "\(text)"
-                }
-            }
-
-            let forms: [Form]
-            let meaning: String
-
-            var raw: String {
-                let text = [forms.map(\.raw).joined(separator: "\n"), meaning].joined(separator: "\n")
-                return "\(text)"
-            }
-        }
-
-        var raw: String {
-            switch self {
-            case .word(let word):
-                return word.raw
-            case .unknown(let str), .addon(let str), .trick(let str):
-                return str
-            }
-        }
-    }
-
-    static func parse(_ str: String, direction: Dictionary.Direction) throws -> [Result] {
+    static func parse(_ str: String, direction: Dictionary.Direction) throws -> [DefinitionRecord] {
         let lines = str.split(whereSeparator: \.isNewline)
 
         guard direction == .latinToEnglish else {
-            return lines.map(String.init(_:)).map(Result.unknown)
+            return lines.map(String.init(_:)).map(DefinitionRecord.unknown)
         }
 
         var currentInflections: [String] = []
         var currentDictionaryForms: [String] = []
 
-        var currentForms: [Result.Word.Form] = []
+        var currentForms: [DefinitionRecord.Word.Form] = []
 
         var currentMeaning: String = ""
 
-        var currentResults: [Result] = []
+        var currentResults: [DefinitionRecord] = []
 
         func addPendingWord() {
             if !currentDictionaryForms.isEmpty || !currentInflections.isEmpty {

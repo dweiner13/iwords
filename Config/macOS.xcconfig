@@ -1,0 +1,8 @@
+// ARM-native test build. Release distribution requires Developer ID signing.
+ARCHS = arm64
+MACOSX_DEPLOYMENT_TARGET = 14.0
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = -
+DEVELOPMENT_TEAM =
+ENABLE_HARDENED_RUNTIME = YES
+#include? "Local.xcconfig"

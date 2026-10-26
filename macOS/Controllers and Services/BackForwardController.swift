@@ -7,6 +7,7 @@
 
 import Cocoa
 
+@MainActor
 @objc
 protocol BackForwardDelegate: AnyObject {
     func backForwardControllerCurrentQueryChanged(_ controller: BackForwardController)
@@ -22,6 +23,7 @@ private extension NSUserInterfaceItemIdentifier {
 }
 
 
+@MainActor
 class BackForwardController: NSObject {
 
     /// Current search query
@@ -60,9 +62,9 @@ class BackForwardController: NSObject {
     private var forwardList: [SearchQuery] = []
 
     func decode(with coder: NSCoder) {
-        backList = coder.decodeObject(forKey: "BackForwardController.backList") as? [SearchQuery] ?? []
-        forwardList = coder.decodeObject(forKey: "BackForwardController.forwardList") as? [SearchQuery] ?? []
-        currentSearchQuery = coder.decodeObject(forKey: "BackForwardController.currentSearchQuery") as? SearchQuery
+        backList = coder.decodeObject(of: [NSArray.self, SearchQuery.self], forKey: "BackForwardController.backList") as? [SearchQuery] ?? []
+        forwardList = coder.decodeObject(of: [NSArray.self, SearchQuery.self], forKey: "BackForwardController.forwardList") as? [SearchQuery] ?? []
+        currentSearchQuery = coder.decodeObject(of: SearchQuery.self, forKey: "BackForwardController.currentSearchQuery")
         updateSegmentedControl()
     }
 
@@ -93,7 +95,7 @@ class BackForwardController: NSObject {
             return
         }
         // If user holds shift, go back in new window
-        if NSApp.currentEventModifierFlags.contains(.shift),
+        if (NSApp.currentEvent?.modifierFlags.contains(.shift) ?? false),
             let delegate = delegate,
             let backItem = backItem {
             delegate.backForwardController(self, performAlternateNavigationToDisplayQuery: backItem)
@@ -116,7 +118,7 @@ class BackForwardController: NSObject {
             return
         }
         // If user holds shift, go back in new window
-        if NSApp.currentEventModifierFlags.contains(.shift),
+        if (NSApp.currentEvent?.modifierFlags.contains(.shift) ?? false),
             let delegate = delegate,
             let forwardItem = forwardItem {
             delegate.backForwardController(self, performAlternateNavigationToDisplayQuery: forwardItem)

@@ -12,6 +12,7 @@ extension NSNotification.Name {
     static let textScaleDidChange = NSNotification.Name("textScaleDidChange")
 }
 
+@MainActor
 class FontSizeController: NSObject {
     static let scaleUserInfoKey = "scale"
     static let shared = FontSizeController()

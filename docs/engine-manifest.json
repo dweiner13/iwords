@@ -1,0 +1,22 @@
+{
+  "repository": "https://github.com/mk270/whitakers-words.git",
+  "revision": "1f2f0fb0867a896d7b9284a03d615ed635d6f992",
+  "architecture": "arm64",
+  "minimumMacOS": "14.0",
+  "compilerTarget": "aarch64-apple-darwin23",
+  "patchSHA256": "e415a35e10a833f5aa3f89e49d3e76ff27dd5926fc23bad7d09f5515aa3c3cd8",
+  "compilerVersion": "GNATLS 14.2.0",
+  "sdkVersion": "27.0",
+  "sha256": {
+    "words": "fb50033ac97913bcbafd7afc75156b0a3fc6552b1fdc3250dec6d2ed165f2f68",
+    "WORD.MDV": "60a4acc8928b023959d688776d4c7f246d670fa13dbd9cef87c3a78090f636da",
+    "ADDONS.LAT": "7a7f40b3020913882e8bfa156ebe01ee3f640b4505ef2b79c8836ef6b8a948fb",
+    "INFLECTS.LAT": "dd0f019669719d820f690a6199286f6f54addfb06e959a7592699f8c7e6d2a9b",
+    "UNIQUES.LAT": "ed81efca10ec23d96e992724a98538c820f489b6ea3658afb1356ce6d2f7c8e2",
+    "DICTFILE.GEN": "39f9d23c1862acfa29f36b36cd3b8f4e6870ada69df136b99ded971704cdd779",
+    "STEMFILE.GEN": "2885eb87a156ed43654a40b086db82d6301384713d9d7786b169e0aa15f5039d",
+    "INDXFILE.GEN": "a5f7fe2507f4e2df6e12c545ebebeb3b623175aa6009e5440fc67676131233bb",
+    "INFLECTS.SEC": "e60186ca6723349782e946d41f282fb8ed0dc07c4e07d7d44b66218ddfebafbd",
+    "EWDSFILE.GEN": "034f46e5cd0125b2b01098d61bf3cb04fb690cbd9a00715e629a9fd1cf66b514"
+  }
+}

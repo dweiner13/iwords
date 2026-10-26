@@ -414,9 +414,7 @@
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="iWords" customModuleProvider="target">
                     <connections>
-                        <outlet property="backItem" destination="pt3-cq-4zk" id="R0z-3K-wc8"/>
                         <outlet property="englishToLatinItem" destination="NHV-k5-i8L" id="6fj-r8-hhg"/>
-                        <outlet property="forwardItem" destination="wIv-El-3Oj" id="C34-yk-L3Y"/>
                         <outlet property="latinToEnglishItem" destination="5iD-gI-CXi" id="Rmc-CE-jFO"/>
                     </connections>
                 </customObject>
@@ -452,7 +450,7 @@
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ocg-9b-k2f"/>
                                 <toolbarItem implicitItemIdentifier="A42B2214-4846-4493-A2A6-37E39C237B10" label="Text Size" paletteLabel="Text Size" title="Font Size" sizingBehavior="auto" id="WMQ-RV-CF9">
                                     <nil key="toolTip"/>
-                                    <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj" customClass="FontSizeSegmentedControl" customModule="iWords" customModuleProvider="target">
+                                    <segmentedControl key="view" verticalHuggingPriority="750" id="1z5-4S-FWj">
                                         <rect key="frame" x="0.0" y="14" width="71" height="24"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="momentary" id="gxG-KH-nnH">
@@ -672,7 +670,7 @@
         <scene sceneID="UbV-vl-mpN">
             <objects>
                 <viewController storyboardIdentifier="SearchBarViewController" id="A9c-dO-LmW" customClass="SearchBarViewController" customModule="iWords" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lpV-Pf-6an">
+                    <view key="view" wantsLayer="YES" id="lpV-Pf-6an">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="36"/>
                         <subviews>
                             <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mN3-cV-eKv" customClass="AutoGrowingTextField" customModule="iWords" customModuleProvider="target">

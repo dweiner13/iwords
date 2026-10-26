@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Flow
+import Darwin
 
 struct DWError: LocalizedError, Identifiable, CustomNSError {
     let id = UUID()
@@ -41,17 +41,16 @@ struct DWError: LocalizedError, Identifiable, CustomNSError {
     }
 }
 
+@MainActor
 protocol DictionaryDelegate: AnyObject {
-    /// - note: 0 <= progress <= 1
     func dictionary(_ dictionary: Dictionary, progressChangedTo progress: Double)
 }
 
-class Dictionary {
-
-    // MARK: - Types
-
+/// Compatibility facade for storyboard clients. All process ownership lives in WordsEngine.
+@MainActor
+final class Dictionary {
     @objc
-    enum Direction: Int, CustomStringConvertible, CustomDebugStringConvertible, Codable, CaseIterable {
+    enum Direction: Int, CustomStringConvertible, CustomDebugStringConvertible, Codable, CaseIterable, Sendable {
         // Do not change. Reflected in tags in interface builder.
         case latinToEnglish = 0
         case englishToLatin = 1
@@ -78,253 +77,193 @@ class Dictionary {
         }
     }
 
-    struct Options: OptionSet {
-        let rawValue: Int
-        static let diagnosticMode = Options(rawValue: 1 << 0)
-    }
-
     weak var delegate: DictionaryDelegate?
+    private let engine: any DictionaryEngine
+    private var tasks: [UUID: Task<Void, Never>] = [:]
 
-    // MARK: - Private vars
+    init(engine: any DictionaryEngine = WordsEngine()) { self.engine = engine }
 
-    private lazy var executableURL: URL = {
-        guard let url = Bundle.main.url(forAuxiliaryExecutable: "words") else {
-            fatalError("Could not find words program file in bundle.")
-        }
-        return url
-    }()
-    private lazy var executablePath = executableURL.path
-    private lazy var bundleWorkingDir = Bundle.main.url(forResource: "DICTFILE", withExtension: "GEN")!
-        .deletingLastPathComponent()
-    private var workingDir: URL {
-        DictionaryRelocator.dictionarySupportURL ?? bundleWorkingDir
-    }
+    deinit { tasks.values.forEach { $0.cancel() } }
 
-    private var activeCompletionHandler: ((Result<String?, DWError>) -> Void)?
-    private var process: Process?
-    private var outputPipe: Pipe?
-    private var errorPipe: Pipe?
-    private var inputPipe: Pipe?
-
-    private var timer: Timer?
-
-    // MARK: - Init
-
-    init() {
-        startProcess()
-    }
-
-    deinit {
-        process?.terminate()
-    }
-
-    static func sanitize(input: String) -> String? {
-        let trimmed = input
-            .trimmingCharacters(in: .whitespacesAndNewlines)
+    nonisolated static func sanitize(input: String) -> String? {
+        let value = input.trimmingCharacters(in: .whitespacesAndNewlines)
             .trimmingCharacters(in: CharacterSet(["#", "!", "@", "~"]))
-        return trimmed.count > 1 ? trimmed : nil
+        return value.isEmpty ? nil : value
     }
 
-    // MARK: - Methods
+    func cancel() { tasks.values.forEach { $0.cancel() } }
 
-    func getDefinitions(_ inputs: [String],
-                        direction: Direction,
-                        options: Options,
-                        completion: @escaping (Result<[(String, String?)], DWError>) -> Void) {
-        guard !inputs.isEmpty else {
-            completion(.success([]))
-            return
+    func getDefinition(_ input: String, direction: Direction,
+                       completion: @escaping (Swift.Result<String?, DWError>) -> Void) {
+        getDefinitions([input], direction: direction) {
+            completion($0.map { $0.first?.1 })
         }
+    }
 
-        var results: [(String, String?)] = []
-        let totalCount = Double(inputs.count)
-        var completedCount: Double = 0
+    func getDefinitions(_ inputs: [String], direction: Direction,
+                        completion: @escaping (Swift.Result<[(String, String?)], DWError>) -> Void) {
+        let id = UUID()
+        let engine = engine
+        tasks[id] = Task { [weak self] in
+            do {
+                var results: [(String, String?)] = []
+                let directory = try DictionaryRelocator.makeWorkspace()
+                defer { try? FileManager.default.removeItem(at: directory) }
+                for input in inputs {
+                    try Task.checkCancellation()
+                    let output = try await engine.lookup(input, direction: direction, directory: directory)
+                    try Task.checkCancellation()
+                    results.append((input, output))
+                    if let self { self.delegate?.dictionary(self, progressChangedTo: Double(results.count) / Double(inputs.count)) }
+                }
+                completion(.success(results))
+            } catch {
+                completion(.failure(DWError(error.localizedDescription)))
+            }
+            self?.tasks[id] = nil
+        }
+    }
+}
 
-        func processInput(at i: Int) {
-            getDefinition(inputs[i], direction: direction, options: options) { result in
-                switch result {
-                case .failure(let error):
-                    completion(.failure(error))
-                case .success(let result):
-                    results.append((inputs[i], result))
-                    completedCount += 1
-                    let progress = completedCount / totalCount
-                    DispatchQueue.main.async {
-                        self.delegate?.dictionary(self, progressChangedTo: progress)
-                    }
-                    if inputs.indices.contains(i + 1) {
-                        processInput(at: i + 1)
-                    } else {
-                        completion(.success(results))
-                    }
+protocol DictionaryEngine: Sendable {
+    func lookup(_ input: String, direction: Dictionary.Direction, directory: URL) async throws -> String?
+}
+
+enum EngineError: LocalizedError {
+    case missingResources, invalidInput, outputLimit, timeout, exited(Int32)
+
+    var errorDescription: String? {
+        switch self {
+        case .missingResources: return "Dictionary engine resources are missing."
+        case .invalidInput: return "Please enter a single word of at most 256 bytes."
+        case .outputLimit: return "Dictionary output exceeded its size limit."
+        case .timeout: return "The dictionary lookup timed out."
+        case .exited(let status): return "Dictionary engine exited (\(status))."
+        }
+    }
+}
+
+/// The explicit gate remains held across suspension points; actor isolation alone
+/// does not serialize complete asynchronous requests.
+actor WordsEngine: DictionaryEngine {
+    private var busy = false
+    private var waiters: [(UUID, CheckedContinuation<Void, Error>)] = []
+    private let executable: URL?
+    private let outputLimit: Int
+    private let timeout: Duration
+
+    init(executable: URL? = Bundle.main.url(forAuxiliaryExecutable: "words"),
+         outputLimit: Int = 4 * 1024 * 1024, timeout: Duration = .seconds(5)) {
+        self.executable = executable
+        self.outputLimit = outputLimit
+        self.timeout = timeout
+    }
+
+    private func acquire() async throws {
+        let id = UUID()
+        try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            if busy {
+                try await withCheckedThrowingContinuation { waiters.append((id, $0)) }
+            } else { busy = true }
+        } onCancel: {
+            Task { await self.cancelWaiter(id) }
+        }
+    }
+
+    private func cancelWaiter(_ id: UUID) {
+        guard let index = waiters.firstIndex(where: { $0.0 == id }) else { return }
+        waiters.remove(at: index).1.resume(throwing: CancellationError())
+    }
+
+    private func release() {
+        if waiters.isEmpty { busy = false }
+        else { waiters.removeFirst().1.resume() }
+    }
+
+    func lookup(_ input: String, direction: Dictionary.Direction, directory: URL) async throws -> String? {
+        try await acquire()
+        defer { release() }
+        try Task.checkCancellation()
+        guard let word = Dictionary.sanitize(input: input) else { return nil }
+        guard word.utf8.count <= 256, !word.contains(where: \.isWhitespace),
+              word.rangeOfCharacter(from: .controlCharacters) == nil else { throw EngineError.invalidInput }
+        guard let executable else { throw EngineError.missingResources }
+        let process = Process()
+        let stdin = Pipe(), stdout = Pipe(), stderr = Pipe()
+        process.executableURL = executable
+        process.currentDirectoryURL = directory
+        process.standardInput = stdin
+        process.standardOutput = stdout
+        process.standardError = stderr
+        defer {
+            for handle in [stdin.fileHandleForWriting, stdin.fileHandleForReading,
+                           stdout.fileHandleForWriting, stdout.fileHandleForReading,
+                           stderr.fileHandleForWriting, stderr.fileHandleForReading] { try? handle.close() }
+        }
+        try process.run()
+        do {
+            // Fixed nonblocking reads bound memory without accumulating callback tasks.
+            for handle in [stdout.fileHandleForReading, stderr.fileHandleForReading] {
+                let fd = handle.fileDescriptor
+                let flags = fcntl(fd, F_GETFL)
+                guard flags >= 0, fcntl(fd, F_SETFL, flags | O_NONBLOCK) >= 0 else {
+                    throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO)
                 }
             }
-        }
-        processInput(at: 0)
-    }
-
-    func getDefinition(_ input: String,
-                       direction: Direction,
-                       options: Options,
-                       completion: @escaping (Result<String?, DWError>) -> Void) {
-        guard input.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 else {
-            completion(.success(nil))
-            return
-        }
-        guard activeCompletionHandler == nil else {
-            completion(.failure(DWError("Lookup already in progress")))
-            return
-        }
-
-        func write(_ str: String) {
-            inputPipe!.fileHandleForWriting.write(str.data(using: .utf8)!)
-        }
-
-        switch direction {
-        case .latinToEnglish:
-            write("~L\n")
-        case .englishToLatin:
-            write("~E\n")
-        }
-        write(input)
-        write("\n")
-
-        self.activeCompletionHandler = completion
-
-        timer = .scheduledTimer(withTimeInterval: 5, repeats: false, block: { [weak self] timer in
-            guard let self = self else {
-                return
-            }
-            guard self.activeCompletionHandler != nil else {
-                return
-            }
-
-            self.restartProcess()
-
-            self.complete(with: .failure(DWError("The operation timed out. Please try again.")))
-        })
-    }
-
-    // MARK: - Private methods
-
-    private var tempData = Data()
-    private func handleNewData(from fileHandle: FileHandle) {
-        let newData = fileHandle.availableData
-        tempData += newData
-
-        // Always prefix of an English-to-Latin result
-        let englishToLatinPrefix = "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )\n\n=>"
-        // Always prefix of a Latin-to-English result
-        let latinToEnglishPrefix = "Language changed to LATIN_TO_ENGLISH\n\n=>"
-
-        guard let tempDataString = String(data: tempData, encoding: .utf8) else {
-            fatalError()
-        }
-
-        if case let cmp = tempDataString.components(separatedBy: englishToLatinPrefix),
-           cmp.count > 1,
-           let lastCmp = cmp.last,
-           lastCmp.hasSuffix("\n=>") {
-            tempData.removeAll()
-            DispatchQueue.main.async {
-                self.handleDefinitionResult(lastCmp)
-            }
-        } else if case let cmp = tempDataString.components(separatedBy: latinToEnglishPrefix),
-                  cmp.count > 1,
-                  let lastCmp = cmp.last,
-                  lastCmp.hasSuffix("\n=>") {
-            tempData.removeAll()
-            DispatchQueue.main.async {
-                self.handleDefinitionResult(lastCmp)
-            }
-        }
-    }
-
-    private func handleDefinitionResult(_ str: String) {
-        assert(Thread.current.isMainThread)
-
-        var str = str
-        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
-        if str.suffix(2) == "=>" {
-            str = String(str.dropLast(2))
-        }
-        str = str.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        complete(with: .success(str))
-    }
-
-    /// - Precondition: is main thread
-    private func complete(with result: Result<String?, DWError>) {
-        precondition(Thread.isMainThread)
-
-        timer?.invalidate()
-        timer = nil
-
-        let handler = activeCompletionHandler
-        activeCompletionHandler = nil
-
-        if needsRestart {
-            needsRestart = false
-            restartProcess()
-        }
-
-        handler?(result)
-    }
-
-    private var needsRestart = false
-
-    func setNeedsRestart() {
-        if activeCompletionHandler != nil {
-            needsRestart = true
-        } else {
-            restartProcess()
-        }
-    }
-
-    private func restartProcess() {
-        complete(with: .failure(DWError("Process restarted")))
-
-        process?.terminate()
-        process = nil
-
-        startProcess()
-    }
-
-    private func startProcess() {
-        guard process == nil else {
-            fatalError("Process already exists")
-        }
-
-        let p = Process()
-        p.currentDirectoryURL = workingDir
-        p.launchPath = executablePath
-        p.arguments = []
-        outputPipe = Pipe()
-        errorPipe = Pipe()
-        inputPipe = Pipe()
-        p.standardOutput = outputPipe
-        p.standardError = errorPipe
-        p.standardInput = inputPipe
-
-        let outputFileHandle = outputPipe!.fileHandleForReading
-
-        outputFileHandle.readabilityHandler = { [weak self] fh in
-            self?.handleNewData(from: fh)
-        }
-
-        process = p
-
-        p.terminationHandler = { [weak self] process in
-            guard let self = self else { return }
-
-            if process.terminationStatus != SIGTERM {
-                DispatchQueue.main.async {
-                    self.complete(with: .failure(DWError("Process failed with exit code \(process.terminationStatus)")))
+            let command = direction == .latinToEnglish ? "~L" : "~E"
+            try stdin.fileHandleForWriting.write(contentsOf: Data("\(command)\n\(word)\n".utf8))
+            let deadline = ContinuousClock.now + timeout
+            var output = Data()
+            var total = 0
+            let prefix = direction == .latinToEnglish
+                ? "Language changed to LATIN_TO_ENGLISH\n\n=>"
+                : "Language changed to ENGLISH_TO_LATIN\nInput a single English word (+ part of speech - N, ADJ, V, PREP, . .. )\n\n=>"
+            while true {
+                try Task.checkCancellation()
+                for (handle, capture) in [(stdout.fileHandleForReading, true), (stderr.fileHandleForReading, false)] {
+                    var buffer = [UInt8](repeating: 0, count: 8192)
+                    let count = read(handle.fileDescriptor, &buffer, buffer.count)
+                    if count < 0 && errno != EAGAIN && errno != EINTR {
+                        throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO)
+                    }
+                    if count > 0 {
+                        total += count
+                        guard total <= outputLimit else { throw EngineError.outputLimit }
+                        if capture { output.append(contentsOf: buffer.prefix(count)) }
+                    }
                 }
-                return
+                if let text = String(data: output, encoding: .utf8),
+                   let range = text.range(of: prefix), text[range.upperBound...].hasSuffix("\n=>") {
+                    let result = String(text[range.upperBound...].dropLast(3)).trimmingCharacters(in: .whitespacesAndNewlines)
+                    await stop(process)
+                    return result
+                }
+                guard process.isRunning else { throw EngineError.exited(process.terminationStatus) }
+                guard ContinuousClock.now < deadline else { throw EngineError.timeout }
+                try await Task.sleep(for: .milliseconds(5))
             }
+        } catch {
+            await stop(process)
+            throw error
         }
+    }
 
-        p.launch()
+    private func stop(_ process: Process) async {
+        guard process.isRunning else { return }
+        process.terminate()
+        // Cleanup must finish even when the requesting task has been cancelled.
+        await Task.detached {
+            let deadline = ContinuousClock.now + .milliseconds(200)
+            while process.isRunning && ContinuousClock.now < deadline {
+                try? await Task.sleep(for: .milliseconds(5))
+            }
+            if process.isRunning { kill(process.processIdentifier, SIGKILL) }
+            // Foundation reaps the child before isRunning becomes false. Avoid
+            // blocking a cooperative executor thread in waitUntilExit().
+            while process.isRunning {
+                try? await Task.sleep(for: .milliseconds(5))
+            }
+        }.value
     }
 }

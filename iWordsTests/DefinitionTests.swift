@@ -1,272 +1,361 @@
-//
-//  DefinitionTests.swift
-//  Tests macOS
-//
-//  Created by Dan Weiner on 4/24/21.
-//
-
-import XCTest
+import Foundation
+import Darwin
+import AppKit
+import Intents
+import Testing
 @testable import iWords
 
-class DefinitionTests: XCTestCase {
-    func testNouns() {
-        var example: String
-        example = "vir                  N      2 3 NOM S M                 \n" +
-        "vir                  N      2 3 VOC S M                 \n" +
-        "vir, viri  N (2nd) M            \n" +
-        "man; husband; hero; person of courage, honor, and nobility;"
-        var expected = iWords.Definition(
-            possibilities: [.noun(Noun(text: "vir", declension: .second, variety: 3, case: .nominative, number: .singular, gender: .masculine)),
-                            .noun(Noun(text: "vir", declension: .second, variety: 3, case: .vocative, number: .singular, gender: .masculine))],
-            words: [Word(
-            expansion: iWords.Expansion.noun("vir, viri",
-                                             iWords.Declension.second,
-                                             iWords.Gender.masculine,
-                                             []),
-            meaning: "man; husband; hero; person of courage, honor, and nobility;")])
-        assert(query: example, parsesIntoDefinitions: [expected])
-
-        example = "vi.a                 N      1 1 NOM S F                 \n" +
-        "vi.a                 N      1 1 VOC S F                 \n" +
-        "vi.a                 N      1 1 ABL S F                 \n" +
-        "via, viae  N (1st) F            \n" +
-        "way, road, street; journey;"
-        expected = iWords.Definition(
-            possibilities: [.noun(Noun(text: "vi.a", declension: .first, variety: 1, case: .nominative, number: .singular, gender: .feminine)),
-                            .noun(Noun(text: "vi.a", declension: .first, variety: 1, case: .vocative,   number: .singular, gender: .feminine)),
-                            .noun(Noun(text: "vi.a", declension: .first, variety: 1, case: .ablative,   number: .singular, gender: .feminine))],
-            words: [Word(expansion: iWords.Expansion.noun("via, viae",
-                                             iWords.Declension.first,
-                                             iWords.Gender.feminine,
-                                             []),
-                         meaning: "way, road, street; journey;")]);
-        assert(query: example, parsesIntoDefinitions: [expected])
-
-        example = "res                  N      9 9 X   X N                 \n" +
-        "res, undeclined  N N    Late  uncommon\n" +
-        "res; (20th letter of Hebrew alphabet); (transliterate as R);\n" +
-        "*\n"
-
-        expected = iWords.Definition(
-            possibilities: [.noun(Noun(text: "res", declension: nil, variety: 9, case: nil, number: nil, gender: .neuter))],
-            words: [Word(expansion: .noun("res, undeclined", nil, .neuter, ["Late", "uncommon"]),
-            meaning: "res; (20th letter of Hebrew alphabet); (transliterate as R);")])
-        assert(query: example, parsesIntoDefinitions: [expected])
+@MainActor
+@Suite(.serialized)
+struct ServicesAndShortcutsTests {
+    private func response(to intent: LookUpIntent) async -> LookUpIntentResponse {
+        let handler = LookUpIntentHandler()
+        return await withCheckedContinuation { continuation in
+            handler.handle(intent: intent) { continuation.resume(returning: $0) }
+        }
     }
 
-    func testAdjectives() {
-        var example: String
-        example = "cops                 ADJ    3 1 NOM S X POS             \n" +
-        "cops                 ADJ    3 1 VOC S X POS             \n" +
-        "cops                 ADJ    3 1 ACC S N POS             \n" +
-        "cops, (gen.), copis  ADJ    uncommon\n" +
-        "well/abundantly equipped/supplied; rich; swelling (of chest with pride);"
-        var expected = iWords.Definition(
-            possibilities: [.adjective(Adjective(text: "cops", declension: .third, variety: 1, case: .nominative, number: .singular, gender: nil,     degree: .positive)),
-                            .adjective(Adjective(text: "cops", declension: .third, variety: 1, case: .vocative,   number: .singular, gender: nil,     degree: .positive)),
-                            .adjective(Adjective(text: "cops", declension: .third, variety: 1, case: .accusative, number: .singular, gender: .neuter, degree: .positive))],
-            words: [Word(expansion: .adj("cops, (gen.), copis", ["uncommon"]),
-            meaning: "well/abundantly equipped/supplied; rich; swelling (of chest with pride);")])
-        assert(query: example, parsesIntoDefinitions: [expected])
-
-        example = "ali.a                ADJ    1 5 NOM S F POS             \n" +
-        "ali.a                ADJ    1 5 VOC S F POS             \n" +
-        "ali.a                ADJ    1 5 ABL S F POS             \n" +
-        "ali.a                ADJ    1 5 NOM P N POS             \n" +
-        "ali.a                ADJ    1 5 VOC P N POS             \n" +
-        "ali.a                ADJ    1 5 ACC P N POS             \n" +
-        "alius, alia, aliud  ADJ  \n" +
-        "other, another; different, changed; [alii...alii => some...others]; (A+G);"
-
-        expected = iWords.Definition(
-            possibilities: [.adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .nominative, number: .singular, gender: .feminine, degree: .positive)),
-                            .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .vocative, number: .singular, gender: .feminine, degree: .positive)),
-                            .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .ablative, number: .singular, gender: .feminine, degree: .positive)),
-                            .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .nominative, number: .plural, gender: .neuter, degree: .positive)),
-                            .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .vocative, number: .plural, gender: .neuter, degree: .positive)),
-                            .adjective(Adjective(text: "ali.a", declension: .first, variety: 5, case: .accusative, number: .plural, gender: .neuter, degree: .positive))],
-            words: [Word(expansion: .adj("alius, alia, aliud", []),
-            meaning: "other, another; different, changed; [alii...alii => some...others]; (A+G);")])
-        assert(query: example, parsesIntoDefinitions: [expected])
-
-        example = "re.i                 ADJ    1 1 GEN S M POS             \n" +
-        "reus, rea, reum  ADJ    Medieval  uncommon\n" +
-        "liable to (penalty of); guilty; [mens rea => guilty mind (modern legal term)];"
-
-        expected = iWords.Definition(
-            possibilities: [.adjective(Adjective(text: "re.i", declension: .first, variety: 1, case: .genitive, number: .singular, gender: .masculine, degree: .positive))],
-            words: [Word(expansion: .adj("reus, rea, reum", ["Medieval", "uncommon"]),
-            meaning: "liable to (penalty of); guilty; [mens rea => guilty mind (modern legal term)];")])
-        assert(query: example, parsesIntoDefinitions: [expected])
+    @Test(arguments: [Direction.latinToEnglish, .englishToLatin])
+    func shortcutsAcceptMultipleWordsAndPreserveContinuation(direction: Direction) async throws {
+        let intent = LookUpIntent()
+        intent.direction = direction
+        intent.query = direction == .latinToEnglish ? [" amo\nsum "] : [" love\tbe "]
+        let result = await response(to: intent)
+        #expect(result.code == .success)
+        let definitions = try #require(result.definition)
+        #expect(definitions.count == 2)
+        #expect(definitions[0].contains(direction == .latinToEnglish ? "love" : "amo"))
+        let activity = try #require(result.userActivity)
+        #expect(activity.activityType == "LookUpIntent")
+        #expect(activity.userInfo?["query"] as? [String] ==
+                (direction == .latinToEnglish ? ["amo", "sum"] : ["love", "be"]))
+        #expect(activity.userInfo?["direction"] as? Int ==
+                (direction == .latinToEnglish ? 0 : 1))
     }
 
-    func testAdverbs() {
-        var example: String
-        example = "alias                ADV    POS                         \n" +
-        "alias  ADV  \n" +
-        "at/in another time/place; previously, subsequently; elsewhere; otherwise;\n"
-        let expected = iWords.Definition(
-            possibilities: [.adverb(Adverb(text: "alias", degree: .positive))],
-            words: [Word(expansion: .adv("alias", []),
-            meaning: "at/in another time/place; previously, subsequently; elsewhere; otherwise;")])
-        assert(query: example, parsesIntoDefinitions: [expected])
+    @Test(arguments: [[], [" \n\t"], [String(repeating: "a", count: 257)], ["a\u{0000}b"]])
+    func shortcutsRejectUnusableInput(query: [String]) async {
+        let intent = LookUpIntent()
+        intent.direction = .latinToEnglish
+        intent.query = query
+        let result = await response(to: intent)
+        #expect(result.code == .failure)
     }
 
-    func testVerbs() {
-        var example: String
-        example = "consul.ere           V      3 1 PRES ACTIVE  INF 0 X    \n" +
-            "consul.ere           V      3 1 PRES PASSIVE IMP 2 S    \n" +
-            "consul.ere           V      3 1 FUT  PASSIVE IND 2 S    \n" +
-            "consulo, consulere, consului, consultus  V (3rd)            \n" +
-            "ask information/advice of; consult, take counsel; deliberate/consider; advise;\n" +
-            "decide upon, adopt; look after/out for (DAT), pay attention to; refer to;"
-        var expected = [
-            iWords.Definition(
-                possibilities: [.verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .present, voice: .active, mood: .infinitive, person: nil, number: nil)),
-                                .verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .present, voice: .passive, mood: .imperative, person: .second, number: .singular)),
-                                .verb(Verb(text: "consul.ere", conjugation: .third, variety: 1, tense: .future, voice: .passive, mood: .indicative, person: .second, number: .singular))],
-                words: [Word(expansion: iWords.Expansion.verb(
-                    "consulo, consulere, consului, consultus",
-                    iWords.Conjugation.third,
-                    []),
-                             meaning: "ask information/advice of; consult, take counsel; deliberate/consider; advise;\ndecide upon, adopt; look after/out for (DAT), pay attention to; refer to;")])
-        ]
-        assert(query: example, parsesIntoDefinitions: expected)
-
-        example = "ven.i                N      2 2 GEN S N                 \n" +
-        "ven.i                N      2 2 LOC S N                 \n" +
-        "venum, veni  N (2nd) N  \n" +
-        "sale, purchase; (only sg. ACC/DAT w/dare); [venum dare => put up for sale];\r\n" +
-        "veni                 V      6 1 PRES ACTIVE  IMP 2 S    \n" +
-        "veneo, venire, venivi(ii), venitus  V  \n" +
-        "go for sale, be sold (as slave), be disposed of for (dishonorable/venal) gain;\r\n" +
-        "ven.i                V      4 1 PRES ACTIVE  IMP 2 S    \n" +
-        "ven.i                V      4 1 PERF ACTIVE  IND 1 S    \n" +
-        "venio, venire, veni, ventus  V (4th)  \n" +
-        "come;\r\n" +
-        "*\n"
-        expected = [
-            iWords.Definition(
-                possibilities: [.noun(Noun(text: "ven.i", declension: .second, variety: 2, case: .genitive, number: .singular, gender: .neuter)),
-                                .noun(Noun(text: "ven.i", declension: .second, variety: 2, case: .locative, number: .singular, gender: .neuter))],
-                words: [Word(expansion: iWords.Expansion.noun(
-                    "venum, veni",
-                    .second,
-                    .neuter,
-                    []),
-                             meaning: "sale, purchase; (only sg. ACC/DAT w/dare); [venum dare => put up for sale];")]),
-            iWords.Definition(
-                possibilities: [.verb(Verb(text: "veni", conjugation: nil, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),],
-                words: [Word(expansion: iWords.Expansion.verb(
-                    "veneo, venire, venivi(ii), venitus",
-                    nil,
-                    []),
-                             meaning: "go for sale, be sold (as slave), be disposed of for (dishonorable/venal) gain;")]),
-            iWords.Definition(
-                possibilities: [.verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .present, voice: .active, mood: .imperative, person: .second, number: .singular)),
-                                .verb(Verb(text: "ven.i", conjugation: .fourth, variety: 1, tense: .perfect, voice: .active, mood: .indicative, person: .first, number: .singular)),],
-                words: [Word(expansion: iWords.Expansion.verb(
-                    "venio, venire, veni, ventus",
-                    .fourth,
-                    []),
-                             meaning: "come;")])
-        ]
-        assert(query: example, parsesIntoDefinitions: expected)
-
-        example = "incub.at             V      1 1 PRES ACTIVE  IND 3 S    \n" +
-        "incubo, incubare, incubavi, incubatus  V (1st) INTRANS    veryrare\n" +
-        "brood; (rare alt. perf/vpar for incubo);\n" +
-        "incubo, incubare, incubui, incubitus  V (1st)  \n" +
-        "lie in or on (w/DAT); sit upon; brood over; keep a jealous watch (over);"
-        expected = [
-            iWords.Definition(possibilities: [.verb(Verb(text: "incub.at", conjugation: .first, variety: 1, tense: .present, voice: .active, mood: .indicative, person: .third, number: .singular))],
-                              words: [Word(expansion: .verb("incubo, incubare, incubavi, incubatus", .first, ["intrans.", "very rare"]), meaning: "brood; (rare alt. perf/vpar for incubo);"),
-                                      Word(expansion: .verb("incubo, incubare, incubui, incubitus", .first, []), meaning: "lie in or on (w/DAT); sit upon; brood over; keep a jealous watch (over);")]),
-        ]
-        assert(query: example, parsesIntoDefinitions: expected)
-
-        example = String(data: NSDataAsset(name: "queries/orietur")!.data, encoding: .utf8)!
-        expected = [
-            iWords.Definition(possibilities: [.verb(Verb(text: "ori.etur", conjugation: .third, variety: 1, tense: .future, voice: nil, mood: .indicative, person: .third, number: .singular))],
-                              words: [Word(expansion: .verb("orior, ori, oritus sum", .third, ["dep."]), meaning: "rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;\nbe born/created; be born of, descend/spring from; proceed/be derived (from);")]),
-            iWords.Definition(possibilities: [.verb(Verb(text: "ori.etur", conjugation: .fourth, variety: 1, tense: .future, voice: nil, mood: .indicative, person: .third, number: .singular))],
-                              words: [Word(expansion: .verb("orior, oriri, ortus sum", .fourth, ["dep."]), meaning: "rise (sun/river); arise/emerge, crop up; get up (wake); begin; originate from;\nbe born/created; be born of, descend/spring from; proceed/be derived (from);")])
-        ]
-        assert(query: example, parsesIntoDefinitions: expected)
+    @Test func missingQueryRequestsResolution() {
+        let intent = LookUpIntent()
+        LookUpIntentHandler().resolveQuery(for: intent) { results in
+            #expect(results.count == 1)
+        }
     }
 
-    func testPronouns() {
-        var example = String(data: NSDataAsset(name: "queries/ego")!.data, encoding: .utf8)!
-        var expected = [
-            iWords.Definition(possibilities: [.pronoun(Pronoun(text: "ego", declension: .fifth, variety: 1, case: .nominative, number: .singular, gender: .common))],
-                              words: [Word(expansion: nil, meaning: "I, me (PERS); myself (REFLEX);")])
-        ]
-        assert(query: example, parsesIntoDefinitions: expected)
-
-        example = String(data: NSDataAsset(name: "queries/ille")!.data, encoding: .utf8)!
-        expected = [
-            iWords.Definition(possibilities: [.pronoun(Pronoun(text: "ill.e", declension: nil, variety: 1, case: .nominative, number: .singular, gender: .masculine))],
-                              words: [Word(expansion: .pron("ille, illa, illud", []),
-                                           meaning: "that; those (pl.); also DEMONST; that person/thing; the well known; the former;")])
-        ]
-        assert(query: example, parsesIntoDefinitions: expected)
+    @Test func serviceReportsMissingAndBlankPasteboardText() {
+        let pasteboard = NSPasteboard.withUniqueName()
+        defer { pasteboard.releaseGlobally() }
+        let provider = ServiceProvider()
+        var error: NSString?
+        provider.lookUp(pasteboard, userData: "0", error: &error)
+        #expect(error == "Could not retrieve text from the pasteboard.")
+        pasteboard.setString(" \n", forType: .string)
+        error = nil
+        provider.lookUp(pasteboard, userData: "1", error: &error)
+        #expect(error == "Please select a word to look up.")
     }
 
-    func testPrepositions() {
-        let example = String(data: NSDataAsset(name: "queries/ab")!.data, encoding: .utf8)!
-        let expected = [
-            iWords.Definition(possibilities: [.preposition(Preposition(text: "ab", case: .ablative))],
-                              words: [Word(expansion: .prep("ab", .ablative, []),
-                                           meaning: "by (agent), from (departure, cause, remote origin/time); after (reference);")])
-        ]
-        assert(query: example, parsesIntoDefinitions: expected)
+    private func waitForLookup(_ query: SearchQuery, in controller: LookupWindowController) async throws {
+        let deadline = ContinuousClock.now + .seconds(10)
+        while controller.backForwardController.currentSearchQuery != query && ContinuousClock.now < deadline {
+            try await Task.sleep(for: .milliseconds(20))
+        }
+        try #require(controller.backForwardController.currentSearchQuery == query)
     }
 
-    func testCombined() {
-        testQueryExpectedAssetPairLegacy(asset: "facile")
-        testQueryExpectedAssetPairLegacy(asset: "prae")
+    @Test func serviceAndContinuationUseLookupWindowBehindAnotherWindow() async throws {
+        let lookup = LookupWindowController.newController()
+        let window = try #require(lookup.window)
+        window.makeKeyAndOrderFront(nil)
+        let otherWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 200, height: 100),
+                                   styleMask: [.titled], backing: .buffered, defer: false)
+        otherWindow.isReleasedWhenClosed = false
+        defer {
+            otherWindow.close()
+            lookup.close()
+        }
+        otherWindow.makeKeyAndOrderFront(nil)
+        #expect(NSApp.orderedWindows.first === otherWindow)
+
+        let pasteboard = NSPasteboard.withUniqueName()
+        defer { pasteboard.releaseGlobally() }
+        pasteboard.setString(" love\n", forType: .string)
+        var error: NSString?
+        ServiceProvider().lookUp(pasteboard, userData: "1", error: &error)
+        #expect(error == nil)
+        try await waitForLookup(SearchQuery("love", .englishToLatin), in: lookup)
+        #expect(window.isVisible)
+
+        let delegate = try #require(NSApp.delegate as? AppDelegate)
+        let activity = NSUserActivity(activityType: "LookUpIntent")
+        activity.userInfo = ["query": ["amo", "sum"], "direction": 0]
+        otherWindow.makeKeyAndOrderFront(nil)
+        #expect(delegate.application(NSApp, continue: activity, restorationHandler: { _ in }))
+        try await waitForLookup(SearchQuery("amo sum", .latinToEnglish), in: lookup)
+
+        activity.userInfo = ["query": ["amo"], "direction": 99]
+        #expect(!delegate.application(NSApp, continue: activity, restorationHandler: { _ in }))
+        #expect(!delegate.application(NSApp, willContinueUserActivityWithType: "unrelated"))
+    }
+}
+
+struct DefinitionTests {
+    @Test func `Pearse records preserve forms meanings and addons`() throws {
+        let output = "01 am.o V 1 1 PRES ACTIVE IND 1 S\n02 amo, amare, amavi, amatus\n03 love; like;\n05 -que = and\n06 spelling variant"
+        let results = try DictionaryParser.parse(output, direction: .latinToEnglish)
+        #expect(results.count == 3)
+        guard case .word(let word) = results.first else {
+            Issue.record("Expected a word record")
+            return
+        }
+        #expect(word.forms.count == 1)
+        #expect(word.forms.first?.dictionaryForms == ["amo, amare, amavi, amatus"])
+        #expect(word.meaning.contains("love"))
+        #expect(results[1].raw == "-que = and")
     }
 
-    func testNotes() {
-        testQueryExpectedAssetPair(asset: "virimus")
-        testQueryExpectedAssetPair(asset: "abo virimus")
+    @Test func `English results remain readable`() throws {
+        let output = "amo love\ncaritas affection"
+        let results = try DictionaryParser.parse(output, direction: .englishToLatin)
+        #expect(results.map(\.raw) == ["amo love", "caritas affection"])
     }
 
-    func testPrefixesSuffixesAndTackons() {
-        testQueryExpectedAssetPair(asset: "exabimusque")
-        testQueryExpectedAssetPair(asset: "perfidiose")
+    @Test func `Unexpected output reports a parsing error`() {
+        #expect(throws: DWError.self) {
+            try DictionaryParser.parse("99 unexpected", direction: .latinToEnglish)
+        }
+    }
+}
+
+@MainActor
+struct EngineIntegrationTests {
+    private func lookup(_ word: String, direction: Dictionary.Direction,
+                        engine: Dictionary) async throws -> String {
+        try await withCheckedThrowingContinuation { continuation in
+            engine.getDefinition(word, direction: direction) { result in
+                continuation.resume(with: result.map { $0 ?? "" }.mapError { $0 as Error })
+            }
+        }
     }
 
-    func testSupineAndParticiples() {
-        testQueryExpectedAssetPair(asset: "datum")
-        testQueryExpectedAssetPair(asset: "iustam rem et facilem esse oratam a vobis volo")
+    @Test func `Bundled engine supports both directions and repeated requests`() async throws {
+        let engine = Dictionary()
+        for _ in 0..<3 {
+            let latin = try await lookup("amo", direction: .latinToEnglish, engine: engine)
+            #expect(latin.contains("03 love"))
+            let parsed = try DictionaryParser.parse(latin, direction: .latinToEnglish)
+            #expect(!parsed.isEmpty)
+            let english = try await lookup("love", direction: .englishToLatin, engine: engine)
+            #expect(english.contains("amo, amare"))
+        }
     }
 
-    private func assert(query: String, parsesIntoResults results: [ResultItem]) {
-        XCTAssertEqual(parse(query)?.0, results)
+    @Test(arguments: ["a", "e", "sum", "multusque", "xyzzy"])
+    func `Single letters irregular forms enclitics and unknowns complete`(word: String) async throws {
+        let engine = Dictionary()
+        let result = try await lookup(word, direction: .latinToEnglish, engine: engine)
+        #expect(!result.isEmpty)
+        if word == "xyzzy" {
+            #expect(result.contains("UNKNOWN") || result.contains("No Match"))
+        } else {
+            #expect(result.contains("03 "))
+        }
     }
 
-    private func testQueryExpectedAssetPair(asset name: String) {
-        let raw = String(data: NSDataAsset(name: "queries/\(name)")!.data, encoding: .utf8)!
-        let expected = try! JSONDecoder().decode([ResultItem].self,
-                                                 from: NSDataAsset(name: "expected/\(name)")!.data)
-        XCTAssertNotNil(raw)
-        XCTAssertNotNil(expected)
-        assert(query: raw, parsesIntoResults: expected)
+    @Test func `Fresh processes answer subsequent requests`() async throws {
+        let engine = Dictionary()
+        _ = try await lookup("amo", direction: .latinToEnglish, engine: engine)
+        let result = try await lookup("sum", direction: .latinToEnglish, engine: engine)
+        #expect(result.contains("03 "))
+    }
+}
+
+struct EngineFailureTests {
+    private func fixture(_ body: String) throws -> (URL, URL) {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let executable = directory.appendingPathComponent("engine")
+        try ("#!/bin/sh\n" + body).write(to: executable, atomically: true, encoding: .utf8)
+        try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: executable.path)
+        return (directory, executable)
     }
 
-    // MARK: Legacy (no support for notes)
-
-    private func assert(query: String, parsesIntoDefinitions defs: [Definition]) {
-        XCTAssertEqual(parse(query)?.0, defs.map { ResultItem.definition($0) })
+    @Test(arguments: 0..<4)
+    func timeoutAndCancellationReapProcesses(iteration: Int) async throws {
+        let (directory, executable) = try fixture("echo $$ > pid\nexec /bin/sleep 30\n")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let engine = WordsEngine(executable: executable, timeout: .seconds(1))
+        await #expect(throws: EngineError.self) {
+            try await engine.lookup("amo", direction: .latinToEnglish, directory: directory)
+        }
+        let pid = try #require(Int32(String(contentsOf: directory.appendingPathComponent("pid"), encoding: .utf8).trimmingCharacters(in: .whitespacesAndNewlines)))
+        #expect(kill(pid, 0) == -1)
+        let longEngine = WordsEngine(executable: executable, timeout: .seconds(30))
+        try FileManager.default.removeItem(at: directory.appendingPathComponent("pid"))
+        let active = Task { try await longEngine.lookup("amo", direction: .latinToEnglish, directory: directory) }
+        for _ in 0..<100 where !FileManager.default.fileExists(atPath: directory.appendingPathComponent("pid").path) {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        #expect(FileManager.default.fileExists(atPath: directory.appendingPathComponent("pid").path))
+        let queued = Task { try await longEngine.lookup("sum", direction: .latinToEnglish, directory: directory) }
+        try await Task.sleep(for: .milliseconds(20))
+        queued.cancel()
+        await #expect(throws: CancellationError.self) { try await queued.value }
+        active.cancel()
+        await #expect(throws: CancellationError.self) { try await active.value }
+        let cancelledPID = try #require(Int32(String(contentsOf: directory.appendingPathComponent("pid"), encoding: .utf8).trimmingCharacters(in: .whitespacesAndNewlines)))
+        #expect(kill(cancelledPID, 0) == -1)
     }
 
-    private func testQueryExpectedAssetPairLegacy(asset name: String) {
-        let raw = String(data: NSDataAsset(name: "queries/\(name)")!.data, encoding: .utf8)!
-        let expected = try! JSONDecoder().decode([Definition].self,
-                                                 from: NSDataAsset(name: "expected/\(name)")!.data)
-        XCTAssertNotNil(raw)
-        XCTAssertNotNil(expected)
-        assert(query: raw, parsesIntoDefinitions: expected)
+    @Test func outputLimitExitAndMissingExecutableAreErrors() async throws {
+        let (directory, executable) = try fixture("while :; do printf '012345678901234567890123456789\\n'; done\n")
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let engine = WordsEngine(executable: executable, outputLimit: 128)
+        await #expect(throws: EngineError.self) { try await engine.lookup("amo", direction: .latinToEnglish, directory: directory) }
+        try "#!/bin/sh\nexit 7\n".write(to: executable, atomically: false, encoding: .utf8)
+        await #expect(throws: EngineError.self) { try await engine.lookup("amo", direction: .latinToEnglish, directory: directory) }
+        let missing = WordsEngine(executable: directory.appendingPathComponent("missing"))
+        await #expect(throws: (any Error).self) { try await missing.lookup("amo", direction: .latinToEnglish, directory: directory) }
+    }
+
+    @Test func concurrentRequestsAreSerializedAndRecoverAfterFailure() async throws {
+        let (directory, executable) = try fixture("""
+        read direction
+        read word
+        if ! /bin/mkdir lock; then exit 9; fi
+        printf '%s\\n' "$word" >> requests
+        /bin/rmdir lock
+        printf 'Language changed to LATIN_TO_ENGLISH\\n\\n=>'
+        /bin/sleep 0.05
+        printf '03 %s\\n=>' "$word"
+        exec /bin/sleep 30
+        """)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let engine = WordsEngine(executable: executable)
+        await #expect(throws: EngineError.self) { try await engine.lookup("two words", direction: .latinToEnglish, directory: directory) }
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for word in ["amo", "sum", "a", "e", "multus"] {
+                group.addTask {
+                    let result = try await engine.lookup(word, direction: .latinToEnglish, directory: directory)
+                    #expect(result == "03 \(word)")
+                }
+            }
+            try await group.waitForAll()
+        }
+        let requests = try String(contentsOf: directory.appendingPathComponent("requests"), encoding: .utf8)
+        #expect(requests.split(separator: "\n").count == 5)
+    }
+}
+
+struct MigrationTests {
+    @Test func migrationPreservesOnlyPreferencesAndIsRepeatable() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let resources = root.appendingPathComponent("Bundle")
+        try FileManager.default.createDirectory(at: resources, withIntermediateDirectories: true)
+        try "DO_TWO_WORDS Y\nOMIT_ARCHAIC N\nOTHER Y\n".write(to: resources.appendingPathComponent("WORD.MDV"), atomically: true, encoding: .utf8)
+        for name in DictionaryStorage.resourceNames {
+            try Data("bundled".utf8).write(to: resources.appendingPathComponent(name))
+        }
+        let legacy = root.appendingPathComponent("Dictionary Support/Engine-1f2f0fb-arm64-v1")
+        try FileManager.default.createDirectory(at: legacy, withIntermediateDirectories: true)
+        try "DO_TWO_WORDS N\nOMIT_ARCHAIC invalid\nOTHER N\n".write(to: legacy.appendingPathComponent("WORD.MDV"), atomically: true, encoding: .utf8)
+        let storage = DictionaryStorage(root: root, resources: resources)
+        #expect(try storage.initialize())
+        let migrated = try String(contentsOf: storage.settingsURL, encoding: .utf8)
+        #expect(migrated.contains("DO_TWO_WORDS                     N"))
+        #expect(migrated.contains("OMIT_ARCHAIC N"))
+        #expect(migrated.contains("OTHER Y"))
+        #expect(try storage.initialize())
+        #expect(try String(contentsOf: storage.settingsURL, encoding: .utf8) == migrated)
+        let workspace = try storage.workspace(enabled: true)
+        defer { try? FileManager.default.removeItem(at: workspace) }
+        #expect(try String(contentsOf: workspace.appendingPathComponent("WORD.MDV"), encoding: .utf8) == migrated)
+        #expect(try FileManager.default.destinationOfSymbolicLink(atPath: workspace.appendingPathComponent("DICTFILE.GEN").path) == resources.appendingPathComponent("DICTFILE.GEN").path)
+        try storage.disable()
+        #expect(try !storage.initialize())
+        try storage.enable()
+        #expect(try String(contentsOf: storage.settingsURL, encoding: .utf8) == migrated)
+    }
+
+    @Test func futureMigrationVersionsAreNotOverwritten() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let data = Data(#"{"version":99,"enabled":true}"#.utf8)
+        try data.write(to: root.appendingPathComponent("migration.json"))
+        let storage = DictionaryStorage(root: root, resources: root)
+        #expect(throws: DWError.self) { try storage.initialize() }
+        #expect(throws: DWError.self) { try storage.enable() }
+        #expect(try Data(contentsOf: root.appendingPathComponent("migration.json")) == data)
+    }
+}
+
+@MainActor
+struct ModelAndRestorationTests {
+    @Test func resultArchiveAndBackForwardHistoryRoundTrip() throws {
+        let results = [LookupResult(input: "amo", raw: "love", parsed: [.unknown("love")])]
+        let restored = try JSONDecoder().decode([LookupResult].self, from: JSONEncoder().encode(results))
+        #expect(restored.first?.input == "amo")
+        #expect(restored.first?.parsed?.first?.raw == "love")
+        let history = BackForwardController()
+        history.recordVisit(to: SearchQuery("amo", .latinToEnglish))
+        history.recordVisit(to: SearchQuery("love", .englishToLatin))
+        let coder = NSKeyedArchiver(requiringSecureCoding: true)
+        history.encode(with: coder)
+        coder.finishEncoding()
+        let decoder = try NSKeyedUnarchiver(forReadingFrom: coder.encodedData)
+        let restoredHistory = BackForwardController()
+        restoredHistory.decode(with: decoder)
+        #expect(restoredHistory.currentSearchQuery?.searchText == "love")
+        restoredHistory.goBack(nil)
+        #expect(restoredHistory.currentSearchQuery?.searchText == "amo")
+        restoredHistory.goForward(nil)
+        #expect(restoredHistory.currentSearchQuery?.direction == .englishToLatin)
+    }
+}
+
+private struct FixedResponseEngine: DictionaryEngine {
+    let response: String
+    func lookup(_ input: String, direction: Dictionary.Direction, directory: URL) async throws -> String? {
+        response
+    }
+}
+
+@MainActor
+struct AdapterAndRenderingTests {
+    @Test(arguments: [Dictionary.Direction.latinToEnglish, .englishToLatin])
+    func rawExportPreservesUncodedText(direction: Dictionary.Direction) async throws {
+        let response = direction == .latinToEnglish ? "No Match" : "amo love"
+        let controller = DictionaryController(dictionary: Dictionary(engine: FixedResponseEngine(response: response)), direction: direction)
+        let results: [LookupResult] = try await withCheckedThrowingContinuation { continuation in
+            controller.search(text: "example") { continuation.resume(with: $0) }
+        }
+        #expect(LookupResult.allRaw(results) == response)
+    }
+
+    @Test func nativeRenderingRetainsContentAndOmitsPrintActions() throws {
+        let parsed = try DictionaryParser.parse("01 am.o V\n02 amo, amare\n03 love;", direction: .latinToEnglish)
+        let results = [LookupResult(input: "amo", raw: "amo love", parsed: parsed)]
+        let display = ResultsRenderer.render(results, scale: 1, formatted: true, showInflections: false)
+        #expect(display.string.contains("Show inflections"))
+        #expect(!display.string.contains("am.o V"))
+        let print = ResultsRenderer.render(results, scale: 1, formatted: true, showInflections: true, includeActions: false)
+        #expect(print.string.contains("am.o V"))
+        #expect(print.string.contains("love;"))
+        #expect(!print.string.contains("Look up in Perseus"))
+        #expect(!print.string.contains("Show inflections"))
+    }
+
+    @Test func invalidHistoryEntriesAreIgnored() {
+        #expect(SearchQuery(fromPropertyListRepresentation: "invalid") == nil)
+        #expect(SearchQuery(fromPropertyListRepresentation: ["searchText": "amo", "direction": 99]) == nil)
     }
 }

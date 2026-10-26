@@ -7,10 +7,13 @@
 
 import Cocoa
 
+@MainActor
 class WindowRestoration: NSObject, NSWindowRestoration {
     static func restoreWindow(withIdentifier identifier: NSUserInterfaceItemIdentifier,
                               state: NSCoder,
                               completionHandler: @escaping (NSWindow?, Error?) -> Void) {
-        completionHandler(LookupWindowController.newController().window, nil)
+        let window = LookupWindowController.newController().window
+        window?.identifier = identifier
+        completionHandler(window, nil)
     }
 }

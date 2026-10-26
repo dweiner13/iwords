@@ -58,22 +58,20 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        searchField.setAccessibilityIdentifier("lookupSearchField")
+        goButton.setAccessibilityIdentifier("lookupSearchButton")
         searchField.delegate = self
 
         startListeningToUserDefaults()
 
         setAutogrows(UserDefaults.standard.bool(forKey: "searchBarGrowsToFitContent"))
 
-        view.menu = NSMenu().then {
-            $0.addItem(NSMenuItem(title: "Search Bar Grows Vertically",
-                                  action: nil,
-                                  keyEquivalent: "").then {
-                $0.bind(.value,
-                        to: NSUserDefaultsController.shared,
-                        withKeyPath: "values.searchBarGrowsToFitContent",
-                        options: [:])
-            })
-        }
+        let menu = NSMenu()
+        let item = NSMenuItem(title: "Search Bar Grows Vertically", action: nil, keyEquivalent: "")
+        item.bind(.value, to: NSUserDefaultsController.shared,
+                  withKeyPath: "values.searchBarGrowsToFitContent", options: [:])
+        menu.addItem(item)
+        view.menu = menu
     }
 
     override func viewDidLayout() {
@@ -118,7 +116,9 @@ class SearchBarViewController: NSTitlebarAccessoryViewController {
     }
 
     private func setHeight(_ height: CGFloat) {
-        view.frame.size.height = height
+        // AppKit must attach the accessory before its frame can be changed.
+        guard view.window != nil, abs(view.frame.height - height) > 0.5 else { return }
+        view.setFrameSize(NSSize(width: view.frame.width, height: height))
         fullScreenMinHeight = height
     }
 

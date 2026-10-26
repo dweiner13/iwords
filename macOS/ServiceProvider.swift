@@ -8,45 +8,43 @@
 import AppKit
 
 @objc
+@MainActor
 class ServiceProvider: NSObject {
-    func lookUp(_ text: String, direction: Dictionary.Direction) {
-        let frontmostWindow = NSApp.orderedWindows.first ?? {
-            let newWindow = LookupWindowController.newController().window!
+    @discardableResult
+    func lookUp(_ text: String, direction: Dictionary.Direction) -> Bool {
+        let windowController = NSApp.orderedWindows
+            .compactMap { $0.windowController as? LookupWindowController }
+            .first ?? LookupWindowController.newController()
 
-            if let keyWindow = NSApp.keyWindow {
-                let newPoint = newWindow.cascadeTopLeft(from: keyWindow.topLeft)
-                newWindow.setFrameTopLeftPoint(newPoint)
-            } else {
-                newWindow.center()
-            }
-            return newWindow
-        }()
-
-        NSApp.activate(ignoringOtherApps: true)
-
-        guard let windowController = frontmostWindow.windowController as? LookupWindowController else {
-            return
+        guard let window = windowController.window else { return false }
+        if !window.isVisible {
+            window.center()
         }
 
         let query = SearchQuery(sanitized(query: text), direction)
         windowController.setSearchQuery(query, withAlternativeNavigation: false)
+        window.deminiaturize(nil)
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+        return true
     }
 
     @objc
-    func lookUp(_ pasteboard: NSPasteboard, userData: String, error: NSErrorPointer) {
-        func setError(localizedDescription: String) {
-            let userInfo = [NSLocalizedDescriptionKey: localizedDescription]
-            error?.pointee = NSError(domain: "org.iwords.iwords",
-                                     code: 1,
-                                     userInfo: userInfo)
-        }
-
+    func lookUp(_ pasteboard: NSPasteboard, userData: String,
+                error: AutoreleasingUnsafeMutablePointer<NSString?>?) {
         guard let text = pasteboard.string(forType: .string) else {
-            setError(localizedDescription: "Could not retrieve text from the pasteboard.")
+            error?.pointee = "Could not retrieve text from the pasteboard."
             return
         }
 
-        lookUp(text, direction: getDirection(fromUserData: userData))
+        guard !sanitized(query: text).isEmpty else {
+            error?.pointee = "Please select a word to look up."
+            return
+        }
+
+        if !lookUp(text, direction: getDirection(fromUserData: userData)) {
+            error?.pointee = "Could not open a lookup window."
+        }
     }
 
     func getDirection(fromUserData userData: String) -> Dictionary.Direction {
